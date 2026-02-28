@@ -57,7 +57,7 @@ export function AppSidebar() {
                     alt="Serva"
                     width={240}
                     height={80}
-                    className={cn(state === "collapsed" && !isMobile ? "h-6" : "h-10 w-fit")}
+                    className={cn(state === "collapsed" && !isMobile ? "h-5" : "h-10 w-fit")}
                   />
                   <span className="sr-only">Serva home</span>
                 </Link>
