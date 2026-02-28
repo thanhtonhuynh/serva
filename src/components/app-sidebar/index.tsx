@@ -30,7 +30,7 @@ import { SidebarMenuGroups } from "./sidebar-menu-groups";
 
 export function AppSidebar() {
   const { user } = useSession();
-  const { state, isMobile } = useSidebar();
+  const { state, isMobile, toggleSidebar } = useSidebar();
 
   if (!user) return null;
 
@@ -42,7 +42,11 @@ export function AppSidebar() {
             <SidebarMenuButton
               size={"lg"}
               render={
-                <Link className="hover:bg-transparent" href={"/"}>
+                <Link
+                  className="hover:bg-transparent"
+                  href={"/"}
+                  onClick={() => isMobile && toggleSidebar()}
+                >
                   <Image
                     priority
                     src={
