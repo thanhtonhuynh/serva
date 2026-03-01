@@ -86,7 +86,7 @@ export function SidebarMenuGroups() {
                         size="md"
                         className={cn(
                           "aria-disabled:opacity-100",
-                          isActiveItem && "text-primary-foreground bg-blue-950/80",
+                          isActiveItem && "bg-primary-100",
                         )}
                         onClick={() => isMobile && toggleSidebar()}
                         render={

@@ -1,13 +1,5 @@
 "use client";
 
-import { logoutAction } from "@/app/(auth)/actions";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -18,15 +10,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { ICONS } from "@/constants/icons";
 import { useSession } from "@/contexts/SessionProvider";
 import { cn } from "@/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Typography } from "../shared";
-import { ProfilePicture } from "../shared/profile-picture";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";
+import { UserMenu } from "./user-menu";
 
 export function AppSidebar() {
   const { user } = useSession();
@@ -52,7 +41,7 @@ export function AppSidebar() {
                     src={
                       state === "collapsed" && !isMobile
                         ? "/serva-logo-icon.svg"
-                        : "/serva-logo-full-white-border-and-text.svg"
+                        : "/serva-logo-full-2.svg"
                     }
                     alt="Serva"
                     width={240}
@@ -72,49 +61,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                className="h-fit cursor-pointer"
-                render={
-                  <SidebarMenuButton className="text-primary-foreground group-data-[collapsible=icon]:p-0!">
-                    <ProfilePicture image={user?.image} size={32} name={user?.name} />
-                    <div className="flex-1">
-                      <Typography variant="p-sm" className="truncate font-medium">
-                        {user?.name}
-                      </Typography>
-
-                      <Typography variant="p-xs" className="capitalize">
-                        {user.role.isAdminUser ? "Platform Admin" : (user.role.name ?? "No Role")}
-                      </Typography>
-
-                      <Typography variant="p-xs" className="truncate">
-                        {user?.email}
-                      </Typography>
-                    </div>
-                    <HugeiconsIcon icon={ICONS.ARROW_UP} strokeWidth={1.5} className="ml-auto" />
-                  </SidebarMenuButton>
-                }
-              />
-
-              <DropdownMenuContent side="top" className="w-(--anchor-width)">
-                <DropdownMenuItem className="p-0">
-                  <Button
-                    variant={`accent`}
-                    className="w-full justify-start rounded-xl"
-                    onClick={async () => {
-                      await logoutAction();
-                    }}
-                  >
-                    <HugeiconsIcon icon={ICONS.LOGOUT} strokeWidth={1.5} />
-                    <span className="ml-2">Logout</span>
-                  </Button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <UserMenu user={user} />
       </SidebarFooter>
     </Sidebar>
   );
