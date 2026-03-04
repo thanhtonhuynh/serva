@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { saveReportAction } from "./actions";
 import { CashCalculatorForm } from "./cash-calculator-form";
+import { EmployeeInput } from "./employee-input";
 import { ReportPreview } from "./report-preview";
 import { SalesDetailForm } from "./sales-detail-form";
 
@@ -37,12 +38,12 @@ const steps = [
       "cardTips",
       "cashTips",
       "extraTips",
-      "employees",
     ],
   },
-  { id: "Step 1", name: "Count Cash", fields: ["cashInTill"] },
-  { id: "Step 2", name: "Review", fields: [] },
-  { id: "Step 3", name: "Submit", fields: [] },
+  { id: "Step 1", name: "Employees", fields: ["employees"] },
+  { id: "Step 2", name: "Count Cash", fields: ["cashInTill"] },
+  { id: "Step 3", name: "Review", fields: [] },
+  { id: "Step 4", name: "Submit", fields: [] },
 ];
 
 type FieldName = keyof SaleReportInputs;
@@ -201,13 +202,22 @@ export function SaleReportPortal({
       {currentStep === 1 && (
         <MotionContainer delta={delta}>
           <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
+            Employees
+          </Typography>
+          <EmployeeInput form={saleReportForm} usersPromise={usersPromise} />
+        </MotionContainer>
+      )}
+
+      {currentStep === 2 && (
+        <MotionContainer delta={delta}>
+          <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Count Cash
           </Typography>
           <CashCalculatorForm saleReportForm={saleReportForm} cashCounterForm={cashCounterForm} />
         </MotionContainer>
       )}
 
-      {currentStep === 2 && (
+      {currentStep === 3 && (
         <MotionContainer delta={delta}>
           <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Review
@@ -233,7 +243,7 @@ export function SaleReportPortal({
         </MotionContainer>
       )}
 
-      <div className="bg-background -mt-4 flex justify-between rounded-xl border border-blue-950 p-3">
+      <div className="bg-background flex justify-between rounded-xl border p-3">
         <Button
           variant={`outline`}
           type="button"

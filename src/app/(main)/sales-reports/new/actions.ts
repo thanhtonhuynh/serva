@@ -15,6 +15,10 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
       return { error: "Unauthorized." };
     }
 
+    console.log(user.role);
+    console.log(hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE));
+    console.log(hasPermission(user.role, PERMISSIONS.REPORTS_CREATE));
+
     if (mode === "edit" && !hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE)) {
       return { error: "Unauthorized." };
     } else {

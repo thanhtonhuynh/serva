@@ -1,12 +1,12 @@
 "use client";
 
-import { InputField } from "@/components/ui/form/input-field";
+import { Typography } from "@/components/shared";
+import { InputFieldV2 } from "@/components/ui/form/input-field-v2";
 import { getPlatformById } from "@/constants/platforms";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { DisplayUser } from "@/types";
 import { use } from "react";
 import { useFormContext } from "react-hook-form";
-import { EmployeeInput } from "./employee-input";
 
 type Props = {
   usersPromise: Promise<DisplayUser[]>;
@@ -16,113 +16,109 @@ export function SalesDetailForm({ usersPromise }: Props) {
   const form = useFormContext<SaleReportInputs>();
 
   return (
-    <form className="space-y-2">
-      <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
-        <h3 className="text-sm font-medium tracking-wide uppercase">Sales</h3>
+    <form className="space-y-6">
+      <div className="bg-background space-y-3 rounded-xl border p-3">
+        <Typography variant="h2" className="uppercase">
+          Sales
+        </Typography>
 
-        <div className="grid grid-cols-2 gap-2">
-          <InputField
-            nameInSchema="totalSales"
-            fieldTitle="Total Sales"
+        <div className="grid grid-cols-2 gap-3">
+          <InputFieldV2
+            fieldName="totalSales"
+            label="Total Sales"
+            htmlFor="totalSales"
             placeholder="0.00"
             type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
           />
 
-          <InputField
-            nameInSchema="cardSales"
-            fieldTitle="Card Net Sales"
+          <InputFieldV2
+            fieldName="cardSales"
+            label="Card Net Sales"
+            htmlFor="cardSales"
             placeholder="0.00"
             type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 md:auto-cols-fr md:grid-flow-col">
           {form.getValues("platformSales").map((platform, index) => {
             const platformInfo = getPlatformById(platform.platformId);
             if (!platformInfo) return null;
 
             return (
-              <InputField
+              <InputFieldV2
                 key={platform.platformId}
-                nameInSchema={`platformSales.${index}.amount`}
-                fieldTitle={platformInfo.label}
+                fieldName={`platformSales.${index}.amount`}
+                label={platformInfo.label}
+                htmlFor={`platformSales.${index}.amount`}
                 placeholder="0.00"
                 type="number"
-                labelClassName="text-muted-foreground text-xs tracking-wide"
-                inputClassName="text-sm"
               />
             );
           })}
         </div>
       </div>
 
-      <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
-        <h3 className="text-sm font-medium tracking-wide uppercase">
+      <div className="bg-background space-y-3 rounded-xl border p-3">
+        <Typography variant="h2" className="uppercase">
           Expenses
-        </h3>
+        </Typography>
 
-        <InputField
-          nameInSchema="expenses"
-          fieldTitle="Amount"
+        <InputFieldV2
+          fieldName="expenses"
+          label="Amount"
+          htmlFor="expenses"
           placeholder="0.00"
           type="number"
-          labelClassName="text-muted-foreground text-xs tracking-wide"
-          inputClassName="text-sm"
         />
 
-        <InputField
-          nameInSchema="expensesReason"
-          fieldTitle="Reason"
+        <InputFieldV2
+          fieldName="expensesReason"
+          label="Reason"
+          htmlFor="expensesReason"
           placeholder="e.g., lime"
-          labelClassName="text-muted-foreground text-xs tracking-wide"
-          inputClassName="text-sm"
         />
       </div>
 
-      <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
-        <h3 className="text-sm font-medium tracking-wide uppercase">Tips</h3>
+      <div className="bg-background space-y-3 rounded-xl border p-3">
+        <Typography variant="h2" className="uppercase">
+          Tips
+        </Typography>
 
-        <div className="grid grid-cols-3 gap-2">
-          <InputField
-            nameInSchema="cardTips"
-            fieldTitle="Card"
+        <div className="grid grid-cols-3 gap-3">
+          <InputFieldV2
+            fieldName="cardTips"
+            label="Card"
+            htmlFor="cardTips"
             placeholder="0.00"
             type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
           />
 
-          <InputField
-            nameInSchema="cashTips"
-            fieldTitle="Cash"
+          <InputFieldV2
+            fieldName="cashTips"
+            label="Cash"
+            htmlFor="cashTips"
             placeholder="0.00"
             type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
           />
 
-          <InputField
-            nameInSchema="extraTips"
-            fieldTitle="Extra"
+          <InputFieldV2
+            fieldName="extraTips"
+            label="Extra"
+            htmlFor="extraTips"
             placeholder="0.00"
             type="number"
-            labelClassName="text-muted-foreground text-xs tracking-wide"
-            inputClassName="text-sm"
           />
         </div>
       </div>
 
-      <div className="bg-background space-y-3 rounded-xl border border-blue-950 p-3">
-        <h3 className="text-sm font-medium tracking-wide uppercase">
+      {/* <div className="bg-background space-y-3 rounded-xl border p-3">
+        <Typography variant="h2" className="uppercase">
           Employees
-        </h3>
+        </Typography>
 
         <EmployeeInput users={users} />
-      </div>
+      </div> */}
     </form>
   );
 }

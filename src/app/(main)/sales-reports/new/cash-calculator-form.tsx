@@ -1,19 +1,8 @@
 "use client";
 
-import {
-  BILL_FIELDS,
-  COIN_FIELDS,
-  MONEY_FIELDS,
-  MONEY_VALUES,
-  ROLL_FIELDS,
-} from "@/app/constants";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { BILL_FIELDS, COIN_FIELDS, MONEY_FIELDS, MONEY_VALUES, ROLL_FIELDS } from "@/app/constants";
+import { Typography } from "@/components/shared/typography";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { CashType } from "@/types";
@@ -28,19 +17,18 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
   function calculateCashInTill() {
     let total = 0;
     for (const field of MONEY_FIELDS) {
-      total +=
-        cashCounterForm.getValues(field) * MONEY_VALUES.get(field)!.value;
+      total += cashCounterForm.getValues(field) * MONEY_VALUES.get(field)!.value;
     }
     saleReportForm.setValue("cashInTill", Math.round(total * 100) / 100);
   }
 
   return (
     <Form {...cashCounterForm}>
-      <form className="space-y-2">
-        <div className="bg-background flex flex-col items-center rounded-xl border border-blue-950 p-3">
-          <h3 className="mb-2 text-sm font-medium tracking-wide uppercase">
+      <form className="space-y-6">
+        <div className="bg-primary flex flex-col items-center rounded-xl p-6">
+          <Typography variant="h3" className="text-primary-foreground mb-2">
             Total Cash in Till
-          </h3>
+          </Typography>
           <FormField
             name="cashInTill"
             control={saleReportForm.control}
@@ -51,7 +39,7 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
                     type="number"
                     value={field.value}
                     onChange={field.onChange}
-                    className="text-primary text-sm font-bold"
+                    className="text-primary-foreground text-sm font-bold"
                   />
                 </FormControl>
               </FormItem>
@@ -59,13 +47,13 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
           />
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
-            <h4 className="text-sm font-medium tracking-wide uppercase">
+        <div className="grid gap-6 sm:grid-cols-3">
+          <div className="bg-background space-y-3 rounded-xl border p-3">
+            <Typography variant="h2" className="uppercase">
               Bills
-            </h4>
+            </Typography>
 
-            <div className="flex flex-row gap-2 sm:flex-col">
+            <div className="flex flex-row gap-3 sm:flex-col">
               {BILL_FIELDS.map((key) => (
                 <FormField
                   key={key}
@@ -95,11 +83,11 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
             </div>
           </div>
 
-          <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
-            <h4 className="text-sm font-medium tracking-wide uppercase">
+          <div className="bg-background space-y-3 rounded-xl border p-3">
+            <Typography variant="h2" className="uppercase">
               Coins
-            </h4>
-            <div className="flex flex-row gap-2 sm:flex-col">
+            </Typography>
+            <div className="flex flex-row gap-3 sm:flex-col">
               {COIN_FIELDS.map((key) => (
                 <FormField
                   key={key}
@@ -129,11 +117,11 @@ export function CashCalculatorForm({ saleReportForm, cashCounterForm }: Props) {
             </div>
           </div>
 
-          <div className="bg-background space-y-2 rounded-xl border border-blue-950 p-3">
-            <h4 className="text-sm font-medium tracking-wide uppercase">
+          <div className="bg-background space-y-3 rounded-xl border p-3">
+            <Typography variant="h2" className="uppercase">
               Rolls
-            </h4>
-            <div className="flex flex-row gap-2 sm:flex-col">
+            </Typography>
+            <div className="flex flex-row gap-3 sm:flex-col">
               {ROLL_FIELDS.map((key) => (
                 <FormField
                   key={key}

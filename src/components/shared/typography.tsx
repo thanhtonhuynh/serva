@@ -15,11 +15,11 @@ export function Typography({
     <div
       className={cn(
         // page-title
-        variant === "h1" && "text-primary-dark text-lg font-bold tracking-wide uppercase",
+        variant === "h1" && "text-primary-dark text-lg font-bold tracking-wide",
         // section-title
         variant === "h2" && "text-primary-dark text-base font-bold tracking-wide",
         // subsection-title
-        variant === "h3" && "text-primary-dark text-xs font-semibold tracking-wide uppercase",
+        variant === "h3" && "text-primary-dark text-sm font-semibold tracking-wide uppercase",
         // caption
         variant === "caption" && "text-sm font-semibold",
         // body

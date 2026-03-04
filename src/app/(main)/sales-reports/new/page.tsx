@@ -35,7 +35,7 @@ export default async function Page() {
   return (
     <Fragment>
       <Header>
-        <Typography variant="h1">Create sales report</Typography>
+        <Typography variant="h1">New sales report</Typography>
       </Header>
 
       <Container>

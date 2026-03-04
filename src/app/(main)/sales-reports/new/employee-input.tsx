@@ -1,25 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { DisplayUser } from "@/types";
 import { Plus, X } from "lucide-react";
-import { useFieldArray, useFormContext } from "react-hook-form";
+import { use } from "react";
+import { Controller, useFieldArray, type UseFormReturn } from "react-hook-form";
 import { EmployeeCombobox } from "./employee-combobox";
 
 type Props = {
-  users: DisplayUser[];
+  form: UseFormReturn<SaleReportInputs>;
+  usersPromise: Promise<DisplayUser[]>;
 };
 
-export function EmployeeInput({ users }: Props) {
-  const form = useFormContext<SaleReportInputs>();
+export function EmployeeInput({ form, usersPromise }: Props) {
+  const users = use(usersPromise);
   const employees = useFieldArray({
     control: form.control,
     name: "employees",
@@ -41,83 +38,80 @@ export function EmployeeInput({ users }: Props) {
     });
   }
   return (
-    <div className="space-y-1">
-      {employees.fields.map((field, index) => (
-        <div key={field.id} className="flex items-start gap-3">
-          <FormField
-            control={form.control}
-            name={`employees.${index}.userId` as const}
-            render={({ field: userField }) => (
-              <FormItem className="flex-1">
-                <FormControl>
-                  <EmployeeCombobox
-                    users={users}
-                    selectedUserId={userField.value}
-                    selectedUserIds={selectedUserIds}
-                    onSelect={(user) => handleSelectUser(index, user)}
-                  />
-                </FormControl>
+    <div className="bg-background space-y-3 rounded-xl border p-3">
+      <div className="space-y-3">
+        {employees.fields.map((field, index) => (
+          <div key={field.id} className="flex items-start gap-1">
+            <FieldGroup>
+              <Controller
+                control={form.control}
+                name={`employees.${index}.userId` as const}
+                render={({ field: userField, fieldState }) => (
+                  <Field aria-invalid={fieldState.invalid} className="gap-1">
+                    <EmployeeCombobox
+                      users={users}
+                      selectedUserId={userField.value}
+                      selectedUserIds={selectedUserIds}
+                      onSelect={(user) => handleSelectUser(index, user)}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} className="ml-3" />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FieldGroup className="w-20 shrink-0">
+              <Controller
+                control={form.control}
+                name={`employees.${index}.hour`}
+                render={({ field: hourField, fieldState }) => (
+                  <Field aria-invalid={fieldState.invalid}>
+                    <Input
+                      type="number"
+                      step="0.25"
+                      {...hourField}
+                      onChange={(e) =>
+                        hourField.onChange(e.target.value === "" ? "" : Number(e.target.value))
+                      }
+                      onFocus={(e) => e.target.select()}
+                      className="text-sm"
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
 
-          <FormField
-            control={form.control}
-            name={`employees.${index}.hour`}
-            render={({ field: hourField }) => (
-              <FormItem className="w-18">
-                <FormControl>
-                  <Input
-                    // className="h-9"
-                    type="number"
-                    step="0.25"
-                    {...hourField}
-                    onChange={(e) =>
-                      hourField.onChange(
-                        e.target.value === "" ? "" : Number(e.target.value),
-                      )
-                    }
-                    onFocus={(e) => e.target.select()}
-                    className="text-sm"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <Button
+              variant="ghost"
+              type="button"
+              size={"icon-sm"}
+              className="text-muted-foreground hover:text-destructive mt-1"
+              onClick={() => employees.remove(index)}
+            >
+              <X />
+              <span className="sr-only">Remove employee</span>
+            </Button>
+          </div>
+        ))}
 
-          <Button
-            variant="ghost"
-            type="button"
-            size={"icon"}
-            className="text-muted-foreground hover:text-destructive size-8"
-            onClick={() => employees.remove(index)}
-          >
-            <X />
-            <span className="sr-only">Remove employee</span>
-          </Button>
-        </div>
-      ))}
+        <FieldError errors={[form.formState.errors.employees]} />
 
-      <FormMessage>{form.formState.errors.employees?.message}</FormMessage>
-
-      <Button
-        variant={"outline"}
-        type="button"
-        className="mt-2"
-        size={"sm"}
-        onClick={() =>
-          employees.append(
-            { userId: "", hour: 0, name: "" },
-            { shouldFocus: false },
-          )
-        }
-      >
-        <Plus />
-        Add an employee
-      </Button>
+        <Button
+          variant={"outline"}
+          type="button"
+          className="mt-3"
+          size={"sm"}
+          onClick={() =>
+            employees.append({ userId: "", hour: 0, name: "" }, { shouldFocus: false })
+          }
+        >
+          <Plus />
+          Add an employee
+        </Button>
+      </div>
     </div>
   );
 }

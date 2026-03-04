@@ -6,36 +6,41 @@ import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
-import { parseVancouverUrlDate } from "@/lib/utils";
 import { hasPermission } from "@/utils/access-control";
+import { getTodayStartOfDay } from "@/utils/datetime";
 import { processReportDataForView } from "@/utils/report";
+import { utc } from "@date-fns/utc";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { format } from "date-fns";
+import { fromZonedTime } from "date-fns-tz";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { DeleteReportModal, ReportAuditLog } from "./_components";
 
-type SearchParams = Promise<{
-  date: string;
-}>;
+type SearchParams = Promise<{ date?: string }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
   const { user } = await getCurrentSession();
   if (!user) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
 
-  const searchParams = await props.searchParams;
-  const date = parseVancouverUrlDate(searchParams.date);
-  if (!date) return null;
+  if (!hasPermission(user.role, PERMISSIONS.REPORTS_VIEW)) return notFound();
 
-  const report = await getReportRaw({ date });
+  const searchParams = await props.searchParams;
+  const dateParam = searchParams.date;
+  if (!dateParam) {
+    redirect(`/sales-reports?date=${format(getTodayStartOfDay(), "yyyy-MM-dd")}`);
+  }
+
+  const report = await getReportRaw({ date: fromZonedTime(dateParam, "America/Vancouver") });
   if (!report)
     return (
-      <Card className="mt-9">
-        <CardContent className="space-y-3 text-center">
-          <Typography variant="h2" className="text-error">
-            Report not found
+      <Card>
+        <CardContent className="flex flex-col items-center justify-center space-y-3 py-10 text-center">
+          <Typography variant="h2" className="text-warning flex items-center gap-2">
+            <HugeiconsIcon icon={ICONS.REPORT_NOT_FOUND} className="size-5" strokeWidth={2} />
+            Report not found on {format(dateParam, "yyyy-MM-dd", { in: utc })}
           </Typography>
-          <Typography variant="p-sm">No sales report exists for the selected date</Typography>
         </CardContent>
       </Card>
     );
