@@ -45,7 +45,10 @@ export function RolesTable({ roles, canManageRoles, permissionsGrouped }: RolesT
           const isAdminRole = role.name.toLowerCase() === "admin";
 
           return (
-            <TableRow key={role.id} className={cn(!role.editable && "bg-muted hover:bg-muted")}>
+            <TableRow
+              key={role.id}
+              className={cn(!role.editable && "bg-muted/50 hover:bg-muted/50")}
+            >
               <TableCell>
                 <div className="flex items-center gap-2">
                   <span className={cn("font-medium", isAdminRole && "text-primary")}>

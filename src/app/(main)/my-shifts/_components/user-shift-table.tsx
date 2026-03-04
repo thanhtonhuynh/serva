@@ -31,9 +31,9 @@ export function UserShiftTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-primary-50 sticky left-0 z-10 h-15">Date</TableHead>
+          <TableHead className="h-18">Date</TableHead>
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
-            <TableHead className="h-15 text-center" key={index}>
+            <TableHead className="h-18 text-center" key={index}>
               <div className="flex flex-col gap-1">
                 <span>{format(addDays(dateRange.start, index), "EEE")}</span>
                 {startDay + index}
@@ -46,7 +46,7 @@ export function UserShiftTable({
 
       <TableBody>
         <TableRow>
-          <TableCell className="bg-primary-50 sticky left-0 z-10 font-medium">Hours</TableCell>
+          <TableCell className="font-medium">Hours</TableCell>
           {hours.map((hour, index) => (
             <TableCell key={index} className="text-center">
               {hour > 0 ? hour : "-"}
@@ -58,14 +58,14 @@ export function UserShiftTable({
         </TableRow>
 
         <TableRow>
-          <TableCell className="bg-primary-50 sticky left-0 z-10 font-medium">Tips</TableCell>
+          <TableCell className="font-medium">Tips</TableCell>
           {tips.map((tip, index) => (
             <TableCell key={index} className="text-center">
               {tip > 0 ? formatMoney(tip / 100) : "-"}
             </TableCell>
           ))}
           <TableCell className="text-right">
-            {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
+            {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0))}
           </TableCell>
         </TableRow>
       </TableBody>

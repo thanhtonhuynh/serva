@@ -16,7 +16,7 @@ export function ReportAuditLog({ auditLogs }: Props) {
   const sortedAuditLogs = auditLogs.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
   return (
-    <div className="bg-muted space-y-3 rounded-xl border p-3">
+    <div className="bg-accent/30 space-y-3 rounded-xl border p-3">
       <Typography variant="h3">Audit Log</Typography>
 
       <div className="space-y-2 text-sm">

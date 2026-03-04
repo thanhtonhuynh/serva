@@ -21,7 +21,7 @@ export function ProfilePicture({ image, size, name }: ProfilePictureProps) {
   if (!image) {
     return (
       <div
-        className={`flex items-center justify-center rounded-full border border-blue-200 bg-blue-100 font-medium text-blue-950 ${getTextSizeClass(size)}`}
+        className={`bg-primary-9 text-primary-1 flex items-center justify-center rounded-full border font-medium ${getTextSizeClass(size)}`}
         style={{ width: size, height: size }}
       >
         {name?.charAt(0).toUpperCase() || "?"}

@@ -111,7 +111,7 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
                         startMonth={new Date(2024, 9)}
                         disabled={{ after: today }}
                         captionLayout="dropdown"
-                        className="rounded-lg border border-blue-950"
+                        className="rounded-xl border"
                       />
                     </FormControl>
                     <FormMessage />

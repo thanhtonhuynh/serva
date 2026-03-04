@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { type Platform } from "@/constants/platforms";
-import { formatPrice } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import { CashFlowData } from "@/types";
 import { getPlatformAmount } from "@/utils/report";
 
@@ -47,7 +47,7 @@ export function MonthlyCashFlowTable({ reports, platforms }: Props) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-accent sticky left-0">Date</TableHead>
+          <TableHead className="">Date</TableHead>
           <TableHead className="text-center">Reported total</TableHead>
           <TableHead className="text-center">Card sales</TableHead>
           <TableHead className="text-center">Actual cash</TableHead>
@@ -65,33 +65,33 @@ export function MonthlyCashFlowTable({ reports, platforms }: Props) {
         {reports.map((report) => {
           return (
             <TableRow key={report.id}>
-              <TableCell className="bg-background sticky left-0">{report.date.getDate()}</TableCell>
-              <TableCell className="text-center">{formatPrice(report.totalSales / 100)}</TableCell>
-              <TableCell className="text-center">{formatPrice(report.cardSales / 100)}</TableCell>
-              <TableCell className="text-center">{formatPrice(report.actualCash / 100)}</TableCell>
+              <TableCell className="">{report.date.getDate()}</TableCell>
+              <TableCell className="text-center">{formatMoney(report.totalSales)}</TableCell>
+              <TableCell className="text-center">{formatMoney(report.cardSales)}</TableCell>
+              <TableCell className="text-center">{formatMoney(report.actualCash)}</TableCell>
               {platforms.map((p) => (
                 <TableCell key={p.id} className="text-center">
-                  {formatPrice(getPlatformAmount(report.platformSales, p.id) / 100)}
+                  {formatMoney(getPlatformAmount(report.platformSales, p.id))}
                 </TableCell>
               ))}
-              <TableCell className="text-center">{formatPrice(report.expenses / 100)}</TableCell>
-              <TableCell className="text-right">{formatPrice(report.totalRevenue / 100)}</TableCell>
+              <TableCell className="text-center">{formatMoney(report.expenses)}</TableCell>
+              <TableCell className="text-right">{formatMoney(report.totalRevenue)}</TableCell>
             </TableRow>
           );
         })}
 
         <TableRow>
-          <TableCell className="bg-background sticky left-0">Totals</TableCell>
-          <TableCell className="text-center">{formatPrice(totals.totalSales / 100)}</TableCell>
-          <TableCell className="text-center">{formatPrice(totals.cardSales / 100)}</TableCell>
-          <TableCell className="text-center">{formatPrice(totals.actualCash / 100)}</TableCell>
+          <TableCell className="font-bold">Totals</TableCell>
+          <TableCell className="text-center font-bold">{formatMoney(totals.totalSales)}</TableCell>
+          <TableCell className="text-center font-bold">{formatMoney(totals.cardSales)}</TableCell>
+          <TableCell className="text-center font-bold">{formatMoney(totals.actualCash)}</TableCell>
           {platforms.map((p) => (
-            <TableCell key={p.id} className="text-center">
-              {formatPrice((totals.platformTotals[p.id] ?? 0) / 100)}
+            <TableCell key={p.id} className="text-center font-bold">
+              {formatMoney(totals.platformTotals[p.id] ?? 0)}
             </TableCell>
           ))}
-          <TableCell className="text-center">{formatPrice(totals.expenses / 100)}</TableCell>
-          <TableCell className="text-right">{formatPrice(totals.totalRevenue / 100)}</TableCell>
+          <TableCell className="text-center font-bold">{formatMoney(totals.expenses)}</TableCell>
+          <TableCell className="text-right font-bold">{formatMoney(totals.totalRevenue)}</TableCell>
         </TableRow>
       </TableBody>
     </Table>

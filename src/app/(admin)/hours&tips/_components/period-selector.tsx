@@ -8,6 +8,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  selectTriggerVariants,
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
@@ -71,13 +72,7 @@ export function PeriodSelector({ years }: PeriodSelectorProps) {
 
       {/* Month Selector */}
       <Popover open={monthPopoverOpen} onOpenChange={setMonthPopoverOpen}>
-        <PopoverTrigger
-          className={cn(
-            "border-input bg-input/30 dark:hover:bg-input/50 focus-visible:border-ring focus-visible:ring-ring/50",
-            "flex h-9 items-center justify-between gap-2 rounded-4xl border px-3 py-2 text-sm",
-            "transition-colors outline-none focus-visible:ring-[3px]",
-          )}
-        >
+        <PopoverTrigger className={selectTriggerVariants()}>
           <span>{FULL_MONTHS[selectedMonth]}</span>
           <HugeiconsIcon
             icon={ArrowDown01Icon}

@@ -11,11 +11,11 @@ type SalesHeatmapProps = {
 };
 
 const INTENSITY_CLASSES = [
-  "bg-neutral-200", // 0 - no sales or no report
-  "bg-blue-300", // 1
-  "bg-blue-500", // 2
-  "bg-blue-700", // 3
-  "bg-blue-900", // 4
+  "bg-neutral-100", // 0 - no sales or no report
+  "bg-primary-3", // 1
+  "bg-primary-5", // 2
+  "bg-primary-7", // 3
+  "bg-primary-9", // 4
 ];
 
 export function SalesHeatmap({ data }: SalesHeatmapProps) {

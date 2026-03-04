@@ -1,5 +1,6 @@
 import { Container, Header, Loader } from "@/components/layout";
 import { NotiMessage, Typography } from "@/components/shared";
+import { Card } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
 import { getScheduleDaysByDateRangeUTC } from "@/data-access/schedule";
@@ -80,14 +81,16 @@ async function ScheduleWeekContent({
   }));
 
   return (
-    <ScheduleWeekGrid
-      weekStartUTC={weekStartUTC}
-      weekEndUTC={weekEndUTC}
-      prevWeekParam={prevWeekParam}
-      nextWeekParam={nextWeekParam}
-      days={daysForClient}
-      employees={employees}
-      canManage={canManage}
-    />
+    <Card className="p-6">
+      <ScheduleWeekGrid
+        weekStartUTC={weekStartUTC}
+        weekEndUTC={weekEndUTC}
+        prevWeekParam={prevWeekParam}
+        nextWeekParam={nextWeekParam}
+        days={daysForClient}
+        employees={employees}
+        canManage={canManage}
+      />
+    </Card>
   );
 }

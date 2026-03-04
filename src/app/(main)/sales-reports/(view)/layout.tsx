@@ -44,7 +44,7 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
           <SalesAnalyticsDashboard />
         </Suspense>
 
-        <div className="flex flex-col gap-8 min-[1150px]:flex-row">
+        <div className="flex flex-col gap-6 min-[1150px]:flex-row min-[1150px]:items-start">
           <ReportPicker />
           <div className="flex-1">{children}</div>
         </div>

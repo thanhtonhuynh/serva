@@ -34,21 +34,21 @@ export const SHORT_MONTHS = [
 ];
 
 export const MONEY_VALUES = new Map([
-  ["bill100", { label: "$100", value: 100.0 }],
-  ["bill50", { label: "$50", value: 50.0 }],
-  ["bill20", { label: "$20", value: 20.0 }],
-  ["bill10", { label: "$10", value: 10.0 }],
-  ["bill5", { label: "$5", value: 5.0 }],
-  ["coin2", { label: "$2", value: 2.0 }],
-  ["coin1", { label: "$1", value: 1.0 }],
-  ["coin25c", { label: "25¢", value: 0.25 }],
-  ["coin10c", { label: "10¢", value: 0.1 }],
-  ["coin5c", { label: "5¢", value: 0.05 }],
-  ["roll2", { label: "$2", value: 50.0 }],
-  ["roll1", { label: "$1", value: 25.0 }],
-  ["roll25c", { label: "25¢", value: 10.0 }],
-  ["roll10c", { label: "10¢", value: 5.0 }],
-  ["roll5c", { label: "5¢", value: 2.0 }],
+  ["bill100", { label: "$100", value: 10000 }],
+  ["bill50", { label: "$50", value: 5000 }],
+  ["bill20", { label: "$20", value: 2000 }],
+  ["bill10", { label: "$10", value: 1000 }],
+  ["bill5", { label: "$5", value: 500 }],
+  ["coin2", { label: "$2", value: 200 }],
+  ["coin1", { label: "$1", value: 100 }],
+  ["coin25c", { label: "25¢", value: 25 }],
+  ["coin10c", { label: "10¢", value: 10 }],
+  ["coin5c", { label: "5¢", value: 5 }],
+  ["roll2", { label: "$2", value: 5000 }],
+  ["roll1", { label: "$1", value: 2500 }],
+  ["roll25c", { label: "25¢", value: 1000 }],
+  ["roll10c", { label: "10¢", value: 500 }],
+  ["roll5c", { label: "5¢", value: 200 }],
 ]);
 
 export const MONEY_FIELDS = Array.from(MONEY_VALUES.keys()) as CashType[];

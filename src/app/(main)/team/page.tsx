@@ -1,4 +1,5 @@
 import { NotiMessage } from "@/components/shared";
+import { Card } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
 import { getRoles } from "@/data-access/roles";
@@ -38,9 +39,9 @@ export default async function TeamPage({ searchParams }: PageProps) {
   const rolesPromise = getRoles();
 
   return (
-    <div className="bg-background space-y-4 rounded-xl border border-blue-950 p-6">
+    <Card className="p-6">
       {/* Toolbar: Filter + View Toggle */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <StatusFilter canManageTeamAccess={canManageTeamAccess} />
         </div>
@@ -50,6 +51,6 @@ export default async function TeamPage({ searchParams }: PageProps) {
 
       {/* Content: Search + Table/Cards view */}
       <EmployeesList employees={employees} view={view} rolesPromise={rolesPromise} />
-    </div>
+    </Card>
   );
 }

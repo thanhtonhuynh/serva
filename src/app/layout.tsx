@@ -1,6 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { TailwindScreenSizeIndicator } from "@/components/dev/tw-screen-size-indicator";
-import { Footer } from "@/components/layout";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -35,8 +34,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <SidebarProvider>
             <AppSidebar />
             <SidebarInset className="overflow-x-auto md:peer-data-[variant=floating]:m-2 md:peer-data-[variant=floating]:ml-0 md:peer-data-[variant=floating]:peer-data-[state=collapsed]:ml-1">
-              <div className="flex flex-1 flex-col">{children}</div>
-              <Footer />
+              <div className="mb-10 flex flex-1 flex-col">{children}</div>
               <Toaster richColors />
             </SidebarInset>
           </SidebarProvider>

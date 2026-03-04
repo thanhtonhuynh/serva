@@ -1,11 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { LayoutGrid, TableIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -23,7 +19,7 @@ export function ViewToggle() {
   }
 
   return (
-    <div className="flex items-center gap-1 rounded-md border p-1">
+    <div className="flex items-center gap-1 rounded-full border p-1">
       <Tooltip>
         <TooltipTrigger
           render={

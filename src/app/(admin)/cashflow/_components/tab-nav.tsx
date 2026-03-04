@@ -30,7 +30,7 @@ export function TabNav() {
   };
 
   return (
-    <nav className="bg-muted inline-flex h-9 items-center justify-center rounded-lg p-1">
+    <nav className="bg-background inline-flex items-center justify-center rounded-full p-1">
       {tabs.map((tab) => {
         const isActive = pathname.startsWith(tab.href);
 

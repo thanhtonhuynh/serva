@@ -43,7 +43,6 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
         {isOwner && (
           <Button
             nativeButton={false}
-            variant="outline-accent"
             size="sm"
             render={
               <Link href="/settings">

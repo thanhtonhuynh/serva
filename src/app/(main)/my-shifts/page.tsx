@@ -83,8 +83,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
         <CardContent className="grid gap-3 sm:grid-cols-2">
           <div className="flex items-center gap-3">
-            <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-              <HugeiconsIcon icon={ICONS.TOTAL_HOURS} className="text-accent-foreground size-5" />
+            <div className="bg-muted flex size-10 items-center justify-center rounded-full">
+              <HugeiconsIcon icon={ICONS.TOTAL_HOURS} className="text-primary size-5" />
             </div>
             <div>
               <Typography className="text-xs">Total Hours</Typography>
@@ -95,13 +95,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-              <HugeiconsIcon icon={ICONS.TOTAL_TIPS} className="text-accent-foreground size-5" />
+            <div className="bg-muted flex size-10 items-center justify-center rounded-full">
+              <HugeiconsIcon icon={ICONS.TOTAL_TIPS} className="text-primary size-5" />
             </div>
             <div>
               <Typography className="text-xs">Total Tips</Typography>
               <Typography variant="caption">
-                {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
+                {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0))}
               </Typography>
             </div>
           </div>

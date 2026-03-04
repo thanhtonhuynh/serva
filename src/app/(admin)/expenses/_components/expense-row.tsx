@@ -29,7 +29,7 @@ export function ExpenseRow({ expense }: Props) {
           {expense.entries.map((entry, index) => (
             <div key={index} className="flex justify-between gap-3">
               <span className="line-clamp-1">{entry.reason}</span>
-              <span className="font-medium">{formatMoney(entry.amount / 100)}</span>
+              <span className="font-medium">{formatMoney(entry.amount)}</span>
             </div>
           ))}
         </Typography>

@@ -115,7 +115,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
                 <span>
                   Total spent in {FULL_MONTHS[selectedMonth]} {selectedYear}
                 </span>
-                <span>{formatMoney(selectedMonthData.totalExpenses / 100)}</span>
+                <span>{formatMoney(selectedMonthData.totalExpenses)}</span>
               </Typography>
             </>
           ) : (

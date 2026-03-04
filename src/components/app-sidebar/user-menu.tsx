@@ -27,7 +27,7 @@ export function UserMenu({ user }: Props) {
           <DropdownMenuTrigger
             className={cn(
               sidebarMenuButtonVariants(),
-              "text-sidebar-foreground h-fit cursor-pointer group-data-[collapsible=icon]:p-0!",
+              "text-primary-1 h-fit cursor-pointer group-data-[collapsible=icon]:p-0!",
             )}
           >
             <ProfilePicture image={user.image} size={32} name={user.name} />

@@ -1,122 +1,60 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { formatVancouverDate, parseVancouverUrlDate } from "@/lib/utils";
-import { SearchReportInput, SearchReportSchema } from "@/lib/validations/report";
-import { getTodayStartOfDay } from "@/utils/datetime";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Card } from "@/components/ui/card";
+import { getLocalDateFromUTC } from "@/utils/datetime-client";
+import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 export function ReportPicker() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [isMounted, setIsMounted] = useState(false);
-  const date = searchParams.get("date") ?? undefined;
+  const dateParam = searchParams.get("date");
 
-  const today = getTodayStartOfDay();
-  const dateFromParams = parseVancouverUrlDate(date);
-  const initialDate = dateFromParams ?? today;
+  const today = new Date();
+  const selectedDateLocal = dateParam ? getLocalDateFromUTC(new Date(dateParam)) : today;
 
-  const form = useForm<SearchReportInput>({
-    resolver: zodResolver(SearchReportSchema),
-    defaultValues: {
-      date: initialDate,
-    },
-  });
-  const [isPending, startTransition] = useTransition();
-  const [month, setMonth] = useState<Date>(
-    new Date(initialDate.getFullYear(), initialDate.getMonth()),
-  );
+  const [month, setMonth] = useState<Date>(selectedDateLocal);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    setMonth(dateParam ? getLocalDateFromUTC(new Date(dateParam)) : today);
+  }, [dateParam]);
 
-  useEffect(() => {
-    form.reset({ date: initialDate });
-    setMonth(new Date(initialDate.getFullYear(), initialDate.getMonth()));
-  }, [date]);
-
-  async function onSubmit(data: SearchReportInput) {
-    startTransition(() => {
-      router.push(`/sales-reports?date=${formatVancouverDate(data.date)}`);
-    });
-  }
-
-  // Prevent hydration mismatch
-  if (!isMounted) {
-    return (
-      <div className="space-y-4">
-        <h6 className="font-semibold">Pick a date to search for a sale report</h6>
-        <div className="mx-auto w-full max-w-xl space-y-4">
-          <div className="bg-muted h-75 w-full animate-pulse rounded-lg border" />
-        </div>
-      </div>
-    );
+  function handleCalendarSelect(date: Date | undefined) {
+    if (!date) return;
+    router.push(`/sales-reports?date=${format(date, "yyyy-MM-dd")}`);
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            form.handleSubmit(onSubmit)();
-          }
-        }}
-      >
-        <h6 className="text-sm font-semibold">Select a date to view a sales report</h6>
+    <Card className="min-w-sm p-6">
+      <Typography variant="caption">Select a date to view a sales report</Typography>
 
-        <div className="mx-auto w-full max-w-sm space-y-3">
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    onDayClick={field.onChange}
-                    month={month}
-                    onMonthChange={setMonth}
-                    startMonth={new Date(2024, 9)}
-                    disabled={{ after: today }}
-                    captionLayout="dropdown"
-                    className="w-full rounded-lg border border-blue-950"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <div className="flex flex-col gap-3">
+        <Calendar
+          mode="single"
+          selected={selectedDateLocal}
+          onSelect={handleCalendarSelect}
+          month={month}
+          onMonthChange={setMonth}
+          startMonth={new Date(2024, 9)}
+          weekStartsOn={1}
+          captionLayout="dropdown"
+          className="w-full"
+        />
 
-          <Button
-            variant="link"
-            size={"sm"}
-            onClick={() => {
-              form.setValue("date", today);
-              setMonth(new Date(today.getFullYear(), today.getMonth()));
-              router.push(`/sales-reports?date=${formatVancouverDate(today)}`);
-            }}
-            className="p-0"
-          >
-            View Today
-          </Button>
-
-          <LoadingButton loading={isPending} type="submit" className="w-full">
-            {isPending ? "Searching..." : "Search"}
-          </LoadingButton>
-        </div>
-      </form>
-    </Form>
+        <Button
+          variant="link"
+          size={"sm"}
+          onClick={() => {
+            router.push(`/sales-reports?date=${format(new Date(), "yyyy-MM-dd")}`);
+          }}
+        >
+          View Today
+        </Button>
+      </div>
+    </Card>
   );
 }

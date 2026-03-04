@@ -25,7 +25,7 @@ export async function CurrentPayPeriodSummary({ user }: Props) {
       <CardHeader className="flex flex-col gap-6">
         <CardTitle>Current Pay Period</CardTitle>
         <Typography variant="h3" className="flex items-center gap-2">
-          <HugeiconsIcon icon={ICONS.CALENDAR} className="size-4" />
+          <HugeiconsIcon icon={ICONS.CALENDAR} className="size-4" strokeWidth={2} />
           <span>{format(todayBiweeklyPeriod.start, "MMM d")}</span>
           <HugeiconsIcon icon={ICONS.ARROW_RIGHT} className="size-3" />
           <span>{format(todayBiweeklyPeriod.end, "MMM d")}</span>
@@ -38,8 +38,12 @@ export async function CurrentPayPeriodSummary({ user }: Props) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex items-center gap-3">
-              <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-                <HugeiconsIcon icon={ICONS.TOTAL_HOURS} className="text-accent-foreground size-5" />
+              <div className="bg-muted flex size-10 items-center justify-center rounded-full">
+                <HugeiconsIcon
+                  icon={ICONS.TOTAL_HOURS}
+                  className="text-primary size-5"
+                  strokeWidth={1.5}
+                />
               </div>
               <div>
                 <Typography className="text-xs">Total Hours</Typography>
@@ -50,13 +54,17 @@ export async function CurrentPayPeriodSummary({ user }: Props) {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="bg-accent flex size-10 items-center justify-center rounded-full">
-                <HugeiconsIcon icon={ICONS.TOTAL_TIPS} className="text-accent-foreground size-5" />
+              <div className="bg-muted flex size-10 items-center justify-center rounded-full">
+                <HugeiconsIcon
+                  icon={ICONS.TOTAL_TIPS}
+                  className="text-primary size-5"
+                  strokeWidth={1.5}
+                />
               </div>
               <div>
                 <Typography className="text-xs">Total Tips</Typography>
                 <Typography variant="caption">
-                  {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0) / 100)}
+                  {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0))}
                 </Typography>
               </div>
             </div>
