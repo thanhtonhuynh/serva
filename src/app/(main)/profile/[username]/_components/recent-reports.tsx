@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatMoney } from "@/lib/utils";
+import { formatInUTC } from "@/utils/datetime";
 import { LinkSquare01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { format } from "date-fns";
 import Link from "next/link";
 
 type RecentReport = {
@@ -34,10 +34,10 @@ export function RecentReports({ reports, isOwner }: RecentReportsProps) {
           reports.map((report) => (
             <Link
               key={report.id}
-              href={`/report?date=${format(report.date, "yyyy-MM-dd")}`}
+              href={`/report?date=${formatInUTC(report.date)}`}
               className="hover:bg-muted/50 group flex items-center justify-between rounded-lg border p-3 text-sm transition-colors"
             >
-              <p className="">{format(report.date, "EEEE, MMM d, yyyy")}</p>
+              <p className="">{formatInUTC(report.date, "EEEE, MMM d, yyyy")}</p>
 
               <div className="flex items-center gap-3">
                 <div className="text-right">

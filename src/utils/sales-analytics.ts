@@ -1,7 +1,7 @@
 import { monthLabels } from "@/types/datetime";
-import { add, getMonth, getWeek } from "date-fns";
-import moment from "moment-timezone";
-import { formatVancouverDate, getEndOfYear, getStartOfYear } from "./datetime";
+import { utc } from "@date-fns/utc";
+import { addDays, getMonth, getWeek } from "date-fns";
+import { formatInUTC, getCurrentYear, getEndOfYearUTC, getStartOfYearUTC } from "./datetime";
 
 // CHANGE ALL MOMENT USAGE TO DATE-FNS
 
@@ -48,10 +48,7 @@ export type HeatmapData = {
 /**
  * Generate heatmap data for a given year
  */
-export function generateHeatmapData(
-  year: number,
-  reports: DaySalesData[],
-): HeatmapData {
+export function generateHeatmapData(year: number, reports: DaySalesData[]): HeatmapData {
   const reportMap = new Map<string, number>();
   let maxSales = 0;
   let minSales = Infinity;
@@ -59,7 +56,7 @@ export function generateHeatmapData(
   // Build a map of date -> totalSales
   // Also track max and min sales for intensity calculation
   for (const report of reports) {
-    const dateStr = formatVancouverDate(report.date);
+    const dateStr = formatInUTC(report.date);
     reportMap.set(dateStr, report.totalSales);
     if (report.totalSales > 0) {
       maxSales = Math.max(maxSales, report.totalSales);
@@ -78,7 +75,7 @@ export function generateHeatmapData(
   for (let m = 0; m < 12; m++) {
     // Find all cells in this month
     const monthCells = cells.filter((c) => {
-      const cellMonth = getMonth(c.date);
+      const cellMonth = getMonth(c.date, { in: utc });
       return cellMonth === m;
     });
 
@@ -104,8 +101,8 @@ function populateHeatmapCells(
   reportMap: Map<string, number>,
   maxSales: number,
 ): HeatmapCell[] {
-  const startOfYear = getStartOfYear(year);
-  const endOfYear = getEndOfYear(year);
+  const startOfYear = getStartOfYearUTC(year);
+  const endOfYear = getEndOfYearUTC(year);
 
   const cells: HeatmapCell[] = [];
   let current = startOfYear;
@@ -114,11 +111,11 @@ function populateHeatmapCells(
   let previousWeekOfYear = -1;
 
   while (current <= endOfYear) {
-    const dateStr = formatVancouverDate(current);
+    const dateStr = formatInUTC(current);
     const totalSales = reportMap.get(dateStr) ?? 0;
     const hasReport = reportMap.has(dateStr);
-    const dayOfWeek = (current.getDay() + 6) % 7; // Monday = 0, Sunday = 6
-    const weekOfYear = getWeek(current, { weekStartsOn: 1 });
+    const dayOfWeek = (current.getUTCDay() + 6) % 7; // Monday = 0, Sunday = 6
+    const weekOfYear = getWeek(current, { weekStartsOn: 1, in: utc });
 
     // Increment week index when we encounter a new week
     if (weekOfYear !== previousWeekOfYear) {
@@ -145,10 +142,10 @@ function populateHeatmapCells(
       intensity, // for color intensity
       dayOfWeek, // for row placement
       weekIndex, // for column placement
-      formattedDate: formatVancouverDate(current, "EEEE, MMMM d, yyyy"),
+      formattedDate: formatInUTC(current, "EEEE, MMMM d, yyyy"),
     });
 
-    current = add(current, { days: 1 });
+    current = addDays(current, 1, { in: utc });
   }
 
   return cells;
@@ -157,9 +154,7 @@ function populateHeatmapCells(
 /**
  * Calculate sales analytics for a given year
  */
-export function calculateSalesAnalytics(
-  reports: DaySalesData[],
-): SalesAnalytics {
+export function calculateSalesAnalytics(reports: DaySalesData[]): SalesAnalytics {
   // Filter out zero-sales reports for calculations
   const validReports = reports.filter((r) => r.totalSales > 0);
 
@@ -178,34 +173,26 @@ export function calculateSalesAnalytics(
   const ytdTotalSales = validReports.reduce((sum, r) => sum + r.totalSales, 0);
 
   // Best Sales Day
-  const sortedByHighest = [...validReports].sort(
-    (a, b) => b.totalSales - a.totalSales,
-  );
+  const sortedByHighest = [...validReports].sort((a, b) => b.totalSales - a.totalSales);
   const bestDay = sortedByHighest[0];
   const bestSalesDay = {
-    date: formatVancouverDate(bestDay.date),
-    formattedDate: moment(bestDay.date)
-      .tz("America/Vancouver")
-      .format("MMM D, YYYY"),
+    date: formatInUTC(bestDay.date),
+    formattedDate: formatInUTC(bestDay.date, "MMM d, yyyy"),
     totalSales: bestDay.totalSales,
   };
 
   // Lowest Sales Day
   const lowestDay = sortedByHighest[sortedByHighest.length - 1];
   const lowestSalesDay = {
-    date: formatVancouverDate(lowestDay.date),
-    formattedDate: moment(lowestDay.date)
-      .tz("America/Vancouver")
-      .format("MMM D, YYYY"),
+    date: formatInUTC(lowestDay.date),
+    formattedDate: formatInUTC(lowestDay.date, "MMM d, yyyy"),
     totalSales: lowestDay.totalSales,
   };
 
   // Best Sales Month
   const monthTotals = new Map<string, number>();
   for (const report of validReports) {
-    const monthKey = moment(report.date)
-      .tz("America/Vancouver")
-      .format("YYYY-MM");
+    const monthKey = formatInUTC(report.date, "yyyy-MM");
     const current = monthTotals.get(monthKey) ?? 0;
     monthTotals.set(monthKey, current + report.totalSales);
   }
@@ -214,7 +201,7 @@ export function calculateSalesAnalytics(
   for (const [monthKey, total] of monthTotals) {
     if (!bestMonth || total > bestMonth.totalSales) {
       bestMonth = {
-        month: moment(monthKey, "YYYY-MM").format("MMMM"),
+        month: formatInUTC(new Date(`${monthKey}-01T00:00:00.000Z`), "MMMM"),
         totalSales: total,
       };
     }
@@ -237,10 +224,8 @@ export function calculateSalesAnalytics(
  * Get available years for the year selector
  */
 export function getAvailableYears(firstReportDate: Date | null): number[] {
-  const currentYear = moment.tz("America/Vancouver").year();
-  const startYear = firstReportDate
-    ? moment(firstReportDate).tz("America/Vancouver").year()
-    : currentYear;
+  const currentYear = getCurrentYear();
+  const startYear = firstReportDate ? firstReportDate.getUTCFullYear() : currentYear;
 
   const years: number[] = [];
   for (let y = currentYear; y >= startYear; y--) {

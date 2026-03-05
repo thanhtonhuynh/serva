@@ -7,8 +7,8 @@ import { ICONS } from "@/constants/icons";
 import { getPlatformById, type Platform } from "@/constants/platforms";
 import { cn, formatMoney } from "@/lib/utils";
 import { SaleReportCardProcessedData } from "@/types";
+import { formatInUTC } from "@/utils/datetime";
 import { getPlatformAmount } from "@/utils/report";
-import { format } from "date-fns";
 import Link from "next/link";
 
 type Props = {
@@ -32,7 +32,7 @@ export function SaleReportCard({ data }: Props) {
           <DecoIcon icon={ICONS.CALENDAR} showBackground />
           <div>
             <Typography variant="p-xs">Report Date</Typography>
-            <Typography variant="caption">{format(data.date, "EEEE, MMM d, yyyy")}</Typography>
+            <Typography variant="caption">{formatInUTC(data.date, "EEEE, MMM d, yyyy")}</Typography>
           </div>
         </div>
 

@@ -8,7 +8,8 @@ import {
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
 import { DayRange, UserShift } from "@/types";
-import { addDays, format } from "date-fns";
+import { formatInUTC } from "@/utils/datetime";
+import { addDays } from "date-fns";
 
 export function UserShiftTable({
   dateRange,
@@ -17,14 +18,14 @@ export function UserShiftTable({
   dateRange: DayRange;
   userShifts: UserShift[];
 }) {
-  const startDay = dateRange.start.getDate();
-  const endDay = dateRange.end.getDate();
+  const startDay = dateRange.start.getUTCDate();
+  const endDay = dateRange.end.getUTCDate();
 
   const hours = Array.from({ length: endDay - startDay + 1 }).map((_, index) => {
-    return userShifts.find((shift) => shift.date.getDate() === startDay + index)?.hours || 0;
+    return userShifts.find((shift) => shift.date.getUTCDate() === startDay + index)?.hours || 0;
   });
   const tips = Array.from({ length: endDay - startDay + 1 }).map((_, index) => {
-    return userShifts.find((shift) => shift.date.getDate() === startDay + index)?.tips || 0;
+    return userShifts.find((shift) => shift.date.getUTCDate() === startDay + index)?.tips || 0;
   });
 
   return (
@@ -35,7 +36,7 @@ export function UserShiftTable({
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="h-18 text-center" key={index}>
               <div className="flex flex-col gap-1">
-                <span>{format(addDays(dateRange.start, index), "EEE")}</span>
+                <span>{formatInUTC(addDays(dateRange.start, index), "EEE")}</span>
                 {startDay + index}
               </div>
             </TableHead>
@@ -61,7 +62,7 @@ export function UserShiftTable({
           <TableCell className="font-medium">Tips</TableCell>
           {tips.map((tip, index) => (
             <TableCell key={index} className="text-center">
-              {tip > 0 ? formatMoney(tip / 100) : "-"}
+              {tip > 0 ? formatMoney(tip) : "-"}
             </TableCell>
           ))}
           <TableCell className="text-right">

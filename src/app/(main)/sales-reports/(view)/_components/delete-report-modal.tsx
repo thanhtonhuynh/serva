@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ICONS } from "@/constants/icons";
+import { formatInUTC } from "@/utils/datetime";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { format } from "date-fns";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteReportAction } from "../../_actions";
@@ -49,7 +49,7 @@ export function DeleteReportModal({ reportId, date }: Props) {
 
       <DialogContent>
         <DialogHeader showBorder>
-          <DialogTitle>Delete report on {format(date, "MMM d, yyyy")}?</DialogTitle>
+          <DialogTitle>Delete report on {formatInUTC(date)}?</DialogTitle>
         </DialogHeader>
 
         <DialogBody>

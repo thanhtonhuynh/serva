@@ -23,7 +23,8 @@ import { InputField } from "@/components/ui/form/input-field";
 import { ICONS } from "@/constants/icons";
 import { cn } from "@/lib/utils";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
-import { getTodayStartOfDay } from "@/utils/datetime";
+import { getTodayUTCMidnight } from "@/utils/datetime";
+import { getLocalDateFromUTC } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ReactElement, useState, useTransition } from "react";
@@ -37,7 +38,7 @@ type Props = {
 };
 
 export function AddExpenseModal({ children, defaultDate }: Props) {
-  const today = getTodayStartOfDay();
+  const today = getLocalDateFromUTC(getTodayUTCMidnight());
   const initialDate = defaultDate ?? today;
 
   const [open, setOpen] = useState(false);

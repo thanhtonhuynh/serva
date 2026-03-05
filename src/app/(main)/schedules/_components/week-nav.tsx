@@ -5,11 +5,10 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ICONS } from "@/constants/icons";
 import { cn } from "@/lib/utils";
-import { formatUTCDate } from "@/utils/datetime";
+import { formatInUTC } from "@/utils/datetime";
 import { getLocalDateFromUTC } from "@/utils/datetime-client";
 import { ChevronRight, Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { format } from "date-fns";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -40,7 +39,7 @@ export function WeekNav({
   function handleCalendarSelect(date: Date | undefined) {
     if (!date) return;
     setCalendarOpen(false);
-    guardedNavigate(`/schedules?date=${format(date, "yyyy-MM-dd")}`);
+    guardedNavigate(`/schedules?date=${formatInUTC(date, "yyyy-MM-dd")}`);
   }
 
   return (
@@ -56,9 +55,9 @@ export function WeekNav({
       <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
         <PopoverTrigger>
           <div className={cn(buttonVariants({ variant: "accent", size: "sm" }), "group w-[200px]")}>
-            <span>{formatUTCDate(weekStartUTC, "MMM d")}</span>
+            <span>{formatInUTC(weekStartUTC, "MMM d")}</span>
             <HugeiconsIcon icon={ChevronRight} />
-            <span>{formatUTCDate(weekEndUTC, "MMM d, yyyy")}</span>
+            <span>{formatInUTC(weekEndUTC, "MMM d, yyyy")}</span>
             <HugeiconsIcon
               icon={ICONS.ARROW_DOWN}
               className="text-muted-foreground group-hover:text-foreground ml-1 transition-colors"

@@ -8,16 +8,16 @@ import { getShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
 import { hasPermission } from "@/utils/access-control";
-import { getTodayStartOfDay } from "@/utils/datetime";
 import {
-  getHoursTipsBreakdownInDayRange,
-  getPeriodsByMonthAndYear,
-  populateMonthSelectData,
-} from "@/utils/hours-tips";
+  formatInUTC,
+  getCurrentMonth,
+  getCurrentYear,
+  getPeriodsForMonthAndYearInUTC,
+} from "@/utils/datetime";
+import { getHoursTipsBreakdownInDateRange, populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 import { DataTable, HoursTipsTable } from "./_components";
 
@@ -39,9 +39,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();
 
-  const today = getTodayStartOfDay();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const currentYear = getCurrentYear();
+  const currentMonth = getCurrentMonth();
 
   // Redirect to current month when no params
   if (!searchParams.year && !searchParams.month) {
@@ -62,7 +61,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   }
 
   const year = parseInt(yearParam);
-  const month = parseInt(monthParam);
+  const month = parseInt(monthParam); // 1-indexed
 
   if (isNaN(year) || isNaN(month) || !years.includes(year) || !NUM_MONTHS.includes(month)) {
     return (
@@ -73,8 +72,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
     );
   }
 
-  const monthIndex = month - 1;
-  const periods = getPeriodsByMonthAndYear(year, monthIndex);
+  const monthIndex = month - 1; // 0-indexed
+  const periods = getPeriodsForMonthAndYearInUTC(year, monthIndex);
 
   const [firstPeriodShifts, secondPeriodShifts] = await Promise.all([
     getShiftsInDateRange(periods[0]),
@@ -82,8 +81,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
   ]);
 
   const hoursTipsBreakdowns = [
-    getHoursTipsBreakdownInDayRange(periods[0], firstPeriodShifts),
-    getHoursTipsBreakdownInDayRange(periods[1], secondPeriodShifts),
+    getHoursTipsBreakdownInDateRange(periods[0], firstPeriodShifts),
+    getHoursTipsBreakdownInDateRange(periods[1], secondPeriodShifts),
   ];
 
   const totalHoursTips: TotalHoursTips[] = [];
@@ -147,9 +146,9 @@ export default async function Page(props: { searchParams: SearchParams }) {
             <div key={index} className="space-y-6">
               <Typography variant="h3" className="flex items-center gap-2">
                 <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
-                <span>{format(period.start, "MMM d")}</span>
+                <span>{formatInUTC(period.start, "MMM d")}</span>
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
-                <span>{format(period.end, "MMM d")}</span>
+                <span>{formatInUTC(period.end, "d")}</span>
               </Typography>
 
               {hoursTipsBreakdowns[index].hoursBreakdown.length > 0 ? (
@@ -174,9 +173,9 @@ export default async function Page(props: { searchParams: SearchParams }) {
             <div key={index} className="space-y-6">
               <Typography variant="h3" className="flex items-center gap-2">
                 <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
-                <span>{format(period.start, "MMM d")}</span>
+                <span>{formatInUTC(period.start, "MMM d")}</span>
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
-                <span>{format(period.end, "MMM d")}</span>
+                <span>{formatInUTC(period.end, "d")}</span>
               </Typography>
 
               {hoursTipsBreakdowns[index].tipsBreakdown.length > 0 ? (

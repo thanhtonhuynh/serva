@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { getTodayStartOfDay } from "@/utils/datetime";
+import { getCurrentMonth, getCurrentYear } from "@/utils/datetime";
 import { ArrowDown01Icon, CalendarCheckInIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -28,9 +28,8 @@ export function PeriodSelector({ years }: PeriodSelectorProps) {
   const searchParams = useSearchParams();
   const [monthPopoverOpen, setMonthPopoverOpen] = useState(false);
 
-  const today = getTodayStartOfDay();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const currentYear = getCurrentYear();
+  const currentMonth = getCurrentMonth();
 
   // Get selected values from URL or use defaults
   const selectedYear = searchParams.get("year") ? parseInt(searchParams.get("year")!) : currentYear;

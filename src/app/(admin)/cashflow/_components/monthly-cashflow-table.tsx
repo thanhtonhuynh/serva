@@ -65,7 +65,7 @@ export function MonthlyCashFlowTable({ reports, platforms }: Props) {
         {reports.map((report) => {
           return (
             <TableRow key={report.id}>
-              <TableCell className="">{report.date.getDate()}</TableCell>
+              <TableCell className="">{report.date.getUTCDate()}</TableCell>
               <TableCell className="text-center">{formatMoney(report.totalSales)}</TableCell>
               <TableCell className="text-center">{formatMoney(report.cardSales)}</TableCell>
               <TableCell className="text-center">{formatMoney(report.actualCash)}</TableCell>

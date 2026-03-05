@@ -7,12 +7,11 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { getReportRaw } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasPermission } from "@/utils/access-control";
-import { getTodayStartOfDay } from "@/utils/datetime";
+import { formatInUTC, getTodayUTCMidnight, parseInUTC } from "@/utils/datetime";
 import { processReportDataForView } from "@/utils/report";
 import { utc } from "@date-fns/utc";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
-import { fromZonedTime } from "date-fns-tz";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { DeleteReportModal, ReportAuditLog } from "./_components";
@@ -29,10 +28,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
   const dateParam = searchParams.date;
   if (!dateParam) {
-    redirect(`/sales-reports?date=${format(getTodayStartOfDay(), "yyyy-MM-dd")}`);
+    redirect(`/sales-reports?date=${formatInUTC(getTodayUTCMidnight())}`);
   }
 
-  const report = await getReportRaw({ date: fromZonedTime(dateParam, "America/Vancouver") });
+  const report = await getReportRaw({ date: parseInUTC(dateParam) });
   if (!report)
     return (
       <Card>

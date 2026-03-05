@@ -9,7 +9,7 @@ import { getExpensesByYear } from "@/data-access/expenses";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
 import { hasPermission } from "@/utils/access-control";
-import { getTodayStartOfDay } from "@/utils/datetime";
+import { getCurrentMonth, getCurrentYear } from "@/utils/datetime";
 import { reshapeExpenses } from "@/utils/expenses";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
@@ -35,9 +35,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();
 
-  const today = getTodayStartOfDay();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const currentYear = getCurrentYear();
+  const currentMonth = getCurrentMonth();
 
   if (!searchParams.year) {
     redirect(`/expenses?year=${currentYear}&month=${currentMonth + 1}`);

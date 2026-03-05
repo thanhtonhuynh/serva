@@ -5,7 +5,7 @@ import { upsertReport } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { hasPermission } from "@/utils/access-control";
-import { getTodayStartOfDay } from "@/utils/datetime";
+import { getTodayUTCMidnight } from "@/utils/datetime";
 import { authenticatedRateLimit, rateLimitByKey } from "@/utils/rate-limiter";
 
 export async function saveReportAction(data: SaleReportInputs, mode: "create" | "edit") {
@@ -26,9 +26,9 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
         return { error: "Unauthorized." };
       }
 
-      const today = getTodayStartOfDay();
+      const today = getTodayUTCMidnight();
       if (mode === "create" && data.date.getTime() !== today.getTime()) {
-        return { error: "Unauthorized." };
+        return { error: "An error occurred. Please reload the page and try again." };
       }
     }
 

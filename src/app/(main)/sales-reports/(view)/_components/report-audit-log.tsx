@@ -1,9 +1,11 @@
+"use client";
+
 import { DecoIcon } from "@/components/shared";
 import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Typography } from "@/components/shared/typography";
 import { ICONS } from "@/constants/icons";
 import { type ReportAuditLog } from "@/types";
-import { formatVancouverDate } from "@/utils/datetime";
+import { format } from "date-fns";
 import Link from "next/link";
 
 type Props = {
@@ -39,7 +41,7 @@ export function ReportAuditLog({ auditLogs }: Props) {
             </div>
 
             <Typography variant="p-xs" className="text-muted-foreground self-end sm:self-center">
-              {formatVancouverDate(log.timestamp, "MMM d, yyyy hh:mm a")}
+              {format(log.timestamp, "MMM d, yyyy hh:mm a")}
             </Typography>
           </div>
         ))}

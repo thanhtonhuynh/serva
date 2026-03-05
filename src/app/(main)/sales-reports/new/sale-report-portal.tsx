@@ -7,10 +7,10 @@ import { Form } from "@/components/ui/form";
 import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform } from "@/constants/platforms";
 import { useSession } from "@/contexts/SessionProvider";
-import { formatVancouverDate } from "@/lib/utils";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { DisplayUser } from "@/types";
 import { hasPermission } from "@/utils/access-control";
+import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -73,7 +73,7 @@ export function SaleReportPortal({
   const saleReportForm = useForm<SaleReportInputs>({
     resolver: zodResolver(SaleReportSchema),
     defaultValues: {
-      date: initialValues?.date || new Date(),
+      date: initialValues?.date || getTodayUTCMidnight(),
       totalSales: initialValues?.totalSales || 0.0,
       cardSales: initialValues?.cardSales || 0.0,
       platformSales:
@@ -115,7 +115,6 @@ export function SaleReportPortal({
   const { user } = useSession();
 
   async function processForm(data: SaleReportInputs) {
-    data.date.setHours(0, 0, 0, 0);
     const { error, reportDate } = await saveReportAction(data, mode);
     if (error || !reportDate) toast.error(error);
     else {
@@ -123,7 +122,7 @@ export function SaleReportPortal({
         router.push("/");
       } else {
         if (hasPermission(user?.role, PERMISSIONS.REPORTS_VIEW)) {
-          router.push(`/sales-reports?date=${formatVancouverDate(reportDate)}`);
+          router.push(`/sales-reports?date=${formatInUTC(reportDate)}`);
         }
       }
       toast.success("Report saved successfully.");

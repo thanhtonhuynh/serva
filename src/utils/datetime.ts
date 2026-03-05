@@ -1,82 +1,149 @@
+import type { DateRange } from "@/types/datetime";
+import { TZDate } from "@date-fns/tz";
 import { utc } from "@date-fns/utc";
-import { endOfWeek, startOfDay, startOfWeek } from "date-fns";
-import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
+import {
+  endOfMonth,
+  endOfWeek,
+  endOfYear,
+  format,
+  parse,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
+} from "date-fns";
 
 const timeZone = "America/Vancouver";
 
 /**
- * Formats a date to "yyyy-MM-dd" in the Vancouver timezone.
- */
-export function formatVancouverDate(date: Date, formatStr: string = "yyyy-MM-dd"): string {
-  return formatInTimeZone(date, timeZone, formatStr);
-}
-
-/**
  * Formats a date in UTC timezone.
  */
-export function formatUTCDate(date: Date, formatStr: string = "yyyy-MM-dd"): string {
-  return formatInTimeZone(date, "UTC", formatStr);
+export function formatInUTC(date: Date, formatStr: string = "yyyy-MM-dd"): string {
+  return format(date, formatStr, { in: utc });
 }
 
 /**
- * Get start of year date in Vancouver timezone
+ * Parse a date from a string in UTC timezone.
  */
-export function getStartOfYear(year: number): Date {
-  return fromZonedTime(`${year}-01-01T00:00:00`, timeZone);
+export function parseInUTC(dateStr: string): Date {
+  return parse(dateStr, "yyyy-MM-dd", new Date(), { in: utc });
 }
 
 /**
- * Get end of year date in Vancouver timezone
+ * Get Jan 1 of the given year at UTC midnight.
  */
-export function getEndOfYear(year: number): Date {
-  return fromZonedTime(`${year}-12-31T23:59:59.999`, timeZone);
+export function getStartOfYearUTC(year: number): Date {
+  return startOfYear(year, { in: utc });
 }
 
 /**
- * Get today's start of day in Vancouver timezone
+ * Get Dec 31 23:59:59.999 of the given year in UTC.
+ */
+export function getEndOfYearUTC(year: number): Date {
+  return endOfYear(year, { in: utc });
+}
+
+/**
+ * Get today's date (in timeZone) as a UTC midnight Date.
+ * Should work for both server and client side.
+ */
+export function getTodayUTCMidnight(): Date {
+  const now = new TZDate(Date.now(), timeZone);
+  return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+}
+
+/**
+ * Get current biweekly period.
+ * Should return 1-15 or 16-end of the month.
+ */
+export function getCurrentBiweeklyPeriodInUTC(): DateRange {
+  const now = getTodayUTCMidnight();
+
+  if (now.getDate() <= 15) {
+    return {
+      start: startOfMonth(now, { in: utc }),
+      end: new Date(Date.UTC(now.getFullYear(), now.getMonth(), 15)),
+    };
+  } else {
+    return {
+      start: new Date(Date.UTC(now.getFullYear(), now.getMonth(), 16)),
+      end: endOfMonth(now, { in: utc }),
+    };
+  }
+}
+
+/**
+ * @deprecated Use getTodayUTCMidnight() instead.
  */
 export function getTodayStartOfDay(): Date {
-  return fromZonedTime(startOfDay(Date.now()), timeZone);
+  return getTodayUTCMidnight();
 }
 
 /**
- * Get current year in Vancouver timezone
+ * Get current year in Vancouver timezone.
  */
 export function getCurrentYear(): number {
-  return fromZonedTime(new Date(), timeZone).getFullYear();
+  return new TZDate(Date.now(), timeZone).getFullYear();
+}
+
+/**
+ * Get current month (0-indexed) in Vancouver timezone.
+ */
+export function getCurrentMonth(): number {
+  return new TZDate(Date.now(), timeZone).getMonth();
+}
+
+/**
+ * Get date range for a given month and year.
+ * Month is 0-indexed.
+ */
+export function getDateRangeForMonthAndYearInUTC(year: number, month: number): DateRange {
+  return {
+    start: new Date(Date.UTC(year, month, 1)),
+    end: new Date(Date.UTC(year, month + 1, 0)),
+  };
+}
+
+/**
+ * Get biweekly periods for a given month and year.
+ * Month is 0-indexed.
+ */
+export function getPeriodsForMonthAndYearInUTC(year: number, month: number): DateRange[] {
+  return [
+    {
+      start: new Date(Date.UTC(year, month, 1)),
+      end: new Date(Date.UTC(year, month, 15)),
+    },
+    {
+      start: new Date(Date.UTC(year, month, 16)),
+      end: new Date(Date.UTC(year, month + 1, 0)),
+    },
+  ];
+}
+
+/**
+ * Get date range for a given year.
+ */
+export function getDateRangeForYearInUTC(year: number): DateRange {
+  return {
+    start: new Date(Date.UTC(year, 0, 1)),
+    end: new Date(Date.UTC(year, 11, 31)),
+  };
 }
 
 /**
  * Get start of week (Monday 00:00) of the week containing the given date, in UTC.
  * The date is interpreted as a calendar date (YYYY-MM-DD), so week math is done in UTC
- * to avoid timezone shifting the day (e.g. 2026-02-16 stays Feb 16, not previous day).
+ * to avoid timezone shifting the day.
  */
 export function getStartOfWeekUTC(date: Date | string): Date {
-  // const d =
-  //   typeof date === "string"
-  //     ? new Date(date.includes("T") ? date : `${date}T00:00:00.000Z`)
-  //     : new Date(date);
-  // const y = d.getUTCFullYear();
-  // const m = d.getUTCMonth();
-  // const day = d.getUTCDate();
-  // const utcDate = new Date(Date.UTC(y, m, day));
-  // const weekday = utcDate.getUTCDay(); // 0 = Sun, 1 = Mon, ...
-  // const daysToMonday = weekday === 0 ? 6 : weekday - 1;
-  // utcDate.setUTCDate(utcDate.getUTCDate() - daysToMonday);
-  // return utcDate;
-
   return startOfWeek(date, { weekStartsOn: 1, in: utc });
 }
 
 /**
  * Get end of week (Sunday 23:59:59.999) of the week containing the given date, in UTC.
+ * The date is interpreted as a calendar date (YYYY-MM-DD), so week math is done in UTC
+ * to avoid timezone shifting the day.
  */
 export function getEndOfWeekUTC(date: Date | string): Date {
-  // const start = getStartOfWeekUTC(date);
-  // const end = new Date(start);
-  // end.setUTCDate(end.getUTCDate() + 6);
-  // end.setUTCHours(23, 59, 59, 999);
-  // return end;
-
   return endOfWeek(date, { weekStartsOn: 1, in: utc });
 }

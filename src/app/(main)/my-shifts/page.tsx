@@ -7,16 +7,17 @@ import { ICONS } from "@/constants/icons";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
-import { getTodayStartOfDay } from "@/utils/datetime";
 import {
-  getDayRangeByMonthAndYear,
-  getPeriodsByMonthAndYear,
-  populateMonthSelectData,
-} from "@/utils/hours-tips";
+  formatInUTC,
+  getCurrentMonth,
+  getCurrentYear,
+  getDateRangeForMonthAndYearInUTC,
+  getPeriodsForMonthAndYearInUTC,
+} from "@/utils/datetime";
+import { populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { format } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 
 type SearchParams = Promise<{
@@ -36,16 +37,15 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();
 
-  const today = getTodayStartOfDay();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const currentYear = getCurrentYear();
+  const currentMonth = getCurrentMonth();
 
   if (!searchParams.year || !searchParams.month) {
     redirect(`/my-shifts?year=${currentYear}&month=${currentMonth + 1}`);
   }
 
   const selectedYear = parseInt(searchParams.year);
-  const selectedMonth = parseInt(searchParams.month);
+  const selectedMonth = parseInt(searchParams.month); // 1-indexed
 
   if (
     isNaN(selectedYear) ||
@@ -61,13 +61,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
     );
   }
 
-  const monthIndex = selectedMonth - 1;
-  const dateRange = getDayRangeByMonthAndYear(selectedYear, monthIndex);
-  const periods = getPeriodsByMonthAndYear(selectedYear, monthIndex);
+  const monthIndex = selectedMonth - 1; // 0-indexed
+  const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, monthIndex);
+  const periods = getPeriodsForMonthAndYearInUTC(selectedYear, monthIndex);
   const userShifts = await getUserShiftsInDateRange(user.id, dateRange);
 
-  const firstPeriodShifts = userShifts.filter((shift) => shift.date.getDate() <= 15);
-  const secondPeriodShifts = userShifts.filter((shift) => shift.date.getDate() > 15);
+  const firstPeriodShifts = userShifts.filter((shift) => shift.date.getUTCDate() <= 15);
+  const secondPeriodShifts = userShifts.filter((shift) => shift.date.getUTCDate() > 15);
 
   const isCurrentPeriod = selectedYear === currentYear && monthIndex === currentMonth;
 
@@ -118,9 +118,9 @@ export default async function Page(props: { searchParams: SearchParams }) {
             <div key={index} className="space-y-6">
               <Typography variant="h3" className="flex items-center gap-2">
                 <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
-                <span>{format(period.start, "MMM d")}</span>
+                <span>{formatInUTC(period.start, "MMM d")}</span>
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
-                <span>{format(period.end, "MMM d")}</span>
+                <span>{formatInUTC(period.end, "d")}</span>
               </Typography>
 
               <UserShiftTable

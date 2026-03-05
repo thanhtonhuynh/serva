@@ -9,7 +9,7 @@ import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { hasPermission } from "@/utils/access-control";
-import { format } from "date-fns";
+import { formatInUTC } from "@/utils/datetime";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import { SaleReportPortal } from "../../new/sale-report-portal";
@@ -63,7 +63,7 @@ export default async function Page(props: { params: Params }) {
       <Header>
         <div>
           <Typography variant="h1">Edit sales report</Typography>
-          <p className="text-sm">{format(report.date, "EEEE, MMMM d, yyyy")}</p>
+          <p className="text-sm">{formatInUTC(report.date, "EEEE, MMMM d, yyyy")}</p>
         </div>
       </Header>
 

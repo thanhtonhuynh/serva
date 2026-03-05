@@ -8,8 +8,12 @@ import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasPermission } from "@/utils/access-control";
 import { processCashFlowData } from "@/utils/cashflow";
-import { getTodayStartOfDay } from "@/utils/datetime";
-import { getDayRangeByMonthAndYear, populateMonthSelectData } from "@/utils/hours-tips";
+import {
+  getCurrentMonth,
+  getCurrentYear,
+  getDateRangeForMonthAndYearInUTC,
+} from "@/utils/datetime";
+import { populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { MonthlyCashFlowTable } from "../_components";
@@ -32,9 +36,10 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();
 
-  const today = getTodayStartOfDay();
-  let selectedYear = today.getFullYear();
-  let selectedMonth = today.getMonth();
+  const currentYear = getCurrentYear();
+  const currentMonth = getCurrentMonth(); // 0-indexed
+  let selectedYear = currentYear;
+  let selectedMonth = currentMonth;
 
   // Validate and parse year
   if (searchParams.year) {
@@ -50,19 +55,19 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
 
   // Validate and parse month
   if (searchParams.month) {
-    const month = parseInt(searchParams.month);
+    const month = parseInt(searchParams.month); // 1-indexed
 
     if (isNaN(month) || !NUM_MONTHS.includes(month)) {
       return (
         <NotiMessage variant="error" message="Invalid month. Please check the URL and try again." />
       );
     }
-    selectedMonth = month - 1;
+    selectedMonth = month - 1; // 0-indexed
   }
 
   // Fetch monthly data
-  const dayRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth);
-  const reports = await getReportsByDateRange(dayRange);
+  const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, selectedMonth); // 0-indexed
+  const reports = await getReportsByDateRange(dateRange);
   const processedReports = processCashFlowData(reports);
 
   // Derive platforms from actual data
@@ -76,8 +81,7 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
     .map((id) => getPlatformById(id))
     .filter((p): p is Platform => p !== undefined);
 
-  const isCurrentPeriod =
-    selectedYear === today.getFullYear() && selectedMonth === today.getMonth();
+  const isCurrentPeriod = selectedYear === currentYear && selectedMonth === currentMonth;
 
   return (
     <Card className="gap-4">

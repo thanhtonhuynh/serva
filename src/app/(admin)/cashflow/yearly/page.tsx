@@ -8,8 +8,8 @@ import { getReportsByDateRange } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasPermission } from "@/utils/access-control";
 import { processYearCashFlowData } from "@/utils/cashflow";
-import { getTodayStartOfDay } from "@/utils/datetime";
-import { getDayRangeByYear, populateMonthSelectData } from "@/utils/hours-tips";
+import { getCurrentYear, getDateRangeForYearInUTC } from "@/utils/datetime";
+import { populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { YearCashFlowTable } from "../_components";
@@ -31,8 +31,8 @@ export default async function YearlyPage(props: { searchParams: SearchParams }) 
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();
 
-  const today = getTodayStartOfDay();
-  let selectedYear = today.getFullYear();
+  const currentYear = getCurrentYear();
+  let selectedYear = currentYear;
 
   // Validate and parse year
   if (searchParams.year) {
@@ -50,9 +50,9 @@ export default async function YearlyPage(props: { searchParams: SearchParams }) 
   }
 
   // Fetch yearly data
-  const yearDayRange = getDayRangeByYear(selectedYear);
+  const yearDateRange = getDateRangeForYearInUTC(selectedYear);
   const [yearReports, yearMainExpenses] = await Promise.all([
-    getReportsByDateRange(yearDayRange),
+    getReportsByDateRange(yearDateRange),
     getExpensesByYear(selectedYear),
   ]);
   const yearProcessedReports = processYearCashFlowData(yearReports, yearMainExpenses);
@@ -68,7 +68,7 @@ export default async function YearlyPage(props: { searchParams: SearchParams }) 
     .map((id) => getPlatformById(id))
     .filter((p): p is Platform => p !== undefined);
 
-  const isCurrentYear = selectedYear === today.getFullYear();
+  const isCurrentYear = selectedYear === currentYear;
 
   return (
     <Card className="gap-4">

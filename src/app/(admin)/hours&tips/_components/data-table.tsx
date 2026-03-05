@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
 import { BreakdownData, DayRange } from "@/types";
-import { addDays, format } from "date-fns";
+import { formatInUTC } from "@/utils/datetime";
+import { addDays } from "date-fns";
 import Link from "next/link";
 
 type DataTableProps = {
@@ -19,19 +20,19 @@ type DataTableProps = {
 };
 
 export async function DataTable({ dateRange, data, isMoney = false }: DataTableProps) {
-  const startDay = dateRange.start.getDate();
-  const endDay = dateRange.end.getDate();
+  const startDay = dateRange.start.getUTCDate();
+  const endDay = dateRange.end.getUTCDate();
 
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-accent sticky left-0 h-15 min-w-max border-r">Name</TableHead>
+          <TableHead className="h-18 border-r">Name</TableHead>
 
           {Array.from({ length: endDay - startDay + 1 }).map((_, index) => (
             <TableHead className="text-center" key={index}>
               <div className="flex flex-col gap-1">
-                <span>{format(addDays(dateRange.start, index), "EEE")}</span>
+                <span>{formatInUTC(addDays(dateRange.start, index), "EEE")}</span>
                 {startDay + index}
               </div>
             </TableHead>
@@ -44,7 +45,7 @@ export async function DataTable({ dateRange, data, isMoney = false }: DataTableP
       <TableBody>
         {data.map((employee) => (
           <TableRow key={employee.userId}>
-            <TableCell className="bg-background sticky left-0 min-w-max border-r">
+            <TableCell className="border-r">
               <Link
                 href={`/profile/${employee.userUsername}`}
                 className="group flex w-max items-center gap-2"
@@ -58,12 +59,12 @@ export async function DataTable({ dateRange, data, isMoney = false }: DataTableP
 
             {employee.keyData.map((key, index) => (
               <TableCell className="text-center" key={index}>
-                {key > 0 ? (isMoney ? formatMoney(key / 100) : key) : "-"}
+                {key > 0 ? (isMoney ? formatMoney(key) : key) : "-"}
               </TableCell>
             ))}
 
             <TableCell className="text-right">
-              {isMoney ? formatMoney(employee.total / 100) : employee.total}
+              {isMoney ? formatMoney(employee.total) : employee.total}
             </TableCell>
           </TableRow>
         ))}

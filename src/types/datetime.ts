@@ -14,3 +14,8 @@ export const monthLabels = [
 ];
 
 export const WEEKDAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+
+export type DateRange = {
+  start: Date;
+  end: Date;
+};

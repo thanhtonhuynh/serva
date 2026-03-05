@@ -7,9 +7,8 @@ import { ICONS } from "@/constants/icons";
 import { getUserShiftsInDateRange } from "@/data-access/employee";
 import { User } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
-import { getTodayBiweeklyPeriod } from "@/utils/hours-tips";
+import { formatInUTC, getCurrentBiweeklyPeriodInUTC } from "@/utils/datetime";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { format } from "date-fns";
 import Link from "next/link";
 
 type Props = {
@@ -17,7 +16,7 @@ type Props = {
 };
 
 export async function CurrentPayPeriodSummary({ user }: Props) {
-  const todayBiweeklyPeriod = getTodayBiweeklyPeriod();
+  const todayBiweeklyPeriod = getCurrentBiweeklyPeriodInUTC();
   const userShifts = await getUserShiftsInDateRange(user.id, todayBiweeklyPeriod);
 
   return (
@@ -26,9 +25,9 @@ export async function CurrentPayPeriodSummary({ user }: Props) {
         <CardTitle>Current Pay Period</CardTitle>
         <Typography variant="h3" className="flex items-center gap-2">
           <HugeiconsIcon icon={ICONS.CALENDAR} className="size-4" strokeWidth={2} />
-          <span>{format(todayBiweeklyPeriod.start, "MMM d")}</span>
+          <span>{formatInUTC(todayBiweeklyPeriod.start, "MMM d")}</span>
           <HugeiconsIcon icon={ICONS.ARROW_RIGHT} className="size-3" />
-          <span>{format(todayBiweeklyPeriod.end, "MMM d")}</span>
+          <span>{formatInUTC(todayBiweeklyPeriod.end, "d")}</span>
         </Typography>
       </CardHeader>
 

@@ -5,12 +5,16 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
 import { getScheduleDaysByDateRangeUTC } from "@/data-access/schedule";
 import { getCurrentSession } from "@/lib/auth/session";
-import type { DayRange } from "@/types";
+import type { DateRange } from "@/types/datetime";
 import { hasPermission } from "@/utils/access-control";
-import { getEndOfWeekUTC, getStartOfWeekUTC, getTodayStartOfDay } from "@/utils/datetime";
+import {
+  formatInUTC,
+  getEndOfWeekUTC,
+  getStartOfWeekUTC,
+  getTodayUTCMidnight,
+} from "@/utils/datetime";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { utc } from "@date-fns/utc";
-import { addDays, format } from "date-fns";
+import { addDays } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 import { Fragment, Suspense } from "react";
 import { ScheduleWeekGrid } from "./_components/schedule-week-grid";
@@ -34,7 +38,7 @@ export default async function SchedulePage({ searchParams }: PageProps) {
   const dateParam = params.date;
 
   if (!dateParam) {
-    redirect(`/schedules?date=${format(getTodayStartOfDay(), "yyyy-MM-dd")}`);
+    redirect(`/schedules?date=${formatInUTC(getTodayUTCMidnight())}`);
   }
 
   const canManage = hasPermission(user.role, PERMISSIONS.SCHEDULE_MANAGE);
@@ -64,16 +68,16 @@ async function ScheduleWeekContent({
   const weekStartUTC = getStartOfWeekUTC(dateParam);
   const weekEndUTC = getEndOfWeekUTC(dateParam);
 
-  const dateRangeUTC: DayRange = { start: weekStartUTC, end: weekEndUTC };
+  const dateRangeUTC: DateRange = { start: weekStartUTC, end: weekEndUTC };
   const [scheduleDays, employees] = await Promise.all([
     getScheduleDaysByDateRangeUTC(dateRangeUTC),
     getEmployees("active"),
   ]);
 
   const prevWeekStart = addDays(weekStartUTC, -7);
-  const prevWeekParam = format(prevWeekStart, "yyyy-MM-dd", { in: utc });
+  const prevWeekParam = formatInUTC(prevWeekStart);
   const nextWeekStart = addDays(weekStartUTC, 7);
-  const nextWeekParam = format(nextWeekStart, "yyyy-MM-dd", { in: utc });
+  const nextWeekParam = formatInUTC(nextWeekStart);
 
   const daysForClient = scheduleDays.map((d) => ({
     ...d,
