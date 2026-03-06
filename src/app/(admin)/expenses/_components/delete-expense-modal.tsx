@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ICONS } from "@/constants/icons";
+import { formatInUTC } from "@/utils/datetime";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { format } from "date-fns";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteExpenseAction } from "../actions";
@@ -53,7 +53,7 @@ export function DeleteExpenseModal({ expenseId, date }: Props) {
 
       <DialogContent>
         <DialogHeader showBorder>
-          <DialogTitle>Delete expense on {format(date, "MMM d, yyyy")}?</DialogTitle>
+          <DialogTitle>Delete expense on {formatInUTC(date, "MMM d, yyyy")}?</DialogTitle>
         </DialogHeader>
 
         <DialogBody>

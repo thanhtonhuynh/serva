@@ -24,7 +24,7 @@ import { ICONS } from "@/constants/icons";
 import { cn } from "@/lib/utils";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
 import { getTodayUTCMidnight } from "@/utils/datetime";
-import { getLocalDateFromUTC } from "@/utils/datetime-client";
+import { getLocalDateFromUTC, getUTCMidnightFromLocal } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ReactElement, useState, useTransition } from "react";
@@ -34,17 +34,15 @@ import { addExpensesAction } from "../actions";
 
 type Props = {
   children: ReactElement;
-  defaultDate?: Date;
+  defaultDate?: Date; // For "Add for this period" button
 };
 
 export function AddExpenseModal({ children, defaultDate }: Props) {
-  const today = getLocalDateFromUTC(getTodayUTCMidnight());
-  const initialDate = defaultDate ?? today;
+  // Convert default date to local date for calendar display
+  const initialDate = getLocalDateFromUTC(defaultDate ?? getTodayUTCMidnight());
 
   const [open, setOpen] = useState(false);
-  const [month, setMonth] = useState<Date>(
-    new Date(initialDate.getFullYear(), initialDate.getMonth()),
-  );
+  const [month, setMonth] = useState<Date>(initialDate);
 
   const form = useForm<ExpensesFormInput>({
     mode: "onChange",
@@ -60,6 +58,9 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
   const { isDirty, isValid } = form.formState;
 
   async function onSubmit(data: ExpensesFormInput) {
+    // Normalize date to UTC midnight before submitting
+    data.date = getUTCMidnightFromLocal(data.date);
+
     startTransition(async () => {
       const error = await addExpensesAction(data);
 
@@ -67,8 +68,7 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
         toast.error(error);
       } else {
         toast.success("Expense added successfully");
-        form.reset({ date: initialDate, entries: [{ amount: 0, reason: "" }] });
-        setMonth(new Date(initialDate.getFullYear(), initialDate.getMonth()));
+        form.reset();
         setOpen(false);
       }
     });
@@ -76,11 +76,12 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
 
   function handleOpenChange(nextOpen: boolean) {
     setOpen(nextOpen);
-    if (nextOpen) {
-      // Reset form when dialog opens
-      form.reset({ date: initialDate, entries: [{ amount: 0, reason: "" }] });
-      setMonth(new Date(initialDate.getFullYear(), initialDate.getMonth()));
-    }
+    // if (nextOpen) {
+    //   // Reset form when dialog opens
+    //   form.reset({ date: initialDate, entries: [{ amount: 0, reason: "" }] });
+    //   setMonth(new Date(initialDate.getFullYear(), initialDate.getMonth()));
+    // }
+    if (!nextOpen) form.reset();
   }
 
   return (
@@ -110,7 +111,6 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
                         month={month}
                         onMonthChange={setMonth}
                         startMonth={new Date(2024, 9)}
-                        disabled={{ after: today }}
                         captionLayout="dropdown"
                         className="rounded-xl border"
                       />

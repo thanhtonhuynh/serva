@@ -22,7 +22,7 @@ export function ExpenseRow({ expense }: Props) {
     <>
       <div className="group flex items-center gap-3 rounded-xl border border-transparent px-3 py-2 transition-all duration-300 hover:border-blue-200">
         <Typography variant="h3" className="w-4">
-          {expense.date.getDate()}
+          {expense.date.getUTCDate()}
         </Typography>
 
         <Typography className="flex-1 text-xs">

@@ -22,8 +22,7 @@ import { InputField } from "@/components/ui/form/input-field";
 import { ICONS } from "@/constants/icons";
 import { cn } from "@/lib/utils";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
-import { getTodayUTCMidnight } from "@/utils/datetime";
-import { getLocalDateFromUTC } from "@/utils/datetime-client";
+import { getLocalDateFromUTC, getUTCMidnightFromLocal } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Expense } from "@prisma/client";
@@ -39,12 +38,10 @@ type Props = {
 };
 
 export function EditExpenseModal({ expense, open, onOpenChange }: Props) {
-  const today = getLocalDateFromUTC(getTodayUTCMidnight());
-  const expenseDate = new Date(expense.date);
+  // Convert expense date to local date for calendar display
+  const expenseDate = getLocalDateFromUTC(expense.date);
 
-  const [month, setMonth] = useState<Date>(
-    new Date(expenseDate.getFullYear(), expenseDate.getMonth()),
-  );
+  const [month, setMonth] = useState<Date>(expenseDate);
 
   const form = useForm<ExpensesFormInput>({
     mode: "onChange",
@@ -63,9 +60,10 @@ export function EditExpenseModal({ expense, open, onOpenChange }: Props) {
   const { isDirty, isValid } = form.formState;
 
   // Reset form when expense changes or dialog opens
+  // This is needed because when expense is updated, we need to reset the values.
   useEffect(() => {
     if (open) {
-      const date = new Date(expense.date);
+      const date = getLocalDateFromUTC(expense.date);
       form.reset({
         date,
         entries: expense.entries.map((entry) => ({
@@ -73,11 +71,14 @@ export function EditExpenseModal({ expense, open, onOpenChange }: Props) {
           amount: entry.amount / 100,
         })),
       });
-      setMonth(new Date(date.getFullYear(), date.getMonth()));
+      setMonth(date);
     }
   }, [expense, open, form]);
 
   async function onSubmit(data: ExpensesFormInput) {
+    // Normalize date to UTC midnight before submitting
+    data.date = getUTCMidnightFromLocal(data.date);
+
     startTransition(async () => {
       const error = await updateExpensesAction(data, expense.id);
 
@@ -85,7 +86,6 @@ export function EditExpenseModal({ expense, open, onOpenChange }: Props) {
         toast.error(error);
       } else {
         toast.success("Expense updated successfully");
-        form.reset(data);
         onOpenChange(false);
       }
     });
@@ -116,7 +116,6 @@ export function EditExpenseModal({ expense, open, onOpenChange }: Props) {
                         month={month}
                         onMonthChange={setMonth}
                         startMonth={new Date(2024, 9)}
-                        disabled={{ after: today }}
                         captionLayout="dropdown"
                         className="rounded-lg border border-blue-950"
                       />

@@ -52,8 +52,8 @@ export async function getExpensesByYear(year: number) {
   return prisma.expense.findMany({
     where: {
       date: {
-        gte: new Date(year, 0, 1),
-        lt: new Date(year + 1, 0, 1),
+        gte: new Date(Date.UTC(year, 0, 1)),
+        lt: new Date(Date.UTC(year + 1, 0, 1)),
       },
     },
   });
