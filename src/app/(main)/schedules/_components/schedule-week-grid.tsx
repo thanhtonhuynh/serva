@@ -267,7 +267,7 @@ export function ScheduleWeekGrid({
   const handleSave = useCallback(() => {
     const values = form.getValues();
     startSaveTransition(async () => {
-      // Only send days that have entries with slots
+      // Send all days; empty days (no entries with slots/notes) are sent so the server can remove them from the DB
       const payload = values.days.map((day) => ({
         dateStr: day.dateStr,
         entries: day.entries

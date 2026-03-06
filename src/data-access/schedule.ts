@@ -89,3 +89,11 @@ export async function upsertScheduleDay(date: Date, entries: DayEntryInput[]) {
     },
   });
 }
+
+/** Remove the ScheduleDay for a given date if it exists (e.g. when all entries are removed). */
+export async function deleteScheduleDay(date: Date) {
+  const dayStart = startOfDayUTC(date);
+  return prisma.scheduleDay.deleteMany({
+    where: { date: dayStart },
+  });
+}
