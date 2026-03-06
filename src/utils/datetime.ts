@@ -1,16 +1,7 @@
 import type { DateRange } from "@/types/datetime";
 import { TZDate } from "@date-fns/tz";
 import { utc } from "@date-fns/utc";
-import {
-  endOfMonth,
-  endOfWeek,
-  endOfYear,
-  format,
-  parse,
-  startOfMonth,
-  startOfWeek,
-  startOfYear,
-} from "date-fns";
+import { endOfMonth, endOfWeek, format, parse, startOfMonth, startOfWeek } from "date-fns";
 
 const timeZone = "America/Vancouver";
 
@@ -32,14 +23,14 @@ export function parseInUTC(dateStr: string): Date {
  * Get Jan 1 of the given year at UTC midnight.
  */
 export function getStartOfYearUTC(year: number): Date {
-  return startOfYear(year, { in: utc });
+  return new Date(Date.UTC(year, 0, 1));
 }
 
 /**
  * Get Dec 31 23:59:59.999 of the given year in UTC.
  */
 export function getEndOfYearUTC(year: number): Date {
-  return endOfYear(year, { in: utc });
+  return new Date(Date.UTC(year, 11, 31));
 }
 
 /**
