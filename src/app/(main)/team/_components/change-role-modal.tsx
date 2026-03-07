@@ -42,7 +42,7 @@ export function ChangeRoleModal({ selectedUser, open, onOpenChange, rolesPromise
     resolver: zodResolver(UpdateEmployeeRoleSchema),
     defaultValues: {
       userId: selectedUser.id,
-      roleId: "",
+      roleId: selectedUser.role?.id ?? "",
     },
   });
 
@@ -94,6 +94,7 @@ export function ChangeRoleModal({ selectedUser, open, onOpenChange, rolesPromise
                     <Select name={field.name} value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger
                         id="select-role"
+                        variant="input"
                         aria-invalid={fieldState.invalid}
                         className="w-full"
                       >
