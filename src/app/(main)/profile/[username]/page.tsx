@@ -2,7 +2,7 @@ import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { PERMISSIONS } from "@/constants/permissions";
-import { getRecentShiftsByUser } from "@/data-access/employee";
+import { getRecentWorkDayRecordsByUser } from "@/data-access/work-day-record";
 import { getRecentReportsByUser } from "@/data-access/report";
 import { getUserProfileByUsername } from "@/data-access/user";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -37,12 +37,17 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   const isOwner = currentUser.username === profileUser.username;
 
-  // Fetch recent reports submitted by this user
-  // Fetch recent shifts for this user
-  const [recentReports, recentShifts] = await Promise.all([
+  // Fetch recent reports submitted by this user and recent work day records (shifts)
+  const [recentReports, workDayRecords] = await Promise.all([
     getRecentReportsByUser(profileUser.id, 5),
-    getRecentShiftsByUser(profileUser.id, 5),
+    getRecentWorkDayRecordsByUser(profileUser.id, 5),
   ]);
+
+  const recentShifts = workDayRecords.map((r) => ({
+    date: r.date,
+    hours: r.totalHours,
+    tips: r.tips,
+  }));
 
   return (
     <Fragment>

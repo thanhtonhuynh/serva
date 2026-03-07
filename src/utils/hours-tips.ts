@@ -1,5 +1,5 @@
 import { getFirstReportDate } from "@/data-access/report";
-import { BreakdownData, Shift } from "@/types";
+import { BreakdownData } from "@/types";
 import type { DateRange } from "@/types/datetime";
 import { utc } from "@date-fns/utc";
 import { differenceInDays } from "date-fns";
@@ -30,45 +30,53 @@ export const populateMonthSelectData = cache(async () => {
   };
 });
 
-export function getHoursTipsBreakdownInDateRange(dateRange: DateRange, shifts: Shift[]) {
+/** WorkDayRecord shape used for hours/tips breakdown (with user relation). */
+export type WorkDayRecordForBreakdown = {
+  date: Date;
+  userId: string;
+  totalHours: number;
+  tips: number;
+  user: { name: string; username: string; image: string | null };
+};
+
+export function getHoursTipsBreakdownInDateRange(
+  dateRange: DateRange,
+  workDayRecords: WorkDayRecordForBreakdown[],
+) {
   const hoursMap = new Map<string, BreakdownData>();
   const tipsMap = new Map<string, BreakdownData>();
 
   const numDays = differenceInDays(dateRange.end, dateRange.start, { in: utc }) + 1;
 
-  const makeEmptyRow = (shift: Shift): BreakdownData => ({
-    userId: shift.userId,
-    userName: shift.userName,
-    userUsername: shift.userUsername,
-    image: shift.userImage,
+  const makeEmptyRow = (record: WorkDayRecordForBreakdown): BreakdownData => ({
+    userId: record.userId,
+    userName: record.user.name,
+    userUsername: record.user.username,
+    image: record.user.image ?? "",
     keyData: Array(numDays).fill(0),
     total: 0,
   });
 
-  for (const shift of shifts) {
-    // Compute the index by true day difference, not day-of-month
-    const index = differenceInDays(shift.date, dateRange.start, { in: utc });
+  for (const record of workDayRecords) {
+    const index = differenceInDays(record.date, dateRange.start, { in: utc });
 
-    // If for some reason the shift is out of range, skip it
     if (index < 0 || index >= numDays) continue;
 
-    // HOURS
-    let hoursRow = hoursMap.get(shift.userId);
+    let hoursRow = hoursMap.get(record.userId);
     if (!hoursRow) {
-      hoursRow = makeEmptyRow(shift);
-      hoursMap.set(shift.userId, hoursRow);
+      hoursRow = makeEmptyRow(record);
+      hoursMap.set(record.userId, hoursRow);
     }
-    hoursRow.keyData[index] = shift.hours;
-    hoursRow.total += shift.hours;
+    hoursRow.keyData[index] = record.totalHours;
+    hoursRow.total += record.totalHours;
 
-    // TIPS
-    let tipsRow = tipsMap.get(shift.userId);
+    let tipsRow = tipsMap.get(record.userId);
     if (!tipsRow) {
-      tipsRow = makeEmptyRow(shift);
-      tipsMap.set(shift.userId, tipsRow);
+      tipsRow = makeEmptyRow(record);
+      tipsMap.set(record.userId, tipsRow);
     }
-    tipsRow.keyData[index] = shift.tips;
-    tipsRow.total += shift.tips;
+    tipsRow.keyData[index] = record.tips;
+    tipsRow.total += record.tips;
   }
 
   const sortByName = (a: BreakdownData, b: BreakdownData) => a.userName.localeCompare(b.userName);

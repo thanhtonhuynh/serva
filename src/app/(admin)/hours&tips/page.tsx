@@ -4,7 +4,7 @@ import { NotiMessage } from "@/components/shared/noti-message";
 import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
-import { getShiftsInDateRange } from "@/data-access/employee";
+import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
 import { hasPermission } from "@/utils/access-control";
@@ -75,14 +75,14 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const monthIndex = month - 1; // 0-indexed
   const periods = getPeriodsForMonthAndYearInUTC(year, monthIndex);
 
-  const [firstPeriodShifts, secondPeriodShifts] = await Promise.all([
-    getShiftsInDateRange(periods[0]),
-    getShiftsInDateRange(periods[1]),
+  const [firstPeriodRecords, secondPeriodRecords] = await Promise.all([
+    getWorkDayRecordsByDateRange(periods[0]),
+    getWorkDayRecordsByDateRange(periods[1]),
   ]);
 
   const hoursTipsBreakdowns = [
-    getHoursTipsBreakdownInDateRange(periods[0], firstPeriodShifts),
-    getHoursTipsBreakdownInDateRange(periods[1], secondPeriodShifts),
+    getHoursTipsBreakdownInDateRange(periods[0], firstPeriodRecords),
+    getHoursTipsBreakdownInDateRange(periods[1], secondPeriodRecords),
   ];
 
   const totalHoursTips: TotalHoursTips[] = [];

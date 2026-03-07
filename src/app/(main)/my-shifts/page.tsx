@@ -4,7 +4,7 @@ import { CurrentBadge, Typography } from "@/components/shared";
 import { NotiMessage } from "@/components/shared/noti-message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
-import { getUserShiftsInDateRange } from "@/data-access/employee";
+import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
 import {
@@ -64,7 +64,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const monthIndex = selectedMonth - 1; // 0-indexed
   const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, monthIndex);
   const periods = getPeriodsForMonthAndYearInUTC(selectedYear, monthIndex);
-  const userShifts = await getUserShiftsInDateRange(user.id, dateRange);
+  const workDayRecords = await getWorkDayRecordsByUserAndDateRange(user.id, dateRange);
+
+  const userShifts = workDayRecords.map((r) => ({
+    date: r.date,
+    hours: r.totalHours,
+    tips: r.tips,
+  }));
 
   const firstPeriodShifts = userShifts.filter((shift) => shift.date.getUTCDate() <= 15);
   const secondPeriodShifts = userShifts.filter((shift) => shift.date.getUTCDate() > 15);

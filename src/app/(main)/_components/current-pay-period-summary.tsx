@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ICONS } from "@/constants/icons";
-import { getUserShiftsInDateRange } from "@/data-access/employee";
+import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record";
 import { User } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
 import { formatInUTC, getCurrentBiweeklyPeriodInUTC } from "@/utils/datetime";
@@ -17,7 +17,13 @@ type Props = {
 
 export async function CurrentPayPeriodSummary({ user }: Props) {
   const todayBiweeklyPeriod = getCurrentBiweeklyPeriodInUTC();
-  const userShifts = await getUserShiftsInDateRange(user.id, todayBiweeklyPeriod);
+  const workDayRecords = await getWorkDayRecordsByUserAndDateRange(user.id, todayBiweeklyPeriod);
+
+  const userShifts = workDayRecords.map((r) => ({
+    date: r.date,
+    hours: r.totalHours,
+    tips: r.tips,
+  }));
 
   return (
     <Card>

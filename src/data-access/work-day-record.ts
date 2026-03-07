@@ -83,6 +83,15 @@ export const getWorkDayRecordsByUserAndDateRange = cache(
   },
 );
 
+/** Get the most recent WorkDayRecords for a user (e.g. for profile recent shifts). */
+export const getRecentWorkDayRecordsByUser = cache(async (userId: string, limit: number = 5) => {
+  return prisma.workDayRecord.findMany({
+    where: { userId },
+    orderBy: { date: "desc" },
+    take: limit,
+  });
+});
+
 export async function recomputeTipsForDate(date: Date) {
   const dayStart = getStartOfDayUTC(date);
 
