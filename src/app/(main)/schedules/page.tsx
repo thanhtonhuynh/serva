@@ -3,13 +3,15 @@ import { NotiMessage, Typography } from "@/components/shared";
 import { Card } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
-import { getScheduleDaysByDateRangeUTC } from "@/data-access/schedule";
+import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
 import { getCurrentSession } from "@/lib/auth/session";
 import type { DateRange } from "@/types/datetime";
+import type { WorkDayRecordsByDate } from "@/app/(main)/schedules/_lib/types";
 import { hasPermission } from "@/utils/access-control";
 import {
   formatInUTC,
   getEndOfWeekUTC,
+  getStartOfDayUTC,
   getStartOfWeekUTC,
   getTodayUTCMidnight,
 } from "@/utils/datetime";
@@ -18,6 +20,34 @@ import { addDays } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 import { Fragment, Suspense } from "react";
 import { ScheduleWeekGrid } from "./_components/schedule-week-grid";
+
+/** Build records-by-date map from flat WorkDayRecord[] for the week (7 days from weekStartUTC). */
+function buildRecordsByDate(
+  workDayRecords: Awaited<ReturnType<typeof getWorkDayRecordsByDateRange>>,
+  weekStartUTC: Date,
+): WorkDayRecordsByDate {
+  const weekDates = Array.from({ length: 7 }, (_, i) => addDays(weekStartUTC, i));
+  const startOfDay = (d: Date) => getStartOfDayUTC(d).getTime();
+  const byDate: WorkDayRecordsByDate = {};
+
+  for (const weekDate of weekDates) {
+    const dateKey = formatInUTC(weekDate);
+    const dayRecords = workDayRecords.filter(
+      (r) => startOfDay(r.date) === startOfDay(weekDate),
+    );
+    byDate[dateKey] = dayRecords.map((r) => ({
+      userId: r.userId,
+      shifts: r.shifts.map((s) => ({
+        startMinutes: s.startMinutes,
+        endMinutes: s.endMinutes,
+        note: s.note ?? null,
+      })),
+      note: r.note ?? null,
+    }));
+  }
+
+  return byDate;
+}
 
 type PageProps = {
   searchParams: Promise<{ date?: string }>;
@@ -69,8 +99,8 @@ async function ScheduleWeekContent({
   const weekEndUTC = getEndOfWeekUTC(dateParam);
 
   const dateRangeUTC: DateRange = { start: weekStartUTC, end: weekEndUTC };
-  const [scheduleDays, employees] = await Promise.all([
-    getScheduleDaysByDateRangeUTC(dateRangeUTC),
+  const [workDayRecords, employees] = await Promise.all([
+    getWorkDayRecordsByDateRange(dateRangeUTC),
     getEmployees("active"),
   ]);
 
@@ -79,10 +109,8 @@ async function ScheduleWeekContent({
   const nextWeekStart = addDays(weekStartUTC, 7);
   const nextWeekParam = formatInUTC(nextWeekStart);
 
-  const daysForClient = scheduleDays.map((d) => ({
-    ...d,
-    date: d.date.toISOString(),
-  }));
+  const weekDates = Array.from({ length: 7 }, (_, i) => formatInUTC(addDays(weekStartUTC, i)));
+  const recordsByDate = buildRecordsByDate(workDayRecords, weekStartUTC);
 
   return (
     <Card className="p-6">
@@ -91,7 +119,8 @@ async function ScheduleWeekContent({
         weekEndUTC={weekEndUTC}
         prevWeekParam={prevWeekParam}
         nextWeekParam={nextWeekParam}
-        days={daysForClient}
+        weekDates={weekDates}
+        recordsByDate={recordsByDate}
         employees={employees}
         canManage={canManage}
       />

@@ -1,33 +1,73 @@
-/** A single time slot within a day entry. */
-export type SlotFormValue = {
+/** A single work shift within a day. */
+export type ShiftFormValue = {
   startMinutes: number;
   endMinutes: number;
   note?: string;
 };
 
-/** One employee's entry for a single day. */
+/** Alias: one work shift for form/serialization. */
+export type WorkShiftFormValue = ShiftFormValue;
+
+/** One employee's WorkDayRecord for a single day (form value). */
 export type EntryFormValue = {
   userId: string;
-  slots: SlotFormValue[];
+  shifts: ShiftFormValue[];
   note?: string;
 };
 
-/** One day's worth of schedule data. */
+/** Alias: one WorkDayRecord for one day, used in the week grid form. */
+export type WorkDayRecordFormValue = EntryFormValue;
+
+/** One day column in the week grid: date key + one WorkDayRecord per employee (by row). */
 export type DayFormValue = {
   dateStr: string; // YYYY-MM-DD (UTC)
-  entries: EntryFormValue[];
+  entries: EntryFormValue[]; // one entry per employee row = one WorkDayRecord per (date, employee)
 };
 
-/** The entire week form. */
+/** The entire week form: 7 days, each with records per employee. */
 export type WeekFormValues = {
   days: DayFormValue[];
 };
 
-/** Identifier for a slot in the grid: day index, entry index, slot index. */
-export type SlotAddress = {
+// ---------------------------------------------------------------------------
+// Server/client transfer (WorkDayRecord-based, no ScheduleDay)
+// ---------------------------------------------------------------------------
+
+/** WorkDayRecord shape as sent from server to client (serializable). */
+export type WorkDayRecordForClient = {
+  userId: string;
+  shifts: { startMinutes: number; endMinutes: number; note?: string | null }[];
+  note?: string | null;
+};
+
+/** Records for a single date: key = date YYYY-MM-DD, value = WorkDayRecords for that day. */
+export type WorkDayRecordsByDate = Record<string, WorkDayRecordForClient[]>;
+
+// ---------------------------------------------------------------------------
+// Save action payload (WorkDayRecord-based)
+// ---------------------------------------------------------------------------
+
+/** One WorkDayRecord to save (userId + shifts + note). */
+export type WorkDayRecordPayload = {
+  userId: string;
+  shifts: WorkShiftFormValue[];
+  note?: string | null;
+};
+
+/** One day's payload: date string + records to upsert for that date. */
+export type DaySchedulePayload = {
+  dateStr: string;
+  records: WorkDayRecordPayload[];
+};
+
+/** Full week payload for saveWeekScheduleAction. */
+export type WeekSchedulePayload = DaySchedulePayload[];
+
+/** Identifier for a shift in the grid: day index, entry index, shift index. */
+export type ShiftAddress = {
   dayIndex: number;
   entryIndex: number;
-  slotIndex: number;
+  shiftIndex: number;
 };
 
 /** Minutes since midnight to "h:mm a" (e.g. 540 -> "9:00 AM") */

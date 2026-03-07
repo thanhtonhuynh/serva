@@ -1,35 +1,35 @@
 "use client";
 
 import { createContext, useCallback, useContext, useState } from "react";
-import type { SlotFormValue } from "../_lib/types";
+import type { ShiftFormValue } from "../_lib/types";
 
 type ClipboardContextValue = {
-  copiedSlot: SlotFormValue | null;
-  copySlot: (slot: SlotFormValue) => void;
+  copiedShift: ShiftFormValue | null;
+  copyShift: (shift: ShiftFormValue) => void;
   clearClipboard: () => void;
 };
 
 const ClipboardContext = createContext<ClipboardContextValue>({
-  copiedSlot: null,
-  copySlot: () => {},
+  copiedShift: null,
+  copyShift: () => {},
   clearClipboard: () => {},
 });
 
 export function ClipboardProvider({ children }: { children: React.ReactNode }) {
-  const [copiedSlot, setCopiedSlot] = useState<SlotFormValue | null>(null);
+  const [copiedShift, setCopiedShift] = useState<ShiftFormValue | null>(null);
 
-  const copySlot = useCallback((slot: SlotFormValue) => {
-    setCopiedSlot({ ...slot });
+  const copyShift = useCallback((shift: ShiftFormValue) => {
+    setCopiedShift({ ...shift });
   }, []);
 
   const clearClipboard = useCallback(() => {
-    setCopiedSlot(null);
+    setCopiedShift(null);
   }, []);
 
   return (
-    <ClipboardContext value={{ copiedSlot, copySlot, clearClipboard }}>
+    <ClipboardContext.Provider value={{ copiedShift, copyShift, clearClipboard }}>
       {children}
-    </ClipboardContext>
+    </ClipboardContext.Provider>
   );
 }
 

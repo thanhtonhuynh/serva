@@ -6,20 +6,27 @@ import { useDraggable } from "@dnd-kit/react";
 import { Copy01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useClipboard } from "../_context/clipboard-context";
-import { minutesToTimeString, type SlotFormValue } from "../_lib/types";
-import { SlotEditor } from "./slot-editor";
+import { minutesToTimeString, type ShiftFormValue } from "../_lib/types";
+import { ShiftEditor } from "./shift-editor";
 
-type SlotChipProps = {
-  slot: SlotFormValue;
+type ShiftChipProps = {
+  shift: ShiftFormValue;
   dragId: string;
-  dragData: { dayIndex: number; entryIndex: number; slotIndex: number };
+  dragData: { dayIndex: number; entryIndex: number; shiftIndex: number };
   canManage: boolean;
-  onEdit: (slot: SlotFormValue) => void;
+  onEdit: (shift: ShiftFormValue) => void;
   onDelete: () => void;
 };
 
-export function SlotChip({ slot, dragId, dragData, canManage, onEdit, onDelete }: SlotChipProps) {
-  const { copySlot } = useClipboard();
+export function ShiftChip({
+  shift,
+  dragId,
+  dragData,
+  canManage,
+  onEdit,
+  onDelete,
+}: ShiftChipProps) {
+  const { copyShift } = useClipboard();
   const { ref, isDragging } = useDraggable({ id: dragId, data: dragData });
 
   return (
@@ -31,10 +38,10 @@ export function SlotChip({ slot, dragId, dragData, canManage, onEdit, onDelete }
     >
       <div className="min-w-0 flex-1">
         <span className="block leading-tight">
-          {minutesToTimeString(slot.startMinutes)} - {minutesToTimeString(slot.endMinutes)}
+          {minutesToTimeString(shift.startMinutes)} - {minutesToTimeString(shift.endMinutes)}
         </span>
-        {slot.note && (
-          <span className="text-muted-foreground block truncate leading-tight">{slot.note}</span>
+        {shift.note && (
+          <span className="text-muted-foreground block truncate leading-tight">{shift.note}</span>
         )}
       </div>
 
@@ -44,15 +51,15 @@ export function SlotChip({ slot, dragId, dragData, canManage, onEdit, onDelete }
             size="icon-xs"
             onClick={(e) => {
               e.stopPropagation();
-              copySlot(slot);
+              copyShift(shift);
             }}
           >
             <HugeiconsIcon icon={Copy01Icon} />
             <span className="sr-only">Copy</span>
           </Button>
 
-          <SlotEditor
-            initial={slot}
+          <ShiftEditor
+            initial={shift}
             onSave={onEdit}
             trigger={
               <Button size="icon-xs" onClick={(e) => e.stopPropagation()}>

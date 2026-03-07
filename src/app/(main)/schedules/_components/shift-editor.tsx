@@ -7,25 +7,25 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-import { minutesToTimeInput, timeToMinutes, type SlotFormValue } from "../_lib/types";
+import { minutesToTimeInput, timeToMinutes, type ShiftFormValue } from "../_lib/types";
 
-type SlotEditorProps = {
-  initial?: SlotFormValue;
-  onSave: (slot: SlotFormValue) => void;
+type ShiftEditorProps = {
+  initial?: ShiftFormValue;
+  onSave: (shift: ShiftFormValue) => void;
   trigger: React.ReactElement;
 };
 
-export function SlotEditor({ initial, onSave, trigger }: SlotEditorProps) {
-  const defaultSlot = initial ?? { startMinutes: 9 * 60, endMinutes: 17 * 60 };
+export function ShiftEditor({ initial, onSave, trigger }: ShiftEditorProps) {
+  const defaultShift = initial ?? { startMinutes: 9 * 60, endMinutes: 17 * 60 };
   const [open, setOpen] = useState(false);
-  const [startTime, setStartTime] = useState(minutesToTimeInput(defaultSlot.startMinutes));
-  const [endTime, setEndTime] = useState(minutesToTimeInput(defaultSlot.endMinutes));
+  const [startTime, setStartTime] = useState(minutesToTimeInput(defaultShift.startMinutes));
+  const [endTime, setEndTime] = useState(minutesToTimeInput(defaultShift.endMinutes));
   const [note, setNote] = useState(initial?.note ?? "");
 
   function resetFields() {
-    const slot = initial ?? { startMinutes: 9 * 60, endMinutes: 17 * 60 };
-    setStartTime(minutesToTimeInput(slot.startMinutes));
-    setEndTime(minutesToTimeInput(slot.endMinutes));
+    const shift = initial ?? { startMinutes: 9 * 60, endMinutes: 17 * 60 };
+    setStartTime(minutesToTimeInput(shift.startMinutes));
+    setEndTime(minutesToTimeInput(shift.endMinutes));
     setNote(initial?.note ?? "");
   }
 

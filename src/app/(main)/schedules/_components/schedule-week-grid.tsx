@@ -24,33 +24,26 @@ import {
   toUTCDateKey,
   type DayFormValue,
   type EntryFormValue,
-  type SlotFormValue,
+  type ShiftFormValue,
   type WeekFormValues,
+  type WorkDayRecordsByDate,
 } from "../_lib/types";
 import { saveWeekScheduleAction } from "../actions";
-import { ScheduleDayCell } from "./schedule-day-cell";
+import { EmployeeDayCell } from "./employee-day-cell";
 import { ScheduleToolbar } from "./schedule-toolbar";
 import { WeekNav } from "./week-nav";
 
 // ---------------------------------------------------------------------------
-// Server data shape (dates already serialized to ISO strings)
+// Props: WorkDayRecord-based (no ScheduleDay)
 // ---------------------------------------------------------------------------
-type ServerScheduleDay = {
-  id: string;
-  date: string;
-  entries: {
-    userId: string;
-    slots: { startMinutes: number; endMinutes: number; note?: string | null }[];
-    note?: string | null;
-  }[];
-};
 
 type ScheduleWeekGridProps = {
   weekStartUTC: Date;
   weekEndUTC: Date;
-  prevWeekParam: string; // YYYY-MM-DD
-  nextWeekParam: string; // YYYY-MM-DD
-  days: ServerScheduleDay[];
+  prevWeekParam: string;
+  nextWeekParam: string;
+  weekDates: string[]; // YYYY-MM-DD for each day of the week
+  recordsByDate: WorkDayRecordsByDate;
   employees: DisplayUser[];
   canManage: boolean;
 };
@@ -59,37 +52,29 @@ type ScheduleWeekGridProps = {
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Build the 7-day array with YYYY-MM-DD keys for a week starting at weekStart (UTC). */
+/** Build 7-day date keys for the week (derived from weekStartUTC if needed). */
 function buildWeekDates(weekStartUTC: Date): string[] {
-  return Array.from({ length: 7 }, (_, i) => {
-    const day = addDays(weekStartUTC, i);
-    return toUTCDateKey(day);
-  });
+  return Array.from({ length: 7 }, (_, i) => toUTCDateKey(addDays(weekStartUTC, i)));
 }
 
-/** Convert server data into initial form values aligned to the 7-day week. */
+/** Build initial form values from WorkDayRecords by date and employee list. */
 function buildInitialValues(
   weekDates: string[],
-  serverDays: ServerScheduleDay[],
+  recordsByDate: WorkDayRecordsByDate,
   employees: DisplayUser[],
 ): WeekFormValues {
-  const dayMap = new Map<string, ServerScheduleDay>();
-  for (const d of serverDays) {
-    dayMap.set(toUTCDateKey(d.date), d);
-  }
-
   const days: DayFormValue[] = weekDates.map((dateStr) => {
-    const serverDay = dayMap.get(dateStr);
+    const dayRecords = recordsByDate[dateStr] ?? [];
     const entries: EntryFormValue[] = employees.map((emp) => {
-      const serverEntry = serverDay?.entries.find((e) => e.userId === emp.id);
+      const record = dayRecords.find((r) => r.userId === emp.id);
       return {
         userId: emp.id,
-        slots: (serverEntry?.slots ?? []).map((s) => ({
+        shifts: (record?.shifts ?? []).map((s) => ({
           startMinutes: s.startMinutes,
           endMinutes: s.endMinutes,
           note: s.note ?? undefined,
         })),
-        note: serverEntry?.note ?? undefined,
+        note: record?.note ?? undefined,
       };
     });
     return { dateStr, entries };
@@ -116,14 +101,18 @@ export function ScheduleWeekGrid({
   weekEndUTC,
   prevWeekParam,
   nextWeekParam,
-  days: serverDays,
+  weekDates: weekDatesProp,
+  recordsByDate,
   employees,
   canManage,
 }: ScheduleWeekGridProps) {
-  const weekDates = useMemo(() => buildWeekDates(weekStartUTC), [weekStartUTC]);
+  const weekDates = useMemo(
+    () => (weekDatesProp.length === 7 ? weekDatesProp : buildWeekDates(weekStartUTC)),
+    [weekDatesProp, weekStartUTC],
+  );
   const initialValues = useMemo(
-    () => buildInitialValues(weekDates, serverDays, employees),
-    [weekDates, serverDays, employees],
+    () => buildInitialValues(weekDates, recordsByDate, employees),
+    [weekDates, recordsByDate, employees],
   );
 
   const form = useForm<WeekFormValues>({
@@ -149,10 +138,10 @@ export function ScheduleWeekGrid({
 
   // ------ Mutators (all local, no server call) ------
 
-  const addSlot = useCallback(
-    (dayIndex: number, entryIndex: number, slot: SlotFormValue) => {
-      const slots = form.getValues(`days.${dayIndex}.entries.${entryIndex}.slots`);
-      form.setValue(`days.${dayIndex}.entries.${entryIndex}.slots`, [...slots, slot], {
+  const addShift = useCallback(
+    (dayIndex: number, entryIndex: number, shift: ShiftFormValue) => {
+      const shifts = form.getValues(`days.${dayIndex}.entries.${entryIndex}.shifts`);
+      form.setValue(`days.${dayIndex}.entries.${entryIndex}.shifts`, [...shifts, shift], {
         shouldDirty: true,
       });
       snapshot();
@@ -160,9 +149,9 @@ export function ScheduleWeekGrid({
     [form, snapshot],
   );
 
-  const editSlot = useCallback(
-    (dayIndex: number, entryIndex: number, slotIndex: number, slot: SlotFormValue) => {
-      form.setValue(`days.${dayIndex}.entries.${entryIndex}.slots.${slotIndex}`, slot, {
+  const editShift = useCallback(
+    (dayIndex: number, entryIndex: number, shiftIndex: number, shift: ShiftFormValue) => {
+      form.setValue(`days.${dayIndex}.entries.${entryIndex}.shifts.${shiftIndex}`, shift, {
         shouldDirty: true,
       });
       snapshot();
@@ -170,12 +159,12 @@ export function ScheduleWeekGrid({
     [form, snapshot],
   );
 
-  const deleteSlot = useCallback(
-    (dayIndex: number, entryIndex: number, slotIndex: number) => {
-      const slots = form.getValues(`days.${dayIndex}.entries.${entryIndex}.slots`);
+  const deleteShift = useCallback(
+    (dayIndex: number, entryIndex: number, shiftIndex: number) => {
+      const shifts = form.getValues(`days.${dayIndex}.entries.${entryIndex}.shifts`);
       form.setValue(
-        `days.${dayIndex}.entries.${entryIndex}.slots`,
-        slots.filter((_, i) => i !== slotIndex),
+        `days.${dayIndex}.entries.${entryIndex}.shifts`,
+        shifts.filter((_, i) => i !== shiftIndex),
         { shouldDirty: true },
       );
       snapshot();
@@ -211,7 +200,7 @@ export function ScheduleWeekGrid({
         | {
             dayIndex: number;
             entryIndex: number;
-            slotIndex: number;
+            shiftIndex: number;
           }
         | undefined;
       if (!sourceData) return;
@@ -226,11 +215,11 @@ export function ScheduleWeekGrid({
       // Skip if dropping on same cell
       if (sourceData.dayIndex === targetDayIdx && sourceData.entryIndex === targetEntryIdx) return;
 
-      const srcSlots = form.getValues(
-        `days.${sourceData.dayIndex}.entries.${sourceData.entryIndex}.slots`,
+      const srcShifts = form.getValues(
+        `days.${sourceData.dayIndex}.entries.${sourceData.entryIndex}.shifts`,
       );
-      const slot = srcSlots[sourceData.slotIndex];
-      if (!slot) return;
+      const shift = srcShifts[sourceData.shiftIndex];
+      if (!shift) return;
 
       // Alt/Option key held during the drop = copy, otherwise move
       const isCopy =
@@ -239,10 +228,10 @@ export function ScheduleWeekGrid({
           : ((event.nativeEvent as MouseEvent | undefined)?.altKey ?? false);
 
       // Add to target
-      const targetSlots = form.getValues(`days.${targetDayIdx}.entries.${targetEntryIdx}.slots`);
+      const targetShifts = form.getValues(`days.${targetDayIdx}.entries.${targetEntryIdx}.shifts`);
       form.setValue(
-        `days.${targetDayIdx}.entries.${targetEntryIdx}.slots`,
-        [...targetSlots, { ...slot }],
+        `days.${targetDayIdx}.entries.${targetEntryIdx}.shifts`,
+        [...targetShifts, { ...shift }],
         {
           shouldDirty: true,
         },
@@ -251,8 +240,8 @@ export function ScheduleWeekGrid({
       // Remove from source (unless copy)
       if (!isCopy) {
         form.setValue(
-          `days.${sourceData.dayIndex}.entries.${sourceData.entryIndex}.slots`,
-          srcSlots.filter((_, i) => i !== sourceData.slotIndex),
+          `days.${sourceData.dayIndex}.entries.${sourceData.entryIndex}.shifts`,
+          srcShifts.filter((_, i) => i !== sourceData.shiftIndex),
           { shouldDirty: true },
         );
       }
@@ -267,14 +256,13 @@ export function ScheduleWeekGrid({
   const handleSave = useCallback(() => {
     const values = form.getValues();
     startSaveTransition(async () => {
-      // Send all days; empty days (no entries with slots/notes) are sent so the server can remove them from the DB
       const payload = values.days.map((day) => ({
         dateStr: day.dateStr,
-        entries: day.entries
-          .filter((e) => e.slots.length > 0 || (e.note && e.note.trim()))
+        records: day.entries
+          .filter((e) => e.shifts.length > 0 || (e.note && e.note.trim()))
           .map((e) => ({
             userId: e.userId,
-            slots: e.slots.map((s) => ({
+            shifts: e.shifts.map((s) => ({
               startMinutes: s.startMinutes,
               endMinutes: s.endMinutes,
               note: s.note || undefined,
@@ -350,22 +338,22 @@ export function ScheduleWeekGrid({
                       </div>
                     </TableCell>
                     {weekDates.map((_, dayIdx) => {
-                      const entry = watchedDays?.[dayIdx]?.entries?.[empIdx] ?? {
+                      const record = watchedDays?.[dayIdx]?.entries?.[empIdx] ?? {
                         userId: emp.id,
-                        slots: [],
+                        shifts: [],
                       };
                       const dropId = `drop-${dayIdx}-${empIdx}`;
                       return (
                         <TableCell key={dayIdx} className="p-1 text-center">
-                          <ScheduleDayCell
+                          <EmployeeDayCell
                             dayIndex={dayIdx}
                             entryIndex={empIdx}
-                            entry={entry}
+                            record={record}
                             canManage={canManage}
                             dropId={dropId}
-                            onEditSlot={(si, s) => editSlot(dayIdx, empIdx, si, s)}
-                            onDeleteSlot={(si) => deleteSlot(dayIdx, empIdx, si)}
-                            onAddSlot={(s) => addSlot(dayIdx, empIdx, s)}
+                            onEditShift={(si, s) => editShift(dayIdx, empIdx, si, s)}
+                            onDeleteShift={(si) => deleteShift(dayIdx, empIdx, si)}
+                            onAddShift={(s) => addShift(dayIdx, empIdx, s)}
                             onNotesChange={(n) => updateNotes(dayIdx, empIdx, n)}
                           />
                         </TableCell>
