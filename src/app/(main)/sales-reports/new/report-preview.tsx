@@ -50,7 +50,7 @@ export function ReportPreview({
     cashTips: formValues.cashTips * 100,
     extraTips: formValues.extraTips * 100,
     startCash,
-    employees: formValues.employees,
+    // employees: [],
     reporterName: reporterName ?? user?.name ?? "Unknown user",
     reporterImage: reporterImage ?? user?.image ?? null,
     reporterUsername: reporterUsername ?? user?.username ?? "unknown",

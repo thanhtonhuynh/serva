@@ -2,42 +2,33 @@ import { PLATFORM_ID_TO_LEGACY_FIELD } from "@/constants/platforms";
 import prisma from "@/lib/prisma";
 import { toCents } from "@/lib/utils";
 import { SaleReportInputs } from "@/lib/validations/report";
-import { DayRange, SaleEmployee, SaleReportCardRawData } from "@/types";
+import { DayRange, SaleReportCardRawData } from "@/types";
 import { Prisma } from "@prisma/client";
 import { cache } from "react";
 import "server-only";
 import { getEmployeesByIds } from "./employee";
 import { getStartCash } from "./store";
+import { getWorkDayRecordsByDate, recomputeTipsForDate } from "./work-day-record";
 
 // Get recent reports submitted by a user
-export const getRecentReportsByUser = cache(
-  async (userId: string, limit: number = 5) => {
-    const reports = await prisma.saleReport.findMany({
-      where: { userId },
-      orderBy: { date: "desc" },
-      take: limit,
-      select: {
-        id: true,
-        date: true,
-        totalSales: true,
-      },
-    });
+export const getRecentReportsByUser = cache(async (userId: string, limit: number = 5) => {
+  const reports = await prisma.saleReport.findMany({
+    where: { userId },
+    orderBy: { date: "desc" },
+    take: limit,
+    select: {
+      id: true,
+      date: true,
+      totalSales: true,
+    },
+  });
 
-    return reports;
-  },
-);
+  return reports;
+});
 
 // Upsert a report
 export async function upsertReport(data: SaleReportInputs, userId: string) {
-  const {
-    cardTips,
-    cashTips,
-    extraTips,
-    employees,
-    date,
-    platformSales,
-    ...raw
-  } = data;
+  const { cardTips, cashTips, extraTips, date, platformSales, ...raw } = data;
 
   // Convert platform sales to cents and build the new platformSales array
   const platformSalesInCents = platformSales.map((ps) => ({
@@ -55,8 +46,7 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
   for (const ps of platformSalesInCents) {
     const legacyField = PLATFORM_ID_TO_LEGACY_FIELD[ps.platformId];
     if (legacyField && legacyField in legacyPlatformData) {
-      legacyPlatformData[legacyField as keyof typeof legacyPlatformData] =
-        ps.amount;
+      legacyPlatformData[legacyField as keyof typeof legacyPlatformData] = ps.amount;
     }
   }
 
@@ -73,18 +63,6 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
     extraTips: toCents(extraTips),
   };
 
-  // Calculate tips per hour and distribute tips among employees
-  const totalTips = cardTips + cashTips + extraTips;
-  const totalHours = employees.reduce((acc, emp) => acc + emp.hour, 0);
-  const tipsPerHour = totalTips / totalHours;
-
-  const shifts = employees.map((emp) => ({
-    userId: emp.userId,
-    hours: emp.hour,
-    tips: toCents(tipsPerHour * emp.hour),
-  }));
-
-  // Get starting cash
   const startCash = await getStartCash();
 
   const existingReport = await prisma.saleReport.findUnique({
@@ -101,7 +79,7 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
           startCash,
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
-          shifts: { set: shifts },
+          shifts: { set: [] },
           auditLogs: [
             ...auditLogs,
             {
@@ -118,12 +96,17 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
           startCash,
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
-          shifts,
+          shifts: [],
           auditLogs: [],
         },
       });
 
-  return report;
+  await recomputeTipsForDate(date);
+
+  const workDayRecords = await getWorkDayRecordsByDate(date);
+  const noWorkDayRecordsWarning = workDayRecords.length === 0;
+
+  return { report, noWorkDayRecordsWarning };
 }
 
 // Check if a report exists by id
@@ -138,21 +121,20 @@ export const reportExists = cache(async (id: string) => {
 
 // Get report raw data by unique input
 export const getReportRaw = cache(
-  async (
-    where: Prisma.SaleReportWhereUniqueInput,
-  ): Promise<SaleReportCardRawData | null> => {
+  async (where: Prisma.SaleReportWhereUniqueInput): Promise<SaleReportCardRawData | null> => {
     const report = await prisma.saleReport.findUnique({
       where,
       include: {
         reporter: { select: { name: true, image: true, username: true } },
       },
+      omit: { shifts: true },
     });
 
     if (!report) return null;
 
     // Collect userIds from shifts and edit logs
     const userIds = [
-      ...report.shifts.map((shift) => shift.userId),
+      // ...report.shifts.map((shift) => shift.userId),
       ...(report.auditLogs ?? []).map((log) => log.userId),
     ];
 
@@ -168,16 +150,16 @@ export const getReportRaw = cache(
     );
 
     // Map shifts to SaleEmployee objects with user info
-    const employees: SaleEmployee[] = report.shifts.map((shift) => {
-      const user = userMap.get(shift.userId);
-      return {
-        userId: shift.userId,
-        hour: shift.hours,
-        name: user?.name,
-        image: user?.image,
-        username: user?.username,
-      };
-    });
+    // const employees: SaleEmployee[] = report.shifts.map((shift) => {
+    //   const user = userMap.get(shift.userId);
+    //   return {
+    //     userId: shift.userId,
+    //     hour: shift.hours,
+    //     name: user?.name,
+    //     image: user?.image,
+    //     username: user?.username,
+    //   };
+    // });
 
     const expandedAuditLogs =
       report.auditLogs?.map((log) => {
@@ -196,7 +178,7 @@ export const getReportRaw = cache(
       reporterName: report.reporter.name,
       reporterImage: report.reporter.image,
       reporterUsername: report.reporter.username,
-      employees,
+      // employees,
       auditLogs: expandedAuditLogs,
     };
   },
@@ -263,8 +245,7 @@ export const getReportsForYear = cache(async (year: number) => {
 
 // Get reports for multiple years (for analytics dashboard)
 export const getReportsForYears = cache(async (years: number[]) => {
-  const reportsByYear: Record<number, { date: Date; totalSales: number }[]> =
-    {};
+  const reportsByYear: Record<number, { date: Date; totalSales: number }[]> = {};
 
   await Promise.all(
     years.map(async (year) => {

@@ -3,7 +3,6 @@ import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { PERMISSIONS } from "@/constants/permissions";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
-import { getEmployees } from "@/data-access/employee";
 import { getReportRaw } from "@/data-access/report";
 import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -26,11 +25,7 @@ export default async function Page(props: { params: Params }) {
   const report = await getReportRaw({ id: params.id });
   if (!report) notFound();
 
-  const [usersPromise, startCashPromise, activePlatformIds] = [
-    getEmployees(),
-    getStartCash(),
-    getActivePlatforms(),
-  ];
+  const [startCashPromise, activePlatformIds] = [getStartCash(), getActivePlatforms()];
 
   const activePlatforms = (await activePlatformIds)
     .map((id) => getPlatformById(id))
@@ -55,7 +50,6 @@ export default async function Page(props: { params: Params }) {
     cashTips: report.cashTips / 100,
     extraTips: report.extraTips / 100,
     cashInTill: report.cashInTill / 100,
-    employees: report.employees,
   };
 
   return (
@@ -70,7 +64,6 @@ export default async function Page(props: { params: Params }) {
       <Container>
         <section className="mx-auto w-full max-w-5xl">
           <SaleReportPortal
-            usersPromise={usersPromise}
             startCashPromise={startCashPromise}
             activePlatforms={activePlatforms}
             initialValues={initialValues}

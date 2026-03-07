@@ -48,9 +48,13 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
 
     const parsedData = SaleReportSchema.parse(data);
 
-    const report = await upsertReport(parsedData, user.id);
+    const result = await upsertReport(parsedData, user.id);
 
-    return { reportDate: report.date, error: null };
+    return {
+      reportDate: result.report.date,
+      error: null,
+      noWorkDayRecordsWarning: result.noWorkDayRecordsWarning,
+    };
   } catch (error) {
     console.error(error);
     return { error: "Save report failed. Please try again." };

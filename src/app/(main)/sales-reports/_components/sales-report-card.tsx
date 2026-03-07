@@ -234,27 +234,27 @@ export function SaleReportCard({ data }: Props) {
           </div>
 
           {/* Total Hours */}
-          <div className="flex items-center gap-3 border-t pt-3 sm:border-t-0 sm:pt-0">
+          {/* <div className="flex items-center gap-3 border-t pt-3 sm:border-t-0 sm:pt-0">
             <DecoIcon icon={ICONS.TOTAL_HOURS} showBackground />
             <div>
               <Typography variant="p-xs">Total Hours</Typography>
               <Typography variant="caption">{data.totalHours} hrs</Typography>
             </div>
-          </div>
+          </div> */}
 
           {/* Per Hour */}
-          <div className="flex items-center gap-3 border-t pt-3 sm:border-t-0 sm:pt-0">
+          {/* <div className="flex items-center gap-3 border-t pt-3 sm:border-t-0 sm:pt-0">
             <DecoIcon icon={ICONS.PER_HOUR} showBackground />
             <div>
               <Typography variant="p-xs">Per Hour</Typography>
               <Typography variant="caption">{formatMoney(data.tipsPerHour)}</Typography>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
       {/* Employees Section */}
-      <div className="bg-accent/30 space-y-3 rounded-xl border p-3">
+      {/* <div className="bg-accent/30 space-y-3 rounded-xl border p-3">
         <Typography variant="h3">Employees</Typography>
 
         <div className="grid gap-3 sm:grid-cols-2 sm:gap-x-6">
@@ -278,7 +278,7 @@ export function SaleReportCard({ data }: Props) {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

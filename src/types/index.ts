@@ -85,7 +85,7 @@ export interface SaleReportCardRawData {
   // onlineSales: number; // Actually Ritual sales
   // New flexible platform sales
   platformSales: PlatformSaleData[];
-  employees: SaleEmployee[];
+  // employees: SaleEmployee[];
   auditLogs?: ReportAuditLog[];
 }
 
@@ -97,8 +97,8 @@ export interface SaleReportCardProcessedData extends SaleReportCardRawData {
   totalTips: number;
   cashDifference: number;
   cashOut: number;
-  totalHours: number;
-  tipsPerHour: number;
+  // totalHours: number;
+  // tipsPerHour: number;
 }
 
 export type Weekday =

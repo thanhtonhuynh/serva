@@ -8,7 +8,6 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform } from "@/constants/platforms";
 import { useSession } from "@/contexts/SessionProvider";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
-import { DisplayUser } from "@/types";
 import { hasPermission } from "@/utils/access-control";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +21,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { saveReportAction } from "./actions";
 import { CashCalculatorForm } from "./cash-calculator-form";
-import { EmployeeInput } from "./employee-input";
 import { ReportPreview } from "./report-preview";
 import { SalesDetailForm } from "./sales-detail-form";
 
@@ -40,16 +38,14 @@ const steps = [
       "extraTips",
     ],
   },
-  { id: "Step 1", name: "Employees", fields: ["employees"] },
-  { id: "Step 2", name: "Count Cash", fields: ["cashInTill"] },
-  { id: "Step 3", name: "Review", fields: [] },
-  { id: "Step 4", name: "Submit", fields: [] },
+  { id: "Step 1", name: "Count Cash", fields: ["cashInTill"] },
+  { id: "Step 2", name: "Review", fields: [] },
+  { id: "Step 3", name: "Submit", fields: [] },
 ];
 
 type FieldName = keyof SaleReportInputs;
 
 type Props = {
-  usersPromise: Promise<DisplayUser[]>;
   startCashPromise: Promise<number>;
   activePlatforms: Platform[];
   initialValues?: SaleReportInputs;
@@ -60,7 +56,6 @@ type Props = {
 };
 
 export function SaleReportPortal({
-  usersPromise,
   startCashPromise,
   activePlatforms,
   initialValues,
@@ -85,7 +80,6 @@ export function SaleReportPortal({
       cashTips: initialValues?.cashTips || 0.0,
       extraTips: initialValues?.extraTips || 0.0,
       cashInTill: initialValues?.cashInTill || 0.0,
-      employees: initialValues?.employees || [],
     },
     reValidateMode: "onBlur",
   });
@@ -115,9 +109,14 @@ export function SaleReportPortal({
   const { user } = useSession();
 
   async function processForm(data: SaleReportInputs) {
-    const { error, reportDate } = await saveReportAction(data, mode);
+    const { error, reportDate, noWorkDayRecordsWarning } = await saveReportAction(data, mode);
     if (error || !reportDate) toast.error(error);
     else {
+      if (noWorkDayRecordsWarning) {
+        toast.warning(
+          "Report saved. No schedule found for this date — enter the schedule to distribute tips.",
+        );
+      }
       if (mode === "create") {
         router.push("/");
       } else {
@@ -153,11 +152,11 @@ export function SaleReportPortal({
 
   function prevStep() {
     if (currentStep > 0) {
-      if (currentStep === steps.length - 1) {
-        setPreviousStep(currentStep);
-        setCurrentStep((step) => step - 2);
-        return;
-      }
+      // if (currentStep === steps.length - 1) {
+      //   setPreviousStep(currentStep);
+      //   setCurrentStep((step) => step - 1);
+      //   return;
+      // }
       setPreviousStep(currentStep);
       setCurrentStep((step) => step - 1);
     }
@@ -193,21 +192,12 @@ export function SaleReportPortal({
             Sale Details
           </Typography>
           <Form {...saleReportForm}>
-            <SalesDetailForm usersPromise={usersPromise} />
+            <SalesDetailForm />
           </Form>
         </MotionContainer>
       )}
 
       {currentStep === 1 && (
-        <MotionContainer delta={delta}>
-          <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
-            Employees
-          </Typography>
-          <EmployeeInput form={saleReportForm} usersPromise={usersPromise} />
-        </MotionContainer>
-      )}
-
-      {currentStep === 2 && (
         <MotionContainer delta={delta}>
           <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Count Cash
@@ -216,7 +206,7 @@ export function SaleReportPortal({
         </MotionContainer>
       )}
 
-      {currentStep === 3 && (
+      {currentStep === 2 && (
         <MotionContainer delta={delta}>
           <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Review

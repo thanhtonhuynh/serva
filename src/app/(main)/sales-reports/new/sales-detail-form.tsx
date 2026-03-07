@@ -4,15 +4,9 @@ import { Typography } from "@/components/shared";
 import { InputFieldV2 } from "@/components/ui/form/input-field-v2";
 import { getPlatformById } from "@/constants/platforms";
 import { SaleReportInputs } from "@/lib/validations/report";
-import { DisplayUser } from "@/types";
-import { use } from "react";
 import { useFormContext } from "react-hook-form";
 
-type Props = {
-  usersPromise: Promise<DisplayUser[]>;
-};
-export function SalesDetailForm({ usersPromise }: Props) {
-  const users = use(usersPromise);
+export function SalesDetailForm() {
   const form = useFormContext<SaleReportInputs>();
 
   return (

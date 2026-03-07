@@ -11,10 +11,7 @@ export function sumPlatformSales(platformSales: PlatformSaleData[]): number {
 }
 
 /** Get amount for a specific platform from the platformSales array */
-export function getPlatformAmount(
-  platformSales: PlatformSaleData[],
-  platformId: string,
-): number {
+export function getPlatformAmount(platformSales: PlatformSaleData[], platformId: string): number {
   return platformSales.find((ps) => ps.platformId === platformId)?.amount ?? 0;
 }
 
@@ -29,24 +26,18 @@ export function processReportDataForView(
 
   const actualCash = cashSales - rawData.expenses;
 
-  const totalTips =
-    Number(rawData.cardTips) +
-    Number(rawData.cashTips) +
-    Number(rawData.extraTips);
+  const totalTips = Number(rawData.cardTips) + Number(rawData.cashTips) + Number(rawData.extraTips);
 
   const cashDifference = rawData.cashInTill - rawData.startCash - actualCash;
 
-  const cashOut =
-    Number(rawData.cashInTill) -
-    Number(rawData.startCash) +
-    Number(rawData.cashTips);
+  const cashOut = Number(rawData.cashInTill) - Number(rawData.startCash) + Number(rawData.cashTips);
 
-  const totalHours = rawData.employees.reduce(
-    (acc, employee) => acc + employee.hour,
-    0,
-  );
+  // const totalHours = rawData.employees.reduce(
+  //   (acc, employee) => acc + employee.hour,
+  //   0,
+  // );
 
-  const tipsPerHour = totalTips / totalHours;
+  // const tipsPerHour = totalTips / totalHours;
 
   const processedData = {
     ...rawData,
@@ -57,8 +48,8 @@ export function processReportDataForView(
     totalTips,
     cashDifference,
     cashOut,
-    totalHours,
-    tipsPerHour,
+    // totalHours,
+    // tipsPerHour,
   };
 
   return processedData;
@@ -96,8 +87,7 @@ export function summarizeReports(reports: CashFlowRawData[]): ReportSummary {
       acc.onlineSales += reportOnline;
 
       for (const ps of platformSales) {
-        acc.platformTotals[ps.platformId] =
-          (acc.platformTotals[ps.platformId] ?? 0) + ps.amount;
+        acc.platformTotals[ps.platformId] = (acc.platformTotals[ps.platformId] ?? 0) + ps.amount;
       }
 
       return acc;
