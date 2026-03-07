@@ -36,7 +36,6 @@ model User {
 
   saleReports    SaleReport[]
   workDayRecords WorkDayRecord[]
-  // employeeShifts EmployeeShift[]
 }
 
 model Session {
@@ -113,8 +112,6 @@ model SaleReport {
   userId   String @db.ObjectId
   reporter User   @relation(fields: [userId], references: [id], onDelete: Restrict)
 
-  // employeeShifts EmployeeShift[]
-
   shifts    Shift[]
   auditLogs ReportAudit[]
 }
@@ -135,23 +132,6 @@ type ReportAudit {
   timestamp DateTime
 }
 
-// model EmployeeShift {
-//   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-//   date         DateTime
-//   tips         Int
-//   hours        Float
-//   userId       String   @db.ObjectId
-//   saleReportId String   @db.ObjectId
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   user       User       @relation(fields: [userId], references: [id], onDelete: Restrict)
-//   saleReport SaleReport @relation(fields: [saleReportId], references: [id], onDelete: Cascade)
-
-//   @@unique([userId, date])
-// }
-
 model Expense {
   id      String         @id @default(auto()) @map("_id") @db.ObjectId
   date    DateTime       @unique
@@ -162,30 +142,6 @@ type ExpenseEntry {
   amount Int
   reason String
 }
-
-// ==========================================
-// Scheduling (one document per day)
-// ==========================================
-
-// type ScheduleSlot {
-//   startMinutes Int
-//   endMinutes   Int
-//   note         String?
-// }
-
-// type DayEntry {
-//   userId String         @db.ObjectId
-//   slots  ScheduleSlot[]
-//   note   String?
-// }
-
-// model ScheduleDay {
-//   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-//   date      DateTime   @unique // unique implies index; efficient for date and date-range queries
-//   entries   DayEntry[]
-//   createdAt DateTime   @default(now())
-//   updatedAt DateTime   @updatedAt
-// }
 
 // ==========================================
 // WorkDayRecord (one document per employee per day)
