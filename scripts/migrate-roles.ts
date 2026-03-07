@@ -2,8 +2,7 @@
  * Migration script to convert existing users from legacy string-based role
  * to the new Role relation system.
  *
- * Run with: npx ts-node prisma/migrate-roles.ts
- * Or: npx tsx prisma/migrate-roles.ts
+ * Run with: npx tsx scripts/migrate-roles.ts
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -28,9 +27,7 @@ async function migrateUserRoles() {
   });
 
   if (existingRoles.length === 0) {
-    console.error(
-      "Error: No roles found in database. Please run the seed script first:",
-    );
+    console.error("Error: No roles found in database. Please run the seed script first:");
     console.error("  npx prisma db seed\n");
     process.exit(1);
   }
@@ -57,12 +54,19 @@ async function migrateUserRoles() {
     },
   });
 
-  const users = (usersWithLegacyRole as { cursor: { firstBatch: Array<{
-    _id: { $oid: string };
-    name: string;
-    email: string;
-    role: string;
-  }> } }).cursor?.firstBatch || [];
+  const users =
+    (
+      usersWithLegacyRole as {
+        cursor: {
+          firstBatch: Array<{
+            _id: { $oid: string };
+            name: string;
+            email: string;
+            role: string;
+          }>;
+        };
+      }
+    ).cursor?.firstBatch || [];
 
   if (users.length === 0) {
     console.log(
@@ -76,15 +80,11 @@ async function migrateUserRoles() {
     });
 
     if (usersWithoutRole.length > 0) {
-      console.log(
-        `Found ${usersWithoutRole.length} user(s) without a role assigned:`,
-      );
+      console.log(`Found ${usersWithoutRole.length} user(s) without a role assigned:`);
       for (const user of usersWithoutRole) {
         console.log(`  - ${user.name} (${user.email})`);
       }
-      console.log(
-        "\nYou may want to manually assign roles to these users.\n",
-      );
+      console.log("\nYou may want to manually assign roles to these users.\n");
     }
 
     return;
@@ -106,9 +106,7 @@ async function migrateUserRoles() {
     const roleId = roleNameToId.get(mappedRoleName?.toLowerCase());
 
     if (!roleId) {
-      console.log(
-        `  ⚠ Skipping ${userName} (${userEmail}): Unknown role "${legacyRole}"`,
-      );
+      console.log(`  ⚠ Skipping ${userName} (${userEmail}): Unknown role "${legacyRole}"`);
       skippedCount++;
       continue;
     }
@@ -118,15 +116,10 @@ async function migrateUserRoles() {
         where: { id: userId },
         data: { roleId },
       });
-      console.log(
-        `  ✓ Migrated ${userName} (${userEmail}): "${legacyRole}" → "${mappedRoleName}"`,
-      );
+      console.log(`  ✓ Migrated ${userName} (${userEmail}): "${legacyRole}" → "${mappedRoleName}"`);
       migratedCount++;
     } catch (error) {
-      console.error(
-        `  ✗ Failed to migrate ${userName} (${userEmail}):`,
-        error,
-      );
+      console.error(`  ✗ Failed to migrate ${userName} (${userEmail}):`, error);
       skippedCount++;
     }
   }
@@ -134,25 +127,21 @@ async function migrateUserRoles() {
   console.log(`\nMigration complete!`);
   console.log(`  Migrated: ${migratedCount}`);
   console.log(`  Skipped: ${skippedCount}`);
+}
 
-  // Optionally: Remove the legacy 'role' field from all users
-  console.log("\nRemoving legacy 'role' field from migrated users...");
+async function removeLegacyRoleField() {
+  console.log("Removing legacy 'role' field from users...");
   await prisma.$runCommandRaw({
     update: "User",
-    updates: [
-      {
-        q: { role: { $exists: true } },
-        u: { $unset: { role: "" } },
-        multi: true,
-      },
-    ],
+    updates: [{ q: { role: { $exists: true } }, u: { $unset: { role: "" } }, multi: true }],
   });
   console.log("Done!\n");
 }
 
 async function main() {
   try {
-    await migrateUserRoles();
+    // await migrateUserRoles();
+    await removeLegacyRoleField();
   } catch (error) {
     console.error("Migration failed:", error);
     process.exit(1);

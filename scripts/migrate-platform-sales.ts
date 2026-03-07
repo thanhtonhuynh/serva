@@ -33,12 +33,7 @@ const LEGACY_FIELD_MAP: Record<string, string> = {
   onlineSales: "ritual",
 };
 
-const DEFAULT_ACTIVE_PLATFORMS = [
-  "uber_eats",
-  "doordash",
-  "skip_the_dishes",
-  "ritual",
-];
+const DEFAULT_ACTIVE_PLATFORMS = ["uber_eats", "doordash", "skip_the_dishes", "ritual"];
 
 async function migrateSaleReports() {
   console.log("📦 Fetching all SaleReport documents...");
@@ -83,9 +78,7 @@ async function migrateSaleReports() {
       );
       if (platformSales.length > 0) {
         for (const ps of platformSales) {
-          console.log(
-            `     - ${ps.platformId}: ${(ps.amount / 100).toFixed(2)}`,
-          );
+          console.log(`     - ${ps.platformId}: ${(ps.amount / 100).toFixed(2)}`);
         }
       }
     } else {
@@ -131,17 +124,15 @@ async function migrateStoreSettings() {
       where: { id: settings.id },
       data: { activePlatforms: DEFAULT_ACTIVE_PLATFORMS },
     });
-    console.log(
-      `   ✅ Set activePlatforms to: [${DEFAULT_ACTIVE_PLATFORMS.join(", ")}]`,
-    );
+    console.log(`   ✅ Set activePlatforms to: [${DEFAULT_ACTIVE_PLATFORMS.join(", ")}]`);
   }
 }
 
 async function main() {
   console.log(DRY_RUN ? "🔍 DRY RUN MODE (no writes)\n" : "🚀 LIVE MODE\n");
 
-  await migrateSaleReports();
-  await migrateStoreSettings();
+  // await migrateSaleReports();
+  // await migrateStoreSettings();
 
   console.log(
     DRY_RUN

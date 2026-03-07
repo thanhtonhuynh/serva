@@ -9,7 +9,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const userId = "6710e13d0bd882c0a0f6cf23";
+const userId = "-";
 
 async function addAdminUser() {
   console.log("Starting admin user addition...\n");
@@ -19,7 +19,7 @@ async function addAdminUser() {
     where: { id: userId },
     select: { id: true, name: true, adminUser: true },
   });
-  
+
   if (!user) {
     console.error(`User ${userId} not found`);
     process.exit(1);
@@ -40,7 +40,7 @@ async function addAdminUser() {
 
 async function main() {
   try {
-    await addAdminUser();
+    // await addAdminUser();
   } catch (error) {
     console.error("Failed to add admin user:", error);
     process.exit(1);

@@ -1,3 +1,10 @@
+/**
+ * Seed roles and permissions
+ *
+ * Usage:
+ *   npx tsx scripts/seed-roles-and-permissions.ts
+ */
+
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -167,6 +174,12 @@ const DEFAULT_ROLES = [
     description: "Kitchen staff with basic access",
     editable: true,
     permissions: ["team.view", "schedule.view"],
+  },
+  {
+    name: "Team Member",
+    description: "Default role for new members, no permissions",
+    editable: true,
+    permissions: [],
   },
 ] as const;
 

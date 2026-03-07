@@ -1,3 +1,9 @@
+/**
+ * Migration script: Convert SaleReport.shifts to WorkDayRecord
+ *
+ * Usage: npx tsx scripts/migrate-to-work-day-records.ts
+ */
+
 import { PrismaClient, Shift } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -27,6 +33,9 @@ async function migrateFromSaleReportShifts() {
   });
 
   console.log(`Found ${reports.length} sale reports with shifts.`);
+
+  const totalShifts = reports.reduce((sum, r) => sum + (r.shifts as Shift[]).length, 0);
+  console.log(`Total shifts in reports (before migration): ${totalShifts}`);
 
   let createdCount = 0;
   let updatedCount = 0;

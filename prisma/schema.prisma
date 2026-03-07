@@ -34,7 +34,7 @@ model User {
   emailVerificationRequest EmailVerificationRequest?
   passwordResetTokens      PasswordResetToken[]
 
-  saleReports SaleReport[]
+  saleReports    SaleReport[]
   workDayRecords WorkDayRecord[]
   // employeeShifts EmployeeShift[]
 }
@@ -167,25 +167,25 @@ type ExpenseEntry {
 // Scheduling (one document per day)
 // ==========================================
 
-type ScheduleSlot {
-  startMinutes Int
-  endMinutes   Int
-  note         String?
-}
+// type ScheduleSlot {
+//   startMinutes Int
+//   endMinutes   Int
+//   note         String?
+// }
 
-type DayEntry {
-  userId String         @db.ObjectId
-  slots  ScheduleSlot[]
-  note   String?
-}
+// type DayEntry {
+//   userId String         @db.ObjectId
+//   slots  ScheduleSlot[]
+//   note   String?
+// }
 
-model ScheduleDay {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  date      DateTime   @unique // unique implies index; efficient for date and date-range queries
-  entries   DayEntry[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-}
+// model ScheduleDay {
+//   id        String     @id @default(auto()) @map("_id") @db.ObjectId
+//   date      DateTime   @unique // unique implies index; efficient for date and date-range queries
+//   entries   DayEntry[]
+//   createdAt DateTime   @default(now())
+//   updatedAt DateTime   @updatedAt
+// }
 
 // ==========================================
 // WorkDayRecord (one document per employee per day)
