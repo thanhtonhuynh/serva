@@ -13,13 +13,19 @@ model User {
   username          String  @unique
   email             String  @unique
   emailVerified     Boolean @default(false)
-  role              String  @default("unassigned role")
   accountStatus     String  @default("inactive")
   passwordHash      String?
   image             String?
   hiddenFromReports Boolean @default(false)
   // totpKey          Bytes?
   // twoFactorEnabled Boolean @default(false)
+
+  // Role relation (replaces old string-based role field)
+  roleId String? @db.ObjectId
+  role   Role?   @relation(fields: [roleId], references: [id])
+
+  // Platform super admin (developer / full access across tenants; separate from Role for multi-tenant)
+  adminUser AdminUser?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -28,7 +34,8 @@ model User {
   emailVerificationRequest EmailVerificationRequest?
   passwordResetTokens      PasswordResetToken[]
 
-  saleReports SaleReport[]
+  saleReports    SaleReport[]
+  workDayRecords WorkDayRecord[]
   // employeeShifts EmployeeShift[]
 }
 
@@ -59,32 +66,46 @@ model PasswordResetToken {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+/// Platform super admins (developers); bypass all permission checks. Not tied to a tenant.
+model AdminUser {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model StoreSettings {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   uniqueKey String @unique @default("store")
 
-  startCash Int
+  startCash       Int
+  activePlatforms String[] @default(["uber_eats", "doordash", "skip_the_dishes", "ritual"])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model SaleReport {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  date               DateTime @unique
-  totalSales         Int
-  cardSales          Int
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  date DateTime @unique
+
+  totalSales Int
+  cardSales  Int
+
+  // Legacy platform columns (kept for backward compatibility)
   uberEatsSales      Int
   skipTheDishesSales Int
   doorDashSales      Int
-  onlineSales        Int
-  expenses           Int
-  expensesReason     String?
-  cardTips           Int
-  cashTips           Int
-  extraTips          Int
-  cashInTill         Int
-  startCash          Int
+  onlineSales        Int // This is actually Ritual sales
+  // New flexible platform sales
+  platformSales      PlatformSale[]
+
+  expenses       Int
+  expensesReason String?
+  cardTips       Int
+  cashTips       Int
+  extraTips      Int
+  cashInTill     Int
+  startCash      Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -102,6 +123,11 @@ type Shift {
   userId String @db.ObjectId
   hours  Float
   tips   Int
+}
+
+type PlatformSale {
+  platformId String
+  amount     Int
 }
 
 type ReportAudit {
@@ -135,4 +161,88 @@ model Expense {
 type ExpenseEntry {
   amount Int
   reason String
+}
+
+// ==========================================
+// Scheduling (one document per day)
+// ==========================================
+
+// type ScheduleSlot {
+//   startMinutes Int
+//   endMinutes   Int
+//   note         String?
+// }
+
+// type DayEntry {
+//   userId String         @db.ObjectId
+//   slots  ScheduleSlot[]
+//   note   String?
+// }
+
+// model ScheduleDay {
+//   id        String     @id @default(auto()) @map("_id") @db.ObjectId
+//   date      DateTime   @unique // unique implies index; efficient for date and date-range queries
+//   entries   DayEntry[]
+//   createdAt DateTime   @default(now())
+//   updatedAt DateTime   @updatedAt
+// }
+
+// ==========================================
+// WorkDayRecord (one document per employee per day)
+// ==========================================
+
+type WorkShift {
+  startMinutes Int
+  endMinutes   Int
+  note         String?
+}
+
+model WorkDayRecord {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  date       DateTime
+  userId     String      @db.ObjectId
+  user       User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  shifts     WorkShift[]
+  totalHours Float
+  tips       Int         @default(0)
+  note       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([date, userId])
+}
+
+// ==========================================
+// Role-Based Access Control (RBAC) Models
+// ==========================================
+
+model Permission {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  code        String  @unique
+  name        String
+  description String?
+  resource    String
+  action      String
+
+  roleIds String[] @db.ObjectId
+  roles   Role[]   @relation(fields: [roleIds], references: [id])
+}
+
+model Role {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  editable    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  permissionIds String[]     @db.ObjectId
+  permissions   Permission[] @relation(fields: [permissionIds], references: [id])
+
+  users User[]
+
+  // Note: name uniqueness will be enforced at application level
+  // When multi-tenant is added, this will become @@unique([name, tenantId])
 }

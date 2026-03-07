@@ -1,5 +1,5 @@
-import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
+import { Container } from "@/components/layout/container";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Fragment } from "react";
@@ -62,6 +62,13 @@ export default function ProfileLoading() {
                 <Skeleton className="h-5 w-14 rounded-full" />
               </div>
             </div>
+          </div>
+
+          <Separator />
+
+          <div className="grid gap-4">
+            <Skeleton className="h-50 w-full" />
+            <Skeleton className="h-50 w-full" />
           </div>
         </div>
       </Container>

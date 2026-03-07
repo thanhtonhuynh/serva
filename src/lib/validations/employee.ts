@@ -6,6 +6,7 @@ const requiredString = trimmedString.min(1, "Required");
 // Update employee role
 export const UpdateEmployeeRoleSchema = z.object({
   userId: requiredString,
-  role: requiredString.toLowerCase(),
+  // role: requiredString.toLowerCase(),
+  roleId: requiredString,
 });
 export type UpdateEmployeeRoleInput = z.infer<typeof UpdateEmployeeRoleSchema>;

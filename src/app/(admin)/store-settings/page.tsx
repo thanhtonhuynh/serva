@@ -1,36 +1,41 @@
-import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
-import { ErrorMessage } from "@/components/Message";
-import { getStartCash } from "@/data-access/store";
+import { Header } from "@/components/layout";
+import { Container } from "@/components/layout/container";
+import { NotiMessage } from "@/components/shared";
+import { Typography } from "@/components/shared/typography";
+import { PERMISSIONS } from "@/constants/permissions";
+import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { getCurrentSession } from "@/lib/auth/session";
-import { hasAccess } from "@/utils/access-control";
+import { hasPermission } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
-import { StartCashForm } from "./StartCashForm";
+import { PlatformsForm } from "./platforms-form";
+import { StartCashForm } from "./start-cash-form";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
   if (!session) redirect("/login");
   if (user.accountStatus !== "active") return notFound();
-  if (!hasAccess(user.role, "/admin")) return notFound();
+  if (!hasPermission(user.role, PERMISSIONS.STORE_SETTINGS_MANAGE)) return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
-  const currentStartCash = await getStartCash();
+  const [currentStartCash, activePlatformIds] = await Promise.all([
+    getStartCash(),
+    getActivePlatforms(),
+  ]);
 
   return (
     <Fragment>
       <Header>
-        <h1>Store settings</h1>
+        <Typography variant="h1">Store Settings</Typography>
       </Header>
 
       <Container>
         <StartCashForm currentStartCash={currentStartCash / 100} />
+        <PlatformsForm currentActivePlatformIds={activePlatformIds} />
       </Container>
     </Fragment>
   );

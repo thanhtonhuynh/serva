@@ -1,4 +1,3 @@
-import { User } from "@/lib/auth/session";
 import {
   Body,
   Container,
@@ -25,7 +24,7 @@ export default function ResetPasswordEmail({
   user,
   token,
 }: {
-  user: User;
+  user: { name: string };
   token: string;
 }) {
   return (

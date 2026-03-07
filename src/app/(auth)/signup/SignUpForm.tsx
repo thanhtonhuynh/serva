@@ -1,8 +1,8 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage } from "@/components/Message";
-import { PasswordInput } from "@/components/PasswordInput";
+import { PasswordInput } from "@/components/shared";
+import { ErrorMessage } from "@/components/shared/noti-message";
 import {
   Form,
   FormControl,
@@ -44,10 +44,7 @@ export function SignUpForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col space-y-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-6">
         {error && <ErrorMessage message={error} />}
 
         <FormField
@@ -56,9 +53,7 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
-              <FormDescription>
-                Must be at least 2 characters long
-              </FormDescription>
+              <FormDescription>Must be at least 2 characters long</FormDescription>
               <FormControl>
                 <Input {...field} placeholder="Name" />
               </FormControl>
@@ -73,9 +68,7 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
-              <FormDescription>
-                Must be at least 6 characters long
-              </FormDescription>
+              <FormDescription>Must be at least 6 characters long</FormDescription>
               <FormControl>
                 <Input {...field} placeholder="Username" />
               </FormControl>
@@ -91,8 +84,7 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormDescription>
-                Please use a real email address as you will need to use it to
-                reset your password
+                Please use a real email address as you will need to use it to reset your password
               </FormDescription>
               <FormControl>
                 <Input {...field} type="email" placeholder="Email" />
@@ -109,9 +101,8 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormDescription>
-                Must be at least 8 characters long, contain at least one
-                uppercase letter, one lowercase letter, one number, and one
-                special character
+                Must be at least 8 characters long, contain at least one uppercase letter, one
+                lowercase letter, one number, and one special character
               </FormDescription>
               <FormControl>
                 <PasswordInput {...field} placeholder="Password" />

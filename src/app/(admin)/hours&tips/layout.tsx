@@ -1,8 +1,9 @@
-import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout";
+import { Container } from "@/components/layout/container";
+import { Typography } from "@/components/shared";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";
-import { ViewPeriodsDialog } from "./_components/ViewPeriodsDialog";
+import { PeriodSelector } from "./_components";
 
 export default async function Layout({
   children,
@@ -14,13 +15,18 @@ export default async function Layout({
   return (
     <Fragment>
       <Header>
-        <div className="flex flex-1 items-center justify-between">
-          <h1>Hours & Tips</h1>
-          {years.length > 0 && <ViewPeriodsDialog years={years} />}
-        </div>
+        <Typography variant="h1">Hours & Tips</Typography>
       </Header>
 
-      <Container>{children}</Container>
+      <Container>
+        {years.length > 0 && (
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <PeriodSelector years={years} />
+          </div>
+        )}
+
+        {children}
+      </Container>
     </Fragment>
   );
 }

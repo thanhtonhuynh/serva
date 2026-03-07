@@ -1,146 +1,61 @@
-import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
-import { ErrorMessage } from "@/components/Message";
-import { SaleReportCard } from "@/components/SaleReportCard";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { getReportRaw } from "@/data-access/report";
+import { Header } from "@/components/layout";
+import { Container } from "@/components/layout/container";
+import { Typography } from "@/components/shared";
+import { NotiMessage } from "@/components/shared/noti-message";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentSession } from "@/lib/auth/session";
-import { SaleReportCardProcessedData } from "@/types";
-import { hasAccess } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { processReportDataForView } from "@/utils/report";
-import { UserAccountIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Calculator, CalendarCheck, ClipboardPen } from "lucide-react";
-import moment from "moment-timezone";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
-import { SalesSummary } from "../(admin)/SalesSummary";
-import { EmployeeAnalytics } from "./EmployeeAnalytics";
+import { CurrentPayPeriodSummary } from "./_components";
+import { QuickActions } from "./_components/quick-actions";
 
-type SearchParams = Promise<{
-  year: string;
-  month: string;
-}>;
-
-export default async function Home(props: { searchParams: SearchParams }) {
+export default async function Home() {
   const { user } = await getCurrentSession();
   if (!user) redirect("/login");
   if (user.accountStatus !== "active") notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
-  const searchParams = await props.searchParams;
-
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
-  const todayReport = await getReportRaw({ date: today });
-  let processedTodayReportData: SaleReportCardProcessedData | undefined;
-  if (todayReport) {
-    processedTodayReportData = processReportDataForView(todayReport);
-  }
-
-  let selectedYear: number, selectedMonth: number;
-  if (searchParams.year && searchParams.month) {
-    selectedYear = parseInt(searchParams.year);
-    selectedMonth = parseInt(searchParams.month);
-  } else {
-    selectedYear = today.getFullYear();
-    selectedMonth = today.getMonth() + 1;
-  }
+  // const todayReport = await getReportRaw({ date: today });
 
   return (
     <Fragment>
       <Header>
-        <div className="text-sm font-medium">
-          {moment().tz("America/Vancouver").format("dddd, MMMM D, YYYY")}
-        </div>
+        {/* Business name, will change later when scaling */}
+        <Typography variant="h1">Ongba Eatery</Typography>
       </Header>
 
       <Container>
-        <section className="space-y-4">
-          <h6>Good day, {user.name}!</h6>
+        {/* Greetings */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Good day, {user.name}!</CardTitle>
+          </CardHeader>
 
-          <div className="bg-muted/50 rounded-lg p-4">
-            <h3 className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
-              Quick Actions
-            </h3>
+          <CardContent className="space-y-2">
+            <QuickActions user={user} />
+          </CardContent>
+        </Card>
 
-            <div className="flex flex-col items-start gap-1">
-              {!todayReport && hasAccess(user.role, "/report", "create") && (
-                <Button
-                  size="sm"
-                  variant={"link"}
-                  className="text-foreground border-0 p-0"
-                  asChild
-                >
-                  <Link href={`report/new`}>
-                    <ClipboardPen size={16} />
-                    Create report
-                  </Link>
-                </Button>
-              )}
-              <Button
-                variant="link"
-                size="sm"
-                className="text-foreground border-0 p-0"
-                asChild
-              >
-                <Link href="/cash-counter">
-                  <Calculator size={16} />
-                  Cash counter
-                </Link>
-              </Button>
-              <Button
-                variant="link"
-                size="sm"
-                className="text-foreground border-0 p-0"
-                asChild
-              >
-                <Link href="/my-shifts">
-                  <CalendarCheck size={16} />
-                  My shifts
-                </Link>
-              </Button>
-              <Button
-                variant="link"
-                size="sm"
-                className="text-foreground border-0 p-0"
-                asChild
-              >
-                <Link href={`/profile/${user.username}`}>
-                  <HugeiconsIcon icon={UserAccountIcon} className="size-4" />
-                  My profile
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {todayReport && (
+        {/* TODO: Removed this, will replace with just general today's sales data */}
+        {/* {todayReport && (
           <>
-            <Separator />
-            <section className="space-y-4">
-              <h6>Today's Sales Report</h6>
-              <SaleReportCard data={processedTodayReportData} />
-            </section>
+            <Card>
+              <CardHeader>
+                <CardTitle>Today's Sales Report</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SaleReportCard data={processedTodayReportData} />
+              </CardContent>
+            </Card>
           </>
-        )}
+        )} */}
 
-        <Separator />
-
-        <EmployeeAnalytics user={user} />
-
-        <Separator />
-
-        {user.role === "admin" && (
-          <SalesSummary year={selectedYear} month={selectedMonth} />
-        )}
+        {/* Current pay period summary */}
+        <CurrentPayPeriodSummary user={user} />
       </Container>
     </Fragment>
   );

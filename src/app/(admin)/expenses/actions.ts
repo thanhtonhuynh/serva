@@ -1,16 +1,10 @@
 "use server";
 
-import {
-  createExpenses,
-  deleteExpense,
-  updateExpenses,
-} from "@/data-access/expenses";
+import { PERMISSIONS } from "@/constants/permissions";
+import { createExpenses, deleteExpense, updateExpenses } from "@/data-access/expenses";
 import { getCurrentSession } from "@/lib/auth/session";
-import {
-  ExpensesFormInput,
-  ExpensesFormSchema,
-} from "@/lib/validations/expenses";
-import { hasAccess } from "@/utils/access-control";
+import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
+import { hasPermission } from "@/utils/access-control";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
@@ -20,7 +14,7 @@ export async function addExpensesAction(data: ExpensesFormInput) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin")
+      !hasPermission(user.role, PERMISSIONS.EXPENSES_MANAGE)
     ) {
       return "Unauthorized";
     }
@@ -40,16 +34,13 @@ export async function addExpensesAction(data: ExpensesFormInput) {
   }
 }
 
-export async function updateExpensesAction(
-  data: ExpensesFormInput,
-  id: string,
-) {
+export async function updateExpensesAction(data: ExpensesFormInput, id: string) {
   try {
     const { user } = await getCurrentSession();
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin")
+      !hasPermission(user.role, PERMISSIONS.EXPENSES_MANAGE)
     ) {
       return "Unauthorized";
     }
@@ -75,7 +66,7 @@ export async function deleteExpenseAction(id: string) {
     if (
       !user ||
       user.accountStatus !== "active" ||
-      !hasAccess(user.role, "/admin")
+      !hasPermission(user.role, PERMISSIONS.EXPENSES_MANAGE)
     ) {
       return "Unauthorized";
     }

@@ -1,30 +1,28 @@
+import { UserShiftTable } from "@/app/(main)/my-shifts/_components";
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { GoBackButton } from "@/components/buttons/GoBackButton";
-import { Container } from "@/components/Container";
-import { CurrentTag } from "@/components/CurrentTag";
-import { Header } from "@/components/header";
-import { ErrorMessage } from "@/components/Message";
-import { UserShiftTable } from "@/components/UserShiftTable";
-import { getUserShiftsInDateRange } from "@/data-access/employee";
+import { CurrentBadge, Typography } from "@/components/shared";
+import { NotiMessage } from "@/components/shared/noti-message";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ICONS } from "@/constants/icons";
+import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record";
 import { getCurrentSession } from "@/lib/auth/session";
-import { formatPriceWithDollar } from "@/lib/utils";
+import { formatMoney } from "@/lib/utils";
 import {
-  getDayRangeByMonthAndYear,
-  getPeriodsByMonthAndYear,
-  populateMonthSelectData,
-} from "@/utils/hours-tips";
+  formatInUTC,
+  getCurrentMonth,
+  getCurrentYear,
+  getDateRangeForMonthAndYearInUTC,
+  getPeriodsForMonthAndYearInUTC,
+} from "@/utils/datetime";
+import { populateMonthSelectData } from "@/utils/hours-tips";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { ArrowRight01Icon, Coins01Icon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { CalendarClock, CalendarDays } from "lucide-react";
-import moment from "moment";
 import { notFound, redirect } from "next/navigation";
-import { Fragment } from "react";
-import { ViewPeriodsDialog } from "./ViewPeriodsDialog";
 
 type SearchParams = Promise<{
-  year: string;
-  month: string;
+  year?: string;
+  month?: string;
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
@@ -33,139 +31,112 @@ export default async function Page(props: { searchParams: SearchParams }) {
   if (user.accountStatus !== "active") return notFound();
 
   if (!(await authenticatedRateLimit(user.id))) {
-    return (
-      <ErrorMessage message="Too many requests. Please try again later." />
-    );
+    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
   const searchParams = await props.searchParams;
-
   const { years } = await populateMonthSelectData();
 
-  let selectedYear: number;
-  let selectedMonth: number;
-  const today = moment().tz("America/Vancouver").startOf("day").toDate();
+  const currentYear = getCurrentYear();
+  const currentMonth = getCurrentMonth();
 
-  if (searchParams.year && searchParams.month) {
-    selectedYear = parseInt(searchParams.year);
-    selectedMonth = parseInt(searchParams.month);
-
-    if (
-      isNaN(selectedYear) ||
-      isNaN(selectedMonth) ||
-      !years.includes(selectedYear) ||
-      !NUM_MONTHS.includes(selectedMonth)
-    ) {
-      return (
-        <ErrorMessage
-          className="self-start"
-          message="Invalid year or month. Please check the URL and try again."
-        />
-      );
-    }
-  } else {
-    selectedYear = today.getFullYear();
-    selectedMonth = today.getMonth() + 1;
+  if (!searchParams.year || !searchParams.month) {
+    redirect(`/my-shifts?year=${currentYear}&month=${currentMonth + 1}`);
   }
 
-  const dateRange = getDayRangeByMonthAndYear(selectedYear, selectedMonth - 1);
-  const periods = getPeriodsByMonthAndYear(selectedYear, selectedMonth - 1);
-  const userShifts = await getUserShiftsInDateRange(user.id, dateRange);
+  const selectedYear = parseInt(searchParams.year);
+  const selectedMonth = parseInt(searchParams.month); // 1-indexed
 
-  const firstPeriodShifts = userShifts.filter(
-    (shift) => shift.date.getDate() <= 15,
-  );
-  const secondPeriodShifts = userShifts.filter(
-    (shift) => shift.date.getDate() > 15,
-  );
+  if (
+    isNaN(selectedYear) ||
+    isNaN(selectedMonth) ||
+    !years.includes(selectedYear) ||
+    !NUM_MONTHS.includes(selectedMonth)
+  ) {
+    return (
+      <NotiMessage
+        variant="error"
+        message="Invalid year or month. Please check the URL and try again."
+      />
+    );
+  }
+
+  const monthIndex = selectedMonth - 1; // 0-indexed
+  const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, monthIndex);
+  const periods = getPeriodsForMonthAndYearInUTC(selectedYear, monthIndex);
+  const workDayRecords = await getWorkDayRecordsByUserAndDateRange(user.id, dateRange);
+
+  const userShifts = workDayRecords.map((r) => ({
+    date: r.date,
+    hours: r.totalHours,
+    tips: r.tips,
+  }));
+
+  const firstPeriodShifts = userShifts.filter((shift) => shift.date.getUTCDate() <= 15);
+  const secondPeriodShifts = userShifts.filter((shift) => shift.date.getUTCDate() > 15);
+
+  const isCurrentPeriod = selectedYear === currentYear && monthIndex === currentMonth;
 
   return (
-    <Fragment>
-      <Header>
-        <div className="flex flex-1 items-center justify-between">
-          <h1>My Shifts</h1>
-          {years.length > 0 && <ViewPeriodsDialog years={years} />}
-        </div>
-      </Header>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            {FULL_MONTHS[monthIndex]} {selectedYear}
+            {isCurrentPeriod && <CurrentBadge />}
+          </CardTitle>
+        </CardHeader>
 
-      <Container className="gap-4">
-        {searchParams.year && searchParams.month && (
-          <GoBackButton
-            url={`/my-shifts`}
-            variant={`outline`}
-            className="w-fit gap-2"
-            size={"sm"}
-          >
-            View current
-          </GoBackButton>
-        )}
-
-        <section className="space-y-4">
-          <h6 className="flex items-center gap-2">
-            {FULL_MONTHS[selectedMonth - 1]} {selectedYear}
-            {selectedYear === today.getFullYear() &&
-              selectedMonth === today.getMonth() + 1 && <CurrentTag />}
-          </h6>
-
-          <div className="bg-muted/50 space-y-3 rounded-lg p-4">
-            <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Summary
-            </h3>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="flex items-center gap-3">
-                <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                  <CalendarClock className="text-muted-foreground size-5" />
-                </div>
-                <div>
-                  <p className="text-muted-foreground text-xs">Total Hours</p>
-                  <p className="text-sm font-semibold">
-                    {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-                  <HugeiconsIcon
-                    icon={Coins01Icon}
-                    className="text-muted-foreground size-5"
-                  />
-                </div>
-                <div>
-                  <p className="text-muted-foreground text-xs">Total Tips</p>
-                  <p className="text-sm font-semibold">
-                    {formatPriceWithDollar(
-                      userShifts.reduce((acc, shift) => acc + shift.tips, 0) /
-                        100,
-                    )}
-                  </p>
-                </div>
-              </div>
+        <CardContent className="grid gap-3 sm:grid-cols-2">
+          <div className="flex items-center gap-3">
+            <div className="bg-muted flex size-10 items-center justify-center rounded-full">
+              <HugeiconsIcon icon={ICONS.TOTAL_HOURS} className="text-primary size-5" />
+            </div>
+            <div>
+              <Typography className="text-xs">Total Hours</Typography>
+              <Typography variant="caption">
+                {userShifts.reduce((acc, shift) => acc + shift.hours, 0)}
+              </Typography>
             </div>
           </div>
-        </section>
 
-        <section className="space-y-4">
-          <h6>Daily Breakdown</h6>
+          <div className="flex items-center gap-3">
+            <div className="bg-muted flex size-10 items-center justify-center rounded-full">
+              <HugeiconsIcon icon={ICONS.TOTAL_TIPS} className="text-primary size-5" />
+            </div>
+            <div>
+              <Typography className="text-xs">Total Tips</Typography>
+              <Typography variant="caption">
+                {formatMoney(userShifts.reduce((acc, shift) => acc + shift.tips, 0))}
+              </Typography>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Daily Breakdown</CardTitle>
+        </CardHeader>
+
+        <CardContent className="space-y-10">
           {periods.map((period, index) => (
-            <div key={index} className="bg-muted/50 space-y-3 rounded-lg p-4">
-              <h3 className="flex items-center gap-2 text-xs font-medium">
-                <CalendarDays className="text-primary size-4" />
-                <span>{moment(period.start).format("MMM D")}</span>
-                <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
-                <span>{moment(period.end).format("MMM D")}</span>
-              </h3>
+            <div key={index} className="space-y-6">
+              <Typography variant="h3" className="flex items-center gap-2">
+                <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
+                <span>{formatInUTC(period.start, "MMM d")}</span>
+                <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
+                <span>{formatInUTC(period.end, "d")}</span>
+              </Typography>
 
               <UserShiftTable
                 dateRange={period}
-                userShifts={
-                  index === 0 ? firstPeriodShifts : secondPeriodShifts
-                }
+                userShifts={index === 0 ? firstPeriodShifts : secondPeriodShifts}
               />
             </div>
           ))}
-        </section>
-      </Container>
-    </Fragment>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

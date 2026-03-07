@@ -1,0 +1,108 @@
+"use client";
+
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { useSession } from "@/contexts/SessionProvider";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
+import { hasPermission } from "@/utils/access-control";
+import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCallback, useMemo } from "react";
+import {
+  MENU_GROUP_LABELS,
+  MENU_GROUPS,
+  MENU_ITEMS,
+  type MenuGroupKey,
+  type MenuItem,
+} from "./sidebar-menu-config";
+
+const PROFILE_URL_PLACEHOLDER = "__profile__";
+
+export function SidebarMenuGroups() {
+  const { user } = useSession();
+  const { toggleSidebar } = useSidebar();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const pathname = usePathname();
+  const username = user?.username ?? "";
+
+  const visibleItems = useMemo(() => {
+    return MENU_ITEMS.filter((item) =>
+      item.permission ? hasPermission(user?.role, item.permission) : true,
+    );
+  }, [user?.role]);
+
+  const itemsByGroup = useMemo(() => {
+    return MENU_GROUPS.reduce(
+      (acc, group) => {
+        acc[group] = visibleItems.filter((item) => item.group === group);
+        return acc;
+      },
+      {} as Record<MenuGroupKey, MenuItem[]>,
+    );
+  }, [visibleItems]);
+
+  const resolveUrl = useCallback(
+    (url: string) => (url === PROFILE_URL_PLACEHOLDER ? `/profile/${username}` : url),
+    [username],
+  );
+
+  const isActive = useCallback(
+    (href: string) => {
+      if (href === "/") return pathname === href;
+      return pathname.startsWith(href);
+    },
+    [pathname],
+  );
+
+  return (
+    <>
+      {Object.entries(itemsByGroup).map(([groupKey, items]) => {
+        if (items.length === 0) return null;
+
+        const label = MENU_GROUP_LABELS[groupKey as MenuGroupKey];
+
+        return (
+          <SidebarGroup key={groupKey} className="py-1">
+            {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
+
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {items.map((item) => {
+                  const href = resolveUrl(item.url);
+                  const isActiveItem = isActive(href);
+
+                  return (
+                    <SidebarMenuItem key={item.url + item.title}>
+                      <SidebarMenuButton
+                        className={cn(
+                          "aria-disabled:opacity-100",
+                          isActiveItem && "bg-primary-1 text-primary-dark",
+                        )}
+                        onClick={() => isMobile && toggleSidebar()}
+                        render={
+                          <Link href={href} aria-disabled={isActiveItem}>
+                            <HugeiconsIcon icon={item.icon} strokeWidth={1.5} />
+                            <span>{item.title}</span>
+                          </Link>
+                        }
+                      />
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        );
+      })}
+    </>
+  );
+}

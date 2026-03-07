@@ -1,6 +1,28 @@
-import { Expense } from "@prisma/client";
+import { Expense, Permission, Role } from "@prisma/client";
 
 export type EmployeeStatus = "active" | "inactive" | "deactivated";
+
+// Role with permissions
+export type RoleWithPermissions = Role & { permissions: Permission[] };
+
+// Basic user type for display purposes (without permissionContext)
+export type DisplayUser = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  emailVerified: boolean;
+  accountStatus: string;
+  image: string | null;
+  hiddenFromReports: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  role: {
+    id: string;
+    name: string;
+    permissions: { code: string }[];
+  } | null;
+};
 
 export type CashType =
   | "coin5c"
@@ -18,6 +40,12 @@ export type CashType =
   | "roll25c"
   | "roll1"
   | "roll2";
+
+/** A single platform's sales amount (stored in cents in DB) */
+export type PlatformSaleData = {
+  platformId: string;
+  amount: number;
+};
 
 export type SaleEmployee = {
   userId: string;
@@ -50,24 +78,27 @@ export interface SaleReportCardRawData {
   extraTips: number;
   cashInTill: number;
   startCash: number;
-  uberEatsSales: number;
-  doorDashSales: number;
-  skipTheDishesSales: number;
-  onlineSales: number;
-  employees: SaleEmployee[];
+  // Legacy platform fields (kept for backward compat)
+  // uberEatsSales: number;
+  // doorDashSales: number;
+  // skipTheDishesSales: number;
+  // onlineSales: number; // Actually Ritual sales
+  // New flexible platform sales
+  platformSales: PlatformSaleData[];
+  // employees: SaleEmployee[];
   auditLogs?: ReportAuditLog[];
 }
 
 export interface SaleReportCardProcessedData extends SaleReportCardRawData {
   inStoreSales: number;
-  otherSales: number;
+  onlineSales: number;
   cashSales: number;
   actualCash: number;
   totalTips: number;
   cashDifference: number;
   cashOut: number;
-  totalHours: number;
-  tipsPerHour: number;
+  // totalHours: number;
+  // tipsPerHour: number;
 }
 
 export type Weekday =
@@ -97,6 +128,7 @@ export type DayRange = {
 export type TotalHoursTips = {
   userId: string;
   name: string;
+  username: string;
   image: string;
   totalHours: number;
   totalTips: number;
@@ -116,6 +148,7 @@ export type EmployeeShift = {
 export type BreakdownData = {
   userId: string;
   userName: string;
+  userUsername: string;
   image: string;
   keyData: number[];
   total: number;
@@ -124,6 +157,7 @@ export type BreakdownData = {
 export type Shift = {
   userId: string;
   userName: string;
+  userUsername: string;
   userImage: string;
   date: Date;
   hours: number;
@@ -135,10 +169,13 @@ export type CashFlowRawData = {
   date: Date;
   totalSales: number;
   cardSales: number;
+  // Legacy platform fields (kept for backward compat)
   uberEatsSales: number;
   doorDashSales: number;
   skipTheDishesSales: number;
-  onlineSales: number;
+  onlineSales: number; // Actually Ritual sales
+  // New flexible platform sales
+  platformSales: PlatformSaleData[];
   expenses: number;
 };
 
@@ -157,12 +194,10 @@ export type UserShift = {
 export type YearCashFlowData = {
   month: number;
   totalSales: number;
-  totalUberEatsSales: number;
-  totalDoorDashSales: number;
-  totalSkipTheDishesSales: number;
-  totalOnlineSales: number;
-  totalInstoreExpenses: number;
+  /** Dynamic platform totals: platformId → total amount in cents */
+  platformTotals: Record<string, number>;
   totalInStoreSales: number;
+  totalInstoreExpenses: number;
   netIncome: number;
   totalMonthMainExpenses: number;
   totalExpenses: number;

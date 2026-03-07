@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx";
-import moment from "moment-timezone";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -15,6 +14,9 @@ export function formatPrice(amount: number) {
   }).format(amount);
 }
 
+/**
+ * @deprecated Use formatMoney instead.
+ */
 export function formatPriceWithDollar(amount: number) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -22,6 +24,16 @@ export function formatPriceWithDollar(amount: number) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount);
+}
+
+/** Format a number as a currency string with 2 decimal places. Amount is in cents. Convert to dollars. */
+export function formatMoney(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount / 100);
 }
 
 export function formatNumber(number: number) {
@@ -39,19 +51,13 @@ export function toCents(value: number | null | undefined): number {
   return Math.floor(value * 100 + 0.5);
 }
 
-export function parseVancouverUrlDate(dateStr?: string): Date | null {
-  if (!dateStr) return null;
+// export function parseUrlDate(dateStr?: string): Date | null {
+//   if (!dateStr) return null;
 
-  // Expecting "YYYY-MM-DD"
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
+//   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
 
-  // Interpret the string as a Vancouver date at midnight
-  const m = moment.tz(dateStr, "YYYY-MM-DD", "America/Vancouver");
-  if (!m.isValid()) return null;
+//   const d = new Date(`${dateStr}T00:00:00.000Z`);
+//   if (isNaN(d.getTime())) return null;
 
-  return m.toDate();
-}
-
-export function formatVancouverDate(date: Date): string {
-  return moment(date).tz("America/Vancouver").format("YYYY-MM-DD");
-}
+//   return d;
+// }

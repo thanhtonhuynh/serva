@@ -1,5 +1,5 @@
-import { Loader2 } from "lucide-react";
+import { Loader } from "@/components/layout";
 
 export default function Loading() {
-  return <Loader2 size={30} className="mx-auto my-10 animate-spin" />;
+  return <Loader />;
 }

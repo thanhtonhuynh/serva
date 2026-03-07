@@ -6,13 +6,10 @@ export function reshapeExpenses(expenses: Expense[]): MonthlyExpense[] {
     .fill(null)
     .map((_, month) => {
       const monthExpenses = expenses
-        .filter((expense) => expense.date.getMonth() === month)
-        .sort((a, b) => a.date.getDate() - b.date.getDate());
+        .filter((expense) => expense.date.getUTCMonth() === month)
+        .sort((a, b) => a.date.getUTCDate() - b.date.getUTCDate());
       const entries = monthExpenses.flatMap((expense) => expense.entries);
-      const totalExpenses = entries.reduce(
-        (acc, entry) => acc + entry.amount,
-        0,
-      );
+      const totalExpenses = entries.reduce((acc, entry) => acc + entry.amount, 0);
 
       return {
         month,

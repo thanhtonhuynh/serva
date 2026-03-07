@@ -1,3 +1,4 @@
+import { PLATFORMS } from "@/constants/platforms";
 import { z } from "zod";
 
 const trimmedString = z.string().trim();
@@ -20,3 +21,16 @@ export const UpdateStartCashSchema = z.object({
   startCash: z.coerce.number().min(0),
 });
 export type UpdateStartCashInput = z.infer<typeof UpdateStartCashSchema>;
+
+// Update active platforms
+export const UpdateActivePlatformsSchema = z.object({
+  activePlatforms: z
+    .array(z.string())
+    .refine(
+      (value) => value.every((id) => PLATFORMS.some((p) => p.id === id)),
+      { message: "Invalid platform IDs" },
+    ),
+});
+export type UpdateActivePlatformsInput = z.infer<
+  typeof UpdateActivePlatformsSchema
+>;

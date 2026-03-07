@@ -1,8 +1,8 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { PasswordInput } from "@/components/shared";
+import { ErrorMessage } from "@/components/shared/noti-message";
 import {
   Form,
   FormControl,
@@ -12,12 +12,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { PasswordInput } from "@/components/PasswordInput";
-import { ErrorMessage } from "@/components/Message";
-import Link from "next/link";
-import { loginAction } from "./actions";
 import { LoginSchema, LoginSchemaTypes } from "@/lib/validations/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { loginAction } from "./actions";
 
 export function LoginForm() {
   const [error, setError] = useState<string>();
@@ -43,10 +43,7 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full flex-col space-y-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-6">
         {error && <ErrorMessage message={error} />}
 
         <FormField
@@ -68,15 +65,7 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex items-center justify-between">
-                Password
-                <Link
-                  className="text-xs text-blue-500 hover:underline"
-                  href="/login/forgot-password"
-                >
-                  Forgot password?
-                </Link>
-              </FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <PasswordInput {...field} placeholder="Password" />
               </FormControl>
@@ -84,6 +73,13 @@ export function LoginForm() {
             </FormItem>
           )}
         />
+
+        <Link
+          className="-mt-3 w-fit self-end text-xs font-medium hover:underline"
+          href="/login/forgot-password"
+        >
+          Forgot password?
+        </Link>
 
         <LoadingButton type="submit" className="w-full" loading={isPending}>
           Login

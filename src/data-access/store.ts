@@ -47,6 +47,16 @@ export const getStartCash = cache(async () => {
   return storeSettings.startCash;
 });
 
+export const getActivePlatforms = cache(async (): Promise<string[]> => {
+  const storeSettings = await prisma.storeSettings.findFirst();
+
+  if (!storeSettings) {
+    throw new Error("Store settings not found");
+  }
+
+  return storeSettings.activePlatforms;
+});
+
 export async function updateStoreSettings(data: Partial<StoreSettings>) {
   const storeSettings = await prisma.storeSettings.findFirst();
 

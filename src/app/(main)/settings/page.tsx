@@ -1,14 +1,16 @@
-import { Container } from "@/components/Container";
-import { Header } from "@/components/header";
-import { ModeToggle } from "@/components/ModeToggle";
+import { Header } from "@/components/layout";
+import { Container } from "@/components/layout/container";
+import { Typography } from "@/components/shared/typography";
 import { getCurrentSession } from "@/lib/auth/session";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
-import { UpdateAvatar } from "./UpdateAvatar";
-import { UpdateEmailForm } from "./UpdateEmailForm";
-import { UpdateNameForm } from "./UpdateNameForm";
-import { UpdatePasswordForm } from "./UpdatePasswordForm";
-import { UpdateUsernameForm } from "./UpdateUsernameForm";
+import {
+  UpdateAvatar,
+  UpdateEmailForm,
+  UpdateNameForm,
+  UpdatePasswordForm,
+  UpdateUsernameForm,
+} from "./_components";
 
 export default async function Page() {
   const { session, user } = await getCurrentSession();
@@ -18,11 +20,10 @@ export default async function Page() {
   return (
     <Fragment>
       <Header>
-        <h1>Settings</h1>
+        <Typography variant="h1">Settings</Typography>
       </Header>
 
       <Container>
-        <ModeToggle />
         <UpdateAvatar user={user} />
         <UpdateNameForm user={user} />
         <UpdateUsernameForm user={user} />
