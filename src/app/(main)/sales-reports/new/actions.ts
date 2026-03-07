@@ -26,9 +26,15 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
         return { error: "Unauthorized." };
       }
 
+      // If creating a report for a date other than today, return an error
       const today = getTodayUTCMidnight();
-      if (mode === "create" && data.date.getTime() !== today.getTime()) {
-        return { error: "An error occurred. Please reload the page and try again." };
+      if (
+        mode === "create" &&
+        (data.date.getUTCFullYear() !== today.getUTCFullYear() ||
+          data.date.getUTCMonth() !== today.getUTCMonth() ||
+          data.date.getUTCDate() !== today.getUTCDate())
+      ) {
+        return { error: "An error occurred. Please try again." };
       }
     }
 

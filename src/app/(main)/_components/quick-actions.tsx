@@ -25,7 +25,7 @@ export function QuickActions({ user }: Props) {
             variant={"link"}
             className="text-foreground border-0 p-0"
             render={
-              <Link href={`report/new`}>
+              <Link href={`/sales-reports/new`}>
                 <HugeiconsIcon icon={ICONS.REPORT_ADD} />
                 Create report
               </Link>
