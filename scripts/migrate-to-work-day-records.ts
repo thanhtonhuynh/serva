@@ -4,7 +4,7 @@
  * Usage: npx tsx scripts/migrate-to-work-day-records.ts
  */
 
-import { PrismaClient, Shift } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -20,22 +20,22 @@ async function migrateFromSaleReportShifts() {
   const reports = await prisma.saleReport.findMany({
     where: {
       // Only reports that still have shifts data
-      shifts: {
-        some: {},
-      },
+      // shifts: {
+      //   some: {},
+      // },
     },
     select: {
       id: true,
       date: true,
-      shifts: true,
+      // shifts: true,
     },
     orderBy: { date: "asc" },
   });
 
   console.log(`Found ${reports.length} sale reports with shifts.`);
 
-  const totalShifts = reports.reduce((sum, r) => sum + (r.shifts as Shift[]).length, 0);
-  console.log(`Total shifts in reports (before migration): ${totalShifts}`);
+  // const totalShifts = reports.reduce((sum, r) => sum + (r.shifts as Shift[]).length, 0);
+  // console.log(`Total shifts in reports (before migration): ${totalShifts}`);
 
   let createdCount = 0;
   let updatedCount = 0;
@@ -46,13 +46,13 @@ async function migrateFromSaleReportShifts() {
     // Group shifts by userId in case there are multiple entries for the same user
     const shiftsByUser = new Map<string, { hours: number; tips: number }>();
 
-    for (const shift of report.shifts as Shift[]) {
-      const existing = shiftsByUser.get(shift.userId) ?? { hours: 0, tips: 0 };
-      shiftsByUser.set(shift.userId, {
-        hours: existing.hours + shift.hours,
-        tips: existing.tips + shift.tips,
-      });
-    }
+    // for (const shift of report.shifts as Shift[]) {
+    //   const existing = shiftsByUser.get(shift.userId) ?? { hours: 0, tips: 0 };
+    //   shiftsByUser.set(shift.userId, {
+    //     hours: existing.hours + shift.hours,
+    //     tips: existing.tips + shift.tips,
+    //   });
+    // }
 
     for (const [userId, { hours, tips }] of shiftsByUser.entries()) {
       const existingRecord = await prisma.workDayRecord.findUnique({

@@ -1,4 +1,4 @@
-import { CashFlowRawData, PlatformSaleData, YearCashFlowData } from "@/types";
+import { CashFlowRawData, YearCashFlowData } from "@/types";
 import { Expense } from "@prisma/client";
 import { sumPlatformSales } from "./report";
 
@@ -6,21 +6,21 @@ import { sumPlatformSales } from "./report";
  * Helper: get the effective platformSales from a report.
  * Uses the new platformSales array if populated, otherwise falls back to legacy columns.
  */
-function getEffectivePlatformSales(report: CashFlowRawData): PlatformSaleData[] {
-  if (report.platformSales.length > 0) return report.platformSales;
+// function getEffectivePlatformSales(report: CashFlowRawData): PlatformSaleData[] {
+//   if (report.platformSales.length > 0) return report.platformSales;
 
-  // Legacy fallback
-  return [
-    { platformId: "uber_eats", amount: report.uberEatsSales },
-    { platformId: "doordash", amount: report.doorDashSales },
-    { platformId: "skip_the_dishes", amount: report.skipTheDishesSales },
-    { platformId: "ritual", amount: report.onlineSales },
-  ].filter((ps) => ps.amount > 0);
-}
+//   // Legacy fallback
+//   return [
+//     { platformId: "uber_eats", amount: report.uberEatsSales },
+//     { platformId: "doordash", amount: report.doorDashSales },
+//     { platformId: "skip_the_dishes", amount: report.skipTheDishesSales },
+//     { platformId: "ritual", amount: report.onlineSales },
+//   ].filter((ps) => ps.amount > 0);
+// }
 
 export function processCashFlowData(rawReports: CashFlowRawData[]) {
   return rawReports.map((report) => {
-    const platformTotal = sumPlatformSales(getEffectivePlatformSales(report));
+    const platformTotal = sumPlatformSales(report.platformSales);
 
     const actualCash = report.totalSales - platformTotal - report.cardSales - report.expenses;
 
@@ -50,7 +50,7 @@ export function processYearCashFlowData(
       let totalOnlineSales = 0;
 
       for (const report of monthReports) {
-        const ps = getEffectivePlatformSales(report);
+        const ps = report.platformSales;
         for (const sale of ps) {
           platformTotals[sale.platformId] = (platformTotals[sale.platformId] ?? 0) + sale.amount;
           totalOnlineSales += sale.amount;

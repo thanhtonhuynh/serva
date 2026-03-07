@@ -1,8 +1,7 @@
-import { PLATFORM_ID_TO_LEGACY_FIELD } from "@/constants/platforms";
 import prisma from "@/lib/prisma";
 import { toCents } from "@/lib/utils";
 import { SaleReportInputs } from "@/lib/validations/report";
-import { DayRange, SaleReportCardRawData } from "@/types";
+import { DayRange, SaleReportCardRawData, type ReportAuditLog } from "@/types";
 import { Prisma } from "@prisma/client";
 import { cache } from "react";
 import "server-only";
@@ -30,32 +29,14 @@ export const getRecentReportsByUser = cache(async (userId: string, limit: number
 export async function upsertReport(data: SaleReportInputs, userId: string) {
   const { cardTips, cashTips, extraTips, date, platformSales, ...raw } = data;
 
-  // Convert platform sales to cents and build the new platformSales array
-  const platformSalesInCents = platformSales.map((ps) => ({
-    platformId: ps.platformId,
-    amount: toCents(ps.amount),
-  }));
-
-  // Build legacy columns from platformSales for backward compatibility
-  const legacyPlatformData = {
-    uberEatsSales: 0,
-    doorDashSales: 0,
-    skipTheDishesSales: 0,
-    onlineSales: 0, // This is Ritual
-  };
-  for (const ps of platformSalesInCents) {
-    const legacyField = PLATFORM_ID_TO_LEGACY_FIELD[ps.platformId];
-    if (legacyField && legacyField in legacyPlatformData) {
-      legacyPlatformData[legacyField as keyof typeof legacyPlatformData] = ps.amount;
-    }
-  }
-
   // Convert all money values to cents
   const reportDataInCents = {
     totalSales: toCents(raw.totalSales),
     cardSales: toCents(raw.cardSales),
-    ...legacyPlatformData,
-    platformSales: platformSalesInCents,
+    platformSales: platformSales.map((ps) => ({
+      ...ps,
+      amount: toCents(ps.amount),
+    })),
     expenses: toCents(raw.expenses),
     cashInTill: toCents(raw.cashInTill),
     cardTips: toCents(cardTips),
@@ -79,7 +60,6 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
           startCash,
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
-          shifts: { set: [] },
           auditLogs: [
             ...auditLogs,
             {
@@ -96,7 +76,6 @@ export async function upsertReport(data: SaleReportInputs, userId: string) {
           startCash,
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
-          shifts: [],
           auditLogs: [],
         },
       });
@@ -127,42 +106,29 @@ export const getReportRaw = cache(
       include: {
         reporter: { select: { name: true, image: true, username: true } },
       },
-      omit: { shifts: true },
     });
 
     if (!report) return null;
 
-    // Collect userIds from shifts and edit logs
-    const userIds = [
-      // ...report.shifts.map((shift) => shift.userId),
-      ...(report.auditLogs ?? []).map((log) => log.userId),
-    ];
+    let expandedAuditLogs: ReportAuditLog[] | undefined = undefined;
 
-    // Get user info for those userIds
-    const users = await getEmployeesByIds(userIds);
+    // Only fetch users and expand audit logs if there are any audit logs
+    if (report.auditLogs.length > 0) {
+      // Collect userIds from audit logs
+      const userIds = [...report.auditLogs.map((log) => log.userId)];
 
-    // Map userId to user info
-    const userMap = new Map(
-      users.map((user) => [
-        user.id,
-        { name: user.name, image: user.image || "", username: user.username },
-      ]),
-    );
+      // Get user info for those userIds
+      const users = await getEmployeesByIds(userIds);
 
-    // Map shifts to SaleEmployee objects with user info
-    // const employees: SaleEmployee[] = report.shifts.map((shift) => {
-    //   const user = userMap.get(shift.userId);
-    //   return {
-    //     userId: shift.userId,
-    //     hour: shift.hours,
-    //     name: user?.name,
-    //     image: user?.image,
-    //     username: user?.username,
-    //   };
-    // });
+      // Map userId to user info
+      const userMap = new Map(
+        users.map((user) => [
+          user.id,
+          { name: user.name, image: user.image || "", username: user.username },
+        ]),
+      );
 
-    const expandedAuditLogs =
-      report.auditLogs?.map((log) => {
+      expandedAuditLogs = report.auditLogs.map((log) => {
         const user = userMap.get(log.userId);
         return {
           userId: log.userId,
@@ -171,14 +137,14 @@ export const getReportRaw = cache(
           image: user?.image,
           username: user?.username,
         };
-      }) ?? [];
+      });
+    }
 
     return {
       ...report,
       reporterName: report.reporter.name,
       reporterImage: report.reporter.image,
       reporterUsername: report.reporter.username,
-      // employees,
       auditLogs: expandedAuditLogs,
     };
   },
@@ -204,10 +170,10 @@ export const getReportsByDateRange = cache(async (dateRange: DayRange) => {
       date: true,
       totalSales: true,
       cardSales: true,
-      uberEatsSales: true,
-      doorDashSales: true,
-      skipTheDishesSales: true,
-      onlineSales: true,
+      // uberEatsSales: true,
+      // doorDashSales: true,
+      // skipTheDishesSales: true,
+      // onlineSales: true,
       platformSales: true,
       expenses: true,
     },

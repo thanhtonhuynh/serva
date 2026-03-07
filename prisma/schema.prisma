@@ -91,12 +91,12 @@ model SaleReport {
   cardSales  Int
 
   // Legacy platform columns (kept for backward compatibility)
-  uberEatsSales      Int
-  skipTheDishesSales Int
-  doorDashSales      Int
-  onlineSales        Int // This is actually Ritual sales
+  // uberEatsSales      Int
+  // skipTheDishesSales Int
+  // doorDashSales      Int
+  // onlineSales        Int // This is actually Ritual sales
   // New flexible platform sales
-  platformSales      PlatformSale[]
+  platformSales PlatformSale[]
 
   expenses       Int
   expensesReason String?
@@ -112,15 +112,15 @@ model SaleReport {
   userId   String @db.ObjectId
   reporter User   @relation(fields: [userId], references: [id], onDelete: Restrict)
 
-  shifts    Shift[]
+  // shifts    Shift[]
   auditLogs ReportAudit[]
 }
 
-type Shift {
-  userId String @db.ObjectId
-  hours  Float
-  tips   Int
-}
+// type Shift {
+//   userId String @db.ObjectId
+//   hours  Float
+//   tips   Int
+// }
 
 type PlatformSale {
   platformId String

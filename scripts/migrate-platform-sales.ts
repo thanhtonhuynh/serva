@@ -41,10 +41,10 @@ async function migrateSaleReports() {
     select: {
       id: true,
       date: true,
-      uberEatsSales: true,
-      doorDashSales: true,
-      skipTheDishesSales: true,
-      onlineSales: true,
+      // uberEatsSales: true,
+      // doorDashSales: true,
+      // skipTheDishesSales: true,
+      // onlineSales: true,
       platformSales: true,
     },
   });

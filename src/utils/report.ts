@@ -1,9 +1,4 @@
-import {
-  CashFlowRawData,
-  PlatformSaleData,
-  SaleReportCardProcessedData,
-  SaleReportCardRawData,
-} from "@/types";
+import { PlatformSaleData, SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
 
 /** Sum all platform sales from the platformSales array */
 export function sumPlatformSales(platformSales: PlatformSaleData[]): number {
@@ -53,49 +48,4 @@ export function processReportDataForView(
   };
 
   return processedData;
-}
-
-export type ReportSummary = {
-  totalSales: number;
-  /** Total of all platform sales combined */
-  onlineSales: number;
-  /** Per-platform breakdown: platformId → total amount */
-  platformTotals: Record<string, number>;
-};
-
-export function summarizeReports(reports: CashFlowRawData[]): ReportSummary {
-  return reports.reduce<ReportSummary>(
-    (acc, report) => {
-      acc.totalSales += report.totalSales;
-
-      // Use platformSales if available, fall back to legacy fields
-      const platformSales =
-        report.platformSales.length > 0
-          ? report.platformSales
-          : // Legacy fallback: build platformSales from old columns
-            [
-              { platformId: "uber_eats", amount: report.uberEatsSales },
-              { platformId: "doordash", amount: report.doorDashSales },
-              {
-                platformId: "skip_the_dishes",
-                amount: report.skipTheDishesSales,
-              },
-              { platformId: "ritual", amount: report.onlineSales },
-            ].filter((ps) => ps.amount > 0);
-
-      const reportOnline = sumPlatformSales(platformSales);
-      acc.onlineSales += reportOnline;
-
-      for (const ps of platformSales) {
-        acc.platformTotals[ps.platformId] = (acc.platformTotals[ps.platformId] ?? 0) + ps.amount;
-      }
-
-      return acc;
-    },
-    {
-      totalSales: 0,
-      onlineSales: 0,
-      platformTotals: {},
-    },
-  );
 }
