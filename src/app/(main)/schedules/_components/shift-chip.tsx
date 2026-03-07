@@ -46,7 +46,7 @@ export function ShiftChip({
       </div>
 
       {canManage && (
-        <div className="absolute -top-6 left-1/2 hidden shrink-0 -translate-x-1/2 items-center gap-0.5 group-hover/chip:flex">
+        <div className="hidden shrink-0 items-center gap-0.5 group-hover/chip:flex">
           <Button
             size="icon-xs"
             onClick={(e) => {

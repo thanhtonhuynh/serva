@@ -1,9 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -34,7 +42,7 @@ export function ShiftEditor({ initial, onSave, trigger }: ShiftEditorProps) {
     if (next) resetFields();
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
     const start = timeToMinutes(startTime);
     const end = timeToMinutes(endTime);
@@ -47,50 +55,55 @@ export function ShiftEditor({ initial, onSave, trigger }: ShiftEditorProps) {
   }
 
   return (
-    <Popover open={open} onOpenChange={handleOpenChange}>
-      <PopoverTrigger render={trigger} />
-      <PopoverContent className="w-64" align="start">
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <div className="grid grid-cols-2 gap-2">
-            <div className="space-y-1">
-              <Label className="text-xs">Start</Label>
-              <Input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                required
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger render={trigger} />
+
+      <DialogContent>
+        <DialogHeader showBorder>
+          <DialogTitle>{initial ? "Edit shift" : "Add shift"}</DialogTitle>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <DialogBody className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-2">
+                <Label>Start</Label>
+                <Input
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label>End</Label>
+                <Input
+                  type="time"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label>Note</Label>
+              <Textarea
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="e.g. Host stand"
+                className="resize-none"
               />
             </div>
-            <div className="space-y-1">
-              <Label className="text-xs">End</Label>
-              <Input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <div className="space-y-1">
-            <Label className="text-xs">Note</Label>
-            <Textarea
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="e.g. Host stand"
-              rows={2}
-              className="resize-none text-xs"
-            />
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="ghost" size="xs" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" size="xs">
+          </DialogBody>
+
+          <DialogFooter showCloseButton closeText="Cancel">
+            <Button type="submit" size="sm">
               {initial ? "Update" : "Add"}
             </Button>
-          </div>
+          </DialogFooter>
         </form>
-      </PopoverContent>
-    </Popover>
+      </DialogContent>
+    </Dialog>
   );
 }
