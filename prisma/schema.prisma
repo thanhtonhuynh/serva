@@ -35,6 +35,7 @@ model User {
   passwordResetTokens      PasswordResetToken[]
 
   saleReports SaleReport[]
+  workDayRecords WorkDayRecord[]
   // employeeShifts EmployeeShift[]
 }
 
@@ -184,6 +185,32 @@ model ScheduleDay {
   entries   DayEntry[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+}
+
+// ==========================================
+// WorkDayRecord (one document per employee per day)
+// ==========================================
+
+type WorkShift {
+  startMinutes Int
+  endMinutes   Int
+  note         String?
+}
+
+model WorkDayRecord {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  date       DateTime
+  userId     String      @db.ObjectId
+  user       User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  shifts     WorkShift[]
+  totalHours Float
+  tips       Int         @default(0)
+  note       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([date, userId])
 }
 
 // ==========================================

@@ -1,7 +1,16 @@
 import type { DateRange } from "@/types/datetime";
 import { TZDate } from "@date-fns/tz";
 import { utc } from "@date-fns/utc";
-import { endOfMonth, endOfWeek, format, parse, startOfMonth, startOfWeek } from "date-fns";
+import {
+  endOfDay,
+  endOfMonth,
+  endOfWeek,
+  format,
+  parse,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+} from "date-fns";
 
 const timeZone = "America/Vancouver";
 
@@ -137,4 +146,18 @@ export function getStartOfWeekUTC(date: Date | string): Date {
  */
 export function getEndOfWeekUTC(date: Date | string): Date {
   return endOfWeek(date, { weekStartsOn: 1, in: utc });
+}
+
+/**
+ * Get start of day (00:00) of the given date, in UTC.
+ */
+export function getStartOfDayUTC(date: Date | string): Date {
+  return startOfDay(date, { in: utc });
+}
+
+/**
+ * Get end of day (23:59:59.999) of the given date, in UTC.
+ */
+export function getEndOfDayUTC(date: Date | string): Date {
+  return endOfDay(date, { in: utc });
 }
