@@ -40,9 +40,9 @@ export function UserMenu({ user }: Props) {
                 {user.role.isAdminUser ? "Platform Admin" : (user.role.name ?? "No Role")}
               </Typography>
 
-              <Typography variant="p-xs" className="truncate">
+              {/* <Typography variant="p-xs" className="truncate">
                 {user.email}
-              </Typography>
+              </Typography> */}
             </div>
             <HugeiconsIcon icon={ICONS.ARROW_UP} strokeWidth={1.5} className="ml-auto" />
           </DropdownMenuTrigger>

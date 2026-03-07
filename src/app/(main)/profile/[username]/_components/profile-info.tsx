@@ -57,10 +57,10 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
       <Separator />
 
       {/* Details Section */}
-      <div className="bg-background grid gap-6 rounded-xl border border-blue-950 p-6 sm:grid-cols-2">
+      <div className="bg-background grid gap-6 rounded-xl border p-6 sm:grid-cols-2">
         <div className="flex items-center gap-3">
-          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon icon={Mail01Icon} className="text-muted-foreground size-5" />
+          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
+            <HugeiconsIcon icon={Mail01Icon} className="text-primary size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Email</p>
@@ -69,8 +69,8 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon icon={Calendar02Icon} className="text-muted-foreground size-5" />
+          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
+            <HugeiconsIcon icon={Calendar02Icon} className="text-primary size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Joined</p>
@@ -79,8 +79,8 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon icon={ShieldUserIcon} className="text-muted-foreground size-5" />
+          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
+            <HugeiconsIcon icon={ShieldUserIcon} className="text-primary size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Role</p>
@@ -91,8 +91,8 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-            <HugeiconsIcon icon={UserCheck01Icon} className="text-muted-foreground size-5" />
+          <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
+            <HugeiconsIcon icon={UserCheck01Icon} className="text-primary size-5" />
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Status</p>

@@ -83,13 +83,10 @@ export function SidebarMenuGroups() {
                   return (
                     <SidebarMenuItem key={item.url + item.title}>
                       <SidebarMenuButton
-                        className={cn(
-                          "aria-disabled:opacity-100",
-                          isActiveItem && "bg-primary-1 text-primary-dark",
-                        )}
+                        className={cn(isActiveItem && "bg-primary-1 text-primary-dark")}
                         onClick={() => isMobile && toggleSidebar()}
                         render={
-                          <Link href={href} aria-disabled={isActiveItem}>
+                          <Link href={href}>
                             <HugeiconsIcon icon={item.icon} strokeWidth={1.5} />
                             <span>{item.title}</span>
                           </Link>
