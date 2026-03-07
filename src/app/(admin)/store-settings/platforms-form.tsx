@@ -2,6 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ErrorMessage, SuccessMessage } from "@/components/shared/noti-message";
+import { PlatformIcon } from "@/components/shared/platform-icon";
 import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -9,7 +10,6 @@ import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/component
 import { PLATFORMS } from "@/constants/platforms";
 import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/lib/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { updateActivePlatforms } from "./actions";
@@ -89,14 +89,12 @@ export function PlatformsForm({ currentActivePlatformIds }: PlatformsFormProps) 
                         field.onChange(newValue);
                       }}
                     />
-                    <FieldLabel htmlFor={`platforms-form-${platform.id}`} className="font-normal">
-                      <Image
-                        src={platform.iconSrc}
-                        alt={`${platform.label} icon`}
-                        width={30}
-                        height={30}
-                      />
-                      {platform.label}
+                    <FieldLabel
+                      htmlFor={`platforms-form-${platform.id}`}
+                      className="flex items-center gap-2"
+                    >
+                      <PlatformIcon platform={platform} />
+                      <Typography>{platform.label}</Typography>
                     </FieldLabel>
                   </Field>
                 ))}
