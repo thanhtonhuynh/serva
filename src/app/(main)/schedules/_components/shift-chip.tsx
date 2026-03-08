@@ -32,12 +32,12 @@ export function ShiftChip({
   return (
     <div
       ref={canManage ? ref : undefined}
-      className={`group/chip bg-accent border-accent-foreground/10 relative flex w-full flex-col items-center gap-1 rounded-xl border px-3 py-2 text-xs ${
+      className={`group/chip bg-primary/20 border-accent-foreground/50 relative flex w-full flex-col items-center gap-1 rounded-xl border px-3 py-2 text-xs ${
         isDragging ? "opacity-50" : ""
       } ${canManage ? "cursor-grab active:cursor-grabbing" : ""}`}
     >
       <div className="min-w-0 flex-1">
-        <span className="block leading-tight">
+        <span className="block leading-tight font-medium">
           {minutesToTimeString(shift.startMinutes)} - {minutesToTimeString(shift.endMinutes)}
         </span>
         {shift.note && (
@@ -46,15 +46,17 @@ export function ShiftChip({
       </div>
 
       {canManage && (
-        <div className="hidden shrink-0 items-center gap-0.5 group-hover/chip:flex">
+        <div className="flex shrink-0 items-center gap-0.5">
           <Button
+            variant="ghost"
             size="icon-xs"
+            className="hover:text-primary"
             onClick={(e) => {
               e.stopPropagation();
               copyShift(shift);
             }}
           >
-            <HugeiconsIcon icon={Copy01Icon} />
+            <HugeiconsIcon icon={Copy01Icon} strokeWidth={1.5} />
             <span className="sr-only">Copy</span>
           </Button>
 
@@ -62,21 +64,27 @@ export function ShiftChip({
             initial={shift}
             onSave={onEdit}
             trigger={
-              <Button size="icon-xs" onClick={(e) => e.stopPropagation()}>
-                <HugeiconsIcon icon={ICONS.EDIT} className="size-3" />
+              <Button
+                variant="ghost"
+                className="hover:text-primary"
+                size="icon-xs"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <HugeiconsIcon icon={ICONS.EDIT} strokeWidth={1.5} />
               </Button>
             }
           />
 
           <Button
-            variant="default-destructive"
+            variant="ghost"
+            className="hover:text-destructive"
             size="icon-xs"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
             }}
           >
-            <HugeiconsIcon icon={ICONS.DELETE} />
+            <HugeiconsIcon icon={ICONS.DELETE} strokeWidth={1.5} />
             <span className="sr-only">Delete</span>
           </Button>
         </div>

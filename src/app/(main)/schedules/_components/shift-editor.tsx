@@ -65,25 +65,26 @@ export function ShiftEditor({ initial, onSave, trigger }: ShiftEditorProps) {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <DialogBody className="space-y-3">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-2">
-                <Label>Start</Label>
-                <Input
-                  type="time"
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label>End</Label>
-                <Input
-                  type="time"
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
-                  required
-                />
-              </div>
+            <div className="flex flex-col gap-2">
+              <Label>Start time</Label>
+              <Input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                required
+                className="w-fit"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label>End time</Label>
+              <Input
+                type="time"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                required
+                className="w-fit"
+              />
             </div>
 
             <div className="flex flex-col gap-2">

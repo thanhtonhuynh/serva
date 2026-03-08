@@ -32,7 +32,7 @@ export function ScheduleToolbar({
   onRedo,
 }: ScheduleToolbarProps) {
   return (
-    <div className="flex items-center gap-2 self-center">
+    <div className="flex items-center gap-2">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger

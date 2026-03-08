@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { ICONS } from "@/constants/icons";
 import { useDroppable } from "@dnd-kit/react";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -58,11 +57,11 @@ export function EmployeeDayCell({
         />
       ))}
 
-      {record.note && !canManage && (
+      {/* {record.note && !canManage && (
         <p className="text-muted-foreground text-xs italic">{record.note}</p>
-      )}
+      )} */}
 
-      {canManage && hasShifts && (
+      {/* {canManage && hasShifts && (
         <Textarea
           value={record.note ?? ""}
           onChange={(e) => onNotesChange(e.target.value)}
@@ -70,7 +69,7 @@ export function EmployeeDayCell({
           rows={1}
           className="min-h-6 resize-none rounded-md px-1.5 py-0.5 text-[11px]"
         />
-      )}
+      )} */}
 
       {canManage && (
         <div className="flex items-center gap-1">

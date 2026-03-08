@@ -294,7 +294,7 @@ export function ScheduleWeekGrid({
     <TooltipProvider>
       <ClipboardProvider>
         <DragDropProvider onDragEnd={handleDragEnd}>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
             <WeekNav
               weekStartUTC={weekStartUTC}
               weekEndUTC={weekEndUTC}
