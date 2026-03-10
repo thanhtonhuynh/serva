@@ -41,7 +41,7 @@ export function RecentReports({ reports, isOwner }: RecentReportsProps) {
 
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <p className="font-medium">{formatMoney(report.totalSales / 100)}</p>
+                  <p className="font-medium">{formatMoney(report.totalSales)}</p>
                   <p className="text-muted-foreground text-xs">Total Sales</p>
                 </div>
 

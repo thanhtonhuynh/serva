@@ -46,7 +46,7 @@ export function RecentShifts({ shifts, isOwner }: RecentShiftsProps) {
                 </div>
 
                 <div className="text-right">
-                  <p className="font-medium">{formatMoney(shift.tips / 100)}</p>
+                  <p className="font-medium">{formatMoney(shift.tips)}</p>
                   <p className="text-muted-foreground text-xs">Tips</p>
                 </div>
 
