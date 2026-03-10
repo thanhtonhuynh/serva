@@ -5,7 +5,6 @@ import { upsertReport } from "@/data-access/report";
 import { getCurrentSession } from "@/lib/auth/session";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { hasPermission } from "@/utils/access-control";
-import { getTodayUTCMidnight } from "@/utils/datetime";
 import { authenticatedRateLimit, rateLimitByKey } from "@/utils/rate-limiter";
 
 export async function saveReportAction(data: SaleReportInputs, mode: "create" | "edit") {
@@ -17,22 +16,21 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
 
     if (mode === "edit" && !hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE)) {
       return { error: "Unauthorized." };
-    } else {
-      if (mode === "create" && !hasPermission(user.role, PERMISSIONS.REPORTS_CREATE)) {
-        return { error: "Unauthorized." };
-      }
-
-      // If creating a report for a date other than today, return an error
-      const today = getTodayUTCMidnight();
-      if (
-        mode === "create" &&
-        (data.date.getUTCFullYear() !== today.getUTCFullYear() ||
-          data.date.getUTCMonth() !== today.getUTCMonth() ||
-          data.date.getUTCDate() !== today.getUTCDate())
-      ) {
-        return { error: "An error occurred. Please try again." };
-      }
     }
+    if (mode === "create" && !hasPermission(user.role, PERMISSIONS.REPORTS_CREATE)) {
+      return { error: "Unauthorized." };
+    }
+
+    // If creating a report for a date other than today, return an error
+    // const today = getTodayUTCMidnight();
+    // if (
+    //   mode === "create" &&
+    //   (data.date.getUTCFullYear() !== today.getUTCFullYear() ||
+    //     data.date.getUTCMonth() !== today.getUTCMonth() ||
+    //     data.date.getUTCDate() !== today.getUTCDate())
+    // ) {
+    //   return { error: "An error occurred. Please try again." };
+    // }
 
     if (!(await authenticatedRateLimit(user.id))) {
       return { error: "Too many requests. Please try again later." };
