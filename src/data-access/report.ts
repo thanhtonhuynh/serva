@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { toCents } from "@/lib/utils";
-import { SaleReportInputs } from "@/lib/validations/report";
+import { type SaleReportOutput } from "@/lib/validations/report";
 import { DayRange, SaleReportCardRawData, type ReportAuditLog } from "@/types";
 import { Prisma } from "@prisma/client";
 import { cache } from "react";
@@ -26,7 +26,7 @@ export const getRecentReportsByUser = cache(async (userId: string, limit: number
 });
 
 // Upsert a report
-export async function upsertReport(data: SaleReportInputs, userId: string) {
+export async function upsertReport(data: SaleReportOutput, userId: string) {
   const { cardTips, cashTips, extraTips, date, platformSales, ...raw } = data;
 
   // Convert all money values to cents

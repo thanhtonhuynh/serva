@@ -75,7 +75,7 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Start cash</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" />
+                  <Input {...field} type="number" value={field.value as string} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -23,3 +23,4 @@ export const SaleReportSchema = z.object({
   cashInTill: z.coerce.number().gte(0, { error: "Invalid" }).default(0),
 });
 export type SaleReportInputs = z.input<typeof SaleReportSchema>;
+export type SaleReportOutput = z.output<typeof SaleReportSchema>;

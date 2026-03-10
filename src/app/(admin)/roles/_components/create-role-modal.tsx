@@ -159,11 +159,11 @@ export function CreateRoleModal({ permissionsGrouped }: CreateRoleModalProps) {
                                   id={`create-role-permission-${permission.id}`}
                                   name={field.name}
                                   aria-invalid={fieldState.invalid}
-                                  checked={field.value.includes(permission.id)}
+                                  checked={field.value?.includes(permission.id)}
                                   onCheckedChange={(checked) => {
                                     const newValue = checked
-                                      ? [...field.value, permission.id]
-                                      : field.value.filter((id) => id !== permission.id);
+                                      ? [...(field.value ?? []), permission.id]
+                                      : field.value?.filter((id) => id !== permission.id);
                                     field.onChange(newValue);
                                   }}
                                 />

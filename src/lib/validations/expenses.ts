@@ -13,4 +13,5 @@ export const ExpensesFormSchema = z.object({
     .array()
     .min(1, "At least 1 entry is required"),
 });
-export type ExpensesFormInput = z.infer<typeof ExpensesFormSchema>;
+export type ExpensesFormInput = z.input<typeof ExpensesFormSchema>;
+export type ExpensesFormOutput = z.output<typeof ExpensesFormSchema>;

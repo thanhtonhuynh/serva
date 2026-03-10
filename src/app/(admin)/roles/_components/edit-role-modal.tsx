@@ -160,11 +160,13 @@ export function EditRoleModal({
                                   name={field.name}
                                   aria-invalid={fieldState.invalid}
                                   disabled={!role.editable}
-                                  checked={isAdminRole ? true : field.value.includes(permission.id)}
+                                  checked={
+                                    isAdminRole ? true : field.value?.includes(permission.id)
+                                  }
                                   onCheckedChange={(checked) => {
                                     const newValue = checked
-                                      ? [...field.value, permission.id]
-                                      : field.value.filter((id) => id !== permission.id);
+                                      ? [...(field.value ?? []), permission.id]
+                                      : (field.value ?? []).filter((id) => id !== permission.id);
                                     field.onChange(newValue);
                                   }}
                                 />

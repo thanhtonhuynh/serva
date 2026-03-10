@@ -20,7 +20,7 @@ export type UpdateShiftHoursInput = z.infer<typeof UpdateShiftHoursSchema>;
 export const UpdateStartCashSchema = z.object({
   startCash: z.coerce.number().min(0),
 });
-export type UpdateStartCashInput = z.infer<typeof UpdateStartCashSchema>;
+export type UpdateStartCashInput = z.input<typeof UpdateStartCashSchema>;
 
 // Update active platforms
 export const UpdateActivePlatformsSchema = z.object({
@@ -30,4 +30,4 @@ export const UpdateActivePlatformsSchema = z.object({
       error: "Invalid platform IDs",
     }),
 });
-export type UpdateActivePlatformsInput = z.infer<typeof UpdateActivePlatformsSchema>;
+export type UpdateActivePlatformsInput = z.input<typeof UpdateActivePlatformsSchema>;

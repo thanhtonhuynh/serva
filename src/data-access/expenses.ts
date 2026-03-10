@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
-import { ExpensesFormInput } from "@/lib/validations/expenses";
+import { type ExpensesFormOutput } from "@/lib/validations/expenses";
 import "server-only";
 
-export async function createExpenses(data: ExpensesFormInput) {
+export async function createExpenses(data: ExpensesFormOutput) {
   const { date, entries } = data;
 
   const existingExpense = await prisma.expense.findUnique({
@@ -33,7 +33,7 @@ export async function createExpenses(data: ExpensesFormInput) {
   }
 }
 
-export async function updateExpenses(data: ExpensesFormInput, id: string) {
+export async function updateExpenses(data: ExpensesFormOutput, id: string) {
   const { date, entries } = data;
 
   await prisma.expense.update({

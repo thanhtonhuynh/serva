@@ -8,7 +8,7 @@ export const CreateRoleSchema = z.object({
   description: trimmedString.max(200, "Description must be 200 characters or less").optional(),
   permissionIds: z.array(z.string()).default([]),
 });
-export type CreateRoleInput = z.infer<typeof CreateRoleSchema>;
+export type CreateRoleInput = z.input<typeof CreateRoleSchema>;
 
 export const UpdateRoleSchema = z.object({
   id: requiredString,
@@ -16,4 +16,4 @@ export const UpdateRoleSchema = z.object({
   description: trimmedString.max(200, "Description must be 200 characters or less").optional(),
   permissionIds: z.array(z.string()).default([]),
 });
-export type UpdateRoleInput = z.infer<typeof UpdateRoleSchema>;
+export type UpdateRoleInput = z.input<typeof UpdateRoleSchema>;

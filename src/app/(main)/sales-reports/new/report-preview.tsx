@@ -31,24 +31,24 @@ export function ReportPreview({
   // Convert platformSales amounts to cents for preview
   const platformSalesInCents = (formValues.platformSales ?? []).map((ps) => ({
     platformId: ps.platformId,
-    amount: ps.amount * 100,
+    amount: Number(ps.amount) * 100,
   }));
 
   const rawData: SaleReportCardRawData = {
     date: formValues.date,
-    totalSales: formValues.totalSales * 100,
-    cardSales: formValues.cardSales * 100,
+    totalSales: Number(formValues.totalSales) * 100,
+    cardSales: Number(formValues.cardSales) * 100,
     // Legacy fields set to 0 — platformSales is the source of truth
     // uberEatsSales: 0,
     // doorDashSales: 0,
     // skipTheDishesSales: 0,
     // onlineSales: 0,
     platformSales: platformSalesInCents,
-    expenses: formValues.expenses * 100,
-    cashInTill: formValues.cashInTill * 100,
-    cardTips: formValues.cardTips * 100,
-    cashTips: formValues.cashTips * 100,
-    extraTips: formValues.extraTips * 100,
+    expenses: Number(formValues.expenses) * 100,
+    cashInTill: Number(formValues.cashInTill) * 100,
+    cardTips: Number(formValues.cardTips) * 100,
+    cashTips: Number(formValues.cashTips) * 100,
+    extraTips: Number(formValues.extraTips) * 100,
     startCash,
     // employees: [],
     reporterName: reporterName ?? user?.name ?? "Unknown user",
