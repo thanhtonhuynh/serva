@@ -155,7 +155,7 @@
   /* --input: oklch(88.2% 0.059 254.128); */
   /* --ring: oklch(28.2% 0.091 267.935); */
   --ring: var(--color-primary-9);
-  
+
   --chart-1: oklch(0.809 0.105 251.813);
   --chart-2: oklch(0.623 0.214 259.815);
   --chart-3: oklch(0.546 0.245 262.881);
@@ -214,7 +214,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply relative text-foreground bg-neutral-50;
+    @apply text-foreground from-primary-1 to-primary-9 relative bg-linear-to-b;
   }
 
   body::before {
@@ -224,7 +224,7 @@
     z-index: -1;
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' result='noise' stitchTiles='stitch'/%3E%3CfeColorMatrix in='noise' type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.3;
+    opacity: 0.5;
     mix-blend-mode: multiply;
   }
 
