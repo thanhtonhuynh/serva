@@ -16,7 +16,7 @@ export function SalesDetailForm() {
           Sales
         </Typography>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 px-3">
           <InputFieldV2
             fieldName="totalSales"
             label="Total Sales"
@@ -34,7 +34,9 @@ export function SalesDetailForm() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3 md:auto-cols-fr md:grid-flow-col">
+        <Typography variant="h3">Online Platforms Sales</Typography>
+
+        <div className="grid grid-cols-2 gap-3 px-3 md:auto-cols-fr md:grid-flow-col">
           {form.getValues("platformSales").map((platform, index) => {
             const platformInfo = getPlatformById(platform.platformId);
             if (!platformInfo) return null;
@@ -58,20 +60,22 @@ export function SalesDetailForm() {
           Expenses
         </Typography>
 
-        <InputFieldV2
-          fieldName="expenses"
-          label="Amount"
-          htmlFor="expenses"
-          placeholder="0.00"
-          type="number"
-        />
+        <div className="px-3">
+          <InputFieldV2
+            fieldName="expenses"
+            label="Amount"
+            htmlFor="expenses"
+            placeholder="0.00"
+            type="number"
+          />
 
-        <InputFieldV2
-          fieldName="expensesReason"
-          label="Reason"
-          htmlFor="expensesReason"
-          placeholder="e.g., lime"
-        />
+          <InputFieldV2
+            fieldName="expensesReason"
+            label="Reason"
+            htmlFor="expensesReason"
+            placeholder="e.g., lime"
+          />
+        </div>
       </div>
 
       <div className="bg-background space-y-3 rounded-xl border p-3">
@@ -79,7 +83,7 @@ export function SalesDetailForm() {
           Tips
         </Typography>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3 px-3">
           <InputFieldV2
             fieldName="cardTips"
             label="Card"

@@ -3,7 +3,6 @@
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
 import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform } from "@/constants/platforms";
 import { useSession } from "@/contexts/SessionProvider";
@@ -17,7 +16,7 @@ import { motion } from "framer-motion";
 import { TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { saveReportAction } from "./actions";
 import { CashCalculatorForm } from "./cash-calculator-form";
@@ -191,9 +190,9 @@ export function SaleReportPortal({
           <Typography variant="h2" className="mt-2 text-center uppercase md:hidden">
             Sale Details
           </Typography>
-          <Form {...saleReportForm}>
+          <FormProvider {...saleReportForm}>
             <SalesDetailForm />
-          </Form>
+          </FormProvider>
         </MotionContainer>
       )}
 
