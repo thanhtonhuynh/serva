@@ -11,7 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import type { DisplayUser } from "@/types";
+import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { DragDropProvider } from "@dnd-kit/react";
 import { addDays } from "date-fns";
 import { useCallback, useEffect, useMemo, useTransition } from "react";
@@ -122,6 +124,10 @@ export function ScheduleWeekGrid({
   const { isDirty } = form.formState;
   const { snapshot, undo, redo, clearHistory, canUndo, canRedo } = useUndoRedo(form);
   const [isSaving, startSaveTransition] = useTransition();
+
+  const isToday = useCallback((dateStr: string) => {
+    return dateStr === formatInUTC(getTodayUTCMidnight());
+  }, []);
 
   // Take initial snapshot
   useEffect(() => {
@@ -322,7 +328,13 @@ export function ScheduleWeekGrid({
                 <TableRow className="divide-x">
                   <TableHead className="min-w-[150px] font-semibold">Employee</TableHead>
                   {weekDates.map((dateStr) => (
-                    <TableHead key={dateStr} className="min-w-[140px] text-center font-semibold">
+                    <TableHead
+                      key={dateStr}
+                      className={cn(
+                        "min-w-[140px] text-center font-semibold",
+                        isToday(dateStr) && "bg-primary/20",
+                      )}
+                    >
                       {formatDayHeader(dateStr)}
                     </TableHead>
                   ))}
@@ -337,14 +349,17 @@ export function ScheduleWeekGrid({
                         <span className="text-sm">{emp.name}</span>
                       </div>
                     </TableCell>
-                    {weekDates.map((_, dayIdx) => {
+                    {weekDates.map((dateStr, dayIdx) => {
                       const record = watchedDays?.[dayIdx]?.entries?.[empIdx] ?? {
                         userId: emp.id,
                         shifts: [],
                       };
                       const dropId = `drop-${dayIdx}-${empIdx}`;
                       return (
-                        <TableCell key={dayIdx} className="p-1 text-center">
+                        <TableCell
+                          key={dayIdx}
+                          className={cn("p-1 text-center", isToday(dateStr) && "bg-primary/20")}
+                        >
                           <EmployeeDayCell
                             dayIndex={dayIdx}
                             entryIndex={empIdx}
