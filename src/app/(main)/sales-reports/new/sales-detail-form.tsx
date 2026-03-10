@@ -37,7 +37,7 @@ export function SalesDetailForm() {
         <Typography variant="h3">Online Platforms Sales</Typography>
 
         <div className="grid grid-cols-2 gap-3 px-3 md:auto-cols-fr md:grid-flow-col">
-          {form.getValues("platformSales").map((platform, index) => {
+          {form.getValues("platformSales")?.map((platform, index) => {
             const platformInfo = getPlatformById(platform.platformId);
             if (!platformInfo) return null;
 

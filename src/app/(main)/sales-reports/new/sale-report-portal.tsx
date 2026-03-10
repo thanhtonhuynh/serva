@@ -7,6 +7,7 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform } from "@/constants/platforms";
 import { useSession } from "@/contexts/SessionProvider";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
+import type { CashType } from "@/types";
 import { hasPermission } from "@/utils/access-control";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,39 +67,40 @@ export function SaleReportPortal({
   const [isPending, startTransition] = useTransition();
   const saleReportForm = useForm<SaleReportInputs>({
     resolver: zodResolver(SaleReportSchema),
+    mode: "onChange",
     defaultValues: {
       date: initialValues?.date || getTodayUTCMidnight(),
-      totalSales: initialValues?.totalSales || 0.0,
-      cardSales: initialValues?.cardSales || 0.0,
+      totalSales: initialValues?.totalSales || "",
+      cardSales: initialValues?.cardSales || "",
       platformSales:
         initialValues?.platformSales ||
-        activePlatforms.map((p) => ({ platformId: p.id, amount: 0 })),
-      expenses: initialValues?.expenses || 0.0,
+        activePlatforms.map((p) => ({ platformId: p.id, amount: "" })),
+      expenses: initialValues?.expenses || "",
       expensesReason: initialValues?.expensesReason || "",
-      cardTips: initialValues?.cardTips || 0.0,
-      cashTips: initialValues?.cashTips || 0.0,
-      extraTips: initialValues?.extraTips || 0.0,
-      cashInTill: initialValues?.cashInTill || 0.0,
+      cardTips: initialValues?.cardTips || "",
+      cashTips: initialValues?.cashTips || "",
+      extraTips: initialValues?.extraTips || "",
+      cashInTill: initialValues?.cashInTill || "",
     },
     reValidateMode: "onBlur",
   });
-  const cashCounterForm = useForm({
+  const cashCounterForm = useForm<{ [key in CashType]: string }>({
     defaultValues: {
-      coin5c: 0,
-      coin10c: 0,
-      coin25c: 0,
-      coin1: 0,
-      coin2: 0,
-      bill5: 0,
-      bill10: 0,
-      bill20: 0,
-      bill50: 0,
-      bill100: 0,
-      roll5c: 0,
-      roll10c: 0,
-      roll25c: 0,
-      roll1: 0,
-      roll2: 0,
+      coin5c: "",
+      coin10c: "",
+      coin25c: "",
+      coin1: "",
+      coin2: "",
+      bill5: "",
+      bill10: "",
+      bill20: "",
+      bill50: "",
+      bill100: "",
+      roll5c: "",
+      roll10c: "",
+      roll25c: "",
+      roll1: "",
+      roll2: "",
     },
   });
   const [currentStep, setCurrentStep] = useState(0);
@@ -108,45 +110,45 @@ export function SaleReportPortal({
   const { user } = useSession();
 
   async function processForm(data: SaleReportInputs) {
-    const { error, reportDate, noWorkDayRecordsWarning } = await saveReportAction(data, mode);
-    if (error || !reportDate) toast.error(error);
-    else {
-      if (noWorkDayRecordsWarning) {
-        toast.warning(
-          "Report saved. No schedule found for this date — enter the schedule to distribute tips.",
-        );
-      }
-      if (mode === "create") {
-        router.push("/");
-      } else {
-        if (hasPermission(user?.role, PERMISSIONS.REPORTS_VIEW)) {
-          router.push(`/sales-reports?date=${formatInUTC(reportDate)}`);
+    startTransition(async () => {
+      const { error, reportDate, noWorkDayRecordsWarning } = await saveReportAction(data, mode);
+      if (error || !reportDate) toast.error(error);
+      else {
+        if (noWorkDayRecordsWarning) {
+          toast.warning(
+            "Report saved. No schedule found for this date — enter the schedule to distribute tips.",
+          );
         }
+        if (mode === "create") {
+          router.push("/");
+        } else {
+          if (hasPermission(user?.role, PERMISSIONS.REPORTS_VIEW)) {
+            router.push(`/sales-reports?date=${formatInUTC(reportDate)}`);
+          }
+        }
+        toast.success("Report saved successfully.");
       }
-      toast.success("Report saved successfully.");
-    }
+    });
   }
 
   async function nextStep() {
     const fields = steps[currentStep].fields as FieldName[];
-    startTransition(async () => {
-      const isValid = await saleReportForm.trigger(fields, {
-        shouldFocus: true,
-      });
-      if (!isValid) {
+    const isValid = await saleReportForm.trigger(fields, {
+      shouldFocus: true,
+    });
+    if (!isValid) {
+      return;
+    }
+
+    if (currentStep < steps.length - 1) {
+      if (currentStep === steps.length - 2) {
+        await saleReportForm.handleSubmit(processForm)();
         return;
       }
 
-      if (currentStep < steps.length - 1) {
-        if (currentStep === steps.length - 2) {
-          await saleReportForm.handleSubmit(processForm)();
-          return;
-        }
-
-        setPreviousStep(currentStep);
-        setCurrentStep((step) => step + 1);
-      }
-    });
+      setPreviousStep(currentStep);
+      setCurrentStep((step) => step + 1);
+    }
   }
 
   function prevStep() {

@@ -26,11 +26,8 @@ export type UpdateStartCashInput = z.infer<typeof UpdateStartCashSchema>;
 export const UpdateActivePlatformsSchema = z.object({
   activePlatforms: z
     .array(z.string())
-    .refine(
-      (value) => value.every((id) => PLATFORMS.some((p) => p.id === id)),
-      { message: "Invalid platform IDs" },
-    ),
+    .refine((value) => value.every((id) => PLATFORMS.some((p) => p.id === id)), {
+      error: "Invalid platform IDs",
+    }),
 });
-export type UpdateActivePlatformsInput = z.infer<
-  typeof UpdateActivePlatformsSchema
->;
+export type UpdateActivePlatformsInput = z.infer<typeof UpdateActivePlatformsSchema>;

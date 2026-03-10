@@ -15,10 +15,6 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
       return { error: "Unauthorized." };
     }
 
-    console.log(user.role);
-    console.log(hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE));
-    console.log(hasPermission(user.role, PERMISSIONS.REPORTS_CREATE));
-
     if (mode === "edit" && !hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE)) {
       return { error: "Unauthorized." };
     } else {
@@ -62,7 +58,7 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
       noWorkDayRecordsWarning: result.noWorkDayRecordsWarning,
     };
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return { error: "Save report failed. Please try again." };
   }
 }

@@ -93,20 +93,17 @@ export const UpdatePasswordSchema = z
     logOutOtherDevices: z.boolean().default(true).optional(),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "Passwords do not match",
     path: ["confirmNewPassword"],
+    error: "Passwords do not match",
   });
 export type UpdatePasswordSchemaInput = z.infer<typeof UpdatePasswordSchema>;
 
 // Update profile picture
 export const UpdateAvatarSchema = z.object({
   image: z
-    .instanceof(File, { message: "Required" })
+    .file({ error: "Required" })
     .refine((file) => file.type.startsWith("image/"), "Invalid file type")
-    .refine(
-      (file) => file.size <= MAX_IMAGE_SIZE,
-      "Please upload a picture less than 5MB",
-    ),
+    .refine((file) => file.size <= MAX_IMAGE_SIZE, "Please upload a picture less than 5MB"),
 });
 export type UpdateAvatarSchemaInput = z.infer<typeof UpdateAvatarSchema>;
 
@@ -114,9 +111,7 @@ export type UpdateAvatarSchemaInput = z.infer<typeof UpdateAvatarSchema>;
 export const VerificationCodeSchema = z.object({
   code: trimmedString.min(6, "Your verification code must be 6 characters."),
 });
-export type VerificationCodeSchemaTypes = z.infer<
-  typeof VerificationCodeSchema
->;
+export type VerificationCodeSchemaTypes = z.infer<typeof VerificationCodeSchema>;
 
 // Forgot password
 export const ForgotPasswordSchema = z.object({
@@ -138,8 +133,8 @@ export const ResetPasswordSchema = z
     logOutOtherDevices: z.boolean().default(true).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
     path: ["confirmPassword"],
+    error: "Passwords do not match",
   });
 export type ResetPasswordSchemaTypes = z.infer<typeof ResetPasswordSchema>;
 
@@ -154,6 +149,4 @@ export type TwoFactorSetupSchemaTypes = z.infer<typeof TwoFactorSetupSchema>;
 export const TwoFactorVerificationSchema = z.object({
   code: trimmedString.min(6, "Your code must be 6 characters."),
 });
-export type TwoFactorVerificationSchemaTypes = z.infer<
-  typeof TwoFactorVerificationSchema
->;
+export type TwoFactorVerificationSchemaTypes = z.infer<typeof TwoFactorVerificationSchema>;
