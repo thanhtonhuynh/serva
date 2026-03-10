@@ -30,7 +30,7 @@ export function ReportPicker() {
 
   return (
     <Card className="min-w-sm p-6">
-      <Typography variant="caption">Select a date to view a sales report</Typography>
+      <Typography variant="h2">Select a date to view a sales report</Typography>
 
       <div className="flex flex-col gap-3">
         <Calendar

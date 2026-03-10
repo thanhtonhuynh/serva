@@ -12,7 +12,7 @@ import { notFound, redirect } from "next/navigation";
 import { Fragment, ReactNode, Suspense } from "react";
 import { SalesAnalyticsDashboard } from "../_components/sales-analytics";
 import { SalesAnalyticsSkeleton } from "../_components/sales-analytics/sales-analytics-skeleton";
-import { ReportPicker } from "./_components";
+import { RecentReports, ReportPicker } from "./_components";
 
 export default async function ReportViewLayout({ children }: { children: ReactNode }) {
   const { user } = await getCurrentSession();
@@ -45,7 +45,13 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
         </Suspense>
 
         <div className="flex flex-col gap-6 min-[1150px]:flex-row min-[1150px]:items-start">
-          <ReportPicker />
+          <div className="flex flex-col gap-6">
+            <ReportPicker />
+            <Suspense fallback={null}>
+              <RecentReports />
+            </Suspense>
+          </div>
+
           <div className="flex-1">{children}</div>
         </div>
       </Container>

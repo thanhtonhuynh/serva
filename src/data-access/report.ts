@@ -25,6 +25,21 @@ export const getRecentReportsByUser = cache(async (userId: string, limit: number
   return reports;
 });
 
+// Get the most recent reports by date (for quick links on sales-reports page)
+export const getRecentReports = cache(async (limit: number = 5) => {
+  const reports = await prisma.saleReport.findMany({
+    orderBy: { date: "desc" },
+    take: limit,
+    select: {
+      id: true,
+      date: true,
+      totalSales: true,
+    },
+  });
+
+  return reports;
+});
+
 // Upsert a report
 export async function upsertReport(data: SaleReportOutput, userId: string) {
   const { cardTips, cashTips, extraTips, date, platformSales, ...raw } = data;
