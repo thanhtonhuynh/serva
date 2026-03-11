@@ -14,6 +14,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { DisplayUser } from "@/types";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
+import { computeTotalHours } from "@/utils/work-day-record";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -68,6 +69,22 @@ function buildInitialValues(
   });
 
   return { days };
+}
+
+/** Total hours for one employee across the week (from form days). */
+function getEmployeeWeekHours(
+  watchedDays: WeekFormValues["days"] | undefined,
+  entryIndex: number,
+): number {
+  if (!watchedDays) return 0;
+  let total = 0;
+  for (const day of watchedDays) {
+    const entry = day.entries[entryIndex];
+    if (entry?.shifts?.length) {
+      total += computeTotalHours(entry.shifts);
+    }
+  }
+  return total;
 }
 
 export function ScheduleWeekGrid({
@@ -306,6 +323,7 @@ export function ScheduleWeekGrid({
                       {formatInUTC(dateStr, "EEE M/d")}
                     </TableHead>
                   ))}
+                  <TableHead className="min-w-[80px] text-center font-semibold">Total</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -342,6 +360,9 @@ export function ScheduleWeekGrid({
                         </TableCell>
                       );
                     })}
+                    <TableCell className="text-center font-medium tabular-nums">
+                      {getEmployeeWeekHours(watchedDays, empIdx).toFixed(1)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
