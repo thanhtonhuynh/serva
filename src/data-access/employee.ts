@@ -3,9 +3,9 @@ import { DayRange, Shift } from "@/types";
 import { cache } from "react";
 import "server-only";
 import {
+  getRecentWorkDayRecordsByUser,
   getWorkDayRecordsByDateRange,
   getWorkDayRecordsByUserAndDateRange,
-  getRecentWorkDayRecordsByUser,
 } from "./work-day-record";
 
 /** @deprecated Use getWorkDayRecordsByUserAndDateRange from work-day-record and map to UserShift[] if needed. */
@@ -19,22 +19,24 @@ export const getUserShiftsInDateRange = cache(async (userId: string, dateRange: 
 });
 
 // Get employees with optional status filter and hidden from reports filter
-export const getEmployees = cache(async (status?: string, excludeHiddenFromReports?: boolean) => {
-  return prisma.user.findMany({
-    where: {
-      accountStatus: status,
-      ...(excludeHiddenFromReports && { hiddenFromReports: false }),
-      // Exclude platform super admins (AdminUser) from team list
-      adminUser: null,
-    },
-    include: {
-      role: {
-        select: { id: true, name: true, permissions: { select: { code: true } } },
+export const getEmployees = cache(
+  async ({ status, excludeAdmin }: { status?: string; excludeAdmin?: boolean }) => {
+    return prisma.user.findMany({
+      where: {
+        accountStatus: status,
+        // Exclude platform super admins (AdminUser) from team list
+        adminUser: null,
+        ...(excludeAdmin && { role: { NOT: { name: "Admin" } } }),
       },
-    },
-    orderBy: { name: "asc" },
-  });
-});
+      include: {
+        role: {
+          select: { id: true, name: true, permissions: { select: { code: true } } },
+        },
+      },
+      orderBy: { name: "asc" },
+    });
+  },
+);
 
 // Fetch all shifts in a date range
 /** @deprecated Use getWorkDayRecordsByDateRange from work-day-record; use getHoursTipsBreakdownInDateRange with those records for admin hours&tips. */

@@ -72,7 +72,7 @@ async function ScheduleWeekContent({
   const dateRangeUTC: DateRange = { start: weekStartUTC, end: weekEndUTC };
   const [workDayRecords, employees] = await Promise.all([
     getWorkDayRecordsByDateRange(dateRangeUTC),
-    getEmployees("active"),
+    getEmployees({ status: "active", excludeAdmin: true }),
   ]);
 
   const prevWeekStart = addDays(weekStartUTC, -7);

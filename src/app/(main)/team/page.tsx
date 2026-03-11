@@ -34,7 +34,7 @@ export default async function TeamPage({ searchParams }: PageProps) {
 
   const view: ViewMode = (params.view as ViewMode) || "table";
 
-  const employees = await getEmployees(status);
+  const employees = await getEmployees({ status });
 
   const rolesPromise = getRoles();
 
