@@ -63,7 +63,7 @@ export const getWorkDayRecordsByDateRange = cache(async (dateRange: DayRange) =>
         lte: dateRange.end,
       },
     },
-    include: { user: true },
+    select: { id: true, date: true, userId: true, shifts: true, totalHours: true, note: true },
     orderBy: [{ date: "asc" }, { user: { name: "asc" } }],
   });
 });

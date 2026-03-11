@@ -2,6 +2,7 @@ import type { DateRange } from "@/types/datetime";
 import { TZDate } from "@date-fns/tz";
 import { utc } from "@date-fns/utc";
 import {
+  addDays,
   endOfDay,
   endOfMonth,
   endOfWeek,
@@ -17,7 +18,7 @@ const timeZone = "America/Vancouver";
 /**
  * Formats a date in UTC timezone.
  */
-export function formatInUTC(date: Date, formatStr: string = "yyyy-MM-dd"): string {
+export function formatInUTC(date: Date | string, formatStr: string = "yyyy-MM-dd"): string {
   return format(date, formatStr, { in: utc });
 }
 
@@ -160,4 +161,11 @@ export function getStartOfDayUTC(date: Date | string): Date {
  */
 export function getEndOfDayUTC(date: Date | string): Date {
   return endOfDay(date, { in: utc });
+}
+
+/**
+ * Build week dates for a given week start date, in UTC.
+ */
+export function buildWeekDatesUTC(weekStartUTC: Date): Date[] {
+  return Array.from({ length: 7 }, (_, i) => addDays(weekStartUTC, i));
 }

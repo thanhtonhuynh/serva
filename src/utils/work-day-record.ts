@@ -1,4 +1,8 @@
+import type { WorkDayRecordsByDate } from "@/app/(main)/schedules/_lib/types";
+import type { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
 import { WorkShift } from "@prisma/client";
+import { isSameDay } from "date-fns";
+import { buildWeekDatesUTC, formatInUTC } from "./datetime";
 
 /**
  * Compute the total hours from a list of shifts.
@@ -46,4 +50,23 @@ export function distributeTips(
     const tips = Math.round(ratio * totalTipsCents);
     return { id: r.id, tips };
   });
+}
+
+/**
+ * Build records-by-date map from flat WorkDayRecord[] for the week (7 days from weekStartUTC).
+ */
+export function buildWorkDayRecordsByDate(
+  workDayRecords: Awaited<ReturnType<typeof getWorkDayRecordsByDateRange>>,
+  weekStartUTC: Date,
+): WorkDayRecordsByDate {
+  const weekDates = buildWeekDatesUTC(weekStartUTC);
+  const byDate: WorkDayRecordsByDate = {};
+
+  for (const weekDate of weekDates) {
+    const dateKey = formatInUTC(weekDate);
+    const dayRecords = workDayRecords.filter((r) => isSameDay(r.date, weekDate));
+    byDate[dateKey] = dayRecords;
+  }
+
+  return byDate;
 }

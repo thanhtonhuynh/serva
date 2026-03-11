@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 import type { DisplayUser } from "@/types";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { DragDropProvider } from "@dnd-kit/react";
-import { addDays } from "date-fns";
 import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,7 +22,6 @@ import { ClipboardProvider } from "../_context/clipboard-context";
 import { useNavigationGuard } from "../_hooks/use-navigation-guard";
 import { useUndoRedo } from "../_hooks/use-undo-redo";
 import {
-  toUTCDateKey,
   type DayFormValue,
   type EntryFormValue,
   type ShiftFormValue,
@@ -35,10 +33,6 @@ import { EmployeeDayCell } from "./employee-day-cell";
 import { ScheduleToolbar } from "./schedule-toolbar";
 import { WeekNav } from "./week-nav";
 
-// ---------------------------------------------------------------------------
-// Props: WorkDayRecord-based (no ScheduleDay)
-// ---------------------------------------------------------------------------
-
 type ScheduleWeekGridProps = {
   weekStartUTC: Date;
   weekEndUTC: Date;
@@ -49,15 +43,6 @@ type ScheduleWeekGridProps = {
   employees: DisplayUser[];
   canManage: boolean;
 };
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-/** Build 7-day date keys for the week (derived from weekStartUTC if needed). */
-function buildWeekDates(weekStartUTC: Date): string[] {
-  return Array.from({ length: 7 }, (_, i) => toUTCDateKey(addDays(weekStartUTC, i)));
-}
 
 /** Build initial form values from WorkDayRecords by date and employee list. */
 function buildInitialValues(
@@ -85,33 +70,16 @@ function buildInitialValues(
   return { days };
 }
 
-/** Format a UTC date key like "2026-02-23" into "Mon 2/23". */
-function formatDayHeader(dateStr: string): string {
-  const d = new Date(dateStr + "T00:00:00Z");
-  const dayName = new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" }).format(d);
-  const month = d.getUTCMonth() + 1;
-  const day = d.getUTCDate();
-  return `${dayName} ${month}/${day}`;
-}
-
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
-
 export function ScheduleWeekGrid({
   weekStartUTC,
   weekEndUTC,
   prevWeekParam,
   nextWeekParam,
-  weekDates: weekDatesProp,
+  weekDates,
   recordsByDate,
   employees,
   canManage,
 }: ScheduleWeekGridProps) {
-  const weekDates = useMemo(
-    () => (weekDatesProp.length === 7 ? weekDatesProp : buildWeekDates(weekStartUTC)),
-    [weekDatesProp, weekStartUTC],
-  );
   const initialValues = useMemo(
     () => buildInitialValues(weekDates, recordsByDate, employees),
     [weekDates, recordsByDate, employees],
@@ -335,7 +303,7 @@ export function ScheduleWeekGrid({
                         isToday(dateStr) && "bg-primary/20",
                       )}
                     >
-                      {formatDayHeader(dateStr)}
+                      {formatInUTC(dateStr, "EEE M/d")}
                     </TableHead>
                   ))}
                 </TableRow>

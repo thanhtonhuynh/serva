@@ -36,8 +36,9 @@ export type WeekFormValues = {
 /** WorkDayRecord shape as sent from server to client (serializable). */
 export type WorkDayRecordForClient = {
   userId: string;
-  shifts: { startMinutes: number; endMinutes: number; note?: string | null }[];
-  note?: string | null;
+  shifts: { startMinutes: number; endMinutes: number; note: string | null }[];
+  note: string | null;
+  totalHours: number;
 };
 
 /** Records for a single date: key = date YYYY-MM-DD, value = WorkDayRecords for that day. */
@@ -90,10 +91,4 @@ export function minutesToTimeInput(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
   return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
-}
-
-/** Extract YYYY-MM-DD from an ISO string or Date, always in UTC. */
-export function toUTCDateKey(d: string | Date): string {
-  const iso = typeof d === "string" ? d : d.toISOString();
-  return iso.slice(0, 10);
 }

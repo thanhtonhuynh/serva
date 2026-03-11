@@ -1,16 +1,10 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { Icon } from "@/components/shared";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import {
-  ArrowTurnBackwardIcon,
-  ArrowTurnForwardIcon,
-  CircleArrowReload01Icon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 
-type ScheduleToolbarProps = {
+type Props = {
   isDirty: boolean;
   isSaving: boolean;
   canUndo: boolean;
@@ -30,37 +24,23 @@ export function ScheduleToolbar({
   onReset,
   onUndo,
   onRedo,
-}: ScheduleToolbarProps) {
+}: Props) {
   return (
     <div className="flex items-center gap-2">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger
-            render={<Button variant="ghost" size="icon-sm" disabled={!canUndo} onClick={onUndo} />}
-          >
-            <HugeiconsIcon icon={ArrowTurnBackwardIcon} className="size-4" />
-          </TooltipTrigger>
-          <TooltipContent>Undo</TooltipContent>
-        </Tooltip>
+      <Button variant="ghost" size="sm" disabled={!canUndo} onClick={onUndo}>
+        <Icon icon="ARROW_TURN_BACKWARD" />
+        <span>Undo</span>
+      </Button>
 
-        <Tooltip>
-          <TooltipTrigger
-            render={<Button variant="ghost" size="icon-sm" disabled={!canRedo} onClick={onRedo} />}
-          >
-            <HugeiconsIcon icon={ArrowTurnForwardIcon} className="size-4" />
-          </TooltipTrigger>
-          <TooltipContent>Redo</TooltipContent>
-        </Tooltip>
+      <Button variant="ghost" size="sm" disabled={!canRedo} onClick={onRedo}>
+        <Icon icon="ARROW_TURN_FORWARD" />
+        <span>Redo</span>
+      </Button>
 
-        <Tooltip>
-          <TooltipTrigger
-            render={<Button variant="ghost" size="icon-sm" disabled={!isDirty} onClick={onReset} />}
-          >
-            <HugeiconsIcon icon={CircleArrowReload01Icon} className="size-4" />
-          </TooltipTrigger>
-          <TooltipContent>Reset</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Button variant="ghost" size="sm" disabled={!isDirty} onClick={onReset}>
+        <Icon icon="CIRCLE_ARROW_RELOAD" />
+        <span>Reset</span>
+      </Button>
 
       <LoadingButton size="sm" disabled={!isDirty} loading={isSaving} onClick={onSave}>
         Save

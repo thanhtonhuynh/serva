@@ -3,6 +3,7 @@ export * from "./account-status-badge";
 export * from "./confirm-dialog";
 export * from "./current-badge";
 export * from "./deco-icon";
+export * from "./icon";
 export * from "./noti-message";
 export * from "./password-input";
 export * from "./profile-picture";

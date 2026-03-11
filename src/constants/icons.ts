@@ -6,12 +6,15 @@ import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
   ArrowRight01Icon,
+  ArrowTurnBackwardIcon,
+  ArrowTurnForwardIcon,
   ArrowUp01Icon,
   BalanceScaleIcon,
   Calculator01Icon,
   Calendar03Icon,
   CashIcon,
   Chart01Icon,
+  CircleArrowReload01Icon,
   Clock01Icon,
   CoinsDollarIcon,
   Delete01Icon,
@@ -40,6 +43,8 @@ import {
 } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 
+export type IconKey = keyof typeof ICONS;
+
 export const ICONS = {
   ACCOUNT_SETTINGS: Settings01Icon,
   ADD: Add01Icon,
@@ -48,11 +53,14 @@ export const ICONS = {
   ARROW_RIGHT: ArrowRight01Icon,
   ARROW_DOWN: ArrowDown01Icon,
   ARROW_UP: ArrowUp01Icon,
+  ARROW_TURN_BACKWARD: ArrowTurnBackwardIcon,
+  ARROW_TURN_FORWARD: ArrowTurnForwardIcon,
   CALCULATOR: Calculator01Icon,
   CALENDAR: Calendar03Icon,
   CASH_DIFFERENCE: BalanceScaleIcon,
   CASHFLOW: Chart01Icon,
   CASH_OUT: CashIcon,
+  CIRCLE_ARROW_RELOAD: CircleArrowReload01Icon,
   DELETE: Delete01Icon,
   DOT: RecordIcon,
   EDIT: PencilEdit01Icon,
