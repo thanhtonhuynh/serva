@@ -3,32 +3,26 @@ import prisma from "@/lib/prisma";
 import { DayRange } from "@/types";
 import { getStartOfDayUTC } from "@/utils/datetime";
 import { computeTotalHours, distributeTips } from "@/utils/work-day-record";
-import type { WorkShift } from "@prisma/client";
 import { cache } from "react";
 import "server-only";
+import type { WorkDayRecordInput } from "./validation";
 
-export async function upsertWorkDayRecord(
-  date: Date,
-  userId: string,
-  shifts: WorkShift[],
-  note?: string | null,
-) {
-  const dayStart = getStartOfDayUTC(date);
-  const totalHours = computeTotalHours(shifts);
+export async function upsertWorkDayRecord(date: Date, record: WorkDayRecordInput) {
+  const totalHours = computeTotalHours(record.shifts);
 
   return prisma.workDayRecord.upsert({
-    where: { date_userId: { date: dayStart, userId } },
+    where: { date_userId: { date, userId: record.userId } },
     update: {
-      shifts,
+      shifts: record.shifts,
       totalHours,
-      note: note ?? undefined,
+      note: record.note,
     },
     create: {
-      date: dayStart,
-      userId,
-      shifts,
+      date,
+      userId: record.userId,
+      shifts: record.shifts,
       totalHours,
-      note: note ?? undefined,
+      note: record.note,
     },
   });
 }
@@ -37,6 +31,16 @@ export async function deleteWorkDayRecord(date: Date, userId: string) {
   const dayStart = getStartOfDayUTC(date);
   return prisma.workDayRecord.deleteMany({
     where: { date: dayStart, userId },
+  });
+}
+
+/**
+ * Delete many WorkDayRecords for a date by user ids.
+ */
+export async function deleteWorkDayRecordsByUserIds(date: Date, userIds: string[]) {
+  const dayStart = getStartOfDayUTC(date);
+  return prisma.workDayRecord.deleteMany({
+    where: { date: dayStart, userId: { in: userIds } },
   });
 }
 

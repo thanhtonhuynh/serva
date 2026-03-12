@@ -205,7 +205,7 @@ export function ScheduleWeekGrid(props: Props) {
   const handleSave = useCallback(() => {
     const values = form.getValues();
     startSaveTransition(async () => {
-      const result = await saveWeekScheduleAction(values);
+      const result = await saveWeekScheduleAction({ start: weekStartUTC, end: weekEndUTC }, values);
       if (result.error) {
         toast.error(result.error);
       } else {
