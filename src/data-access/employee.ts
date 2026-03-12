@@ -6,7 +6,7 @@ import {
   getRecentWorkDayRecordsByUser,
   getWorkDayRecordsByDateRange,
   getWorkDayRecordsByUserAndDateRange,
-} from "./work-day-record";
+} from "./work-day-record/dal";
 
 /** @deprecated Use getWorkDayRecordsByUserAndDateRange from work-day-record and map to UserShift[] if needed. */
 export const getUserShiftsInDateRange = cache(async (userId: string, dateRange: DayRange) => {

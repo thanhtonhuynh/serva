@@ -7,7 +7,7 @@ import {
   getWorkDayRecordsByDate,
   recomputeTipsForDate,
   upsertWorkDayRecord,
-} from "@/data-access/work-day-record";
+} from "@/data-access/work-day-record/dal";
 import { hasPermission } from "@/utils/access-control";
 import { authorizeEmployeeAction } from "@/utils/authorize-employee";
 import { revalidatePath } from "next/cache";

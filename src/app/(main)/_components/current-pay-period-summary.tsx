@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ICONS } from "@/constants/icons";
-import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record";
+import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record/dal";
 import { User } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
 import { formatInUTC, getCurrentBiweeklyPeriodInUTC } from "@/utils/datetime";

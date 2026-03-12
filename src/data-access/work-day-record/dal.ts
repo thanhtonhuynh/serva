@@ -1,3 +1,4 @@
+import { workDayRecordSelectWithUser } from "@/data-access/work-day-record/types";
 import prisma from "@/lib/prisma";
 import { DayRange } from "@/types";
 import { getStartOfDayUTC } from "@/utils/datetime";
@@ -55,6 +56,10 @@ export const getWorkDayRecordsByDate = cache(async (date: Date) => {
   });
 });
 
+/**
+ * Get WorkDayRecords for a date range, with user relation.
+ * Ordered by date and user's name.
+ */
 export const getWorkDayRecordsByDateRange = cache(async (dateRange: DayRange) => {
   return prisma.workDayRecord.findMany({
     where: {
@@ -63,22 +68,7 @@ export const getWorkDayRecordsByDateRange = cache(async (dateRange: DayRange) =>
         lte: dateRange.end,
       },
     },
-    select: {
-      id: true,
-      date: true,
-      userId: true,
-      shifts: true,
-      totalHours: true,
-      note: true,
-      tips: true,
-      user: {
-        select: {
-          name: true,
-          username: true,
-          image: true,
-        },
-      },
-    },
+    select: workDayRecordSelectWithUser,
     orderBy: [{ date: "asc" }, { user: { name: "asc" } }],
   });
 });

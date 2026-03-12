@@ -52,14 +52,15 @@ export default async function SchedulePage({ searchParams }: PageProps) {
 
       <Container>
         <Suspense key={dateParam} fallback={<Loader />}>
-          <ScheduleWeekContent dateParam={dateParam} canManage={canManage} />
+          <SchedulePageContent dateParam={dateParam} canManage={canManage} />
         </Suspense>
       </Container>
     </Fragment>
   );
 }
 
-async function ScheduleWeekContent({
+// Keep this as a separate component so the app shows Loader again while the new week's data is loading.
+async function SchedulePageContent({
   dateParam,
   canManage,
 }: {

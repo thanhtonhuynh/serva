@@ -30,21 +30,6 @@ export type WeekFormValues = {
 };
 
 // ---------------------------------------------------------------------------
-// Server/client transfer (WorkDayRecord-based, no ScheduleDay)
-// ---------------------------------------------------------------------------
-
-/** WorkDayRecord shape as sent from server to client (serializable). */
-export type WorkDayRecordForClient = {
-  userId: string;
-  shifts: { startMinutes: number; endMinutes: number; note: string | null }[];
-  note: string | null;
-  totalHours: number;
-};
-
-/** Records for a single date: key = date YYYY-MM-DD, value = WorkDayRecords for that day. */
-export type WorkDayRecordsByDate = Record<string, WorkDayRecordForClient[]>;
-
-// ---------------------------------------------------------------------------
 // Save action payload (WorkDayRecord-based)
 // ---------------------------------------------------------------------------
 

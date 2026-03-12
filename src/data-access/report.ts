@@ -7,7 +7,7 @@ import { cache } from "react";
 import "server-only";
 import { getEmployeesByIds } from "./employee";
 import { getStartCash } from "./store";
-import { getWorkDayRecordsByDate, recomputeTipsForDate } from "./work-day-record";
+import { getWorkDayRecordsByDate, recomputeTipsForDate } from "./work-day-record/dal";
 
 // Get recent reports submitted by a user
 export const getRecentReportsByUser = cache(async (userId: string, limit: number = 5) => {

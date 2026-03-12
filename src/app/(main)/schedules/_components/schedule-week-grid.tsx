@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
 import { cn } from "@/lib/utils";
 import type { DisplayUser } from "@/types";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
@@ -27,7 +28,6 @@ import {
   type EntryFormValue,
   type ShiftFormValue,
   type WeekFormValues,
-  type WorkDayRecordsByDate,
 } from "../_lib/types";
 import { saveWeekScheduleAction } from "../actions";
 import { EmployeeDayCell } from "./employee-day-cell";

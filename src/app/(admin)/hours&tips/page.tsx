@@ -4,7 +4,7 @@ import { NotiMessage } from "@/components/shared/noti-message";
 import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
-import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
+import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record/dal";
 import { getCurrentSession } from "@/lib/auth/session";
 import { TotalHoursTips } from "@/types";
 import { hasPermission } from "@/utils/access-control";

@@ -4,7 +4,7 @@ import { CurrentBadge, Typography } from "@/components/shared";
 import { NotiMessage } from "@/components/shared/noti-message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
-import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record";
+import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record/dal";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
 import {
