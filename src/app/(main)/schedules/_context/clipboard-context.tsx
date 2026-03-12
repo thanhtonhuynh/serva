@@ -1,11 +1,11 @@
 "use client";
 
+import type { WorkShiftInput } from "@/data-access/work-day-record";
 import { createContext, useCallback, useContext, useState } from "react";
-import type { ShiftFormValue } from "../_lib";
 
 type ClipboardContextValue = {
-  copiedShift: ShiftFormValue | null;
-  copyShift: (shift: ShiftFormValue) => void;
+  copiedShift: WorkShiftInput | null;
+  copyShift: (shift: WorkShiftInput) => void;
   clearClipboard: () => void;
 };
 
@@ -16,9 +16,9 @@ const ClipboardContext = createContext<ClipboardContextValue>({
 });
 
 export function ClipboardProvider({ children }: { children: React.ReactNode }) {
-  const [copiedShift, setCopiedShift] = useState<ShiftFormValue | null>(null);
+  const [copiedShift, setCopiedShift] = useState<WorkShiftInput | null>(null);
 
-  const copyShift = useCallback((shift: ShiftFormValue) => {
+  const copyShift = useCallback((shift: WorkShiftInput) => {
     setCopiedShift({ ...shift });
   }, []);
 
