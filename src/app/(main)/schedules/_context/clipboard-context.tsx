@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useState } from "react";
-import type { ShiftFormValue } from "../_lib/types";
+import type { ShiftFormValue } from "../_lib";
 
 type ClipboardContextValue = {
   copiedShift: ShiftFormValue | null;

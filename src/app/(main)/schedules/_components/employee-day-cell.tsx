@@ -5,7 +5,7 @@ import { ICONS } from "@/constants/icons";
 import { useDroppable } from "@dnd-kit/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useClipboard } from "../_context/clipboard-context";
-import type { EntryFormValue, ShiftFormValue } from "../_lib/types";
+import type { EntryFormValue, ShiftFormValue } from "../_lib";
 import { ShiftChip } from "./shift-chip";
 import { ShiftEditor } from "./shift-editor";
 

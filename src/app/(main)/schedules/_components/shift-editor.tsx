@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-import { minutesToTimeInput, timeToMinutes, type ShiftFormValue } from "../_lib/types";
+import { minutesToTimeInput, timeToMinutes, type ShiftFormValue } from "../_lib";
 
 type ShiftEditorProps = {
   initial?: ShiftFormValue;

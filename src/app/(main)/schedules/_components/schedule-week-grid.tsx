@@ -10,12 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
+import {
+  type WeekScheduleInput,
+  type WorkDayRecordsByDate,
+  type WorkShiftInput,
+} from "@/data-access/work-day-record";
 import { cn } from "@/lib/utils";
 import type { DisplayUser } from "@/types";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
-import { computeTotalHours } from "@/utils/work-day-record";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -23,18 +25,13 @@ import { toast } from "sonner";
 import { ClipboardProvider } from "../_context/clipboard-context";
 import { useNavigationGuard } from "../_hooks/use-navigation-guard";
 import { useUndoRedo } from "../_hooks/use-undo-redo";
-import {
-  type DayFormValue,
-  type EntryFormValue,
-  type ShiftFormValue,
-  type WeekFormValues,
-} from "../_lib/types";
+import { buildInitialWeekScheduleInput, getEmployeeWeekHours } from "../_lib";
 import { saveWeekScheduleAction } from "../actions";
 import { EmployeeDayCell } from "./employee-day-cell";
 import { ScheduleToolbar } from "./schedule-toolbar";
 import { WeekNav } from "./week-nav";
 
-type ScheduleWeekGridProps = {
+type Props = {
   weekStartUTC: Date;
   weekEndUTC: Date;
   prevWeekParam: string;
@@ -45,70 +42,33 @@ type ScheduleWeekGridProps = {
   canManage: boolean;
 };
 
-/** Build initial form values from WorkDayRecords by date and employee list. */
-function buildInitialValues(
-  weekDates: string[],
-  recordsByDate: WorkDayRecordsByDate,
-  employees: DisplayUser[],
-): WeekFormValues {
-  const days: DayFormValue[] = weekDates.map((dateStr) => {
-    const dayRecords = recordsByDate[dateStr] ?? [];
-    const entries: EntryFormValue[] = employees.map((emp) => {
-      const record = dayRecords.find((r) => r.userId === emp.id);
-      return {
-        userId: emp.id,
-        shifts: (record?.shifts ?? []).map((s) => ({
-          startMinutes: s.startMinutes,
-          endMinutes: s.endMinutes,
-          note: s.note ?? undefined,
-        })),
-        note: record?.note ?? undefined,
-      };
-    });
-    return { dateStr, entries };
-  });
+export function ScheduleWeekGrid(props: Props) {
+  const {
+    weekStartUTC,
+    weekEndUTC,
+    prevWeekParam,
+    nextWeekParam,
+    weekDates,
+    recordsByDate,
+    employees,
+    canManage,
+  } = props;
 
-  return { days };
-}
-
-/** Total hours for one employee across the week (from form days). */
-function getEmployeeWeekHours(
-  watchedDays: WeekFormValues["days"] | undefined,
-  entryIndex: number,
-): number {
-  if (!watchedDays) return 0;
-  let total = 0;
-  for (const day of watchedDays) {
-    const entry = day.entries[entryIndex];
-    if (entry?.shifts?.length) {
-      total += computeTotalHours(entry.shifts);
-    }
-  }
-  return total;
-}
-
-export function ScheduleWeekGrid({
-  weekStartUTC,
-  weekEndUTC,
-  prevWeekParam,
-  nextWeekParam,
-  weekDates,
-  recordsByDate,
-  employees,
-  canManage,
-}: ScheduleWeekGridProps) {
-  const initialValues = useMemo(
-    () => buildInitialValues(weekDates, recordsByDate, employees),
+  const initialWeekScheduleInput = useMemo(
+    () => buildInitialWeekScheduleInput(weekDates, recordsByDate, employees),
     [weekDates, recordsByDate, employees],
   );
 
-  const form = useForm<WeekFormValues>({
-    defaultValues: initialValues,
+  const form = useForm<WeekScheduleInput>({
+    defaultValues: initialWeekScheduleInput,
   });
 
   const { isDirty } = form.formState;
   const { snapshot, undo, redo, clearHistory, canUndo, canRedo } = useUndoRedo(form);
   const [isSaving, startSaveTransition] = useTransition();
+  const { confirmDialog, guardedNavigate } = useNavigationGuard(isDirty);
+  // Watch form values to re-render cells
+  const watchedDays = form.watch("days");
 
   const isToday = useCallback((dateStr: string) => {
     return dateStr === formatInUTC(getTodayUTCMidnight());
@@ -122,17 +82,14 @@ export function ScheduleWeekGrid({
 
   // Reset form when server data changes (e.g. after save + revalidation)
   useEffect(() => {
-    form.reset(initialValues);
-  }, [initialValues, form]);
+    form.reset(initialWeekScheduleInput);
+  }, [initialWeekScheduleInput, form]);
 
-  const { confirmDialog, guardedNavigate } = useNavigationGuard(isDirty);
-
-  // ------ Mutators (all local, no server call) ------
-
+  /** Handle add shift button click. */
   const addShift = useCallback(
-    (dayIndex: number, entryIndex: number, shift: ShiftFormValue) => {
-      const shifts = form.getValues(`days.${dayIndex}.entries.${entryIndex}.shifts`);
-      form.setValue(`days.${dayIndex}.entries.${entryIndex}.shifts`, [...shifts, shift], {
+    (dayIndex: number, entryIndex: number, shift: WorkShiftInput) => {
+      const shifts = form.getValues(`days.${dayIndex}.records.${entryIndex}.shifts`);
+      form.setValue(`days.${dayIndex}.records.${entryIndex}.shifts`, [...shifts, shift], {
         shouldDirty: true,
       });
       snapshot();
@@ -140,9 +97,10 @@ export function ScheduleWeekGrid({
     [form, snapshot],
   );
 
+  /** Handle edit shift button click. */
   const editShift = useCallback(
-    (dayIndex: number, entryIndex: number, shiftIndex: number, shift: ShiftFormValue) => {
-      form.setValue(`days.${dayIndex}.entries.${entryIndex}.shifts.${shiftIndex}`, shift, {
+    (dayIndex: number, entryIndex: number, shiftIndex: number, shift: WorkShiftInput) => {
+      form.setValue(`days.${dayIndex}.records.${entryIndex}.shifts.${shiftIndex}`, shift, {
         shouldDirty: true,
       });
       snapshot();
@@ -150,11 +108,12 @@ export function ScheduleWeekGrid({
     [form, snapshot],
   );
 
+  /** Handle delete shift button click. */
   const deleteShift = useCallback(
     (dayIndex: number, entryIndex: number, shiftIndex: number) => {
-      const shifts = form.getValues(`days.${dayIndex}.entries.${entryIndex}.shifts`);
+      const shifts = form.getValues(`days.${dayIndex}.records.${entryIndex}.shifts`);
       form.setValue(
-        `days.${dayIndex}.entries.${entryIndex}.shifts`,
+        `days.${dayIndex}.records.${entryIndex}.shifts`,
         shifts.filter((_, i) => i !== shiftIndex),
         { shouldDirty: true },
       );
@@ -163,17 +122,17 @@ export function ScheduleWeekGrid({
     [form, snapshot],
   );
 
+  /** Handle notes change event. */
   const updateNotes = useCallback(
     (dayIndex: number, entryIndex: number, notes: string) => {
-      form.setValue(`days.${dayIndex}.entries.${entryIndex}.note`, notes, {
+      form.setValue(`days.${dayIndex}.records.${entryIndex}.note`, notes, {
         shouldDirty: true,
       });
     },
     [form],
   );
 
-  // ------ DnD handler ------
-
+  /** Handle drag and drop end event. */
   const handleDragEnd = useCallback(
     (event: {
       operation: {
@@ -207,7 +166,7 @@ export function ScheduleWeekGrid({
       if (sourceData.dayIndex === targetDayIdx && sourceData.entryIndex === targetEntryIdx) return;
 
       const srcShifts = form.getValues(
-        `days.${sourceData.dayIndex}.entries.${sourceData.entryIndex}.shifts`,
+        `days.${sourceData.dayIndex}.records.${sourceData.entryIndex}.shifts`,
       );
       const shift = srcShifts[sourceData.shiftIndex];
       if (!shift) return;
@@ -219,9 +178,9 @@ export function ScheduleWeekGrid({
           : ((event.nativeEvent as MouseEvent | undefined)?.altKey ?? false);
 
       // Add to target
-      const targetShifts = form.getValues(`days.${targetDayIdx}.entries.${targetEntryIdx}.shifts`);
+      const targetShifts = form.getValues(`days.${targetDayIdx}.records.${targetEntryIdx}.shifts`);
       form.setValue(
-        `days.${targetDayIdx}.entries.${targetEntryIdx}.shifts`,
+        `days.${targetDayIdx}.records.${targetEntryIdx}.shifts`,
         [...targetShifts, { ...shift }],
         {
           shouldDirty: true,
@@ -231,7 +190,7 @@ export function ScheduleWeekGrid({
       // Remove from source (unless copy)
       if (!isCopy) {
         form.setValue(
-          `days.${sourceData.dayIndex}.entries.${sourceData.entryIndex}.shifts`,
+          `days.${sourceData.dayIndex}.records.${sourceData.entryIndex}.shifts`,
           srcShifts.filter((_, i) => i !== sourceData.shiftIndex),
           { shouldDirty: true },
         );
@@ -242,27 +201,11 @@ export function ScheduleWeekGrid({
     [form, snapshot],
   );
 
-  // ------ Save ------
-
+  /** Handle save button click. */
   const handleSave = useCallback(() => {
     const values = form.getValues();
     startSaveTransition(async () => {
-      const payload = values.days.map((day) => ({
-        dateStr: day.dateStr,
-        records: day.entries
-          .filter((e) => e.shifts.length > 0 || (e.note && e.note.trim()))
-          .map((e) => ({
-            userId: e.userId,
-            shifts: e.shifts.map((s) => ({
-              startMinutes: s.startMinutes,
-              endMinutes: s.endMinutes,
-              note: s.note || undefined,
-            })),
-            note: e.note || undefined,
-          })),
-      }));
-
-      const result = await saveWeekScheduleAction(payload);
+      const result = await saveWeekScheduleAction(values);
       if (result.error) {
         toast.error(result.error);
       } else {
@@ -273,16 +216,14 @@ export function ScheduleWeekGrid({
     });
   }, [form, clearHistory, snapshot]);
 
+  /** Handle reset button click. */
   const handleReset = useCallback(() => {
-    form.reset(initialValues);
+    form.reset(initialWeekScheduleInput);
     snapshot();
-  }, [form, initialValues, snapshot]);
-
-  // Watch form values to re-render cells
-  const watchedDays = form.watch("days");
+  }, [form, initialWeekScheduleInput, snapshot]);
 
   return (
-    <TooltipProvider>
+    <>
       <ClipboardProvider>
         <DragDropProvider onDragEnd={handleDragEnd}>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
@@ -311,7 +252,7 @@ export function ScheduleWeekGrid({
             <Table>
               <TableHeader>
                 <TableRow className="divide-x">
-                  <TableHead className="min-w-[150px] font-semibold">Employee</TableHead>
+                  <TableHead className="min-w-[150px] font-semibold">Team Member</TableHead>
                   {weekDates.map((dateStr) => (
                     <TableHead
                       key={dateStr}
@@ -326,6 +267,7 @@ export function ScheduleWeekGrid({
                   <TableHead className="min-w-[80px] text-center font-semibold">Total</TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
                 {employees.map((emp, empIdx) => (
                   <TableRow key={emp.id} className="divide-x">
@@ -335,8 +277,9 @@ export function ScheduleWeekGrid({
                         <span className="text-sm">{emp.name}</span>
                       </div>
                     </TableCell>
+
                     {weekDates.map((dateStr, dayIdx) => {
-                      const record = watchedDays?.[dayIdx]?.entries?.[empIdx] ?? {
+                      const record = watchedDays?.[dayIdx]?.records?.[empIdx] ?? {
                         userId: emp.id,
                         shifts: [],
                       };
@@ -360,6 +303,7 @@ export function ScheduleWeekGrid({
                         </TableCell>
                       );
                     })}
+
                     <TableCell className="text-center font-medium tabular-nums">
                       {getEmployeeWeekHours(watchedDays, empIdx).toFixed(1)}
                     </TableCell>
@@ -372,6 +316,6 @@ export function ScheduleWeekGrid({
       </ClipboardProvider>
 
       {confirmDialog}
-    </TooltipProvider>
+    </>
   );
 }

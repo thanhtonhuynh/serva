@@ -6,7 +6,7 @@ import { useDraggable } from "@dnd-kit/react";
 import { Copy01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useClipboard } from "../_context/clipboard-context";
-import { minutesToTimeString, type ShiftFormValue } from "../_lib/types";
+import { minutesToTimeString, type ShiftFormValue } from "../_lib";
 import { ShiftEditor } from "./shift-editor";
 
 type ShiftChipProps = {

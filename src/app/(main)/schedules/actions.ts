@@ -1,7 +1,7 @@
 "use server";
 
-import type { WeekSchedulePayload } from "@/app/(main)/schedules/_lib/types";
 import { PERMISSIONS } from "@/constants/permissions";
+import type { WeekScheduleInput } from "@/data-access/work-day-record";
 import {
   deleteWorkDayRecord,
   getWorkDayRecordsByDate,
@@ -25,7 +25,7 @@ function parseScheduleDate(dateStr: string): Date | null {
  * For each day: upsert one WorkDayRecord per payload record; delete records for employees
  * no longer present; then recompute tips for that date if a report exists.
  */
-export async function saveWeekScheduleAction(payload: WeekSchedulePayload): Promise<ActionResult> {
+export async function saveWeekScheduleAction(payload: WeekScheduleInput): Promise<ActionResult> {
   try {
     const authResult = await authorizeEmployeeAction();
     if ("error" in authResult) return authResult;
@@ -33,7 +33,7 @@ export async function saveWeekScheduleAction(payload: WeekSchedulePayload): Prom
     const { user } = authResult;
     if (!hasPermission(user.role, PERMISSIONS.SCHEDULE_MANAGE)) return { error: "Unauthorized" };
 
-    for (const day of payload) {
+    for (const day of payload.days) {
       const date = parseScheduleDate(day.dateStr);
       if (!date) return { error: `Invalid date: ${day.dateStr}` };
 

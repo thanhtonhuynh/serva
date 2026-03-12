@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import type { WeekFormValues } from "../_lib/types";
+import type { WeekScheduleFormValues } from "../_lib";
 
 const MAX_HISTORY = 50;
 
@@ -11,7 +11,7 @@ const MAX_HISTORY = 50;
  * Call `snapshot()` after each meaningful user action (add/edit/delete/drag/paste).
  * Call `undo()` / `redo()` to restore previous/next state.
  */
-export function useUndoRedo(form: UseFormReturn<WeekFormValues>) {
+export function useUndoRedo(form: UseFormReturn<WeekScheduleFormValues>) {
   const historyRef = useRef<string[]>([]);
   const pointerRef = useRef(-1);
   const [, forceRender] = useState(0);
@@ -39,7 +39,7 @@ export function useUndoRedo(form: UseFormReturn<WeekFormValues>) {
   const undo = useCallback(() => {
     if (pointerRef.current <= 0) return;
     pointerRef.current -= 1;
-    const values = JSON.parse(historyRef.current[pointerRef.current]) as WeekFormValues;
+    const values = JSON.parse(historyRef.current[pointerRef.current]) as WeekScheduleFormValues;
     form.reset(values, { keepDirtyValues: false });
     forceRender((n) => n + 1);
   }, [form]);
@@ -47,7 +47,7 @@ export function useUndoRedo(form: UseFormReturn<WeekFormValues>) {
   const redo = useCallback(() => {
     if (pointerRef.current >= historyRef.current.length - 1) return;
     pointerRef.current += 1;
-    const values = JSON.parse(historyRef.current[pointerRef.current]) as WeekFormValues;
+    const values = JSON.parse(historyRef.current[pointerRef.current]) as WeekScheduleFormValues;
     form.reset(values, { keepDirtyValues: false });
     forceRender((n) => n + 1);
   }, [form]);
