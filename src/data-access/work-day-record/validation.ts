@@ -1,42 +1,25 @@
 import z from "zod";
 
-export type WorkShiftInput = {
-  startMinutes: number;
-  endMinutes: number;
-  note?: string;
-};
+export const WorkShiftSchema = z.object({
+  startMinutes: z.coerce.number().min(0, "Invalid").max(1440, "Invalid"),
+  endMinutes: z.coerce.number().min(0, "Invalid").max(1440, "Invalid"),
+  note: z.string().nullable().optional(),
+});
 
-export type WorkDayRecordInput = {
-  userId: string;
-  shifts: WorkShiftInput[];
-  note?: string;
-};
+export const WorkDayRecordSchema = z.object({
+  userId: z.string().min(1, "Required"),
+  shifts: z.array(WorkShiftSchema),
+  note: z.string().nullable().optional(),
+});
 
-export type DayScheduleInput = {
-  dateStr: string;
-  records: WorkDayRecordInput[];
-};
+export const DayScheduleSchema = z.object({
+  dateStr: z.string().min(1, "Required"),
+  records: z.array(WorkDayRecordSchema),
+});
 
 export const WeekScheduleSchema = z
   .object({
-    days: z.array(
-      z.object({
-        dateStr: z.string().min(1, "Required"),
-        records: z.array(
-          z.object({
-            userId: z.string().min(1, "Required"),
-            shifts: z.array(
-              z.object({
-                startMinutes: z.coerce.number().min(0, "Invalid").max(1440, "Invalid"),
-                endMinutes: z.coerce.number().min(0, "Invalid").max(1440, "Invalid"),
-                note: z.string().optional(),
-              }),
-            ),
-            note: z.string().optional(),
-          }),
-        ),
-      }),
-    ),
+    days: z.array(DayScheduleSchema),
   })
   .transform((data) => ({
     days: data.days.map((day) => ({
@@ -47,4 +30,7 @@ export const WeekScheduleSchema = z
     })),
   }));
 
+export type WorkShiftInput = z.infer<typeof WorkShiftSchema>;
+export type WorkDayRecordInput = z.infer<typeof WorkDayRecordSchema>;
+export type DayScheduleInput = z.infer<typeof DayScheduleSchema>;
 export type WeekScheduleInput = z.infer<typeof WeekScheduleSchema>;

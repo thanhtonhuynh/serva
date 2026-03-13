@@ -87,9 +87,9 @@ export function ScheduleWeekGrid(props: Props) {
 
   /** Handle add shift button click. */
   const addShift = useCallback(
-    (dayIndex: number, entryIndex: number, shift: WorkShiftInput) => {
-      const shifts = form.getValues(`days.${dayIndex}.records.${entryIndex}.shifts`);
-      form.setValue(`days.${dayIndex}.records.${entryIndex}.shifts`, [...shifts, shift], {
+    (dayIndex: number, recordIndex: number, shift: WorkShiftInput) => {
+      const shifts = form.getValues(`days.${dayIndex}.records.${recordIndex}.shifts`);
+      form.setValue(`days.${dayIndex}.records.${recordIndex}.shifts`, [...shifts, shift], {
         shouldDirty: true,
       });
       snapshot();
@@ -99,8 +99,8 @@ export function ScheduleWeekGrid(props: Props) {
 
   /** Handle edit shift button click. */
   const editShift = useCallback(
-    (dayIndex: number, entryIndex: number, shiftIndex: number, shift: WorkShiftInput) => {
-      form.setValue(`days.${dayIndex}.records.${entryIndex}.shifts.${shiftIndex}`, shift, {
+    (dayIndex: number, recordIndex: number, shiftIndex: number, shift: WorkShiftInput) => {
+      form.setValue(`days.${dayIndex}.records.${recordIndex}.shifts.${shiftIndex}`, shift, {
         shouldDirty: true,
       });
       snapshot();
@@ -110,10 +110,10 @@ export function ScheduleWeekGrid(props: Props) {
 
   /** Handle delete shift button click. */
   const deleteShift = useCallback(
-    (dayIndex: number, entryIndex: number, shiftIndex: number) => {
-      const shifts = form.getValues(`days.${dayIndex}.records.${entryIndex}.shifts`);
+    (dayIndex: number, recordIndex: number, shiftIndex: number) => {
+      const shifts = form.getValues(`days.${dayIndex}.records.${recordIndex}.shifts`);
       form.setValue(
-        `days.${dayIndex}.records.${entryIndex}.shifts`,
+        `days.${dayIndex}.records.${recordIndex}.shifts`,
         shifts.filter((_, i) => i !== shiftIndex),
         { shouldDirty: true },
       );
@@ -124,8 +124,8 @@ export function ScheduleWeekGrid(props: Props) {
 
   /** Handle notes change event. */
   const updateNotes = useCallback(
-    (dayIndex: number, entryIndex: number, notes: string) => {
-      form.setValue(`days.${dayIndex}.records.${entryIndex}.note`, notes, {
+    (dayIndex: number, recordIndex: number, notes: string) => {
+      form.setValue(`days.${dayIndex}.records.${recordIndex}.note`, notes, {
         shouldDirty: true,
       });
     },
@@ -149,7 +149,7 @@ export function ScheduleWeekGrid(props: Props) {
       const sourceData = source.data as
         | {
             dayIndex: number;
-            entryIndex: number;
+            recordIndex: number;
             shiftIndex: number;
           }
         | undefined;
@@ -160,13 +160,14 @@ export function ScheduleWeekGrid(props: Props) {
       const match = targetId.match(/^drop-(\d+)-(\d+)$/);
       if (!match) return;
       const targetDayIdx = parseInt(match[1], 10);
-      const targetEntryIdx = parseInt(match[2], 10);
+      const targetRecordIdx = parseInt(match[2], 10);
 
       // Skip if dropping on same cell
-      if (sourceData.dayIndex === targetDayIdx && sourceData.entryIndex === targetEntryIdx) return;
+      if (sourceData.dayIndex === targetDayIdx && sourceData.recordIndex === targetRecordIdx)
+        return;
 
       const srcShifts = form.getValues(
-        `days.${sourceData.dayIndex}.records.${sourceData.entryIndex}.shifts`,
+        `days.${sourceData.dayIndex}.records.${sourceData.recordIndex}.shifts`,
       );
       const shift = srcShifts[sourceData.shiftIndex];
       if (!shift) return;
@@ -178,9 +179,9 @@ export function ScheduleWeekGrid(props: Props) {
           : ((event.nativeEvent as MouseEvent | undefined)?.altKey ?? false);
 
       // Add to target
-      const targetShifts = form.getValues(`days.${targetDayIdx}.records.${targetEntryIdx}.shifts`);
+      const targetShifts = form.getValues(`days.${targetDayIdx}.records.${targetRecordIdx}.shifts`);
       form.setValue(
-        `days.${targetDayIdx}.records.${targetEntryIdx}.shifts`,
+        `days.${targetDayIdx}.records.${targetRecordIdx}.shifts`,
         [...targetShifts, { ...shift }],
         {
           shouldDirty: true,
@@ -190,7 +191,7 @@ export function ScheduleWeekGrid(props: Props) {
       // Remove from source (unless copy)
       if (!isCopy) {
         form.setValue(
-          `days.${sourceData.dayIndex}.records.${sourceData.entryIndex}.shifts`,
+          `days.${sourceData.dayIndex}.records.${sourceData.recordIndex}.shifts`,
           srcShifts.filter((_, i) => i !== sourceData.shiftIndex),
           { shouldDirty: true },
         );
@@ -279,10 +280,7 @@ export function ScheduleWeekGrid(props: Props) {
                     </TableCell>
 
                     {weekDates.map((dateStr, dayIdx) => {
-                      const record = watchedDays?.[dayIdx]?.records?.[empIdx] ?? {
-                        userId: emp.id,
-                        shifts: [],
-                      };
+                      const record = watchedDays[dayIdx].records[empIdx];
                       const dropId = `drop-${dayIdx}-${empIdx}`;
                       return (
                         <TableCell
@@ -291,7 +289,7 @@ export function ScheduleWeekGrid(props: Props) {
                         >
                           <EmployeeDayCell
                             dayIndex={dayIdx}
-                            entryIndex={empIdx}
+                            recordIndex={empIdx}
                             record={record}
                             canManage={canManage}
                             dropId={dropId}

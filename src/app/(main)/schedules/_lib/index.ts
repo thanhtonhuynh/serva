@@ -10,7 +10,7 @@ import { computeTotalHours } from "@/utils/work-day-record";
 /** Identifier for a shift in the grid: day index, entry index, shift index. */
 export type ShiftAddress = {
   dayIndex: number;
-  entryIndex: number;
+  recordIndex: number;
   shiftIndex: number;
 };
 
@@ -45,19 +45,15 @@ export function buildInitialWeekScheduleInput(
   employees: DisplayUser[],
 ): WeekScheduleInput {
   const days: DayScheduleInput[] = weekDates.map((dateStr) => {
+    // Get records for this day
     const dayRecords = recordsByDate[dateStr] ?? [];
+
+    // Map employees to records, creating empty records for employees with no shifts
     const records: WorkDayRecordInput[] = employees.map((emp) => {
       const record = dayRecords.find((r) => r.userId === emp.id);
-      return {
-        userId: emp.id,
-        shifts: (record?.shifts ?? []).map((s) => ({
-          startMinutes: s.startMinutes,
-          endMinutes: s.endMinutes,
-          note: s.note ?? undefined,
-        })),
-        note: record?.note ?? undefined,
-      };
+      return record || { userId: emp.id, shifts: [] };
     });
+
     return { dateStr, records };
   });
 

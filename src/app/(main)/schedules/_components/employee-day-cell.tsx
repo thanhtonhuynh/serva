@@ -11,7 +11,7 @@ import { ShiftEditor } from "./shift-editor";
 
 type EmployeeDayCellProps = {
   dayIndex: number;
-  entryIndex: number;
+  recordIndex: number;
   /** One employee's WorkDayRecord for this day (shifts + note). */
   record: WorkDayRecordInput;
   canManage: boolean;
@@ -24,7 +24,7 @@ type EmployeeDayCellProps = {
 
 export function EmployeeDayCell({
   dayIndex,
-  entryIndex,
+  recordIndex,
   record,
   canManage,
   dropId,
@@ -49,8 +49,8 @@ export function EmployeeDayCell({
         <ShiftChip
           key={shiftIdx}
           shift={shift}
-          dragId={`shift-${dayIndex}-${entryIndex}-${shiftIdx}`}
-          dragData={{ dayIndex, entryIndex, shiftIndex: shiftIdx }}
+          dragId={`shift-${dayIndex}-${recordIndex}-${shiftIdx}`}
+          dragData={{ dayIndex, recordIndex, shiftIndex: shiftIdx }}
           canManage={canManage}
           onEdit={(updated) => onEditShift(shiftIdx, updated)}
           onDelete={() => onDeleteShift(shiftIdx)}

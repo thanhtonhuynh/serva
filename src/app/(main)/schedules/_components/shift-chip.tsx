@@ -13,7 +13,7 @@ import { ShiftEditor } from "./shift-editor";
 type ShiftChipProps = {
   shift: WorkShiftInput;
   dragId: string;
-  dragData: { dayIndex: number; entryIndex: number; shiftIndex: number };
+  dragData: { dayIndex: number; recordIndex: number; shiftIndex: number };
   canManage: boolean;
   onEdit: (shift: WorkShiftInput) => void;
   onDelete: () => void;
