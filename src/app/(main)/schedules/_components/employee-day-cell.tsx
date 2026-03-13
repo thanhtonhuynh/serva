@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
+import type { WorkDayRecordInput, WorkShiftInput } from "@/data-access/work-day-record";
 import { useDroppable } from "@dnd-kit/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useClipboard } from "../_context/clipboard-context";
-import type { EntryFormValue, ShiftFormValue } from "../_lib";
 import { ShiftChip } from "./shift-chip";
 import { ShiftEditor } from "./shift-editor";
 
@@ -13,12 +13,12 @@ type EmployeeDayCellProps = {
   dayIndex: number;
   entryIndex: number;
   /** One employee's WorkDayRecord for this day (shifts + note). */
-  record: EntryFormValue;
+  record: WorkDayRecordInput;
   canManage: boolean;
   dropId: string;
-  onEditShift: (shiftIndex: number, shift: ShiftFormValue) => void;
+  onEditShift: (shiftIndex: number, shift: WorkShiftInput) => void;
   onDeleteShift: (shiftIndex: number) => void;
-  onAddShift: (shift: ShiftFormValue) => void;
+  onAddShift: (shift: WorkShiftInput) => void;
   onNotesChange: (notes: string) => void;
 };
 

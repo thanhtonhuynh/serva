@@ -2,19 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
+import type { WorkShiftInput } from "@/data-access/work-day-record";
 import { useDraggable } from "@dnd-kit/react";
 import { Copy01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useClipboard } from "../_context/clipboard-context";
-import { minutesToTimeString, type ShiftFormValue } from "../_lib";
+import { minutesToTimeString } from "../_lib";
 import { ShiftEditor } from "./shift-editor";
 
 type ShiftChipProps = {
-  shift: ShiftFormValue;
+  shift: WorkShiftInput;
   dragId: string;
   dragData: { dayIndex: number; entryIndex: number; shiftIndex: number };
   canManage: boolean;
-  onEdit: (shift: ShiftFormValue) => void;
+  onEdit: (shift: WorkShiftInput) => void;
   onDelete: () => void;
 };
 

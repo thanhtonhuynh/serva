@@ -13,13 +13,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import type { WorkShiftInput } from "@/data-access/work-day-record";
 import { useState } from "react";
 import { toast } from "sonner";
-import { minutesToTimeInput, timeToMinutes, type ShiftFormValue } from "../_lib";
+import { minutesToTimeInput, timeToMinutes } from "../_lib";
 
 type ShiftEditorProps = {
-  initial?: ShiftFormValue;
-  onSave: (shift: ShiftFormValue) => void;
+  initial?: WorkShiftInput;
+  onSave: (shift: WorkShiftInput) => void;
   trigger: React.ReactElement;
 };
 
