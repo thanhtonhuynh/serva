@@ -220,8 +220,8 @@ export function ScheduleWeekGrid(props: Props) {
   /** Handle reset button click. */
   const handleReset = useCallback(() => {
     form.reset(initialWeekScheduleInput);
-    snapshot();
-  }, [form, initialWeekScheduleInput, snapshot]);
+    clearHistory();
+  }, [form, initialWeekScheduleInput, clearHistory]);
 
   return (
     <>

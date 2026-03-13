@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogBody,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -39,12 +39,17 @@ export function ConfirmDialog({
       <DialogContent showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
+
+        <DialogBody className={"text-foreground leading-loose whitespace-pre-line"}>
+          {description}
+        </DialogBody>
+
         <DialogFooter>
-          <Button variant="outline" onClick={onCancel}>
+          <Button variant="ghost" onClick={onCancel}>
             {cancelLabel}
           </Button>
+
           <Button variant="destructive" onClick={onConfirm}>
             {confirmLabel}
           </Button>
