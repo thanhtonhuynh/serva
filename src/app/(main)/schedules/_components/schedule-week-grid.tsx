@@ -252,20 +252,22 @@ export function ScheduleWeekGrid(props: Props) {
           <Card className="py-0">
             <Table>
               <TableHeader>
-                <TableRow className="divide-x">
+                <TableRow className="">
                   <TableHead className="min-w-[150px] font-semibold">Team Member</TableHead>
                   {weekDates.map((dateStr) => (
                     <TableHead
                       key={dateStr}
                       className={cn(
                         "min-w-[140px] text-center font-semibold",
-                        isToday(dateStr) && "bg-primary/20",
+                        isToday(dateStr) && "bg-primary/20 text-primary font-bold",
                       )}
                     >
                       {formatInUTC(dateStr, "EEE M/d")}
                     </TableHead>
                   ))}
-                  <TableHead className="min-w-[80px] text-center font-semibold">Total</TableHead>
+                  <TableHead className="text-primary min-w-[80px] text-center font-bold">
+                    Total
+                  </TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -302,7 +304,7 @@ export function ScheduleWeekGrid(props: Props) {
                       );
                     })}
 
-                    <TableCell className="text-center font-medium tabular-nums">
+                    <TableCell className="text-primary text-center font-bold tabular-nums">
                       {getEmployeeWeekHours(watchedDays, empIdx).toFixed(1)}
                     </TableCell>
                   </TableRow>
