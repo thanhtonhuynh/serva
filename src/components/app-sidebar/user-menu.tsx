@@ -25,6 +25,7 @@ export function UserMenu({ user }: Props) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
+            id="sidebar-user-menu-trigger"
             className={cn(
               sidebarMenuButtonVariants(),
               "text-primary-1 h-fit cursor-pointer group-data-[collapsible=icon]:p-0!",
