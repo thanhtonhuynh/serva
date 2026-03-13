@@ -18,8 +18,10 @@ import { getHoursTipsBreakdownInDateRange, populateMonthSelectData } from "@/uti
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { addDays } from "date-fns";
 import { notFound, redirect } from "next/navigation";
-import { DataTable, HoursTipsTable } from "./_components";
+import { DataTable, ExportPeriodButton, HoursTipsTable } from "./_components";
+import type { ExportPeriodPayload } from "./_components";
 
 type SearchParams = Promise<{
   year?: string;
@@ -120,6 +122,25 @@ export default async function Page(props: { searchParams: SearchParams }) {
   }
 
   const isCurrentPeriod = year === currentYear && monthIndex === currentMonth;
+  const monthYearLabel = `${FULL_MONTHS[monthIndex]}-${year}`;
+
+  function buildExportPayload(index: number): ExportPeriodPayload {
+    const period = periods[index];
+    const breakdown = hoursTipsBreakdowns[index];
+    const startDay = period.start.getUTCDate();
+    const endDay = period.end.getUTCDate();
+    const dayHeaders = Array.from(
+      { length: endDay - startDay + 1 },
+      (_, i) => `${formatInUTC(addDays(period.start, i), "EEE")} ${startDay + i}`,
+    );
+    return {
+      periodLabel: `${formatInUTC(period.start, "MMM d")} - ${formatInUTC(period.end, "d")}`,
+      dayHeaders,
+      hoursBreakdown: breakdown.hoursBreakdown,
+      tipsBreakdown: breakdown.tipsBreakdown,
+      monthYearLabel,
+    };
+  }
 
   return (
     <div className="space-y-6">
@@ -144,12 +165,15 @@ export default async function Page(props: { searchParams: SearchParams }) {
         <CardContent className="space-y-10">
           {periods.map((period, index) => (
             <div key={index} className="space-y-6">
-              <Typography variant="h3" className="flex items-center gap-2">
-                <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
-                <span>{formatInUTC(period.start, "MMM d")}</span>
-                <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
-                <span>{formatInUTC(period.end, "d")}</span>
-              </Typography>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <Typography variant="h3" className="flex items-center gap-2">
+                  <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
+                  <span>{formatInUTC(period.start, "MMM d")}</span>
+                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
+                  <span>{formatInUTC(period.end, "d")}</span>
+                </Typography>
+                <ExportPeriodButton payload={buildExportPayload(index)} />
+              </div>
 
               {hoursTipsBreakdowns[index].hoursBreakdown.length > 0 ? (
                 <>
