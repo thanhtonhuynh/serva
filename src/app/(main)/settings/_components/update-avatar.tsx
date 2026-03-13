@@ -29,7 +29,7 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdateAvatarSchemaInput>({
     resolver: zodResolver(UpdateAvatarSchema),
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   async function onSubmit(data: UpdateAvatarSchemaInput) {

@@ -8,10 +8,7 @@ import {
   updateUserPassword,
 } from "@/data-access/user";
 import { verifyPassword } from "@/lib/auth/password";
-import {
-  getCurrentSession,
-  invalidateUserSessionsExceptCurrent,
-} from "@/lib/auth/session";
+import { getCurrentSession, invalidateUserSessionsExceptCurrent } from "@/lib/auth/session";
 import {
   UpdateAvatarSchema,
   UpdateAvatarSchemaInput,
@@ -24,9 +21,9 @@ import {
   UpdateUsernameSchema,
   UpdateUsernameSchemaInput,
 } from "@/lib/validations/auth";
-import { deleteImage, uploadImage } from "@/lib/firebase/storage";
-import { revalidatePath } from "next/cache";
+import { deleteImage, uploadImage } from "@/lib/vercel-blob/storage";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { revalidatePath } from "next/cache";
 
 // Update name
 export async function updateNameAction(data: UpdateNameSchemaInput) {
@@ -130,8 +127,7 @@ export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
       return { error: "Too many requests. Please try again later." };
     }
 
-    const { currentPassword, newPassword, logOutOtherDevices } =
-      UpdatePasswordSchema.parse(data);
+    const { currentPassword, newPassword, logOutOtherDevices } = UpdatePasswordSchema.parse(data);
 
     const passwordHash = await getUserPasswordHash(user.id);
     if (!passwordHash) {
@@ -173,7 +169,7 @@ export async function updateAvatarAction(data: UpdateAvatarSchemaInput) {
       await deleteImage(user.image);
     }
 
-    const imageUrl = await uploadImage(user.id, image);
+    const imageUrl = await uploadImage(image);
 
     await updateUser(user.id, { image: imageUrl });
 

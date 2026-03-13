@@ -99,10 +99,18 @@ export const UpdatePasswordSchema = z
 export type UpdatePasswordSchemaInput = z.infer<typeof UpdatePasswordSchema>;
 
 // Update profile picture
+// Only allow image/jpeg, image/png, image/jpg, image/webp format
 export const UpdateAvatarSchema = z.object({
   image: z
     .file({ error: "Required" })
-    .refine((file) => file.type.startsWith("image/"), "Invalid file type")
+    .refine(
+      (file) =>
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpg" ||
+        file.type === "image/webp",
+      "Only JPEG, PNG, JPG, and WEBP formats are allowed",
+    )
     .refine((file) => file.size <= MAX_IMAGE_SIZE, "Please upload a picture less than 5MB"),
 });
 export type UpdateAvatarSchemaInput = z.infer<typeof UpdateAvatarSchema>;

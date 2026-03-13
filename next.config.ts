@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "firebasestorage.googleapis.com",
-        pathname: "/v0/b/ems-ongba.appspot.com/o/*",
+        hostname: "**.public.blob.vercel-storage.com",
+        pathname: "/**",
       },
     ],
   },
