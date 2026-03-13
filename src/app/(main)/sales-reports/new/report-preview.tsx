@@ -38,11 +38,6 @@ export function ReportPreview({
     date: formValues.date,
     totalSales: Number(formValues.totalSales) * 100,
     cardSales: Number(formValues.cardSales) * 100,
-    // Legacy fields set to 0 — platformSales is the source of truth
-    // uberEatsSales: 0,
-    // doorDashSales: 0,
-    // skipTheDishesSales: 0,
-    // onlineSales: 0,
     platformSales: platformSalesInCents,
     expenses: Number(formValues.expenses) * 100,
     cashInTill: Number(formValues.cashInTill) * 100,

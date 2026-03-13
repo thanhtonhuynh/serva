@@ -2,22 +2,6 @@ import { CashFlowRawData, YearCashFlowData } from "@/types";
 import { Expense } from "@prisma/client";
 import { sumPlatformSales } from "./report";
 
-/**
- * Helper: get the effective platformSales from a report.
- * Uses the new platformSales array if populated, otherwise falls back to legacy columns.
- */
-// function getEffectivePlatformSales(report: CashFlowRawData): PlatformSaleData[] {
-//   if (report.platformSales.length > 0) return report.platformSales;
-
-//   // Legacy fallback
-//   return [
-//     { platformId: "uber_eats", amount: report.uberEatsSales },
-//     { platformId: "doordash", amount: report.doorDashSales },
-//     { platformId: "skip_the_dishes", amount: report.skipTheDishesSales },
-//     { platformId: "ritual", amount: report.onlineSales },
-//   ].filter((ps) => ps.amount > 0);
-// }
-
 export function processCashFlowData(rawReports: CashFlowRawData[]) {
   return rawReports.map((report) => {
     const platformTotal = sumPlatformSales(report.platformSales);

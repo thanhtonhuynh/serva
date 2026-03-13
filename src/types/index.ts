@@ -78,12 +78,6 @@ export interface SaleReportCardRawData {
   extraTips: number;
   cashInTill: number;
   startCash: number;
-  // Legacy platform fields (kept for backward compat)
-  // uberEatsSales: number;
-  // doorDashSales: number;
-  // skipTheDishesSales: number;
-  // onlineSales: number; // Actually Ritual sales
-  // New flexible platform sales
   platformSales: PlatformSaleData[];
   // employees: SaleEmployee[];
   auditLogs?: ReportAuditLog[];
@@ -169,12 +163,6 @@ export type CashFlowRawData = {
   date: Date;
   totalSales: number;
   cardSales: number;
-  // // Legacy platform fields (kept for backward compat)
-  // uberEatsSales: number;
-  // doorDashSales: number;
-  // skipTheDishesSales: number;
-  // onlineSales: number; // Actually Ritual sales
-  // New flexible platform sales
   platformSales: PlatformSaleData[];
   expenses: number;
 };
