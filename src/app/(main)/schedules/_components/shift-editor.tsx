@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import type { WorkShiftInput } from "@/data-access/work-day-record";
+import type { WorkShiftInput } from "@/lib/validations";
 import { useState } from "react";
 import { toast } from "sonner";
 import { minutesToTimeInput, timeToMinutes } from "../_lib";

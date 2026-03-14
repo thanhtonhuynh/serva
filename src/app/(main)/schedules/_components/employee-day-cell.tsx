@@ -2,79 +2,76 @@
 
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
-import type { WorkDayRecordInput, WorkShiftInput } from "@/data-access/work-day-record";
+import { cn } from "@/lib/utils";
+import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
 import { useDroppable } from "@dnd-kit/react";
 import { HugeiconsIcon } from "@hugeicons/react";
+import type { Control } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { useClipboard } from "../_context/clipboard-context";
 import { ShiftChip } from "./shift-chip";
 import { ShiftEditor } from "./shift-editor";
 
-type EmployeeDayCellProps = {
+type Props = {
+  control: Control<WeekScheduleInput>;
   dayIndex: number;
   recordIndex: number;
-  /** One employee's WorkDayRecord for this day (shifts + note). */
-  record: WorkDayRecordInput;
   canManage: boolean;
   dropId: string;
-  onEditShift: (shiftIndex: number, shift: WorkShiftInput) => void;
-  onDeleteShift: (shiftIndex: number) => void;
-  onAddShift: (shift: WorkShiftInput) => void;
-  onNotesChange: (notes: string) => void;
+  onSnapshot: () => void;
 };
 
-export function EmployeeDayCell({
-  dayIndex,
-  recordIndex,
-  record,
-  canManage,
-  dropId,
-  onEditShift,
-  onDeleteShift,
-  onAddShift,
-  onNotesChange,
-}: EmployeeDayCellProps) {
+export function EmployeeDayCell(props: Props) {
+  const { control, dayIndex, recordIndex, canManage, dropId, onSnapshot } = props;
   const { copiedShift } = useClipboard();
   const { ref, isDropTarget } = useDroppable({ id: dropId });
 
-  const hasShifts = record.shifts.length > 0;
+  const { fields, append, remove, update } = useFieldArray({
+    control,
+    name: `days.${dayIndex}.records.${recordIndex}.shifts`,
+  });
+
+  const hasShifts = fields.length > 0;
+
+  function handleAddShift(newShift: WorkShiftInput) {
+    append(newShift);
+    onSnapshot();
+  }
+
+  function handleEditShift(shiftIndex: number, updatedShift: WorkShiftInput) {
+    update(shiftIndex, updatedShift);
+    onSnapshot();
+  }
+
+  function handleDeleteShift(shiftIndex: number) {
+    remove(shiftIndex);
+    onSnapshot();
+  }
 
   return (
     <div
       ref={ref}
-      className={`flex min-h-[60px] flex-col items-center justify-center gap-1 p-1 transition-colors ${
-        isDropTarget ? "bg-primary/10 ring-primary/30 rounded-xl ring-2" : ""
-      }`}
+      className={cn(
+        "flex min-h-[60px] flex-col items-center justify-center gap-1 p-1 transition-colors",
+        isDropTarget && "bg-primary/10 ring-primary/30 rounded-xl ring-2",
+      )}
     >
-      {record.shifts.map((shift, shiftIdx) => (
+      {fields.map((field, shiftIdx) => (
         <ShiftChip
-          key={shiftIdx}
-          shift={shift}
+          key={field.id}
+          shift={field}
           dragId={`shift-${dayIndex}-${recordIndex}-${shiftIdx}`}
           dragData={{ dayIndex, recordIndex, shiftIndex: shiftIdx }}
           canManage={canManage}
-          onEdit={(updated) => onEditShift(shiftIdx, updated)}
-          onDelete={() => onDeleteShift(shiftIdx)}
+          onEdit={(updated) => handleEditShift(shiftIdx, updated)}
+          onDelete={() => handleDeleteShift(shiftIdx)}
         />
       ))}
-
-      {/* {record.note && !canManage && (
-        <p className="text-muted-foreground text-xs italic">{record.note}</p>
-      )} */}
-
-      {/* {canManage && hasShifts && (
-        <Textarea
-          value={record.note ?? ""}
-          onChange={(e) => onNotesChange(e.target.value)}
-          placeholder="Cell note..."
-          rows={1}
-          className="min-h-6 resize-none rounded-md px-1.5 py-0.5 text-[11px]"
-        />
-      )} */}
 
       {canManage && (
         <div className="flex items-center gap-1">
           <ShiftEditor
-            onSave={onAddShift}
+            onSave={handleAddShift}
             trigger={
               <Button variant="accent" size="icon-xs">
                 <HugeiconsIcon icon={ICONS.ADD} />
@@ -82,8 +79,13 @@ export function EmployeeDayCell({
               </Button>
             }
           />
+
           {copiedShift && (
-            <Button variant="accent" size="icon-xs" onClick={() => onAddShift({ ...copiedShift })}>
+            <Button
+              variant="accent"
+              size="icon-xs"
+              onClick={() => handleAddShift({ ...copiedShift })}
+            >
               <HugeiconsIcon icon={ICONS.FILE_PASTE} />
               <span className="sr-only">Paste shift</span>
             </Button>

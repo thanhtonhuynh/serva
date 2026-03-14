@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ConfirmDialog, Icon } from "@/components/shared";
+import { ConfirmDialog, SIcon } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -23,12 +23,12 @@ export function ScheduleToolbar(props: Props) {
   return (
     <div className="flex items-center gap-2">
       <Button variant="ghost" size="sm" disabled={!canUndo} onClick={onUndo}>
-        <Icon icon="ARROW_TURN_BACKWARD" />
+        <SIcon icon="ARROW_TURN_BACKWARD" />
         <span>Undo</span>
       </Button>
 
       <Button variant="ghost" size="sm" disabled={!canRedo} onClick={onRedo}>
-        <Icon icon="ARROW_TURN_FORWARD" />
+        <SIcon icon="ARROW_TURN_FORWARD" />
         <span>Redo</span>
       </Button>
 
@@ -38,7 +38,7 @@ export function ScheduleToolbar(props: Props) {
         disabled={!isDirty}
         onClick={() => setResetConfirmOpen(true)}
       >
-        <Icon icon="CIRCLE_ARROW_RELOAD" />
+        <SIcon icon="CIRCLE_ARROW_RELOAD" />
         <span>Reset</span>
       </Button>
 

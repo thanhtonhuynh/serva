@@ -1,9 +1,5 @@
-import type {
-  DayScheduleInput,
-  WeekScheduleInput,
-  WorkDayRecordInput,
-  WorkDayRecordsByDate,
-} from "@/data-access/work-day-record";
+import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
+import type { DayScheduleInput, WeekScheduleInput, WorkDayRecordInput } from "@/lib/validations";
 import type { DisplayUser } from "@/types";
 import { computeTotalHours } from "@/utils/work-day-record";
 

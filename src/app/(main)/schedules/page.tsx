@@ -87,8 +87,7 @@ async function SchedulePageContent({
   return (
     <Card className="p-6">
       <ScheduleWeekGrid
-        weekStartUTC={weekStartUTC}
-        weekEndUTC={weekEndUTC}
+        dateRangeUTC={dateRangeUTC}
         prevWeekParam={prevWeekParam}
         nextWeekParam={nextWeekParam}
         weekDates={weekDates}

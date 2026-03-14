@@ -1,6 +1,6 @@
 "use client";
 
-import type { WorkShiftInput } from "@/data-access/work-day-record";
+import type { WorkShiftInput } from "@/lib/validations";
 import { createContext, useCallback, useContext, useState } from "react";
 
 type ClipboardContextProps = {

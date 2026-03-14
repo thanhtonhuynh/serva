@@ -1,11 +1,11 @@
 import { workDayRecordSelectWithUser } from "@/data-access/work-day-record/types";
 import prisma from "@/lib/prisma";
-import { DayRange } from "@/types";
+import type { DayScheduleInput, WorkDayRecordInput } from "@/lib/validations";
+import type { DateRange } from "@/types/datetime";
 import { getStartOfDayUTC } from "@/utils/datetime";
 import { computeTotalHours, distributeTips } from "@/utils/work-day-record";
 import { cache } from "react";
 import "server-only";
-import type { WorkDayRecordInput } from "./validation";
 
 export async function upsertWorkDayRecord(date: Date, record: WorkDayRecordInput) {
   const totalHours = computeTotalHours(record.shifts);
@@ -25,6 +25,30 @@ export async function upsertWorkDayRecord(date: Date, record: WorkDayRecordInput
       note: record.note,
     },
   });
+}
+
+/**
+ * Replace all WorkDayRecords for a date range atomically.
+ * Deletes existing records in the range, then bulk-creates the new ones.
+ */
+export async function replaceWeekSchedule(dateRange: DateRange, days: DayScheduleInput[]) {
+  const createData = days.flatMap((day) => {
+    const date = new Date(day.dateStr + "T00:00:00.000Z");
+    return day.records.map((r) => ({
+      date,
+      userId: r.userId,
+      shifts: r.shifts,
+      totalHours: computeTotalHours(r.shifts),
+      note: r.note ?? null,
+    }));
+  });
+
+  await prisma.$transaction([
+    prisma.workDayRecord.deleteMany({
+      where: { date: { gte: dateRange.start, lte: dateRange.end } },
+    }),
+    prisma.workDayRecord.createMany({ data: createData }),
+  ]);
 }
 
 export async function deleteWorkDayRecord(date: Date, userId: string) {
@@ -64,7 +88,7 @@ export const getWorkDayRecordsByDate = cache(async (date: Date) => {
  * Get WorkDayRecords for a date range, with user relation.
  * Ordered by date and user's name.
  */
-export const getWorkDayRecordsByDateRange = cache(async (dateRange: DayRange) => {
+export const getWorkDayRecordsByDateRange = cache(async (dateRange: DateRange) => {
   return prisma.workDayRecord.findMany({
     where: {
       date: {
@@ -78,7 +102,7 @@ export const getWorkDayRecordsByDateRange = cache(async (dateRange: DayRange) =>
 });
 
 export const getWorkDayRecordsByUserAndDateRange = cache(
-  async (userId: string, dateRange: DayRange) => {
+  async (userId: string, dateRange: DateRange) => {
     return prisma.workDayRecord.findMany({
       where: {
         userId,
@@ -128,6 +152,47 @@ export async function recomputeTipsForDate(date: Date) {
         where: { id: d.id },
         data: { tips: d.tips },
       }),
+    ),
+  );
+}
+
+/**
+ * Recompute tips for all dates in a range.
+ * Fetches all reports and records for the range in 2 queries, then batch-updates tips.
+ */
+export async function recomputeTipsForDateRange(dateRange: DateRange) {
+  const [reports, workDayRecords] = await Promise.all([
+    prisma.saleReport.findMany({
+      where: { date: { gte: dateRange.start, lte: dateRange.end } },
+      select: { date: true, cardTips: true, cashTips: true, extraTips: true },
+    }),
+    prisma.workDayRecord.findMany({
+      where: { date: { gte: dateRange.start, lte: dateRange.end } },
+      select: { id: true, date: true, totalHours: true },
+    }),
+  ]);
+
+  if (reports.length === 0 || workDayRecords.length === 0) return;
+
+  // id: the work day record id
+  // tips: the tips for the work day record
+  const updates: { id: string; tips: number }[] = [];
+
+  for (const report of reports) {
+    const dayTime = report.date.getTime();
+    const dayRecords = workDayRecords.filter((r) => r.date.getTime() === dayTime);
+    if (dayRecords.length === 0) continue;
+
+    const totalTipsCents = report.cardTips + report.cashTips + report.extraTips;
+    const distribution = distributeTips(dayRecords, totalTipsCents);
+    updates.push(...distribution);
+  }
+
+  if (updates.length === 0) return;
+
+  await prisma.$transaction(
+    updates.map((d) =>
+      prisma.workDayRecord.update({ where: { id: d.id }, data: { tips: d.tips } }),
     ),
   );
 }

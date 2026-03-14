@@ -4,8 +4,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 type Props = {
   icon: IconKey;
   className?: string;
+  strokeWidth?: number;
 };
 
-export function Icon({ icon, className }: Props) {
-  return <HugeiconsIcon icon={ICONS[icon]} className={className} />;
+export function SIcon({ icon, className, strokeWidth }: Props) {
+  return <HugeiconsIcon icon={ICONS[icon]} className={className} strokeWidth={strokeWidth} />;
 }
