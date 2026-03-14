@@ -13,7 +13,7 @@ import {
 import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
 import { useNavigationGuard } from "@/hooks/use-navigation-guard";
 import { cn } from "@/lib/utils";
-import type { WeekScheduleInput } from "@/lib/validations";
+import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
 import type { DisplayUser } from "@/types";
 import type { DateRange } from "@/types/datetime";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
@@ -66,10 +66,6 @@ export function ScheduleWeekGrid(props: Props) {
   // Watch form values to re-render cells
   const watchedDays = form.watch("days");
 
-  const isToday = useCallback((dateStr: string) => {
-    return dateStr === formatInUTC(getTodayUTCMidnight());
-  }, []);
-
   // Take initial snapshot
   useEffect(() => {
     snapshot();
@@ -79,6 +75,20 @@ export function ScheduleWeekGrid(props: Props) {
   useEffect(() => {
     form.reset(initialWeekScheduleInput);
   }, [initialWeekScheduleInput, form]);
+
+  const isToday = useCallback((dateStr: string) => {
+    return dateStr === formatInUTC(getTodayUTCMidnight());
+  }, []);
+
+  /** Get the shifts for a given day and record. */
+  function getShifts(dayIdx: number, recordIdx: number): WorkShiftInput[] {
+    return form.getValues(`days.${dayIdx}.records.${recordIdx}.shifts`);
+  }
+
+  /** Set the shifts for a given day and record. */
+  function setShifts(dayIdx: number, recordIdx: number, shifts: WorkShiftInput[]) {
+    form.setValue(`days.${dayIdx}.records.${recordIdx}.shifts`, shifts, { shouldDirty: true });
+  }
 
   // ------ DnD handler (crosses cells, so uses raw form paths) ------
   const handleDragEnd = useCallback(
@@ -95,7 +105,7 @@ export function ScheduleWeekGrid(props: Props) {
       if (!source || !target) return;
 
       const sourceData = source.data as
-        | { dayIndex: number; recordIndex: number; shiftIndex: number }
+        | { dayIdx: number; recordIdx: number; shiftIdx: number }
         | undefined;
       if (!sourceData) return;
 
@@ -107,13 +117,10 @@ export function ScheduleWeekGrid(props: Props) {
       const targetRecordIdx = parseInt(match[2], 10);
 
       // Skip if dropping on same cell
-      if (sourceData.dayIndex === targetDayIdx && sourceData.recordIndex === targetRecordIdx)
-        return;
+      if (sourceData.dayIdx === targetDayIdx && sourceData.recordIdx === targetRecordIdx) return;
 
-      const srcShifts = form.getValues(
-        `days.${sourceData.dayIndex}.records.${sourceData.recordIndex}.shifts`,
-      );
-      const shift = srcShifts[sourceData.shiftIndex];
+      const srcShifts = getShifts(sourceData.dayIdx, sourceData.recordIdx);
+      const shift = srcShifts[sourceData.shiftIdx];
       if (!shift) return;
 
       // Alt/Option key held during the drop = copy, otherwise move
@@ -123,22 +130,19 @@ export function ScheduleWeekGrid(props: Props) {
           : ((event.nativeEvent as MouseEvent | undefined)?.altKey ?? false);
 
       // Add to target
-      const targetShifts = form.getValues(`days.${targetDayIdx}.records.${targetRecordIdx}.shifts`);
-      form.setValue(
-        `days.${targetDayIdx}.records.${targetRecordIdx}.shifts`,
-        [...targetShifts, { ...shift }],
-        { shouldDirty: true },
-      );
+      const targetShifts = getShifts(targetDayIdx, targetRecordIdx);
+      setShifts(targetDayIdx, targetRecordIdx, [...targetShifts, { ...shift }]);
 
       // Remove from source (unless copy)
       if (!isCopy) {
-        form.setValue(
-          `days.${sourceData.dayIndex}.records.${sourceData.recordIndex}.shifts`,
-          srcShifts.filter((_, i) => i !== sourceData.shiftIndex),
-          { shouldDirty: true },
+        setShifts(
+          sourceData.dayIdx,
+          sourceData.recordIdx,
+          srcShifts.filter((_, i) => i !== sourceData.shiftIdx),
         );
       }
 
+      // Take snapshot
       snapshot();
     },
     [form, snapshot],
