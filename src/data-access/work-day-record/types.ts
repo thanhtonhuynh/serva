@@ -13,7 +13,6 @@ export const workDayRecordSelectWithUser = {
   userId: true,
   shifts: true,
   totalHours: true,
-  note: true,
   tips: true,
   user: {
     select: {

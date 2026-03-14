@@ -148,7 +148,6 @@ model WorkDayRecord {
   shifts     WorkShift[]
   totalHours Float
   tips       Int         @default(0)
-  note       String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

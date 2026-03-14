@@ -15,14 +15,12 @@ export async function upsertWorkDayRecord(date: Date, record: WorkDayRecordInput
     update: {
       shifts: record.shifts,
       totalHours,
-      note: record.note,
     },
     create: {
       date,
       userId: record.userId,
       shifts: record.shifts,
       totalHours,
-      note: record.note,
     },
   });
 }
@@ -39,7 +37,6 @@ export async function replaceWeekSchedule(dateRange: DateRange, days: DaySchedul
       userId: r.userId,
       shifts: r.shifts,
       totalHours: computeTotalHours(r.shifts),
-      note: r.note ?? null,
     }));
   });
 

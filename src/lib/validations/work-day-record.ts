@@ -9,7 +9,6 @@ export const WorkShiftSchema = z.object({
 export const WorkDayRecordSchema = z.object({
   userId: z.string().min(1, "Required"),
   shifts: z.array(WorkShiftSchema),
-  note: z.string().nullable().optional(),
 });
 
 export const DayScheduleSchema = z.object({
@@ -24,9 +23,7 @@ export const WeekScheduleSchema = z
   .transform((data) => ({
     days: data.days.map((day) => ({
       ...day,
-      records: day.records.filter(
-        (record) => record.shifts.length > 0 || (record.note && record.note.trim()),
-      ),
+      records: day.records.filter((record) => record.shifts.length > 0),
     })),
   }));
 
