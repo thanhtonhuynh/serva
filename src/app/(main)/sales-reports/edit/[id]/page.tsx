@@ -40,7 +40,7 @@ export default async function Page(props: { params: Params }) {
 
   // Convert cents -> dollars
   const initialValues: SaleReportInputs = {
-    date: report.date,
+    dateStr: formatInUTC(report.date),
     totalSales: report.totalSales / 100,
     cardSales: report.cardSales / 100,
     platformSales,

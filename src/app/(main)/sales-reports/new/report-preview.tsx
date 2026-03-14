@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useSession } from "@/contexts/SessionProvider";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { SaleReportCardRawData } from "@/types";
+import { parseInUTC } from "@/utils/datetime";
 import { processReportDataForView } from "@/utils/report";
 import { use } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -35,7 +36,7 @@ export function ReportPreview({
   }));
 
   const rawData: SaleReportCardRawData = {
-    date: formValues.date,
+    date: parseInUTC(formValues.dateStr),
     totalSales: Number(formValues.totalSales) * 100,
     cardSales: Number(formValues.cardSales) * 100,
     platformSales: platformSalesInCents,
@@ -45,7 +46,6 @@ export function ReportPreview({
     cashTips: Number(formValues.cashTips) * 100,
     extraTips: Number(formValues.extraTips) * 100,
     startCash,
-    // employees: [],
     reporterName: reporterName ?? user?.name ?? "Unknown user",
     reporterImage: reporterImage ?? user?.image ?? null,
     reporterUsername: reporterUsername ?? user?.username ?? "unknown",

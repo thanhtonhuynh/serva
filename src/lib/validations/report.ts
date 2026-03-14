@@ -11,7 +11,7 @@ export const PlatformSaleSchema = z.object({
 
 // Create report
 export const SaleReportSchema = z.object({
-  date: z.date({ error: "Invalid date" }),
+  dateStr: z.iso.date({ error: "Invalid date" }),
   totalSales: z.coerce.number().gte(0, { error: "Invalid" }).default(0),
   cardSales: z.coerce.number().gte(0, { error: "Invalid" }).default(0),
   platformSales: z.array(PlatformSaleSchema).default([]),

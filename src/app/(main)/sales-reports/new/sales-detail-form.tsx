@@ -1,6 +1,7 @@
 "use client";
 
 import { Typography } from "@/components/shared";
+import { DatePickerInput } from "@/components/ui/form/date-picker-input";
 import { InputFieldV2 } from "@/components/ui/form/input-field-v2";
 import { getPlatformById } from "@/constants/platforms";
 import { SaleReportInputs } from "@/lib/validations/report";
@@ -11,6 +12,15 @@ export function SalesDetailForm() {
 
   return (
     <form className="space-y-6">
+      <div className="bg-background space-y-3 rounded-xl border p-3">
+        <DatePickerInput
+          fieldName="dateStr"
+          label="Date"
+          htmlFor="dateStr"
+          labelClassName="text-primary-dark text-base font-bold tracking-wide uppercase"
+        />
+      </div>
+
       <div className="bg-background space-y-3 rounded-xl border p-3">
         <Typography variant="h2" className="uppercase">
           Sales
@@ -109,14 +119,6 @@ export function SalesDetailForm() {
           />
         </div>
       </div>
-
-      {/* <div className="bg-background space-y-3 rounded-xl border p-3">
-        <Typography variant="h2" className="uppercase">
-          Employees
-        </Typography>
-
-        <EmployeeInput users={users} />
-      </div> */}
     </form>
   );
 }

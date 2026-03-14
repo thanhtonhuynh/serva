@@ -2,12 +2,13 @@ import prisma from "@/lib/prisma";
 import { toCents } from "@/lib/utils";
 import { type SaleReportOutput } from "@/lib/validations/report";
 import { DayRange, SaleReportCardRawData, type ReportAuditLog } from "@/types";
+import { parseInUTC } from "@/utils/datetime";
 import { Prisma } from "@prisma/client";
 import { cache } from "react";
 import "server-only";
 import { getEmployeesByIds } from "./employee";
 import { getStartCash } from "./store";
-import { getWorkDayRecordsByDate, recomputeTipsForDate } from "./work-day-record/dal";
+import { recomputeTipsForDate } from "./work-day-record/dal";
 
 // Get recent reports submitted by a user
 export const getRecentReportsByUser = cache(async (userId: string, limit: number = 5) => {
@@ -42,7 +43,7 @@ export const getRecentReports = cache(async (limit: number = 5) => {
 
 // Upsert a report
 export async function upsertReport(data: SaleReportOutput, userId: string) {
-  const { cardTips, cashTips, extraTips, date, platformSales, ...raw } = data;
+  const { cardTips, cashTips, extraTips, dateStr, platformSales, ...raw } = data;
 
   // Convert all money values to cents
   const reportDataInCents = {
@@ -61,12 +62,14 @@ export async function upsertReport(data: SaleReportOutput, userId: string) {
 
   const startCash = await getStartCash();
 
+  const date = parseInUTC(dateStr);
+
   const existingReport = await prisma.saleReport.findUnique({
     where: { date },
     select: { id: true, auditLogs: true },
   });
 
-  const auditLogs = existingReport?.auditLogs ?? [];
+  const auditLogs = existingReport?.auditLogs;
 
   const report = existingReport
     ? await prisma.saleReport.update({
@@ -76,7 +79,7 @@ export async function upsertReport(data: SaleReportOutput, userId: string) {
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
           auditLogs: [
-            ...auditLogs,
+            ...(auditLogs ?? []),
             {
               userId,
               timestamp: new Date(),
@@ -91,16 +94,12 @@ export async function upsertReport(data: SaleReportOutput, userId: string) {
           startCash,
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
-          auditLogs: [],
         },
       });
 
   await recomputeTipsForDate(date);
 
-  const workDayRecords = await getWorkDayRecordsByDate(date);
-  const noWorkDayRecordsWarning = workDayRecords.length === 0;
-
-  return { report, noWorkDayRecordsWarning };
+  return { report };
 }
 
 // Check if a report exists by id

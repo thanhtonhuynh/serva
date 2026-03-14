@@ -16,6 +16,16 @@ import {
 const timeZone = "America/Vancouver";
 
 /**
+ * Check if a date is valid.
+ */
+export function isValidDate(date: Date | undefined) {
+  if (!date) {
+    return false;
+  }
+  return !isNaN(date.getTime());
+}
+
+/**
  * Formats a date in UTC timezone.
  */
 export function formatInUTC(date: Date | string, formatStr: string = "yyyy-MM-dd"): string {

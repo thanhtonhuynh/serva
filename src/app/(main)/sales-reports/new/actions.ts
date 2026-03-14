@@ -21,17 +21,6 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
       return { error: "Unauthorized." };
     }
 
-    // If creating a report for a date other than today, return an error
-    // const today = getTodayUTCMidnight();
-    // if (
-    //   mode === "create" &&
-    //   (data.date.getUTCFullYear() !== today.getUTCFullYear() ||
-    //     data.date.getUTCMonth() !== today.getUTCMonth() ||
-    //     data.date.getUTCDate() !== today.getUTCDate())
-    // ) {
-    //   return { error: "An error occurred. Please try again." };
-    // }
-
     if (!(await authenticatedRateLimit(user.id))) {
       return { error: "Too many requests. Please try again later." };
     }
@@ -53,10 +42,8 @@ export async function saveReportAction(data: SaleReportInputs, mode: "create" | 
     return {
       reportDate: result.report.date,
       error: null,
-      noWorkDayRecordsWarning: result.noWorkDayRecordsWarning,
     };
   } catch (error) {
-    // console.error(error);
     return { error: "Save report failed. Please try again." };
   }
 }

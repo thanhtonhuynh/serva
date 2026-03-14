@@ -29,6 +29,7 @@ const steps = [
     id: "Step 0",
     name: "Sale Details",
     fields: [
+      "date",
       "totalSales",
       "cardSales",
       "platformSales",
@@ -69,7 +70,7 @@ export function SaleReportPortal({
     resolver: zodResolver(SaleReportSchema),
     mode: "onChange",
     defaultValues: {
-      date: initialValues?.date || getTodayUTCMidnight(),
+      dateStr: initialValues?.dateStr || formatInUTC(getTodayUTCMidnight()),
       totalSales: initialValues?.totalSales || "",
       cardSales: initialValues?.cardSales || "",
       platformSales:
@@ -111,21 +112,15 @@ export function SaleReportPortal({
 
   async function processForm(data: SaleReportInputs) {
     startTransition(async () => {
-      const { error, reportDate, noWorkDayRecordsWarning } = await saveReportAction(data, mode);
+      const { error, reportDate } = await saveReportAction(data, mode);
       if (error || !reportDate) toast.error(error);
       else {
-        if (noWorkDayRecordsWarning) {
-          toast.warning(
-            "Report saved. No schedule found for this date — enter the schedule to distribute tips.",
-          );
-        }
-        if (mode === "create") {
-          router.push("/");
+        if (hasPermission(user?.role, PERMISSIONS.REPORTS_VIEW)) {
+          router.push(`/sales-reports?date=${formatInUTC(reportDate)}`);
         } else {
-          if (hasPermission(user?.role, PERMISSIONS.REPORTS_VIEW)) {
-            router.push(`/sales-reports?date=${formatInUTC(reportDate)}`);
-          }
+          router.push("/");
         }
+
         toast.success("Report saved successfully.");
       }
     });
