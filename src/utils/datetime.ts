@@ -83,13 +83,6 @@ export function getCurrentBiweeklyPeriodInUTC(): DateRange {
 }
 
 /**
- * @deprecated Use getTodayUTCMidnight() instead.
- */
-export function getTodayStartOfDay(): Date {
-  return getTodayUTCMidnight();
-}
-
-/**
  * Get current year in Vancouver timezone.
  */
 export function getCurrentYear(): number {
