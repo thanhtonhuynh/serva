@@ -14,7 +14,6 @@ export type DisplayUser = {
   emailVerified: boolean;
   accountStatus: string;
   image: string | null;
-  hiddenFromReports: boolean;
   createdAt: Date;
   updatedAt: Date;
   role: {

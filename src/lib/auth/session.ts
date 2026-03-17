@@ -17,7 +17,6 @@ export type Identity = {
   emailVerified: boolean;
   accountStatus: string;
   image: string | null;
-  hiddenFromReports: boolean;
   createdAt: Date;
   updatedAt: Date;
   role: UserRole;

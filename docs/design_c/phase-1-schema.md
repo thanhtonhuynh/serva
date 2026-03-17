@@ -10,7 +10,6 @@
 
 When adding Operator and Employee models (Phase 1.5–1.6), Identity will get `operators` and `employees` relations. **Identity keeps `accountStatus`** for auth-level account status (e.g. suspended, inactive). **Identity keeps `saleReports`** — the reporter is the Identity who created the report (operator or employee with REPORTS_CREATE). Fields to move off Identity (to Operator/Employee) in a later step:
 
-- `hiddenFromReports` -- moves to Employee
 - `roleId` / `role` -- moves to Operator and Employee
 - `workDayRecords` -- moves to Employee
 

@@ -12,15 +12,14 @@ datasource db {
 // ==========================================
 
 model Identity {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  name              String
-  username          String  @unique
-  email             String  @unique
-  emailVerified     Boolean @default(false)
-  accountStatus     String  @default("inactive")
-  passwordHash      String?
-  image             String?
-  hiddenFromReports Boolean @default(false)
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  username      String  @unique
+  email         String  @unique
+  emailVerified Boolean @default(false)
+  accountStatus String  @default("inactive")
+  passwordHash  String?
+  image         String?
   // totpKey          Bytes?
   // twoFactorEnabled Boolean @default(false)
 
