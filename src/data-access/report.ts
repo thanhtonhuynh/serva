@@ -10,10 +10,10 @@ import { getEmployeesByIds } from "./employee";
 import { getStartCash } from "./store";
 import { recomputeTipsForDate } from "./work-day-record/dal";
 
-// Get recent reports submitted by a user
-export const getRecentReportsByUser = cache(async (userId: string, limit: number = 5) => {
+// Get recent reports submitted by an identity
+export const getRecentReportsByIdentity = cache(async (identityId: string, limit: number = 5) => {
   const reports = await prisma.saleReport.findMany({
-    where: { userId },
+    where: { identityId },
     orderBy: { date: "desc" },
     take: limit,
     select: {
@@ -42,7 +42,7 @@ export const getRecentReports = cache(async (limit: number = 5) => {
 });
 
 // Upsert a report
-export async function upsertReport(data: SaleReportOutput, userId: string) {
+export async function upsertReport(data: SaleReportOutput, identityId: string) {
   const { cardTips, cashTips, extraTips, dateStr, platformSales, ...raw } = data;
 
   // Convert all money values to cents
@@ -81,7 +81,7 @@ export async function upsertReport(data: SaleReportOutput, userId: string) {
           auditLogs: [
             ...(auditLogs ?? []),
             {
-              userId,
+              identityId,
               timestamp: new Date(),
             },
           ],
@@ -90,7 +90,7 @@ export async function upsertReport(data: SaleReportOutput, userId: string) {
     : await prisma.saleReport.create({
         data: {
           date,
-          userId,
+          identityId,
           startCash,
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
@@ -126,30 +126,30 @@ export const getReportRaw = cache(
 
     let expandedAuditLogs: ReportAuditLog[] | undefined = undefined;
 
-    // Only fetch users and expand audit logs if there are any audit logs
+    // Only fetch identities and expand audit logs if there are any audit logs
     if (report.auditLogs.length > 0) {
-      // Collect userIds from audit logs
-      const userIds = [...report.auditLogs.map((log) => log.userId)];
+      // Collect identityIds from audit logs
+      const identityIds = [...report.auditLogs.map((log) => log.identityId)];
 
-      // Get user info for those userIds
-      const users = await getEmployeesByIds(userIds);
+      // Get identity info for those identityIds
+      const identities = await getEmployeesByIds(identityIds);
 
-      // Map userId to user info
-      const userMap = new Map(
-        users.map((user) => [
-          user.id,
-          { name: user.name, image: user.image || "", username: user.username },
+      // Map identityId to identity info
+      const identityMap = new Map(
+        identities.map((identity) => [
+          identity.id,
+          { name: identity.name, image: identity.image || "", username: identity.username },
         ]),
       );
 
       expandedAuditLogs = report.auditLogs.map((log) => {
-        const user = userMap.get(log.userId);
+        const identity = identityMap.get(log.identityId);
         return {
-          userId: log.userId,
+          identityId: log.identityId,
           timestamp: log.timestamp,
-          name: user?.name,
-          image: user?.image,
-          username: user?.username,
+          name: identity?.name,
+          image: identity?.image,
+          username: identity?.username,
         };
       });
     }

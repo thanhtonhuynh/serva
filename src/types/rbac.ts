@@ -17,5 +17,5 @@ export type RoleWithPermissions = Role & {
 
 export type RoleWithDetails = Role & {
   permissions: Permission[];
-  _count: { users: number };
+  _count: { identities: number };
 };

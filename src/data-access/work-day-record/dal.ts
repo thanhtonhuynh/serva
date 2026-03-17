@@ -1,4 +1,3 @@
-import { workDayRecordSelectWithUser } from "@/data-access/work-day-record/types";
 import prisma from "@/lib/prisma";
 import type { DayScheduleInput, WorkDayRecordInput } from "@/lib/validations";
 import type { DateRange } from "@/types/datetime";
@@ -6,19 +5,20 @@ import { getStartOfDayUTC } from "@/utils/datetime";
 import { computeTotalHours, distributeTips } from "@/utils/work-day-record";
 import { cache } from "react";
 import "server-only";
+import { workDayRecordSelectWithIdentity } from "./types";
 
 export async function upsertWorkDayRecord(date: Date, record: WorkDayRecordInput) {
   const totalHours = computeTotalHours(record.shifts);
 
   return prisma.workDayRecord.upsert({
-    where: { date_userId: { date, userId: record.userId } },
+    where: { date_identityId: { date, identityId: record.identityId } },
     update: {
       shifts: record.shifts,
       totalHours,
     },
     create: {
       date,
-      userId: record.userId,
+      identityId: record.identityId,
       shifts: record.shifts,
       totalHours,
     },
@@ -34,7 +34,7 @@ export async function replaceWeekSchedule(dateRange: DateRange, days: DaySchedul
     const date = new Date(day.dateStr + "T00:00:00.000Z");
     return day.records.map((r) => ({
       date,
-      userId: r.userId,
+      identityId: r.identityId,
       shifts: r.shifts,
       totalHours: computeTotalHours(r.shifts),
     }));
@@ -48,20 +48,20 @@ export async function replaceWeekSchedule(dateRange: DateRange, days: DaySchedul
   ]);
 }
 
-export async function deleteWorkDayRecord(date: Date, userId: string) {
+export async function deleteWorkDayRecord(date: Date, identityId: string) {
   const dayStart = getStartOfDayUTC(date);
   return prisma.workDayRecord.deleteMany({
-    where: { date: dayStart, userId },
+    where: { date: dayStart, identityId },
   });
 }
 
 /**
- * Delete many WorkDayRecords for a date by user ids.
+ * Delete many WorkDayRecords for a date by identity ids.
  */
-export async function deleteWorkDayRecordsByUserIds(date: Date, userIds: string[]) {
+export async function deleteWorkDayRecordsByIdentityIds(date: Date, identityIds: string[]) {
   const dayStart = getStartOfDayUTC(date);
   return prisma.workDayRecord.deleteMany({
-    where: { date: dayStart, userId: { in: userIds } },
+    where: { date: dayStart, identityId: { in: identityIds } },
   });
 }
 
@@ -76,14 +76,14 @@ export const getWorkDayRecordsByDate = cache(async (date: Date) => {
   const dayStart = getStartOfDayUTC(date);
   return prisma.workDayRecord.findMany({
     where: { date: dayStart },
-    include: { user: true },
-    orderBy: { user: { name: "asc" } },
+    include: { identity: true },
+    orderBy: { identity: { name: "asc" } },
   });
 });
 
 /**
- * Get WorkDayRecords for a date range, with user relation.
- * Ordered by date and user's name.
+ * Get WorkDayRecords for a date range, with identity relation.
+ * Ordered by date and identity's name.
  */
 export const getWorkDayRecordsByDateRange = cache(async (dateRange: DateRange) => {
   return prisma.workDayRecord.findMany({
@@ -93,16 +93,16 @@ export const getWorkDayRecordsByDateRange = cache(async (dateRange: DateRange) =
         lte: dateRange.end,
       },
     },
-    select: workDayRecordSelectWithUser,
-    orderBy: [{ date: "asc" }, { user: { name: "asc" } }],
+    select: workDayRecordSelectWithIdentity,
+    orderBy: [{ date: "asc" }, { identity: { name: "asc" } }],
   });
 });
 
-export const getWorkDayRecordsByUserAndDateRange = cache(
-  async (userId: string, dateRange: DateRange) => {
+export const getWorkDayRecordsByIdentityAndDateRange = cache(
+  async (identityId: string, dateRange: DateRange) => {
     return prisma.workDayRecord.findMany({
       where: {
-        userId,
+        identityId,
         date: {
           gte: dateRange.start,
           lte: dateRange.end,
@@ -113,14 +113,16 @@ export const getWorkDayRecordsByUserAndDateRange = cache(
   },
 );
 
-/** Get the most recent WorkDayRecords for a user (e.g. for profile recent shifts). */
-export const getRecentWorkDayRecordsByUser = cache(async (userId: string, limit: number = 5) => {
-  return prisma.workDayRecord.findMany({
-    where: { userId },
-    orderBy: { date: "desc" },
-    take: limit,
-  });
-});
+/** Get the most recent WorkDayRecords for an identity (e.g. for profile recent shifts). */
+export const getRecentWorkDayRecordsByIdentity = cache(
+  async (identityId: string, limit: number = 5) => {
+    return prisma.workDayRecord.findMany({
+      where: { identityId },
+      orderBy: { date: "desc" },
+      take: limit,
+    });
+  },
+);
 
 export async function recomputeTipsForDate(date: Date) {
   const dayStart = getStartOfDayUTC(date);

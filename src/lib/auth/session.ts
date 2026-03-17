@@ -9,7 +9,7 @@ import { cache } from "react";
 const SESSION_TTL = 1000 * 60 * 60 * 24 * 30; // 30 days
 const SESSION_TTL_SHORT = 1000 * 60 * 60 * 24 * 15; // 15 days
 
-export type User = {
+export type Identity = {
   id: string;
   name: string;
   username: string;
@@ -28,13 +28,13 @@ export type SessionFlags = {
 };
 
 export type SessionValidationResult =
-  | { session: Session; user: User }
-  | { session: null; user: null };
+  | { session: Session; identity: Identity }
+  | { session: null; identity: null };
 
 /**
  * Validate a session token
  * @param token - The session token
- * @returns The session and user if the token is valid, otherwise null
+ * @returns The session and identity if the token is valid, otherwise null
  */
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
@@ -42,7 +42,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
   const result = await prisma.session.findUnique({
     where: { id: sessionId },
     include: {
-      user: {
+      identity: {
         include: {
           role: {
             select: {
@@ -57,14 +57,14 @@ export async function validateSessionToken(token: string): Promise<SessionValida
   });
 
   if (!result) {
-    return { session: null, user: null };
+    return { session: null, identity: null };
   }
 
-  const { user: dbUser, ...session } = result;
+  const { identity: dbIdentity, ...session } = result;
 
   if (Date.now() >= session.expiresAt.getTime()) {
     await prisma.session.delete({ where: { id: sessionId } });
-    return { session: null, user: null };
+    return { session: null, identity: null };
   }
 
   if (Date.now() >= session.expiresAt.getTime() - SESSION_TTL_SHORT) {
@@ -77,17 +77,17 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 
   // Build user role
   const role: UserRole = {
-    name: dbUser.role?.name ?? null,
-    isAdminUser: !!dbUser.adminUser,
-    permissions: dbUser.role?.permissions.map((p) => p.code as PermissionCode) ?? [],
+    name: dbIdentity.role?.name ?? null,
+    isAdminUser: !!dbIdentity.adminUser,
+    permissions: dbIdentity.role?.permissions.map((p) => p.code as PermissionCode) ?? [],
   };
 
-  const user: User = {
-    ...dbUser,
+  const identity: Identity = {
+    ...dbIdentity,
     role,
   };
 
-  return { session, user };
+  return { session, identity };
 }
 
 /**
@@ -96,7 +96,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 export const getCurrentSession = cache(async (): Promise<SessionValidationResult> => {
   const token = (await cookies()).get("session")?.value ?? null;
   if (token === null) {
-    return { session: null, user: null };
+    return { session: null, identity: null };
   }
   const result = await validateSessionToken(token);
   return result;
@@ -116,19 +116,19 @@ export function generateSessionToken(): string {
 /**
  * Create a new session in the database
  * @param token - The session token
- * @param userId - The user ID
+ * @param identityId - The identity ID
  * @returns The created session
  */
 export async function createSession(
   token: string,
-  userId: string,
+  identityId: string,
   flags: SessionFlags,
 ): Promise<Session> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session = await prisma.session.create({
     data: {
       id: sessionId,
-      userId,
+      identityId,
       expiresAt: new Date(Date.now() + SESSION_TTL),
       twoFactorVerified: flags.twoFactorVerified,
     },
@@ -156,20 +156,23 @@ export async function invalidateSession(sessionId: string) {
 }
 
 /**
- * Invalidate all sessions for a user, deleting them from the database
- * @param userId
+ * Invalidate all sessions for an identity, deleting them from the database
+ * @param identityId
  */
-export async function invalidateUserSessions(userId: string) {
-  await prisma.session.deleteMany({ where: { userId } });
+export async function invalidateIdentitySessions(identityId: string) {
+  await prisma.session.deleteMany({ where: { identityId } });
 }
 
 /**
- * Invalidate all sessions for a user except the current session
- * @param userId
+ * Invalidate all sessions for an identity except the current session
+ * @param identityId
  */
-export async function invalidateUserSessionsExceptCurrent(userId: string, sessionId: string) {
+export async function invalidateIdentitySessionsExceptCurrent(
+  identityId: string,
+  sessionId: string,
+) {
   await prisma.session.deleteMany({
-    where: { userId, NOT: { id: sessionId } },
+    where: { identityId, NOT: { id: sessionId } },
   });
 }
 

@@ -1,18 +1,15 @@
 "use server";
 
-import { cookies } from "next/headers";
-import { invalidateUserSessions } from "@/lib/auth/session";
-import { updateUser, updateUserPassword } from "@/data-access/user";
-import {
-  ResetPasswordSchema,
-  ResetPasswordSchemaTypes,
-} from "@/lib/validations/auth";
+import { updateIdentity, updateIdentityPassword } from "@/data-access/user";
 import {
   deletePasswordResetTokenCookie,
   invalidatePasswordResetToken,
   validatePasswordResetRequest,
 } from "@/lib/auth/password-reset";
+import { invalidateIdentitySessions } from "@/lib/auth/session";
+import { ResetPasswordSchema, ResetPasswordSchemaTypes } from "@/lib/validations/auth";
 import { rateLimitByIp, unauthenticatedRateLimit } from "@/utils/rate-limiter";
+import { cookies } from "next/headers";
 
 export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {
   try {
@@ -31,7 +28,7 @@ export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {
 
     const pwResetToken = await validatePasswordResetRequest(token);
 
-    if (pwResetToken) await invalidatePasswordResetToken(pwResetToken.userId);
+    if (pwResetToken) await invalidatePasswordResetToken(pwResetToken.identityId);
 
     if (!pwResetToken) {
       return { error: "Invalid or expired token" };
@@ -40,12 +37,12 @@ export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {
     const { password, logOutOtherDevices } = ResetPasswordSchema.parse(data);
 
     if (logOutOtherDevices) {
-      await invalidateUserSessions(pwResetToken.userId);
+      await invalidateIdentitySessions(pwResetToken.identityId);
     }
 
-    await updateUserPassword(pwResetToken.userId, password);
+    await updateIdentityPassword(pwResetToken.identityId, password);
 
-    await updateUser(pwResetToken.userId, { emailVerified: true });
+    await updateIdentity(pwResetToken.identityId, { emailVerified: true });
 
     await deletePasswordResetTokenCookie();
 

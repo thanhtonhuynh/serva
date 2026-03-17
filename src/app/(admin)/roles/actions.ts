@@ -15,16 +15,16 @@ import { revalidatePath } from "next/cache";
 
 export async function createRoleAction(data: CreateRoleInput) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.ROLES_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE)
     ) {
       return { error: "Unauthorized" };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
@@ -47,16 +47,16 @@ export async function createRoleAction(data: CreateRoleInput) {
 
 export async function updateRoleAction(data: UpdateRoleInput) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.ROLES_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE)
     ) {
       return { error: "Unauthorized" };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
@@ -83,16 +83,16 @@ export async function updateRoleAction(data: UpdateRoleInput) {
 
 export async function deleteRoleAction(id: string) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.ROLES_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE)
     ) {
       return { error: "Unauthorized" };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 

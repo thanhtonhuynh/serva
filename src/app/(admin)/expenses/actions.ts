@@ -10,16 +10,16 @@ import { revalidatePath } from "next/cache";
 
 export async function addExpensesAction(data: ExpensesFormInput) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.EXPENSES_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.EXPENSES_MANAGE)
     ) {
       return "Unauthorized";
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return "Too many requests. Please try again later.";
     }
 
@@ -36,16 +36,16 @@ export async function addExpensesAction(data: ExpensesFormInput) {
 
 export async function updateExpensesAction(data: ExpensesFormInput, id: string) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.EXPENSES_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.EXPENSES_MANAGE)
     ) {
       return "Unauthorized";
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return "Too many requests. Please try again later.";
     }
 
@@ -62,16 +62,16 @@ export async function updateExpensesAction(data: ExpensesFormInput, id: string) 
 
 export async function deleteExpenseAction(id: string) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.EXPENSES_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.EXPENSES_MANAGE)
     ) {
       return "Unauthorized";
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return "Too many requests. Please try again later.";
     }
 

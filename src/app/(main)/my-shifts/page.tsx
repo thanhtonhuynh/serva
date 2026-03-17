@@ -4,7 +4,7 @@ import { CurrentBadge, Typography } from "@/components/shared";
 import { NotiMessage } from "@/components/shared/noti-message";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
-import { getWorkDayRecordsByUserAndDateRange } from "@/data-access/work-day-record/dal";
+import { getWorkDayRecordsByIdentityAndDateRange } from "@/data-access/work-day-record/dal";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatMoney } from "@/lib/utils";
 import {
@@ -26,11 +26,11 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
@@ -64,7 +64,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const monthIndex = selectedMonth - 1; // 0-indexed
   const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, monthIndex);
   const periods = getPeriodsForMonthAndYearInUTC(selectedYear, monthIndex);
-  const workDayRecords = await getWorkDayRecordsByUserAndDateRange(user.id, dateRange);
+  const workDayRecords = await getWorkDayRecordsByIdentityAndDateRange(identity.id, dateRange);
 
   const userShifts = workDayRecords.map((r) => ({
     date: r.date,

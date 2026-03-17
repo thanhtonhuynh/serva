@@ -5,16 +5,16 @@ import type { Prisma } from "@prisma/client";
 // ---------------------------------------------------------------------------
 
 /**
- * Select shape for WorkDayRecord with user relation.
+ * Select shape for WorkDayRecord with identity relation.
  */
-export const workDayRecordSelectWithUser = {
+export const workDayRecordSelectWithIdentity = {
   id: true,
   date: true,
-  userId: true,
+  identityId: true,
   shifts: true,
   totalHours: true,
   tips: true,
-  user: {
+  identity: {
     select: {
       name: true,
       username: true,
@@ -24,13 +24,13 @@ export const workDayRecordSelectWithUser = {
 } satisfies Prisma.WorkDayRecordSelect;
 
 /**
- * Return type for queries using workDayRecordSelectWithUser.
+ * Return type for queries using workDayRecordSelectWithIdentity.
  */
-export type WorkDayRecordWithUser = Prisma.WorkDayRecordGetPayload<{
-  select: typeof workDayRecordSelectWithUser;
+export type WorkDayRecordWithIdentity = Prisma.WorkDayRecordGetPayload<{
+  select: typeof workDayRecordSelectWithIdentity;
 }>;
 
 /**
  * WorkDayRecords by date: key = date YYYY-MM-DD, value = WorkDayRecords for that date.
  */
-export type WorkDayRecordsByDate = Record<string, WorkDayRecordWithUser[]>;
+export type WorkDayRecordsByDate = Record<string, WorkDayRecordWithIdentity[]>;

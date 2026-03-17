@@ -12,12 +12,12 @@ import { Fragment } from "react";
 import { SaleReportPortal } from "./sale-report-portal";
 
 export default async function Page() {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
-  if (!hasPermission(user.role, PERMISSIONS.REPORTS_CREATE)) return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
+  if (!hasPermission(identity.role, PERMISSIONS.REPORTS_CREATE)) return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 

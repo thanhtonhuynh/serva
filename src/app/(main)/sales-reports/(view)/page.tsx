@@ -19,11 +19,11 @@ import { DeleteReportModal, ReportAuditLog } from "./_components";
 type SearchParams = Promise<{ date?: string }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { user } = await getCurrentSession();
-  if (!user) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
 
-  if (!hasPermission(user.role, PERMISSIONS.REPORTS_VIEW)) return notFound();
+  if (!hasPermission(identity.role, PERMISSIONS.REPORTS_VIEW)) return notFound();
 
   const searchParams = await props.searchParams;
   const dateParam = searchParams.date;
@@ -52,7 +52,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         <CardTitle>Sales Report</CardTitle>
 
         <div className="flex items-center gap-3">
-          {hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE) && (
+          {hasPermission(identity.role, PERMISSIONS.REPORTS_UPDATE) && (
             <Button
               nativeButton={false}
               variant="outline-accent"
@@ -65,7 +65,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
               }
             />
           )}
-          {hasPermission(user.role, PERMISSIONS.REPORTS_DELETE) && (
+          {hasPermission(identity.role, PERMISSIONS.REPORTS_DELETE) && (
             <DeleteReportModal reportId={processedReport.id!} date={processedReport.date} />
           )}
         </div>

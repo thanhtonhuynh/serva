@@ -13,12 +13,12 @@ import { PlatformsForm } from "./platforms-form";
 import { StartCashForm } from "./start-cash-form";
 
 export default async function Page() {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
-  if (!hasPermission(user.role, PERMISSIONS.STORE_SETTINGS_MANAGE)) return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
+  if (!hasPermission(identity.role, PERMISSIONS.STORE_SETTINGS_MANAGE)) return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 

@@ -1,9 +1,6 @@
-import {
-  encodeBase32LowerCaseNoPadding,
-  encodeHexLowerCase,
-} from "@oslojs/encoding";
 import prisma from "@/lib/prisma";
 import { sha256 } from "@oslojs/crypto/sha2";
+import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { cookies } from "next/headers";
 
 const PASSWORD_RESET_TOKEN_TTL = 1000 * 60 * 30; // 30 minutes
@@ -16,26 +13,23 @@ export function generatePasswordResetToken() {
   return token;
 }
 
-export async function invalidatePasswordResetToken(userId: string) {
-  await prisma.passwordResetToken.deleteMany({ where: { userId } });
+export async function invalidatePasswordResetToken(identityId: string) {
+  await prisma.passwordResetToken.deleteMany({ where: { identityId } });
 }
 
-export async function createPasswordResetToken(userId: string, token: string) {
+export async function createPasswordResetToken(identityId: string, token: string) {
   const tokenHash = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
   await prisma.passwordResetToken.create({
     data: {
-      userId,
+      identityId,
       tokenHash,
       expiresAt: new Date(Date.now() + PASSWORD_RESET_TOKEN_TTL),
     },
   });
 }
 
-export async function setPasswordResetTokenCookie(
-  token: string,
-  expiresAt: Date,
-) {
+export async function setPasswordResetTokenCookie(token: string, expiresAt: Date) {
   (await cookies()).set("pw-reset", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

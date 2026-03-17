@@ -47,16 +47,8 @@ export type PlatformSaleData = {
   amount: number;
 };
 
-export type SaleEmployee = {
-  userId: string;
-  hour: number;
-  name?: string;
-  image?: string;
-  username?: string;
-};
-
 export type ReportAuditLog = {
-  userId: string;
+  identityId: string;
   timestamp: Date;
   name?: string;
   image?: string | null;
@@ -114,13 +106,14 @@ export type ShiftHours = {
   sunday: number;
 };
 
+/** @deprecated Use DateRange instead */
 export type DayRange = {
   start: Date;
   end: Date;
 };
 
 export type TotalHoursTips = {
-  userId: string;
+  identityId: string;
   name: string;
   username: string;
   image: string;
@@ -128,35 +121,24 @@ export type TotalHoursTips = {
   totalTips: number;
 };
 
-export type EmployeeShift = {
-  userId: string;
-  date: Date;
-  hours: number;
-  tips: number;
-  user: {
-    name: string;
-    image: string | null;
-  };
-};
-
 export type BreakdownData = {
-  userId: string;
-  userName: string;
-  userUsername: string;
-  image: string;
+  identityId: string;
+  identityName: string;
+  identityUsername: string;
+  identityImage: string;
   keyData: number[];
   total: number;
 };
 
-export type Shift = {
-  userId: string;
-  userName: string;
-  userUsername: string;
-  userImage: string;
-  date: Date;
-  hours: number;
-  tips: number;
-};
+// export type Shift = {
+//   userId: string;
+//   userName: string;
+//   userUsername: string;
+//   userImage: string;
+//   date: Date;
+//   hours: number;
+//   tips: number;
+// };
 
 export type CashFlowRawData = {
   id: string;

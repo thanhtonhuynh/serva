@@ -58,7 +58,7 @@ function buildCsv(payload: ExportPeriodPayload): string {
   lines.push(headerRow.map(escapeCsvCell).join(","));
   for (const row of hoursBreakdown) {
     const cells = [
-      row.userName,
+      row.identityName,
       ...row.keyData.map((v) => (v > 0 ? v : "")),
       row.total > 0 ? row.total : "",
     ];
@@ -71,7 +71,7 @@ function buildCsv(payload: ExportPeriodPayload): string {
   lines.push(headerRow.map(escapeCsvCell).join(","));
   for (const row of tipsBreakdown) {
     const cells = [
-      row.userName,
+      row.identityName,
       ...row.keyData.map((v) => (v > 0 ? formatTipsMoney(v) : "")),
       row.total > 0 ? formatTipsMoney(row.total) : "",
     ];
@@ -86,11 +86,7 @@ const HEADER_STYLE = {
   fill: { fgColor: { rgb: "FF1e40af" }, patternType: "solid" as const },
 };
 
-function applyHeaderStyle(
-  ws: XLSX.WorkSheet,
-  rowCount: number,
-  colCount: number,
-): void {
+function applyHeaderStyle(ws: XLSX.WorkSheet, rowCount: number, colCount: number): void {
   for (let c = 0; c < colCount; c++) {
     const ref = XLSX.utils.encode_cell({ r: 0, c });
     if (ws[ref]) ws[ref].s = HEADER_STYLE;
@@ -110,7 +106,7 @@ function buildExcel(payload: ExportPeriodPayload): ArrayBuffer {
   const hoursData: (string | number)[][] = [headerRow];
   for (const row of hoursBreakdown) {
     hoursData.push([
-      row.userName,
+      row.identityName,
       ...row.keyData.map((v) => (v > 0 ? v : "")),
       row.total > 0 ? row.total : "",
     ]);
@@ -122,7 +118,7 @@ function buildExcel(payload: ExportPeriodPayload): ArrayBuffer {
   const tipsData: (string | number)[][] = [headerRow];
   for (const row of tipsBreakdown) {
     tipsData.push([
-      row.userName,
+      row.identityName,
       ...row.keyData.map((v) => (v > 0 ? formatTipsMoney(v) : "")),
       row.total > 0 ? formatTipsMoney(row.total) : "",
     ]);

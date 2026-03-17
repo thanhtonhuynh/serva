@@ -12,16 +12,16 @@ import { Fragment } from "react";
 import { CreateRoleModal, RolesTable } from "./_components";
 
 export default async function RolesPage() {
-  const { user } = await getCurrentSession();
-  if (!user) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
-  if (!hasPermission(user.role, PERMISSIONS.ROLES_VIEW)) return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
+  if (!hasPermission(identity.role, PERMISSIONS.ROLES_VIEW)) return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
-  const canManageRoles = hasPermission(user.role, PERMISSIONS.ROLES_MANAGE);
+  const canManageRoles = hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE);
   const [roles, permissionsGrouped] = await Promise.all([getRoles(), getPermissionsGrouped()]);
 
   return (

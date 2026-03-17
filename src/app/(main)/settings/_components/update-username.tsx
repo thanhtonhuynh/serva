@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { User } from "@/lib/auth/session";
+import { type Identity } from "@/lib/auth/session";
 import { UpdateUsernameSchema, UpdateUsernameSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
@@ -20,17 +20,17 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { updateUsernameAction } from "../actions";
 
-type UpdateUsernameFormProps = {
-  user: User;
+type Props = {
+  identity: Identity;
 };
 
-export function UpdateUsernameForm({ user }: UpdateUsernameFormProps) {
+export function UpdateUsernameForm({ identity }: Props) {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdateUsernameSchemaInput>({
     resolver: zodResolver(UpdateUsernameSchema),
     mode: "onBlur",
     defaultValues: {
-      username: user.username,
+      username: identity.username,
     },
   });
 

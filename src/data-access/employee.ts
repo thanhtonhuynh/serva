@@ -5,7 +5,7 @@ import "server-only";
 // Get employees with optional status filter
 export const getEmployees = cache(
   async ({ status, excludeAdmin }: { status?: string; excludeAdmin?: boolean }) => {
-    return prisma.user.findMany({
+    return prisma.identity.findMany({
       where: {
         accountStatus: status,
         // Exclude platform super admins (AdminUser) from team list
@@ -23,9 +23,9 @@ export const getEmployees = cache(
 );
 
 // Get employess' info by IDs
-export const getEmployeesByIds = cache(async (userIds: string[]) => {
-  return prisma.user.findMany({
-    where: { id: { in: userIds } },
+export const getEmployeesByIds = cache(async (identityIds: string[]) => {
+  return prisma.identity.findMany({
+    where: { id: { in: identityIds } },
     select: { id: true, name: true, image: true, username: true },
   });
 });

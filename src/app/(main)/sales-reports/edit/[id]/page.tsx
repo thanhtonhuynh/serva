@@ -16,10 +16,10 @@ import { SaleReportPortal } from "../../new/sale-report-portal";
 type Params = Promise<{ id: string }>;
 
 export default async function Page(props: { params: Params }) {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (user.accountStatus !== "active") notFound();
-  if (!hasPermission(user.role, PERMISSIONS.REPORTS_UPDATE)) notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") notFound();
+  if (!hasPermission(identity.role, PERMISSIONS.REPORTS_UPDATE)) notFound();
 
   const params = await props.params;
   const report = await getReportRaw({ id: params.id });

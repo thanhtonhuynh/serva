@@ -44,15 +44,19 @@ export async function DataTable({ dateRange, data, isMoney = false }: DataTableP
 
       <TableBody>
         {data.map((employee) => (
-          <TableRow key={employee.userId}>
+          <TableRow key={employee.identityId}>
             <TableCell className="border-r">
               <Link
-                href={`/profile/${employee.userUsername}`}
+                href={`/profile/${employee.identityUsername}`}
                 className="group flex w-max items-center gap-2"
               >
-                <ProfilePicture image={employee.image} size={32} name={employee.userName} />
+                <ProfilePicture
+                  image={employee.identityImage}
+                  size={32}
+                  name={employee.identityName}
+                />
                 <span className="underline-offset-2 group-hover:underline">
-                  {employee.userName}
+                  {employee.identityName}
                 </span>
               </Link>
             </TableCell>

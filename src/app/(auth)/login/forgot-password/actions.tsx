@@ -1,19 +1,16 @@
 "use server";
 
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
-import { getUserByEmail } from "@/data-access/user";
+import { getIdentityByEmail } from "@/data-access/user";
 import {
   createPasswordResetToken,
   generatePasswordResetToken,
   invalidatePasswordResetToken,
 } from "@/lib/auth/password-reset";
-import {
-  ForgotPasswordSchema,
-  ForgotPasswordSchemaTypes,
-} from "@/lib/validations/auth";
 import { sendEmail } from "@/lib/email";
-import { render } from "@react-email/components";
+import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@/lib/validations/auth";
 import { rateLimitByKey, unauthenticatedRateLimit } from "@/utils/rate-limiter";
+import { render } from "@react-email/components";
 
 export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
   try {
@@ -29,18 +26,16 @@ export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
       };
     }
 
-    const user = await getUserByEmail(email);
-    if (!user) return { success: true };
+    const identity = await getIdentityByEmail(email);
+    if (!identity) return { success: true };
 
-    await invalidatePasswordResetToken(user.id);
+    await invalidatePasswordResetToken(identity.id);
 
     const token = generatePasswordResetToken();
 
-    await createPasswordResetToken(user.id, token);
+    await createPasswordResetToken(identity.id, token);
 
-    const emailHtml = await render(
-      <ResetPasswordEmail user={user} token={token} />,
-    );
+    const emailHtml = await render(<ResetPasswordEmail identity={identity} token={token} />);
 
     await sendEmail({
       to: email,

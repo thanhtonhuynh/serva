@@ -232,53 +232,8 @@ export function SaleReportCard({ data }: Props) {
               </Typography>
             </div>
           </div>
-
-          {/* Total Hours */}
-          {/* <div className="flex items-center gap-3 border-t pt-3 sm:border-t-0 sm:pt-0">
-            <DecoIcon icon={ICONS.TOTAL_HOURS} showBackground />
-            <div>
-              <Typography variant="p-xs">Total Hours</Typography>
-              <Typography variant="caption">{data.totalHours} hrs</Typography>
-            </div>
-          </div> */}
-
-          {/* Per Hour */}
-          {/* <div className="flex items-center gap-3 border-t pt-3 sm:border-t-0 sm:pt-0">
-            <DecoIcon icon={ICONS.PER_HOUR} showBackground />
-            <div>
-              <Typography variant="p-xs">Per Hour</Typography>
-              <Typography variant="caption">{formatMoney(data.tipsPerHour)}</Typography>
-            </div>
-          </div> */}
         </div>
       </div>
-
-      {/* Employees Section */}
-      {/* <div className="bg-accent/30 space-y-3 rounded-xl border p-3">
-        <Typography variant="h3">Employees</Typography>
-
-        <div className="grid gap-3 sm:grid-cols-2 sm:gap-x-6">
-          {data.employees.map((emp) => (
-            <div
-              key={emp.userId}
-              className="flex items-center justify-between border-b pb-1 last:border-b-0"
-            >
-              <Link
-                href={`/profile/${emp.username}`}
-                className="group flex items-center gap-2 transition-opacity hover:opacity-80"
-              >
-                <ProfilePicture image={emp.image} size={24} name={emp.name} />
-                <span className="text-xs group-hover:underline">{emp.name}</span>
-              </Link>
-
-              <Typography variant="p-xs" className="flex flex-col items-end">
-                <span className="font-semibold">{formatMoney(emp.hour * data.tipsPerHour)}</span>
-                <span>{emp.hour}h</span>
-              </Typography>
-            </div>
-          ))}
-        </div>
-      </div> */}
     </div>
   );
 }

@@ -11,11 +11,11 @@ import { CurrentPayPeriodSummary } from "./_components";
 import { QuickActions } from "./_components/quick-actions";
 
 export default async function Home() {
-  const { user } = await getCurrentSession();
-  if (!user) redirect("/login");
-  if (user.accountStatus !== "active") notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
@@ -32,11 +32,11 @@ export default async function Home() {
         {/* Greetings */}
         <Card>
           <CardHeader>
-            <CardTitle>Good day, {user.name}!</CardTitle>
+            <CardTitle>Good day, {identity.name}!</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-2">
-            <QuickActions user={user} />
+            <QuickActions identity={identity} />
           </CardContent>
         </Card>
 
@@ -55,7 +55,7 @@ export default async function Home() {
         )} */}
 
         {/* Current pay period summary */}
-        <CurrentPayPeriodSummary user={user} />
+        <CurrentPayPeriodSummary identity={identity} />
       </Container>
     </Fragment>
   );

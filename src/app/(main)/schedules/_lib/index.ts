@@ -46,8 +46,8 @@ export function buildInitialWeekScheduleInput(
 
     // Map employees to records, creating empty records for employees with no shifts
     const records: WorkDayRecordInput[] = employees.map((emp) => {
-      const record = dayRecords.find((r) => r.userId === emp.id);
-      return record || { userId: emp.id, shifts: [] };
+      const record = dayRecords.find((r) => r.identityId === emp.id);
+      return record || { identityId: emp.id, shifts: [] };
     });
 
     return { dateStr, records };

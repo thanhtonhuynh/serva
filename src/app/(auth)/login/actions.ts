@@ -1,15 +1,8 @@
 "use server";
 
-import {
-  getUserByEmailOrUsername,
-  getUserPasswordHash,
-} from "@/data-access/user";
+import { getIdentityByEmailOrUsername, getIdentityPasswordHash } from "@/data-access/user";
 import { verifyPassword } from "@/lib/auth/password";
-import {
-  createSession,
-  generateSessionToken,
-  setSessionTokenCookie,
-} from "@/lib/auth/session";
+import { createSession, generateSessionToken, setSessionTokenCookie } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 // import {
 //   getUserEmailVerificationRequestByUserId,
@@ -27,18 +20,16 @@ export async function loginAction(data: LoginSchemaTypes) {
 
     const { identifier, password } = LoginSchema.parse(data);
 
-    if (
-      !(await rateLimitByKey({ key: identifier, limit: 3, interval: 10000 }))
-    ) {
+    if (!(await rateLimitByKey({ key: identifier, limit: 3, interval: 10000 }))) {
       return { error: "Too many requests. Please try again later." };
     }
 
-    const existingUser = await getUserByEmailOrUsername(identifier);
-    if (!existingUser) {
+    const existingIdentity = await getIdentityByEmailOrUsername(identifier);
+    if (!existingIdentity) {
       return { error: "Invalid email, username, or password" };
     }
 
-    const passwordHash = await getUserPasswordHash(existingUser.id);
+    const passwordHash = await getIdentityPasswordHash(existingIdentity.id);
     if (!passwordHash) {
       return { error: "Invalid email, username, or password" };
     }
@@ -49,7 +40,7 @@ export async function loginAction(data: LoginSchemaTypes) {
     }
 
     const sessionToken = generateSessionToken();
-    const session = await createSession(sessionToken, existingUser.id, {
+    const session = await createSession(sessionToken, existingIdentity.id, {
       twoFactorVerified: false,
     });
     await setSessionTokenCookie(sessionToken, session.expiresAt);

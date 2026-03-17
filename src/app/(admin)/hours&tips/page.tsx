@@ -20,8 +20,8 @@ import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { addDays } from "date-fns";
 import { notFound, redirect } from "next/navigation";
-import { DataTable, ExportPeriodButton, HoursTipsTable } from "./_components";
 import type { ExportPeriodPayload } from "./_components";
+import { DataTable, ExportPeriodButton, HoursTipsTable } from "./_components";
 
 type SearchParams = Promise<{
   year?: string;
@@ -29,12 +29,12 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { session, user } = await getCurrentSession();
+  const { session, identity } = await getCurrentSession();
   if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
-  if (!hasPermission(user.role, PERMISSIONS.HOURS_TIPS_VIEW)) return notFound();
+  if (identity.accountStatus !== "active") return notFound();
+  if (!hasPermission(identity.role, PERMISSIONS.HOURS_TIPS_VIEW)) return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
@@ -90,13 +90,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const totalHoursTips: TotalHoursTips[] = [];
   for (const breakdown of hoursTipsBreakdowns) {
     for (const data of breakdown.hoursBreakdown) {
-      const index = totalHoursTips.findIndex((total) => total.userId === data.userId);
+      const index = totalHoursTips.findIndex((total) => total.identityId === data.identityId);
       if (index === -1) {
         totalHoursTips.push({
-          userId: data.userId,
-          name: data.userName,
-          username: data.userUsername,
-          image: data.image,
+          identityId: data.identityId,
+          name: data.identityName,
+          username: data.identityUsername,
+          image: data.identityImage,
           totalHours: data.total,
           totalTips: 0,
         });
@@ -105,13 +105,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
       }
     }
     for (const data of breakdown.tipsBreakdown) {
-      const index = totalHoursTips.findIndex((total) => total.userId === data.userId);
+      const index = totalHoursTips.findIndex((total) => total.identityId === data.identityId);
       if (index === -1) {
         totalHoursTips.push({
-          userId: data.userId,
-          name: data.userName,
-          username: data.userUsername,
-          image: data.image,
+          identityId: data.identityId,
+          name: data.identityName,
+          username: data.identityUsername,
+          image: data.identityImage,
           totalHours: 0,
           totalTips: data.total,
         });

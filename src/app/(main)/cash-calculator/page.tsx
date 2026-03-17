@@ -7,9 +7,9 @@ import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 
 export default async function Page() {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
 
   return (
     <Fragment>

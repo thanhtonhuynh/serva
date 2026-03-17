@@ -1,14 +1,14 @@
 "use server";
 
 import {
-  getUserByEmail,
-  getUserByUsername,
-  getUserPasswordHash,
-  updateUser,
-  updateUserPassword,
+  getIdentityByEmail,
+  getIdentityByUsername,
+  getIdentityPasswordHash,
+  updateIdentity,
+  updateIdentityPassword,
 } from "@/data-access/user";
 import { verifyPassword } from "@/lib/auth/password";
-import { getCurrentSession, invalidateUserSessionsExceptCurrent } from "@/lib/auth/session";
+import { getCurrentSession, invalidateIdentitySessionsExceptCurrent } from "@/lib/auth/session";
 import {
   UpdateAvatarSchema,
   UpdateAvatarSchemaInput,
@@ -28,18 +28,18 @@ import { revalidatePath } from "next/cache";
 // Update name
 export async function updateNameAction(data: UpdateNameSchemaInput) {
   try {
-    const { user } = await getCurrentSession();
-    if (!user || user.accountStatus !== "active") {
+    const { identity } = await getCurrentSession();
+    if (!identity || identity.accountStatus !== "active") {
       return { error: "Unauthorized." };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
     const { name } = UpdateNameSchema.parse(data);
 
-    await updateUser(user.id, { name });
+    await updateIdentity(identity.id, { name });
 
     revalidatePath("/");
     return {};
@@ -52,27 +52,27 @@ export async function updateNameAction(data: UpdateNameSchemaInput) {
 // Update username
 export async function updateUsernameAction(data: UpdateUsernameSchemaInput) {
   try {
-    const { user } = await getCurrentSession();
-    if (!user || user.accountStatus !== "active") {
+    const { identity } = await getCurrentSession();
+    if (!identity || identity.accountStatus !== "active") {
       return { error: "Unauthorized." };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
     const { username } = UpdateUsernameSchema.parse(data);
 
-    if (username === user.username) {
+    if (username === identity.username) {
       return {};
     }
 
-    const existingUsername = await getUserByUsername(username);
+    const existingUsername = await getIdentityByUsername(username);
     if (existingUsername) {
       return { error: "Username already in use." };
     }
 
-    await updateUser(user.id, { username });
+    await updateIdentity(identity.id, { username });
 
     revalidatePath("/");
     return {};
@@ -85,27 +85,27 @@ export async function updateUsernameAction(data: UpdateUsernameSchemaInput) {
 // Update email
 export async function updateEmailAction(data: UpdateEmailSchemaInput) {
   try {
-    const { user } = await getCurrentSession();
-    if (!user || user.accountStatus !== "active") {
+    const { identity } = await getCurrentSession();
+    if (!identity || identity.accountStatus !== "active") {
       return { error: "Unauthorized." };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
     const { email } = UpdateEmailSchema.parse(data);
 
-    if (email === user.email) {
+    if (email === identity.email) {
       return {};
     }
 
-    const existingEmail = await getUserByEmail(email);
+    const existingEmail = await getIdentityByEmail(email);
     if (existingEmail) {
       return { error: "Email already in use." };
     }
 
-    await updateUser(user.id, { email });
+    await updateIdentity(identity.id, { email });
 
     revalidatePath("/");
     return {};
@@ -118,18 +118,18 @@ export async function updateEmailAction(data: UpdateEmailSchemaInput) {
 // Update password
 export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
   try {
-    const { session, user } = await getCurrentSession();
-    if (!user || user.accountStatus !== "active") {
+    const { session, identity } = await getCurrentSession();
+    if (!identity || identity.accountStatus !== "active") {
       return { error: "Unauthorized." };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
     const { currentPassword, newPassword, logOutOtherDevices } = UpdatePasswordSchema.parse(data);
 
-    const passwordHash = await getUserPasswordHash(user.id);
+    const passwordHash = await getIdentityPasswordHash(identity.id);
     if (!passwordHash) {
       return { error: "Invalid credentials." };
     }
@@ -138,10 +138,10 @@ export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
       return { error: "Incorrect password." };
     }
 
-    await updateUserPassword(user.id, newPassword);
+    await updateIdentityPassword(identity.id, newPassword);
 
     if (logOutOtherDevices) {
-      await invalidateUserSessionsExceptCurrent(user.id, session.id);
+      await invalidateIdentitySessionsExceptCurrent(identity.id, session.id);
     }
 
     return {};
@@ -154,24 +154,24 @@ export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
 // Update avatar
 export async function updateAvatarAction(data: UpdateAvatarSchemaInput) {
   try {
-    const { user } = await getCurrentSession();
-    if (!user || user.accountStatus !== "active") {
+    const { identity } = await getCurrentSession();
+    if (!identity || identity.accountStatus !== "active") {
       return { error: "Unauthorized." };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
     const { image } = UpdateAvatarSchema.parse(data);
 
-    if (user.image) {
-      await deleteImage(user.image);
+    if (identity.image) {
+      await deleteImage(identity.image);
     }
 
     const imageUrl = await uploadImage(image);
 
-    await updateUser(user.id, { image: imageUrl });
+    await updateIdentity(identity.id, { image: imageUrl });
 
     revalidatePath("/");
     return {};

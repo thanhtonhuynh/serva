@@ -28,17 +28,17 @@ import {
 const PROFILE_URL_PLACEHOLDER = "__profile__";
 
 export function SidebarMenuGroups() {
-  const { user } = useSession();
+  const { identity } = useSession();
   const { toggleSidebar } = useSidebar();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
-  const username = user?.username ?? "";
+  const username = identity?.username ?? "";
 
   const visibleItems = useMemo(() => {
     return MENU_ITEMS.filter((item) =>
-      item.permission ? hasPermission(user?.role, item.permission) : true,
+      item.permission ? hasPermission(identity?.role, item.permission) : true,
     );
-  }, [user?.role]);
+  }, [identity?.role]);
 
   const itemsByGroup = useMemo(() => {
     return MENU_GROUPS.reduce(

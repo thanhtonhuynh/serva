@@ -108,14 +108,14 @@ export function SaleReportPortal({
   const [previousStep, setPreviousStep] = useState(0);
   const delta = currentStep - previousStep;
   const router = useRouter();
-  const { user } = useSession();
+  const { identity } = useSession();
 
   async function processForm(data: SaleReportInputs) {
     startTransition(async () => {
       const { error, reportDate } = await saveReportAction(data, mode);
       if (error || !reportDate) toast.error(error);
       else {
-        if (hasPermission(user?.role, PERMISSIONS.REPORTS_VIEW)) {
+        if (hasPermission(identity?.role, PERMISSIONS.REPORTS_VIEW)) {
           router.push(`/sales-reports?date=${formatInUTC(reportDate)}`);
         } else {
           router.push("/");

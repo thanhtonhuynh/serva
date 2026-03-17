@@ -65,7 +65,7 @@ const CONFIRM_ACTIONS: Record<ConfirmAction["type"], Omit<ConfirmAction, "type">
 };
 
 export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps) {
-  const { user } = useSession();
+  const { identity } = useSession();
   const [isPending, startTransition] = useTransition();
   const [confirmAction, setConfirmAction] = useState<ConfirmAction["type"] | null>(null);
   const [roleDialogOpen, setRoleDialogOpen] = useState(false);
@@ -73,8 +73,8 @@ export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps
   const status = employee.accountStatus;
   const actionConfig = confirmAction ? CONFIRM_ACTIONS[confirmAction] : null;
 
-  const canManageTeamAccess = hasPermission(user?.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
-  const canAssignRole = hasPermission(user?.role, PERMISSIONS.TEAM_ASSIGN_ROLES);
+  const canManageTeamAccess = hasPermission(identity?.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
+  const canAssignRole = hasPermission(identity?.role, PERMISSIONS.TEAM_ASSIGN_ROLES);
 
   async function handleConfirm() {
     if (!confirmAction) return;

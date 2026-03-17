@@ -2,9 +2,9 @@ import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { PERMISSIONS } from "@/constants/permissions";
-import { getRecentReportsByUser } from "@/data-access/report";
-import { getUserProfileByUsername } from "@/data-access/user";
-import { getRecentWorkDayRecordsByUser } from "@/data-access/work-day-record/dal";
+import { getRecentReportsByIdentity } from "@/data-access/report";
+import { getIdentityProfileByUsername } from "@/data-access/user";
+import { getRecentWorkDayRecordsByIdentity } from "@/data-access/work-day-record/dal";
 import { getCurrentSession } from "@/lib/auth/session";
 import { hasPermission } from "@/utils/access-control";
 import { notFound, redirect } from "next/navigation";
@@ -18,13 +18,13 @@ type ProfilePageProps = {
 };
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
-  const { user: currentUser } = await getCurrentSession();
+  const { identity: currentUser } = await getCurrentSession();
 
   if (!currentUser) redirect("/login");
   if (currentUser.accountStatus !== "active") return notFound();
 
   const { username } = await params;
-  const profileUser = await getUserProfileByUsername(username);
+  const profileUser = await getIdentityProfileByUsername(username);
 
   if (!profileUser || (profileUser.role.isAdminUser && !currentUser.role.isAdminUser)) {
     return notFound();
@@ -39,8 +39,8 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   // Fetch recent reports submitted by this user and recent work day records (shifts)
   const [recentReports, workDayRecords] = await Promise.all([
-    getRecentReportsByUser(profileUser.id, 5),
-    getRecentWorkDayRecordsByUser(profileUser.id, 5),
+    getRecentReportsByIdentity(profileUser.id, 5),
+    getRecentWorkDayRecordsByIdentity(profileUser.id, 5),
   ]);
 
   const recentShifts = workDayRecords.map((r) => ({
@@ -56,7 +56,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       </Header>
 
       <Container className="space-y-3">
-        <ProfileInfo user={profileUser} isOwner={isOwner} />
+        <ProfileInfo identity={profileUser} isOwner={isOwner} />
         <RecentShifts shifts={recentShifts} isOwner={isOwner} />
         <RecentReports reports={recentReports} isOwner={isOwner} />
       </Container>

@@ -68,7 +68,7 @@ export function RolesTable({ roles, canManageRoles, permissionsGrouped }: RolesT
 
               <TableCell>
                 <div className="flex items-center justify-center gap-2">
-                  <span className="text-xs">{role._count.users}</span>
+                  <span className="text-xs">{role._count.identities}</span>
                   <HugeiconsIcon icon={ICONS.USER_TWO} className="size-4" />
                 </div>
               </TableCell>

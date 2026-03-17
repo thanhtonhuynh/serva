@@ -1,21 +1,13 @@
 "use server";
 
-import {
-  createUser,
-  getUserByEmail,
-  getUserByUsername,
-} from "@/data-access/user";
+import { createIdentity, getIdentityByEmail, getIdentityByUsername } from "@/data-access/user";
 import { redirect } from "next/navigation";
 // import {
 //   sendVerificationEmail,
 //   setEmailVerificationRequestCookie,
 //   upsertEmailVerificationRequest,
 // } from '@/lib/email-verification';
-import {
-  createSession,
-  generateSessionToken,
-  setSessionTokenCookie,
-} from "@/lib/auth/session";
+import { createSession, generateSessionToken, setSessionTokenCookie } from "@/lib/auth/session";
 import { SignupSchema, SignupSchemaTypes } from "@/lib/validations/auth";
 import { rateLimitByIp, unauthenticatedRateLimit } from "@/utils/rate-limiter";
 
@@ -30,17 +22,17 @@ export async function signUpAction(data: SignupSchemaTypes) {
 
     const { name, username, email, password } = SignupSchema.parse(data);
 
-    const existingEmail = await getUserByEmail(email);
+    const existingEmail = await getIdentityByEmail(email);
     if (existingEmail) {
       return { error: "Email already in use" };
     }
 
-    const existingUsername = await getUserByUsername(username);
+    const existingUsername = await getIdentityByUsername(username);
     if (existingUsername) {
       return { error: "Username already in use" };
     }
 
-    const user = await createUser(name, username, email, password);
+    const identity = await createIdentity(name, username, email, password);
 
     // const emailVerificationRequest = await upsertEmailVerificationRequest(
     //   user.id,
@@ -52,7 +44,7 @@ export async function signUpAction(data: SignupSchemaTypes) {
     // setEmailVerificationRequestCookie(emailVerificationRequest);
 
     const sessionToken = generateSessionToken();
-    const session = await createSession(sessionToken, user.id, {
+    const session = await createSession(sessionToken, identity.id, {
       twoFactorVerified: false,
     });
     await setSessionTokenCookie(sessionToken, session.expiresAt);

@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { User } from "@/lib/auth/session";
+import { type Identity } from "@/lib/auth/session";
 import { UpdateAvatarSchema, UpdateAvatarSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
@@ -22,10 +22,10 @@ import { toast } from "sonner";
 import { updateAvatarAction } from "../actions";
 
 type UpdateAvatarFormProps = {
-  user: User;
+  identity: Identity;
 };
 
-export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
+export function UpdateAvatar({ identity }: UpdateAvatarFormProps) {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdateAvatarSchemaInput>({
     resolver: zodResolver(UpdateAvatarSchema),
@@ -44,7 +44,7 @@ export function UpdateAvatar({ user }: UpdateAvatarFormProps) {
     <Card className="flex flex-col p-6 sm:flex-row sm:items-center">
       {/* Current profile picture */}
       <div className="shrink-0 self-center">
-        <ProfilePicture image={user.image} size={150} />
+        <ProfilePicture image={identity.image} size={150} />
       </div>
 
       <div className="space-y-4">

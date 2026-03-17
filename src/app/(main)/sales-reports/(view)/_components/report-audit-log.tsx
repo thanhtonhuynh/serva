@@ -24,7 +24,7 @@ export function ReportAuditLog({ auditLogs }: Props) {
       <div className="space-y-2 text-sm">
         {sortedAuditLogs.map((log) => (
           <div
-            key={`${log.userId}-${log.timestamp.toISOString()}`}
+            key={`${log.identityId}-${log.timestamp.toISOString()}`}
             className="flex flex-col gap-1 border-b py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
           >
             <div className="flex items-center gap-1">

@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Identity {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   name              String
   username          String  @unique
@@ -40,36 +40,36 @@ model User {
 
 model Session {
   id                String   @id @map("_id") @db.String
-  userId            String   @db.ObjectId
+  identityId        String   @db.ObjectId
   expiresAt         DateTime
   twoFactorVerified Boolean  @default(false)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  identity Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
 }
 
 model EmailVerificationRequest {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @unique @db.ObjectId
-  code      String
-  email     String
-  expiresAt DateTime
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identityId String   @unique @db.ObjectId
+  code       String
+  email      String
+  expiresAt  DateTime
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  identity Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
 }
 
 model PasswordResetToken {
-  tokenHash String   @id @map("_id")
-  userId    String   @unique @db.ObjectId
-  expiresAt DateTime
+  tokenHash  String   @id @map("_id")
+  identityId String   @unique @db.ObjectId
+  expiresAt  DateTime
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  identity Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
 }
 
 /// Platform super admins (developers); bypass all permission checks. Not tied to a tenant.
 model AdminUser {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @unique @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identityId String   @unique @db.ObjectId
+  identity   Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
 }
 
 model StoreSettings {
@@ -103,8 +103,8 @@ model SaleReport {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId   String @db.ObjectId
-  reporter User   @relation(fields: [userId], references: [id], onDelete: Restrict)
+  identityId String   @db.ObjectId
+  reporter   Identity @relation(fields: [identityId], references: [id], onDelete: Restrict)
 
   auditLogs ReportAudit[]
 }
@@ -115,8 +115,8 @@ type PlatformSale {
 }
 
 type ReportAudit {
-  userId    String   @db.ObjectId
-  timestamp DateTime
+  identityId String   @db.ObjectId
+  timestamp  DateTime
 }
 
 model Expense {
@@ -143,8 +143,8 @@ type WorkShift {
 model WorkDayRecord {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
   date       DateTime
-  userId     String      @db.ObjectId
-  user       User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  identityId String      @db.ObjectId
+  identity   Identity    @relation(fields: [identityId], references: [id], onDelete: Restrict)
   shifts     WorkShift[]
   totalHours Float
   tips       Int         @default(0)
@@ -152,7 +152,7 @@ model WorkDayRecord {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([date, userId])
+  @@unique([date, identityId])
 }
 
 // ==========================================
@@ -183,7 +183,7 @@ model Role {
   permissionIds String[]     @db.ObjectId
   permissions   Permission[] @relation(fields: [permissionIds], references: [id])
 
-  users User[]
+  identities Identity[]
 
   // Note: name uniqueness will be enforced at application level
   // When multi-tenant is added, this will become @@unique([name, tenantId])

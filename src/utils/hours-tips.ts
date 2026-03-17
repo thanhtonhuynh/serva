@@ -30,13 +30,13 @@ export const populateMonthSelectData = cache(async () => {
   };
 });
 
-/** WorkDayRecord shape used for hours/tips breakdown (with user relation). */
+/** WorkDayRecord shape used for hours/tips breakdown (with identity relation). */
 export type WorkDayRecordForBreakdown = {
   date: Date;
-  userId: string;
+  identityId: string;
   totalHours: number;
   tips: number;
-  user: { name: string; username: string; image: string | null };
+  identity: { name: string; username: string; image: string | null };
 };
 
 export function getHoursTipsBreakdownInDateRange(
@@ -49,10 +49,10 @@ export function getHoursTipsBreakdownInDateRange(
   const numDays = differenceInDays(dateRange.end, dateRange.start, { in: utc }) + 1;
 
   const makeEmptyRow = (record: WorkDayRecordForBreakdown): BreakdownData => ({
-    userId: record.userId,
-    userName: record.user.name,
-    userUsername: record.user.username,
-    image: record.user.image ?? "",
+    identityId: record.identityId,
+    identityName: record.identity.name,
+    identityUsername: record.identity.username,
+    identityImage: record.identity.image ?? "",
     keyData: Array(numDays).fill(0),
     total: 0,
   });
@@ -62,24 +62,25 @@ export function getHoursTipsBreakdownInDateRange(
 
     if (index < 0 || index >= numDays) continue;
 
-    let hoursRow = hoursMap.get(record.userId);
+    let hoursRow = hoursMap.get(record.identityId);
     if (!hoursRow) {
       hoursRow = makeEmptyRow(record);
-      hoursMap.set(record.userId, hoursRow);
+      hoursMap.set(record.identityId, hoursRow);
     }
     hoursRow.keyData[index] = record.totalHours;
     hoursRow.total += record.totalHours;
 
-    let tipsRow = tipsMap.get(record.userId);
+    let tipsRow = tipsMap.get(record.identityId);
     if (!tipsRow) {
       tipsRow = makeEmptyRow(record);
-      tipsMap.set(record.userId, tipsRow);
+      tipsMap.set(record.identityId, tipsRow);
     }
     tipsRow.keyData[index] = record.tips;
     tipsRow.total += record.tips;
   }
 
-  const sortByName = (a: BreakdownData, b: BreakdownData) => a.userName.localeCompare(b.userName);
+  const sortByName = (a: BreakdownData, b: BreakdownData) =>
+    a.identityName.localeCompare(b.identityName);
 
   return {
     hoursBreakdown: Array.from(hoursMap.values()).sort(sortByName),

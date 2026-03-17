@@ -3,7 +3,7 @@ import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getEmployeeStatusConfig } from "@/constants/employee";
-import type { User } from "@/lib/auth/session";
+import type { Identity } from "@/lib/auth/session";
 import {
   AtIcon,
   Calendar02Icon,
@@ -17,25 +17,25 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 type ProfileInfoProps = {
-  user: User;
+  identity: Identity;
   isOwner: boolean;
 };
 
-export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
-  const statusConfig = getEmployeeStatusConfig(user.accountStatus);
-  const joinDate = format(new Date(user.createdAt), "MMMM d, yyyy");
+export function ProfileInfo({ identity, isOwner }: ProfileInfoProps) {
+  const statusConfig = getEmployeeStatusConfig(identity.accountStatus);
+  const joinDate = format(new Date(identity.createdAt), "MMMM d, yyyy");
 
   return (
     <div className="space-y-6">
       {/* Avatar Section */}
       <div className="flex flex-col items-center gap-4">
-        <ProfilePicture image={user.image} size={256} name={user.name} />
+        <ProfilePicture image={identity.image} size={256} name={identity.name} />
 
         <div className="space-y-1 text-center">
-          <h2 className="text-2xl font-bold">{user.name}</h2>
+          <h2 className="text-2xl font-bold">{identity.name}</h2>
           <p className="text-muted-foreground flex items-center justify-center gap-1">
             <HugeiconsIcon icon={AtIcon} className="size-4" />
-            {user.username}
+            {identity.username}
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Email</p>
-            <p className="text-sm font-medium">{user.email}</p>
+            <p className="text-sm font-medium">{identity.email}</p>
           </div>
         </div>
 
@@ -85,7 +85,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
           <div>
             <p className="text-muted-foreground text-xs">Role</p>
             <span className="text-sm font-medium">
-              {user.role?.isAdminUser ? "Platform Admin" : (user.role?.name ?? "No Role")}
+              {identity.role?.isAdminUser ? "Platform Admin" : (identity.role?.name ?? "No Role")}
             </span>
           </div>
         </div>
@@ -96,7 +96,7 @@ export function ProfileInfo({ user, isOwner }: ProfileInfoProps) {
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Status</p>
-            <AccountStatusBadge status={user.accountStatus} />
+            <AccountStatusBadge status={identity.accountStatus} />
           </div>
         </div>
       </div>

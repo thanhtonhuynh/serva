@@ -17,16 +17,16 @@ type PageProps = {
 };
 
 export default async function TeamPage({ searchParams }: PageProps) {
-  const { user } = await getCurrentSession();
-  if (!user) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
   const params = await searchParams;
-  const canManageTeamAccess = hasPermission(user.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
+  const canManageTeamAccess = hasPermission(identity.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
 
   const status: EmployeeStatus = canManageTeamAccess
     ? (params.status as EmployeeStatus) || "active"

@@ -9,16 +9,16 @@ import { revalidatePath } from "next/cache";
 
 export async function deleteReportAction(reportId: string) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.REPORTS_DELETE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.REPORTS_DELETE)
     ) {
       return "Unauthorized.";
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return "Too many requests. Please try again later.";
     }
 

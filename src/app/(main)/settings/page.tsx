@@ -13,9 +13,9 @@ import {
 } from "./_components";
 
 export default async function Page() {
-  const { session, user } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
 
   return (
     <Fragment>
@@ -24,10 +24,10 @@ export default async function Page() {
       </Header>
 
       <Container>
-        <UpdateAvatar user={user} />
-        <UpdateNameForm user={user} />
-        <UpdateUsernameForm user={user} />
-        <UpdateEmailForm user={user} />
+        <UpdateAvatar identity={identity} />
+        <UpdateNameForm identity={identity} />
+        <UpdateUsernameForm identity={identity} />
+        <UpdateEmailForm identity={identity} />
         <UpdatePasswordForm />
       </Container>
     </Fragment>

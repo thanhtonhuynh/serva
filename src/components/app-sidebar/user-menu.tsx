@@ -11,15 +11,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, sidebarMenuButtonVariants, SidebarMenuItem } from "@/components/ui/sidebar";
 import { ICONS } from "@/constants/icons";
-import type { User } from "@/lib/auth/session";
+import type { Identity } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 type Props = {
-  user: User;
+  identity: Identity;
 };
 
-export function UserMenu({ user }: Props) {
+export function UserMenu({ identity }: Props) {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -31,18 +31,18 @@ export function UserMenu({ user }: Props) {
               "text-primary-1 h-fit cursor-pointer group-data-[collapsible=icon]:p-0!",
             )}
           >
-            <ProfilePicture image={user.image} size={32} name={user.name} />
+            <ProfilePicture image={identity.image} size={32} name={identity.name} />
             <div className="flex-1">
               <Typography variant="p-sm" className="truncate font-medium">
-                {user.name}
+                {identity.name}
               </Typography>
 
               <Typography variant="p-xs" className="capitalize">
-                {user.role.isAdminUser ? "Platform Admin" : (user.role.name ?? "No Role")}
+                {identity.role.isAdminUser ? "Platform Admin" : (identity.role.name ?? "No Role")}
               </Typography>
 
               {/* <Typography variant="p-xs" className="truncate">
-                {user.email}
+                {identity.email}
               </Typography> */}
             </div>
             <HugeiconsIcon icon={ICONS.ARROW_UP} strokeWidth={1.5} className="ml-auto" />

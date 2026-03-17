@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { use, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateUserRoleAction } from "../_actions";
+import { updateIdentityRoleAction } from "../_actions";
 
 type Props = {
   selectedUser: DisplayUser;
@@ -41,14 +41,14 @@ export function ChangeRoleModal({ selectedUser, open, onOpenChange, rolesPromise
   const form = useForm<UpdateEmployeeRoleInput>({
     resolver: zodResolver(UpdateEmployeeRoleSchema),
     defaultValues: {
-      userId: selectedUser.id,
+      identityId: selectedUser.id,
       roleId: selectedUser.role?.id ?? "",
     },
   });
 
   async function onSubmit(data: UpdateEmployeeRoleInput) {
     startTransition(async () => {
-      const { error } = await updateUserRoleAction(data);
+      const { error } = await updateIdentityRoleAction(data);
       if (error) {
         toast.error(error);
       } else {

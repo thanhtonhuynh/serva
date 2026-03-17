@@ -25,7 +25,7 @@ export function ReportPreview({
   reporterImage,
   reporterUsername,
 }: Props) {
-  const { user } = useSession();
+  const { identity } = useSession();
   const startCash = use(startCashPromise);
   const formValues = saleReportForm.watch();
 
@@ -46,9 +46,9 @@ export function ReportPreview({
     cashTips: Number(formValues.cashTips) * 100,
     extraTips: Number(formValues.extraTips) * 100,
     startCash,
-    reporterName: reporterName ?? user?.name ?? "Unknown user",
-    reporterImage: reporterImage ?? user?.image ?? null,
-    reporterUsername: reporterUsername ?? user?.username ?? "unknown",
+    reporterName: reporterName ?? identity?.name ?? "Unknown user",
+    reporterImage: reporterImage ?? identity?.image ?? null,
+    reporterUsername: reporterUsername ?? identity?.username ?? "unknown",
   };
 
   const processedData = processReportDataForView(rawData);

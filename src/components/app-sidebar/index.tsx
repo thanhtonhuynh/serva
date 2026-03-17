@@ -18,10 +18,10 @@ import { SidebarMenuGroups } from "./sidebar-menu-groups";
 import { UserMenu } from "./user-menu";
 
 export function AppSidebar() {
-  const { user } = useSession();
+  const { identity } = useSession();
   const { state, isMobile, toggleSidebar } = useSidebar();
 
-  if (!user) return null;
+  if (!identity) return null;
 
   return (
     <Sidebar variant="floating" collapsible="icon">
@@ -61,7 +61,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <UserMenu user={user} />
+        <UserMenu identity={identity} />
       </SidebarFooter>
     </Sidebar>
   );

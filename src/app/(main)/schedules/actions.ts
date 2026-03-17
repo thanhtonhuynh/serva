@@ -22,8 +22,9 @@ export async function saveWeekScheduleAction(
     const authResult = await authorizeEmployeeAction();
     if ("error" in authResult) return authResult;
 
-    const { user } = authResult;
-    if (!hasPermission(user.role, PERMISSIONS.SCHEDULE_MANAGE)) return { error: "Unauthorized" };
+    const { identity } = authResult;
+    if (!hasPermission(identity.role, PERMISSIONS.SCHEDULE_MANAGE))
+      return { error: "Unauthorized" };
 
     const payload = WeekScheduleSchema.parse(input);
 

@@ -20,7 +20,7 @@ export const metadata: Metadata = { title: "Serva" };
 export const viewport: Viewport = { maximumScale: 1 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { session, user } = await getCurrentSession();
+  const { session, identity } = await getCurrentSession();
 
   return (
     <html
@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth`}
     >
       <body className="font-space-grotesk antialiased">
-        <SessionProvider session={session} user={user}>
+        <SessionProvider session={session} identity={identity}>
           <SidebarProvider>
             <AppSidebar />
             <SidebarInset className="overflow-x-auto md:peer-data-[variant=floating]:m-2 md:peer-data-[variant=floating]:ml-0 md:peer-data-[variant=floating]:peer-data-[state=collapsed]:ml-1">

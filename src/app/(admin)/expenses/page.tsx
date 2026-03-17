@@ -23,12 +23,12 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { session, user } = await getCurrentSession();
+  const { session, identity } = await getCurrentSession();
   if (!session) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
-  if (!hasPermission(user.role, PERMISSIONS.EXPENSES_VIEW)) return notFound();
+  if (identity.accountStatus !== "active") return notFound();
+  if (!hasPermission(identity.role, PERMISSIONS.EXPENSES_VIEW)) return notFound();
 
-  if (!(await authenticatedRateLimit(user.id))) {
+  if (!(await authenticatedRateLimit(identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 

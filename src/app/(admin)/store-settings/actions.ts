@@ -16,16 +16,16 @@ import { revalidatePath } from "next/cache";
 
 export async function updateStartCash(data: UpdateStartCashInput) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
     ) {
       return { error: "Unauthorized." };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 
@@ -43,16 +43,16 @@ export async function updateStartCash(data: UpdateStartCashInput) {
 
 export async function updateActivePlatforms(data: UpdateActivePlatformsInput) {
   try {
-    const { user } = await getCurrentSession();
+    const { identity } = await getCurrentSession();
     if (
-      !user ||
-      user.accountStatus !== "active" ||
-      !hasPermission(user.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
+      !identity ||
+      identity.accountStatus !== "active" ||
+      !hasPermission(identity.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
     ) {
       return { error: "Unauthorized." };
     }
 
-    if (!(await authenticatedRateLimit(user.id))) {
+    if (!(await authenticatedRateLimit(identity.id))) {
       return { error: "Too many requests. Please try again later." };
     }
 

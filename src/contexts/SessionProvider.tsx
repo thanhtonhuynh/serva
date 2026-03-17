@@ -1,11 +1,11 @@
 "use client";
 
-import { User } from "@/lib/auth/session";
+import type { Identity } from "@/lib/auth/session";
 import { Session } from "@prisma/client";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
 type SessionContextProps = {
-  user: User | null;
+  identity: Identity | null;
   session: Session | null;
 };
 
@@ -22,18 +22,18 @@ export function useSession() {
 export function SessionProvider({
   children,
   session,
-  user,
+  identity,
 }: {
   children: ReactNode;
   session: Session | null;
-  user: User | null;
+  identity: Identity | null;
 }) {
   const contextValue = useMemo<SessionContextProps>(
     () => ({
       session,
-      user,
+      identity,
     }),
-    [session, user],
+    [session, identity],
   );
 
   return <SessionContext value={contextValue}>{children}</SessionContext>;

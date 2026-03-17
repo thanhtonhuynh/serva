@@ -15,9 +15,9 @@ import { SalesAnalyticsSkeleton } from "../_components/sales-analytics/sales-ana
 import { RecentReports, ReportPicker } from "./_components";
 
 export default async function ReportViewLayout({ children }: { children: ReactNode }) {
-  const { user } = await getCurrentSession();
-  if (!user) redirect("/login");
-  if (user.accountStatus !== "active") return notFound();
+  const { identity } = await getCurrentSession();
+  if (!identity) redirect("/login");
+  if (identity.accountStatus !== "active") return notFound();
 
   return (
     <Fragment>
@@ -26,7 +26,7 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
       </Header>
 
       <Container>
-        {hasPermission(user.role, PERMISSIONS.REPORTS_CREATE) && (
+        {hasPermission(identity.role, PERMISSIONS.REPORTS_CREATE) && (
           <Button
             nativeButton={false}
             size="sm"

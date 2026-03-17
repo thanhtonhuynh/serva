@@ -14,25 +14,25 @@ import {
 import React from "react";
 
 ResetPasswordEmail.PreviewProps = {
-  user: {
+  identity: {
     name: "John Doe",
   },
   token: "123456",
 };
 
 export default function ResetPasswordEmail({
-  user,
+  identity,
   token,
 }: {
-  user: { name: string };
+  identity: { name: string };
   token: string;
 }) {
   return (
     <Html>
       <Head />
       <Preview>
-        Hello {user.name}, Ongba EMS received a request to reset your password.
-        Click the link to continue with the password reset process.
+        Hello {identity.name}, Ongba EMS received a request to reset your password. Click the link
+        to continue with the password reset process.
       </Preview>
       <Tailwind>
         <React.Fragment>
@@ -46,14 +46,12 @@ export default function ResetPasswordEmail({
                 />
 
                 <Text className="mb-8 text-[14px] leading-[24px] font-medium text-black">
-                  Hello {user.name}, Ongba EMS received a request to reset your
-                  password. If you didn't make the request, you can safely
-                  ignore this email.
+                  Hello {identity.name}, Serva received a request to reset your password. If you
+                  didn't make the request, you can safely ignore this email.
                 </Text>
 
                 <Text className="mb-8 text-[14px] leading-[24px] font-medium text-black">
-                  Otherwise, click the following link to continue with the
-                  password reset process:
+                  Otherwise, click the following link to continue with the password reset process:
                 </Text>
 
                 <Text className="text-[14px] leading-[24px] font-medium text-black">
@@ -74,8 +72,7 @@ export default function ResetPasswordEmail({
               <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
 
               <Text className="text-muted-foreground flex items-center justify-center text-[12px] leading-[24px]">
-                &copy; {new Date().getFullYear()} Ongba EMS. All rights
-                reserved.
+                &copy; {new Date().getFullYear()} Serva. All rights reserved.
               </Text>
             </Container>
           </Body>

@@ -7,7 +7,7 @@ export const WorkShiftSchema = z.object({
 });
 
 export const WorkDayRecordSchema = z.object({
-  userId: z.string().min(1, "Required"),
+  identityId: z.string().min(1, "Required"),
   shifts: z.array(WorkShiftSchema),
 });
 

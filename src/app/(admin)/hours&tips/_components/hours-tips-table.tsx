@@ -28,7 +28,7 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
 
       <TableBody>
         {data.map((employee) => (
-          <TableRow key={employee.userId}>
+          <TableRow key={employee.identityId}>
             <TableCell className="flex items-center gap-2">
               <Link
                 href={`/profile/${employee.username}`}

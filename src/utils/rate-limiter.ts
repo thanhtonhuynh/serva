@@ -25,11 +25,7 @@ interface RateLimitOptions {
   interval: number;
 }
 
-export async function rateLimitByIp({
-  key,
-  limit,
-  interval,
-}: RateLimitOptions) {
+export async function rateLimitByIp({ key, limit, interval }: RateLimitOptions) {
   const ip = await getIp();
 
   if (!ip) {
@@ -39,11 +35,7 @@ export async function rateLimitByIp({
   return await rateLimitByKey({ key: `${ip}:${key}`, limit, interval });
 }
 
-export async function rateLimitByKey({
-  key,
-  limit,
-  interval,
-}: RateLimitOptions) {
+export async function rateLimitByKey({ key, limit, interval }: RateLimitOptions) {
   const tracker = trackers[key] || { count: 0, lastReset: 0 };
 
   if (!trackers[key]) {
@@ -64,9 +56,9 @@ export async function rateLimitByKey({
   return true;
 }
 
-export async function authenticatedRateLimit(userId: string) {
+export async function authenticatedRateLimit(identityId: string) {
   return await rateLimitByKey({
-    key: `${userId}-global`,
+    key: `${identityId}-global`,
     limit: 10,
     interval: 10000,
   });

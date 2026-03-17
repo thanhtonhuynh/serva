@@ -1,4 +1,7 @@
-import type { WorkDayRecordsByDate, WorkDayRecordWithUser } from "@/data-access/work-day-record";
+import type {
+  WorkDayRecordsByDate,
+  WorkDayRecordWithIdentity,
+} from "@/data-access/work-day-record";
 import { WorkShift } from "@prisma/client";
 import { isSameDay } from "date-fns";
 import { buildWeekDatesUTC, formatInUTC } from "./datetime";
@@ -55,7 +58,7 @@ export function distributeTips(
  * Build records-by-date map from flat WorkDayRecord[] for the week (7 days from weekStartUTC).
  */
 export function buildWorkDayRecordsByDate(
-  workDayRecords: WorkDayRecordWithUser[],
+  workDayRecords: WorkDayRecordWithIdentity[],
   weekStartUTC: Date,
 ): WorkDayRecordsByDate {
   const weekDates = buildWeekDatesUTC(weekStartUTC);
