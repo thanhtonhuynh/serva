@@ -20,6 +20,7 @@ erDiagram
         String passwordHash
         String image
         Boolean emailVerified
+        String accountStatus
     }
 
     AdminUser {
@@ -90,6 +91,12 @@ erDiagram
     Employee }o--o| Location : "works at"
     Employee }o--o| Department : "belongs to"
 ```
+
+---
+
+## Progress
+
+- **Phase 1.1 done:** Model renamed from `User` to `Identity`; all relation references updated in schema and codebase (`identityId` everywhere). Remaining: add Company, CompanySettings, Location, Department, Operator, Employee, scope Role to Company, and update FKs (1.2–1.8).
 
 ---
 

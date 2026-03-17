@@ -8,7 +8,7 @@
 
 In [src/lib/auth/session.ts](../../src/lib/auth/session.ts):
 
-Current `User` type becomes `SessionIdentity`:
+Session type (currently may still be named after the old User) becomes `SessionIdentity`:
 
 ```ts
 export type SessionIdentity = {

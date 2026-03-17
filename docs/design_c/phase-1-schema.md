@@ -4,37 +4,12 @@
 
 ---
 
-## 1.1 Rename User to Identity
+## 1.1 Rename User to Identity — **Done**
 
-Rename `model User` to `model Identity` in [prisma/schema.prisma](../prisma/schema.prisma). Update all relation references (`Session.user`, `AdminUser.user`, etc.) to point to `Identity`. Keep the same MongoDB collection via `@@map("User")` to avoid data loss.
+**Completed:** The model has been renamed from `User` to `Identity` in [prisma/schema.prisma](../prisma/schema.prisma), and all relation references (`Session`, `AdminUser`, `EmailVerificationRequest`, `PasswordResetToken`, `SaleReport`, `WorkDayRecord`, etc.) have been updated to use `Identity` and `identityId` in both the schema and the codebase. The MongoDB collection can be named `Identity` (no `@@map` needed if the collection was renamed in Compass).
 
-```prisma
-model Identity {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  username      String  @unique
-  email         String  @unique
-  emailVerified Boolean @default(false)
-  passwordHash  String?
-  image         String?
+When adding Operator and Employee models (Phase 1.5–1.6), Identity will get `operators` and `employees` relations. **Identity keeps `accountStatus`** for auth-level account status (e.g. suspended, inactive). Fields to move off Identity (to Operator/Employee) in a later step:
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  adminUser                AdminUser?
-  sessions                 Session[]
-  emailVerificationRequest EmailVerificationRequest?
-  passwordResetTokens      PasswordResetToken[]
-  operators                Operator[]
-  employees                Employee[]
-
-  @@map("User")
-}
-```
-
-Fields removed from Identity (moved to Operator/Employee):
-
-- `accountStatus` -- moves to Operator and Employee
 - `hiddenFromReports` -- moves to Employee
 - `roleId` / `role` -- moves to Operator and Employee
 - `saleReports` -- moves to Operator
@@ -192,8 +167,8 @@ model Role {
 
 ## 1.8 Update FK references on existing models
 
-- **Session** -- `identityId` (was `userId`), relation to `Identity`
-- **AdminUser** -- `identityId` (was `userId`), relation to `Identity`
-- **SaleReport** -- add `companyId` FK to `Company`; change `userId` to `operatorId` FK to `Operator`; `ReportAudit.userId` becomes `ReportAudit.operatorId`
-- **WorkDayRecord** -- add `companyId` FK to `Company`; change `userId` to `employeeId` FK to `Employee`; `@@unique([date, employeeId])`
-- **Expense** -- add `companyId` FK to `Company`
+- **Session** — **Done:** uses `identityId`, relation to `Identity`
+- **AdminUser** — **Done:** uses `identityId`, relation to `Identity`
+- **SaleReport** — add `companyId` FK to `Company`; change reporter from `identityId` to `operatorId` FK to `Operator`; `ReportAudit.identityId` becomes `ReportAudit.operatorId`
+- **WorkDayRecord** — add `companyId` FK to `Company`; change `identityId` to `employeeId` FK to `Employee`; `@@unique([date, employeeId])`
+- **Expense** — add `companyId` FK to `Company`

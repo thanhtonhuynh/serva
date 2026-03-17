@@ -6,7 +6,7 @@
 
 ## 5.1 Auth pages (minimal changes)
 
-- Login/signup/reset-password: replace `User` references with `Identity`.
+- Login/signup/reset-password: use `Identity` (already done if Phase 1.1 completed).
 - Login flow: after successful auth, resolve company context (pick company or auto-select).
 
 ---

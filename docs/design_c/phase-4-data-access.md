@@ -8,7 +8,7 @@
 
 | Old file                           | New file                              | What changes                                                                                                                                                 |
 | ---------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `src/data-access/user.ts`          | `src/data-access/identity.ts`         | All functions query `Identity` (was `User`). Remove `roleId`, `accountStatus` from queries.                                                                  |
+| `src/data-access/user.ts`          | `src/data-access/identity.ts`         | All functions query `Identity`. If already renamed from User, ensure `roleId` is removed from queries once moved to Operator/Employee. **Keep `accountStatus`** on Identity for auth-level status. |
 | `src/data-access/employee.ts`      | `src/data-access/employee.ts`         | Query `Employee` model directly (not `User` with filters). Add `getEmployeesByCompany(companyId)`, `getEmployeeByIdentityAndCompany(identityId, companyId)`. |
 | _(new)_                            | `src/data-access/operator.ts`         | `getOperatorsByCompany(companyId)`, `getOperatorByIdentityAndCompany(identityId, companyId)`, `createOperator(...)`, `updateOperator(...)`.                  |
 | _(new)_                            | `src/data-access/company.ts`          | `getCompany(companyId)`, `getCompaniesByIdentity(identityId)`, `createCompany(...)`.                                                                         |

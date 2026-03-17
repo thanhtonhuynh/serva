@@ -7,6 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ==========================================
+// Authentication models
+// ==========================================
+
 model Identity {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   name              String
@@ -65,7 +69,10 @@ model PasswordResetToken {
   identity Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
 }
 
-/// Platform super admins (developers); bypass all permission checks. Not tied to a tenant.
+// ==========================================
+// Platform super admins (developers); bypass all permission checks. Not tied to a tenant.
+// ==========================================
+
 model AdminUser {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identityId String   @unique @db.ObjectId
