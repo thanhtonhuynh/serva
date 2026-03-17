@@ -8,16 +8,15 @@
 
 **Completed:** The model has been renamed from `User` to `Identity` in [prisma/schema.prisma](../prisma/schema.prisma), and all relation references (`Session`, `AdminUser`, `EmailVerificationRequest`, `PasswordResetToken`, `SaleReport`, `WorkDayRecord`, etc.) have been updated to use `Identity` and `identityId` in both the schema and the codebase. The MongoDB collection can be named `Identity` (no `@@map` needed if the collection was renamed in Compass).
 
-When adding Operator and Employee models (Phase 1.5–1.6), Identity will get `operators` and `employees` relations. **Identity keeps `accountStatus`** for auth-level account status (e.g. suspended, inactive). Fields to move off Identity (to Operator/Employee) in a later step:
+When adding Operator and Employee models (Phase 1.5–1.6), Identity will get `operators` and `employees` relations. **Identity keeps `accountStatus`** for auth-level account status (e.g. suspended, inactive). **Identity keeps `saleReports`** — the reporter is the Identity who created the report (operator or employee with REPORTS_CREATE). Fields to move off Identity (to Operator/Employee) in a later step:
 
 - `hiddenFromReports` -- moves to Employee
 - `roleId` / `role` -- moves to Operator and Employee
-- `saleReports` -- moves to Operator
 - `workDayRecords` -- moves to Employee
 
 ---
 
-## 1.2 Add Company model
+## 1.2 Add Company model — **Done**
 
 ```prisma
 model Company {
@@ -41,7 +40,7 @@ model Company {
 
 ---
 
-## 1.3 Add CompanySettings (replaces StoreSettings)
+## 1.3 Add CompanySettings (replaces StoreSettings) — **Done**
 
 ```prisma
 model CompanySettings {
@@ -59,7 +58,7 @@ model CompanySettings {
 
 ---
 
-## 1.4 Add Location and Department
+## 1.4 Add Location and Department — **Done**
 
 ```prisma
 model Location {
@@ -87,7 +86,7 @@ model Department {
 
 ---
 
-## 1.5 Add Operator model
+## 1.5 Add Operator model — **Done**
 
 ```prisma
 model Operator {
@@ -103,15 +102,13 @@ model Operator {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  saleReports SaleReport[]
-
   @@unique([identityId, companyId])
 }
 ```
 
 ---
 
-## 1.6 Add Employee model
+## 1.6 Add Employee model — **Done**
 
 ```prisma
 model Employee {
@@ -133,13 +130,13 @@ model Employee {
 
   workDayRecords WorkDayRecord[]
 
-  @@unique([identityId, companyId])
+  @@unique([identityId, locationId, departmentId])
 }
 ```
 
 ---
 
-## 1.7 Scope Role to Company
+## 1.7 Scope Role to Company — **Done**
 
 ```prisma
 model Role {
@@ -169,6 +166,7 @@ model Role {
 
 - **Session** — **Done:** uses `identityId`, relation to `Identity`
 - **AdminUser** — **Done:** uses `identityId`, relation to `Identity`
-- **SaleReport** — add `companyId` FK to `Company`; change reporter from `identityId` to `operatorId` FK to `Operator`; `ReportAudit.identityId` becomes `ReportAudit.operatorId`
-- **WorkDayRecord** — add `companyId` FK to `Company`; change `identityId` to `employeeId` FK to `Employee`; `@@unique([date, employeeId])`
-- **Expense** — add `companyId` FK to `Company`
+- **SaleReport** — **Done:** `companyId` + `Company`; reporter is `identityId` FK to `Identity` (so either operator or employee with REPORTS_CREATE can create); `ReportAudit.identityId`
+- **WorkDayRecord** — **Done:** `companyId` + `Company`; `employeeId` FK to `Employee`; `@@unique([date, employeeId])`
+- **Expense** — **Done:** `companyId` FK to `Company`
+

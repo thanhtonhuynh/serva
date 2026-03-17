@@ -24,10 +24,6 @@ model Identity {
   // totpKey          Bytes?
   // twoFactorEnabled Boolean @default(false)
 
-  // Role relation (replaces old string-based role field)
-  roleId String? @db.ObjectId
-  role   Role?   @relation(fields: [roleId], references: [id])
-
   // Platform super admin (developer / full access across tenants; separate from Role for multi-tenant)
   adminUser AdminUser?
 
@@ -38,8 +34,9 @@ model Identity {
   emailVerificationRequest EmailVerificationRequest?
   passwordResetTokens      PasswordResetToken[]
 
-  saleReports    SaleReport[]
-  workDayRecords WorkDayRecord[]
+  operators   Operator[]
+  employees   Employee[]
+  saleReports SaleReport[]
 }
 
 model Session {
@@ -90,15 +87,125 @@ model StoreSettings {
   updatedAt DateTime @updatedAt
 }
 
+// ==========================================
+// Company (multi-tenant)
+// ==========================================
+
+model Company {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  slug String @unique
+
+  settings       CompanySettings?
+  locations      Location[]
+  departments    Department[]
+  roles          Role[]
+  operators      Operator[]
+  employees      Employee[]
+  saleReports    SaleReport[]
+  workDayRecords WorkDayRecord[]
+  expenses       Expense[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CompanySettings {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  startCash       Int
+  activePlatforms String[]
+
+  companyId String  @unique @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  employees Employee[]
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, name])
+}
+
+model Department {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  employees Employee[]
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, name])
+}
+
+model Operator {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name String
+
+  identityId String   @db.ObjectId
+  identity   Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  roleId String? @db.ObjectId
+  role   Role?   @relation(fields: [roleId], references: [id])
+
+  status String @default("active")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([identityId, companyId])
+}
+
+model Employee {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name String
+
+  identityId String   @db.ObjectId
+  identity   Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  roleId String? @db.ObjectId
+  role   Role?   @relation(fields: [roleId], references: [id])
+
+  status String @default("active")
+
+  locationId String?   @db.ObjectId
+  location   Location? @relation(fields: [locationId], references: [id])
+
+  departmentId String?     @db.ObjectId
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  workDayRecords WorkDayRecord[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([identityId, locationId, departmentId])
+}
+
 model SaleReport {
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
   date DateTime @unique
 
-  totalSales Int
-  cardSales  Int
-
-  platformSales PlatformSale[]
-
+  totalSales     Int
+  cardSales      Int
+  platformSales  PlatformSale[]
   expenses       Int
   expensesReason String?
   cardTips       Int
@@ -107,13 +214,16 @@ model SaleReport {
   cashInTill     Int
   startCash      Int
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Restrict)
 
   identityId String   @db.ObjectId
   reporter   Identity @relation(fields: [identityId], references: [id], onDelete: Restrict)
 
   auditLogs ReportAudit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 type PlatformSale {
@@ -127,9 +237,11 @@ type ReportAudit {
 }
 
 model Expense {
-  id      String         @id @default(auto()) @map("_id") @db.ObjectId
-  date    DateTime       @unique
-  entries ExpenseEntry[]
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  date      DateTime       @unique
+  companyId String         @db.ObjectId
+  company   Company        @relation(fields: [companyId], references: [id], onDelete: Restrict)
+  entries   ExpenseEntry[]
 }
 
 type ExpenseEntry {
@@ -150,16 +262,20 @@ type WorkShift {
 model WorkDayRecord {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
   date       DateTime
-  identityId String      @db.ObjectId
-  identity   Identity    @relation(fields: [identityId], references: [id], onDelete: Restrict)
   shifts     WorkShift[]
   totalHours Float
   tips       Int         @default(0)
 
+  employeeId String   @db.ObjectId
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Restrict)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([date, identityId])
+  @@unique([date, employeeId])
 }
 
 // ==========================================
@@ -184,14 +300,17 @@ model Role {
   description String?
   editable    Boolean @default(true)
 
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   permissionIds String[]     @db.ObjectId
   permissions   Permission[] @relation(fields: [permissionIds], references: [id])
 
-  identities Identity[]
+  operators Operator[]
+  employees Employee[]
 
-  // Note: name uniqueness will be enforced at application level
-  // When multi-tenant is added, this will become @@unique([name, tenantId])
+  @@unique([companyId, name])
 }

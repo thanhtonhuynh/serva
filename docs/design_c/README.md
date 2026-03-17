@@ -96,7 +96,7 @@ erDiagram
 
 ## Progress
 
-- **Phase 1.1 done:** Model renamed from `User` to `Identity`; all relation references updated in schema and codebase (`identityId` everywhere). Remaining: add Company, CompanySettings, Location, Department, Operator, Employee, scope Role to Company, and update FKs (1.2–1.8).
+- **Phase 1 done:** Schema updated: Company, CompanySettings, Location, Department, Operator, Employee added; Role scoped to Company; SaleReport, WorkDayRecord, Expense FKs updated; Identity has `operators`/`employees` (no longer `roleId`/`role`/`saleReports`/`workDayRecords`). Run Phase 2 migration before using the app.
 
 ---
 

@@ -28,8 +28,8 @@
 
 ## 5.4 Sales reports
 
-- Reporter field: uses `operatorId` instead of `userId`.
-- Audit logs: `operatorId` instead of `userId`.
+- Reporter field: uses `identityId` (Identity); created by whoever has REPORTS_CREATE (operator or employee).
+- Audit logs: `identityId` (which identity made the edit).
 - Report data-access: all queries scoped by `companyId`.
 
 ---

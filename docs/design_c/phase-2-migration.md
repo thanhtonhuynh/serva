@@ -26,7 +26,7 @@ Write a Node.js migration script (`scripts/migrate-design-c.ts`) that:
 
 ## 2.5 Migrate SaleReport
 
-- Update each `SaleReport`: set `operatorId` from the new Operator record (looked up by current reporter `identityId` + `companyId`). Set `companyId`.
+- Update each `SaleReport`: set `companyId` to the default company. Reporter stays as `identityId` (Identity); no change needed for reporter.
 
 ## 2.6 Migrate Expense
 

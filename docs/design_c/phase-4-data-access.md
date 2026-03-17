@@ -15,7 +15,7 @@
 | `src/data-access/store.ts`         | `src/data-access/company-settings.ts` | Query `CompanySettings` by `companyId` instead of global `StoreSettings`.                                                                                    |
 | `src/data-access/roles.ts`         | `src/data-access/roles.ts`            | All queries scoped by `companyId`. `getRoles(companyId)`, `createRole(companyId, ...)`.                                                                      |
 | `src/data-access/work-day-record/` | `src/data-access/work-day-record/`    | Replace `userId` with `employeeId` in all queries and types. Add `companyId` scoping.                                                                        |
-| `src/data-access/report.ts`        | `src/data-access/report.ts`           | Replace `userId` with `operatorId`. Add `companyId` scoping.                                                                                                 |
+| `src/data-access/report.ts`        | `src/data-access/report.ts`           | Reporter remains `identityId` (Identity). Add `companyId` scoping.                                                                                            |
 | `src/data-access/expenses.ts`      | `src/data-access/expenses.ts`         | Add `companyId` scoping.                                                                                                                                     |
 
 ---
