@@ -18,7 +18,7 @@ export const getUserShiftsInDateRange = cache(async (userId: string, dateRange: 
   }));
 });
 
-// Get employees with optional status filter and hidden from reports filter
+// Get employees with optional status filter
 export const getEmployees = cache(
   async ({ status, excludeAdmin }: { status?: string; excludeAdmin?: boolean }) => {
     return prisma.user.findMany({

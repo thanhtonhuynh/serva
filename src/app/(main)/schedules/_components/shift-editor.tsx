@@ -57,7 +57,7 @@ export function ShiftEditor({ initial, onSave, trigger }: ShiftEditorProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger render={trigger} />
+      <DialogTrigger id="shift-editor-trigger" render={trigger} />
 
       <DialogContent>
         <DialogHeader showBorder>
