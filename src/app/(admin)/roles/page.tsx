@@ -1,27 +1,19 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
-import { NotiMessage, Typography } from "@/components/shared";
+import { Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getPermissionsGrouped, getRoles } from "@/data-access/roles";
-import { getCurrentSession } from "@/lib/auth/session";
-import { hasPermission } from "@/utils/access-control";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { notFound, redirect } from "next/navigation";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { CreateRoleModal, RolesTable } from "./_components";
 
 export default async function RolesPage() {
-  const { identity } = await getCurrentSession();
-  if (!identity) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
-  if (!hasPermission(identity.role, PERMISSIONS.ROLES_VIEW)) return notFound();
+  await authGuardWithRateLimit();
+  if (!(await hasSessionPermission(PERMISSIONS.ROLES_VIEW))) return notFound();
 
-  if (!(await authenticatedRateLimit(identity.id))) {
-    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
-  }
-
-  const canManageRoles = hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE);
+  const canManageRoles = await hasSessionPermission(PERMISSIONS.ROLES_MANAGE);
   const [roles, permissionsGrouped] = await Promise.all([getRoles(), getPermissionsGrouped()]);
 
   return (

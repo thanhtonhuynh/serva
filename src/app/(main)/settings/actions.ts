@@ -7,8 +7,9 @@ import {
   updateIdentity,
   updateIdentityPassword,
 } from "@/data-access/user";
+import { authorizeAction } from "@/lib/auth/authorize";
 import { verifyPassword } from "@/lib/auth/password";
-import { getCurrentSession, invalidateIdentitySessionsExceptCurrent } from "@/lib/auth/session";
+import { invalidateIdentitySessionsExceptCurrent } from "@/lib/auth/session";
 import {
   UpdateAvatarSchema,
   UpdateAvatarSchemaInput,
@@ -22,20 +23,15 @@ import {
   UpdateUsernameSchemaInput,
 } from "@/lib/validations/auth";
 import { deleteImage, uploadImage } from "@/lib/vercel-blob/storage";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
 // Update name
-export async function updateNameAction(data: UpdateNameSchemaInput) {
+export async function updateNameAction(data: UpdateNameSchemaInput): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (!identity || identity.accountStatus !== "active") {
-      return { error: "Unauthorized." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
 
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const { identity } = authResult;
 
     const { name } = UpdateNameSchema.parse(data);
 
@@ -50,16 +46,14 @@ export async function updateNameAction(data: UpdateNameSchemaInput) {
 }
 
 // Update username
-export async function updateUsernameAction(data: UpdateUsernameSchemaInput) {
+export async function updateUsernameAction(
+  data: UpdateUsernameSchemaInput,
+): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (!identity || identity.accountStatus !== "active") {
-      return { error: "Unauthorized." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
 
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const { identity } = authResult;
 
     const { username } = UpdateUsernameSchema.parse(data);
 
@@ -77,22 +71,17 @@ export async function updateUsernameAction(data: UpdateUsernameSchemaInput) {
     revalidatePath("/");
     return {};
   } catch (error) {
-    console.error(error);
     return { error: "Update username failed. Please try again." };
   }
 }
 
 // Update email
-export async function updateEmailAction(data: UpdateEmailSchemaInput) {
+export async function updateEmailAction(data: UpdateEmailSchemaInput): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (!identity || identity.accountStatus !== "active") {
-      return { error: "Unauthorized." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
 
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const { identity } = authResult;
 
     const { email } = UpdateEmailSchema.parse(data);
 
@@ -110,22 +99,19 @@ export async function updateEmailAction(data: UpdateEmailSchemaInput) {
     revalidatePath("/");
     return {};
   } catch (error) {
-    console.error(error);
     return { error: "Update email failed. Please try again." };
   }
 }
 
 // Update password
-export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
+export async function updatePasswordAction(
+  data: UpdatePasswordSchemaInput,
+): Promise<{ error?: string }> {
   try {
-    const { session, identity } = await getCurrentSession();
-    if (!identity || identity.accountStatus !== "active") {
-      return { error: "Unauthorized." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
 
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const { identity, session } = authResult;
 
     const { currentPassword, newPassword, logOutOtherDevices } = UpdatePasswordSchema.parse(data);
 
@@ -146,22 +132,19 @@ export async function updatePasswordAction(data: UpdatePasswordSchemaInput) {
 
     return {};
   } catch (error) {
-    console.error(error);
     return { error: "Update password failed. Please try again." };
   }
 }
 
 // Update avatar
-export async function updateAvatarAction(data: UpdateAvatarSchemaInput) {
+export async function updateAvatarAction(
+  data: UpdateAvatarSchemaInput,
+): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (!identity || identity.accountStatus !== "active") {
-      return { error: "Unauthorized." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
 
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const { identity, session } = authResult;
 
     const { image } = UpdateAvatarSchema.parse(data);
 
@@ -176,7 +159,6 @@ export async function updateAvatarAction(data: UpdateAvatarSchemaInput) {
     revalidatePath("/");
     return {};
   } catch (error) {
-    console.error(error);
     return { error: "Update avatar failed. Please try again." };
   }
 }

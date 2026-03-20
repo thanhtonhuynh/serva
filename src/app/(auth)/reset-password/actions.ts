@@ -14,8 +14,8 @@ import { cookies } from "next/headers";
 export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {
   try {
     if (
-      !(await unauthenticatedRateLimit()) ||
-      !(await rateLimitByIp({
+      (await unauthenticatedRateLimit()) ||
+      (await rateLimitByIp({
         key: "reset-password",
         limit: 2,
         interval: 30000,

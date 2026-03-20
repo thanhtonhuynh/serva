@@ -11,15 +11,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, sidebarMenuButtonVariants, SidebarMenuItem } from "@/components/ui/sidebar";
 import { ICONS } from "@/constants/icons";
-import type { Identity } from "@/lib/auth/session";
+import type { CompanyContext, Identity } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 type Props = {
   identity: Identity;
+  companyCtx: CompanyContext;
 };
 
-export function UserMenu({ identity }: Props) {
+export function UserMenu({ identity, companyCtx }: Props) {
+  const { operator, employee } = companyCtx;
+
+  const roleName = identity.isPlatformAdmin
+    ? "Platform Admin"
+    : (operator?.role.name ?? employee?.role.name ?? "No Role");
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -38,12 +45,8 @@ export function UserMenu({ identity }: Props) {
               </Typography>
 
               <Typography variant="p-xs" className="capitalize">
-                {identity.role.isAdminUser ? "Platform Admin" : (identity.role.name ?? "No Role")}
+                {roleName}
               </Typography>
-
-              {/* <Typography variant="p-xs" className="truncate">
-                {identity.email}
-              </Typography> */}
             </div>
             <HugeiconsIcon icon={ICONS.ARROW_UP} strokeWidth={1.5} className="ml-auto" />
           </DropdownMenuTrigger>

@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/sidebar";
 import { useSession } from "@/contexts/SessionProvider";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { hasPermission } from "@/lib/auth/permission";
 import { cn } from "@/lib/utils";
-import { hasPermission } from "@/utils/access-control";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,7 +28,7 @@ import {
 const PROFILE_URL_PLACEHOLDER = "__profile__";
 
 export function SidebarMenuGroups() {
-  const { identity } = useSession();
+  const { identity, companyCtx } = useSession();
   const { toggleSidebar } = useSidebar();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
@@ -36,9 +36,9 @@ export function SidebarMenuGroups() {
 
   const visibleItems = useMemo(() => {
     return MENU_ITEMS.filter((item) =>
-      item.permission ? hasPermission(identity?.role, item.permission) : true,
+      item.permission ? hasPermission(identity, companyCtx, item.permission) : true,
     );
-  }, [identity?.role]);
+  }, [identity, companyCtx]);
 
   const itemsByGroup = useMemo(() => {
     return MENU_GROUPS.reduce(

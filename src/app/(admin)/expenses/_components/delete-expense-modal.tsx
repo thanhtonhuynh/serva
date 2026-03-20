@@ -28,7 +28,7 @@ export function DeleteExpenseModal({ expenseId, date }: Props) {
 
   async function handleDeleteExpense() {
     startTransition(async () => {
-      const error = await deleteExpenseAction(expenseId);
+      const { error } = await deleteExpenseAction(expenseId);
       if (error) {
         toast.error(error);
       } else {

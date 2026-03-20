@@ -1,15 +1,11 @@
 import { hashPassword } from "@/lib/auth/password";
 import type { Identity } from "@/lib/auth/session";
 import prisma from "@/lib/prisma";
-import type { PermissionCode } from "@/types/rbac";
-import { Permission, Role, type Identity as PrismaIdentity } from "@prisma/client";
+import { type Identity as PrismaIdentity } from "@prisma/client";
 import { cache } from "react";
 import "server-only";
 
-type RoleWithPermissions = Role & { permissions: Permission[] };
-type IdentityWithRole = PrismaIdentity & { role: RoleWithPermissions | null };
-
-// Create Identity
+// Create an identity.
 export async function createIdentity(
   name: string,
   username: string,
@@ -17,101 +13,66 @@ export async function createIdentity(
   password: string,
 ) {
   const passwordHash = await hashPassword(password);
-  const identity = await prisma.identity.create({
-    data: { name, username, email, passwordHash },
-    include: {
-      role: {
-        include: {
-          permissions: true,
-        },
-      },
-    },
+  return prisma.identity.create({
+    data: { name, username, email, passwordHash, accountStatus: "active" },
   });
-  return identity as IdentityWithRole;
 }
 
-// Get Identity By ID
+// Get an identity by id.
 export const getIdentityById = cache(async (identityId: string) => {
-  const identity = await prisma.identity.findUnique({
+  return prisma.identity.findUnique({
     where: { id: identityId },
-    include: {
-      role: {
-        include: {
-          permissions: true,
-        },
-      },
-    },
   });
-  return identity as IdentityWithRole | null;
 });
 
-// Get User By Email
+// Get an identity by email.
 export const getIdentityByEmail = cache(async (email: string) => {
-  const identity = await prisma.identity.findUnique({
+  return prisma.identity.findUnique({
     where: { email },
-    include: {
-      role: {
-        include: {
-          permissions: true,
-        },
-      },
-    },
   });
-  return identity as IdentityWithRole | null;
 });
 
-// Get User By Username
+// Get an identity by username.
 export const getIdentityByUsername = cache(async (username: string) => {
-  const identity = await prisma.identity.findUnique({
+  return prisma.identity.findUnique({
     where: { username },
   });
-  return identity;
 });
 
-export const getIdentityProfileByUsername = cache(async (username: string) => {
-  const identity = await prisma.identity.findUnique({
-    where: { username },
-    include: {
-      role: {
-        select: {
-          name: true,
-          permissions: { select: { code: true } },
-        },
+/**
+ * Get an identity by username in a specific company.
+ */
+export const getIdentityProfileInCompany = cache(
+  async (username: string, companyId: string): Promise<Identity | null> => {
+    const identity = await prisma.identity.findUnique({
+      where: {
+        username,
+        OR: [{ operators: { some: { companyId } } }, { employees: { some: { companyId } } }],
       },
-      adminUser: { select: { id: true } },
-    },
-  });
+      include: {
+        adminUser: { select: { id: true } },
+      },
+    });
 
-  if (!identity) return null;
+    if (!identity) return null;
 
-  return {
-    ...identity,
-    role: {
-      name: identity?.role?.name ?? null,
-      isAdminUser: !!identity?.adminUser,
-      permissions: identity?.role?.permissions.map((p) => p.code as PermissionCode) ?? [],
-    },
-  } as Identity;
-});
+    return {
+      ...identity,
+      isPlatformAdmin: !!identity.adminUser,
+    };
+  },
+);
 
-// Get User By Email Or Username
+// Get an identity by email or username.
 export const getIdentityByEmailOrUsername = cache(async (identifier: string) => {
-  const identity = await prisma.identity.findFirst({
+  return prisma.identity.findFirst({
     where: {
       OR: [{ email: identifier }, { username: identifier }],
     },
-    include: {
-      role: {
-        include: {
-          permissions: true,
-        },
-      },
-    },
   });
-  return identity as IdentityWithRole | null;
 });
 
-// Get User Password Hash
+// Get an identity's password hash.
 export const getIdentityPasswordHash = cache(async (identityId: string) => {
   const identity = await prisma.identity.findUnique({
     where: { id: identityId },
@@ -121,26 +82,18 @@ export const getIdentityPasswordHash = cache(async (identityId: string) => {
   return identity.passwordHash;
 });
 
-// Update User
+// Update an identity.
 export async function updateIdentity(
   identityId: string,
   data: Partial<Omit<PrismaIdentity, "id" | "createdAt" | "updatedAt">>,
 ) {
-  const identity = await prisma.identity.update({
+  return prisma.identity.update({
     where: { id: identityId },
     data,
-    include: {
-      role: {
-        include: {
-          permissions: true,
-        },
-      },
-    },
   });
-  return identity as IdentityWithRole;
 }
 
-// Update User Password
+// Update an identity's password.
 export async function updateIdentityPassword(identityId: string, password: string) {
   const passwordHash = await hashPassword(password);
   await prisma.identity.update({

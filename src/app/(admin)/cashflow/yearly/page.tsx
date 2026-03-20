@@ -5,13 +5,11 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform, getPlatformById } from "@/constants/platforms";
 import { getExpensesByYear } from "@/data-access/expenses";
 import { getReportsByDateRange } from "@/data-access/report";
-import { getCurrentSession } from "@/lib/auth/session";
-import { hasPermission } from "@/utils/access-control";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { processYearCashFlowData } from "@/utils/cashflow";
 import { getCurrentYear, getDateRangeForYearInUTC } from "@/utils/datetime";
 import { populateMonthSelectData } from "@/utils/hours-tips";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { YearCashFlowTable } from "../_components";
 
 type SearchParams = Promise<{
@@ -19,14 +17,8 @@ type SearchParams = Promise<{
 }>;
 
 export default async function YearlyPage(props: { searchParams: SearchParams }) {
-  const { session, identity } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
-  if (!hasPermission(identity.role, PERMISSIONS.CASHFLOW_VIEW)) return notFound();
-
-  if (!(await authenticatedRateLimit(identity.id))) {
-    return <ErrorMessage message="Too many requests. Please try again later." />;
-  }
+  await authGuardWithRateLimit();
+  if (!(await hasSessionPermission(PERMISSIONS.CASHFLOW_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();

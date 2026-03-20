@@ -8,7 +8,7 @@ export const getRoles = cache(async () => {
     include: {
       permissions: true,
       _count: {
-        select: { identities: true },
+        select: { operators: true, employees: true },
       },
     },
     orderBy: [{ editable: "asc" }, { name: "asc" }],
@@ -22,7 +22,7 @@ export const getRoleById = cache(async (id: string) => {
     include: {
       permissions: true,
       _count: {
-        select: { identities: true },
+        select: { operators: true, employees: true },
       },
     },
   });

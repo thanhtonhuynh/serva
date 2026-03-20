@@ -1,21 +1,21 @@
 import type { PERMISSIONS } from "@/constants/permissions";
-import type { Permission, Role } from "@prisma/client";
+import type { Permission, Role as PrismaRole } from "@prisma/client";
 
 export type PermissionCode = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
 
-// User role context (stored in session for efficient checks)
-export type UserRole = {
+// Simplified role type for use in session context
+export type Role = {
   name: string | null;
-  isAdminUser: boolean;
   permissions: PermissionCode[];
 };
 
 // Role with permissions included
-export type RoleWithPermissions = Role & {
+export type RoleWithPermissions = PrismaRole & {
   permissions: Permission[];
 };
 
-export type RoleWithDetails = Role & {
+// Role with permissions and count of operators + employees included
+export type RoleWithDetails = PrismaRole & {
   permissions: Permission[];
-  _count: { identities: number };
+  _count: { operators: number; employees: number };
 };

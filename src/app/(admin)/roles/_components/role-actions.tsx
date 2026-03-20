@@ -39,9 +39,9 @@ export function RoleActions({ role, permissionsGrouped }: RoleActionsProps) {
 
   async function handleDelete() {
     startTransition(async () => {
-      const result = await deleteRoleAction(role.id);
-      if (result.error) {
-        toast.error(result.error);
+      const { error } = await deleteRoleAction(role.id);
+      if (error) {
+        toast.error(error);
       } else {
         toast.success(`Role "${role.name}" has been deleted.`);
       }
@@ -97,7 +97,9 @@ export function RoleActions({ role, permissionsGrouped }: RoleActionsProps) {
               className="text-warning flex items-center gap-2 font-semibold"
             >
               <HugeiconsIcon icon={ICONS.ALERT} className="size-4" strokeWidth={2} />
-              This role is currently assigned to {role._count.identities} members.
+              This role is currently assigned to {role._count.operators +
+                role._count.employees}{" "}
+              members.
             </Typography>
 
             <Typography variant="p-sm">

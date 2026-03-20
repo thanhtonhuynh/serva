@@ -7,15 +7,16 @@ import { redirect } from "next/navigation";
 //   setEmailVerificationRequestCookie,
 //   upsertEmailVerificationRequest,
 // } from '@/lib/email-verification';
-import { createSession, generateSessionToken, setSessionTokenCookie } from "@/lib/auth/session";
+import { createSession, generateSessionToken } from "@/lib/auth/session";
+import { setSessionTokenCookie } from "@/lib/cookies";
 import { SignupSchema, SignupSchemaTypes } from "@/lib/validations/auth";
 import { rateLimitByIp, unauthenticatedRateLimit } from "@/utils/rate-limiter";
 
 export async function signUpAction(data: SignupSchemaTypes) {
   try {
     if (
-      !(await unauthenticatedRateLimit()) ||
-      !(await rateLimitByIp({ key: "signup", limit: 3, interval: 30000 }))
+      (await unauthenticatedRateLimit()) ||
+      (await rateLimitByIp({ key: "signup", limit: 3, interval: 30000 }))
     ) {
       return { error: "Too many requests. Please try again later." };
     }

@@ -14,13 +14,13 @@ import { render } from "@react-email/components";
 
 export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
   try {
-    if (!(await unauthenticatedRateLimit())) {
+    if (await unauthenticatedRateLimit()) {
       return { error: "Too many requests. Please try again later." };
     }
 
     const { email } = ForgotPasswordSchema.parse(data);
 
-    if (!(await rateLimitByKey({ key: email, limit: 1, interval: 60000 }))) {
+    if (await rateLimitByKey({ key: email, limit: 1, interval: 60000 })) {
       return {
         error: "You can only request a password reset once per minute.",
       };

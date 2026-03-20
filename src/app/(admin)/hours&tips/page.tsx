@@ -5,9 +5,8 @@ import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record/dal";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { TotalHoursTips } from "@/types";
-import { hasPermission } from "@/utils/access-control";
 import {
   formatInUTC,
   getCurrentMonth,
@@ -15,7 +14,6 @@ import {
   getPeriodsForMonthAndYearInUTC,
 } from "@/utils/datetime";
 import { getHoursTipsBreakdownInDateRange, populateMonthSelectData } from "@/utils/hours-tips";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { addDays } from "date-fns";
@@ -29,14 +27,8 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { session, identity } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
-  if (!hasPermission(identity.role, PERMISSIONS.HOURS_TIPS_VIEW)) return notFound();
-
-  if (!(await authenticatedRateLimit(identity.id))) {
-    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
-  }
+  await authGuardWithRateLimit();
+  if (!(await hasSessionPermission(PERMISSIONS.HOURS_TIPS_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();

@@ -1,8 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
-import { getCurrentSession } from "@/lib/auth/session";
-import { notFound, redirect } from "next/navigation";
+import { authGuardWithRateLimit } from "@/lib/auth/authorize";
 import { Fragment } from "react";
 import {
   UpdateAvatar,
@@ -13,9 +12,7 @@ import {
 } from "./_components";
 
 export default async function Page() {
-  const { identity } = await getCurrentSession();
-  if (!identity) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
+  const { identity } = await authGuardWithRateLimit();
 
   return (
     <Fragment>

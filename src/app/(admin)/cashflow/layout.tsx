@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
+import { authGuard } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";
 import { PeriodSelector, TabNav } from "./_components";
@@ -10,6 +11,7 @@ export default async function CashflowLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await authGuard();
   const { years } = await populateMonthSelectData();
 
   return (

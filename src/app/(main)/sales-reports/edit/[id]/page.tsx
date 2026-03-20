@@ -5,21 +5,18 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
 import { getReportRaw } from "@/data-access/report";
 import { getActivePlatforms, getStartCash } from "@/data-access/store";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { SaleReportInputs } from "@/lib/validations/report";
-import { hasPermission } from "@/utils/access-control";
 import { formatInUTC } from "@/utils/datetime";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { SaleReportPortal } from "../../new/sale-report-portal";
 
 type Params = Promise<{ id: string }>;
 
 export default async function Page(props: { params: Params }) {
-  const { identity } = await getCurrentSession();
-  if (!identity) redirect("/login");
-  if (identity.accountStatus !== "active") notFound();
-  if (!hasPermission(identity.role, PERMISSIONS.REPORTS_UPDATE)) notFound();
+  await authGuardWithRateLimit();
+  if (!(await hasSessionPermission(PERMISSIONS.REPORTS_UPDATE))) return notFound();
 
   const params = await props.params;
   const report = await getReportRaw({ id: params.id });

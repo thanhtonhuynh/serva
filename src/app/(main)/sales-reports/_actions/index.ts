@@ -2,38 +2,27 @@
 
 import { PERMISSIONS } from "@/constants/permissions";
 import { deleteReportById, reportExists } from "@/data-access/report";
-import { getCurrentSession } from "@/lib/auth/session";
-import { hasPermission } from "@/utils/access-control";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
+import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { revalidatePath } from "next/cache";
 
-export async function deleteReportAction(reportId: string) {
+export async function deleteReportAction(reportId: string): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.REPORTS_DELETE)
-    ) {
-      return "Unauthorized.";
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return "Too many requests. Please try again later.";
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.REPORTS_DELETE))) return { error: "Unauthorized" };
 
     // Check if report exists
     const isReportExisted = await reportExists(reportId);
     if (!isReportExisted) {
-      return "Report not found.";
+      return { error: "Report not found" };
     }
 
     // Delete the report
     await deleteReportById(reportId);
 
     revalidatePath("/sales-reports/(view)", "page");
+    return {};
   } catch (error) {
-    console.error(error);
-    return "Failed to delete report";
+    return { error: "Failed to delete report" };
   }
 }

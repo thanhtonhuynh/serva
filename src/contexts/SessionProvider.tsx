@@ -1,18 +1,19 @@
 "use client";
 
-import type { Identity } from "@/lib/auth/session";
+import type { CompanyContext, Identity } from "@/lib/auth/session";
 import { Session } from "@prisma/client";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
 type SessionContextProps = {
-  identity: Identity | null;
   session: Session | null;
+  identity: Identity | null;
+  companyCtx: CompanyContext | null;
 };
 
-const SessionContext = createContext<SessionContextProps | null>(null);
+const SessionCtx = createContext<SessionContextProps | null>(null);
 
 export function useSession() {
-  const context = useContext(SessionContext);
+  const context = useContext(SessionCtx);
   if (!context) {
     throw new Error("useSession must be used within a SessionProvider");
   }
@@ -23,18 +24,17 @@ export function SessionProvider({
   children,
   session,
   identity,
+  companyCtx,
 }: {
   children: ReactNode;
   session: Session | null;
   identity: Identity | null;
+  companyCtx: CompanyContext | null;
 }) {
   const contextValue = useMemo<SessionContextProps>(
-    () => ({
-      session,
-      identity,
-    }),
-    [session, identity],
+    () => ({ session, identity, companyCtx }),
+    [session, identity, companyCtx],
   );
 
-  return <SessionContext value={contextValue}>{children}</SessionContext>;
+  return <SessionCtx value={contextValue}>{children}</SessionCtx>;
 }

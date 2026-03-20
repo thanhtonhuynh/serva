@@ -21,7 +21,7 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { useSession } from "@/contexts/SessionProvider";
 import { DisplayUser } from "@/types";
 import type { RoleWithDetails } from "@/types/rbac";
-import { hasPermission } from "@/utils/access-control";
+import { hasPermission } from "@/lib/auth/permission";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ShieldCheck, ShieldOff, UserCog } from "lucide-react";
 import { useState, useTransition } from "react";
@@ -65,7 +65,7 @@ const CONFIRM_ACTIONS: Record<ConfirmAction["type"], Omit<ConfirmAction, "type">
 };
 
 export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps) {
-  const { identity } = useSession();
+  const { sessionCtx } = useSession();
   const [isPending, startTransition] = useTransition();
   const [confirmAction, setConfirmAction] = useState<ConfirmAction["type"] | null>(null);
   const [roleDialogOpen, setRoleDialogOpen] = useState(false);
@@ -73,8 +73,8 @@ export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps
   const status = employee.accountStatus;
   const actionConfig = confirmAction ? CONFIRM_ACTIONS[confirmAction] : null;
 
-  const canManageTeamAccess = hasPermission(identity?.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
-  const canAssignRole = hasPermission(identity?.role, PERMISSIONS.TEAM_ASSIGN_ROLES);
+  const canManageTeamAccess = hasPermission(sessionCtx, PERMISSIONS.TEAM_MANAGE_ACCESS);
+  const canAssignRole = hasPermission(sessionCtx, PERMISSIONS.TEAM_ASSIGN_ROLES);
 
   async function handleConfirm() {
     if (!confirmAction) return;

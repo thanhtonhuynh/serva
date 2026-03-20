@@ -99,10 +99,10 @@ export const getWorkDayRecordsByDateRange = cache(async (dateRange: DateRange) =
 });
 
 export const getWorkDayRecordsByIdentityAndDateRange = cache(
-  async (identityId: string, dateRange: DateRange) => {
+  async (employeeId: string, dateRange: DateRange) => {
     return prisma.workDayRecord.findMany({
       where: {
-        identityId,
+        employeeId,
         date: {
           gte: dateRange.start,
           lte: dateRange.end,

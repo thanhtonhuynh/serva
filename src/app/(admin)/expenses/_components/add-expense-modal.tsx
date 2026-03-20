@@ -62,7 +62,7 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
     data.date = getUTCMidnightFromLocal(data.date);
 
     startTransition(async () => {
-      const error = await addExpensesAction(data);
+      const { error } = await addExpensesAction(data);
 
       if (error) {
         toast.error(error);

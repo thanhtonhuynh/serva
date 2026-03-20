@@ -3,11 +3,10 @@ import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getRecentReportsByIdentity } from "@/data-access/report";
-import { getIdentityProfileByUsername } from "@/data-access/user";
+import { getIdentityProfileInCompany } from "@/data-access/user";
 import { getRecentWorkDayRecordsByIdentity } from "@/data-access/work-day-record/dal";
-import { getCurrentSession } from "@/lib/auth/session";
-import { hasPermission } from "@/utils/access-control";
-import { notFound, redirect } from "next/navigation";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { ProfileInfo } from "./_components/profile-info";
 import { RecentReports } from "./_components/recent-reports";
@@ -18,29 +17,23 @@ type ProfilePageProps = {
 };
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
-  const { identity: currentUser } = await getCurrentSession();
-
-  if (!currentUser) redirect("/login");
-  if (currentUser.accountStatus !== "active") return notFound();
+  const { identity, companyCtx } = await authGuardWithRateLimit();
 
   const { username } = await params;
-  const profileUser = await getIdentityProfileByUsername(username);
+  const profileIdentity = await getIdentityProfileInCompany(username, companyCtx.companyId);
 
-  if (!profileUser || (profileUser.role.isAdminUser && !currentUser.role.isAdminUser)) {
+  // If the profile user is not found or the profile user is a platform admin and the current identity is not a platform admin, return not found.
+  if (!profileIdentity || (profileIdentity.isPlatformAdmin && !identity.isPlatformAdmin))
     return notFound();
-  }
 
-  const canViewAllStatuses = hasPermission(currentUser.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
-  if (!canViewAllStatuses && profileUser.accountStatus !== "active") {
-    return notFound();
-  }
+  const canViewAllStatuses = await hasSessionPermission(PERMISSIONS.TEAM_MANAGE_ACCESS);
+  if (!canViewAllStatuses && profileIdentity.accountStatus !== "active") return notFound();
 
-  const isOwner = currentUser.username === profileUser.username;
+  const isOwner = identity.username === profileIdentity.username;
 
-  // Fetch recent reports submitted by this user and recent work day records (shifts)
   const [recentReports, workDayRecords] = await Promise.all([
-    getRecentReportsByIdentity(profileUser.id, 5),
-    getRecentWorkDayRecordsByIdentity(profileUser.id, 5),
+    getRecentReportsByIdentity(profileIdentity.id, 5),
+    getRecentWorkDayRecordsByIdentity(profileIdentity.id, 5),
   ]);
 
   const recentShifts = workDayRecords.map((r) => ({
@@ -56,7 +49,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       </Header>
 
       <Container className="space-y-3">
-        <ProfileInfo identity={profileUser} isOwner={isOwner} />
+        <ProfileInfo identity={profileIdentity} isOwner={isOwner} />
         <RecentShifts shifts={recentShifts} isOwner={isOwner} />
         <RecentReports reports={recentReports} isOwner={isOwner} />
       </Container>

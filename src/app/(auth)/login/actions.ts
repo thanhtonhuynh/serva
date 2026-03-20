@@ -2,7 +2,8 @@
 
 import { getIdentityByEmailOrUsername, getIdentityPasswordHash } from "@/data-access/user";
 import { verifyPassword } from "@/lib/auth/password";
-import { createSession, generateSessionToken, setSessionTokenCookie } from "@/lib/auth/session";
+import { createSession, generateSessionToken } from "@/lib/auth/session";
+import { setSessionTokenCookie } from "@/lib/cookies";
 import { redirect } from "next/navigation";
 // import {
 //   getUserEmailVerificationRequestByUserId,
@@ -14,13 +15,13 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export async function loginAction(data: LoginSchemaTypes) {
   try {
-    if (!(await unauthenticatedRateLimit())) {
+    if (await unauthenticatedRateLimit()) {
       return { error: "Too many requests. Please try again later." };
     }
 
     const { identifier, password } = LoginSchema.parse(data);
 
-    if (!(await rateLimitByKey({ key: identifier, limit: 3, interval: 10000 }))) {
+    if (await rateLimitByKey({ key: identifier, limit: 3, interval: 10000 })) {
       return { error: "Too many requests. Please try again later." };
     }
 

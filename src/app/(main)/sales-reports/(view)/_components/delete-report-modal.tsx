@@ -28,7 +28,7 @@ export function DeleteReportModal({ reportId, date }: Props) {
 
   async function handleDeleteReport() {
     startTransition(async () => {
-      const error = await deleteReportAction(reportId);
+      const { error } = await deleteReportAction(reportId);
       if (error) toast.error(error);
       else {
         toast(`Report has been deleted.`);

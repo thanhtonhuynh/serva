@@ -2,84 +2,64 @@
 
 import { PERMISSIONS } from "@/constants/permissions";
 import { createExpenses, deleteExpense, updateExpenses } from "@/data-access/expenses";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
-import { hasPermission } from "@/utils/access-control";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
-export async function addExpensesAction(data: ExpensesFormInput) {
+export async function addExpensesAction(data: ExpensesFormInput): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.EXPENSES_MANAGE)
-    ) {
-      return "Unauthorized";
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return "Too many requests. Please try again later.";
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.EXPENSES_MANAGE)))
+      return { error: "Unauthorized" };
 
     const parsedData = ExpensesFormSchema.parse(data);
 
     await createExpenses(parsedData);
 
     revalidatePath("/expenses");
+
+    return {};
   } catch (error) {
-    console.log(error);
-    return "Expenses creation failed";
+    return { error: "Expenses creation failed" };
   }
 }
 
-export async function updateExpensesAction(data: ExpensesFormInput, id: string) {
+export async function updateExpensesAction(
+  data: ExpensesFormInput,
+  id: string,
+): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.EXPENSES_MANAGE)
-    ) {
-      return "Unauthorized";
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return "Too many requests. Please try again later.";
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.EXPENSES_MANAGE)))
+      return { error: "Unauthorized" };
 
     const parsedData = ExpensesFormSchema.parse(data);
 
     await updateExpenses(parsedData, id);
 
     revalidatePath("/expenses");
+
+    return {};
   } catch (error) {
-    console.log(error);
-    return "Expense update failed";
+    return { error: "Expense update failed" };
   }
 }
 
-export async function deleteExpenseAction(id: string) {
+export async function deleteExpenseAction(id: string): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.EXPENSES_MANAGE)
-    ) {
-      return "Unauthorized";
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return "Too many requests. Please try again later.";
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.EXPENSES_MANAGE)))
+      return { error: "Unauthorized" };
 
     await deleteExpense(id);
 
     revalidatePath("/expenses");
+
+    return {};
   } catch (error) {
-    console.log(error);
-    return "Expense deletion failed";
+    return { error: "Expense deletion failed" };
   }
 }

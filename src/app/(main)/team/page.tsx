@@ -1,14 +1,9 @@
-import { NotiMessage } from "@/components/shared";
 import { Card } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
 import { getRoles } from "@/data-access/roles";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { type EmployeeStatus } from "@/types";
-import { hasPermission } from "@/utils/access-control";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import { notFound, redirect } from "next/navigation";
-import { EmployeesList } from "./_components/employees-list";
 import { StatusFilter } from "./_components/status-filter";
 import { ViewToggle, type ViewMode } from "./_components/view-toggle";
 
@@ -17,16 +12,10 @@ type PageProps = {
 };
 
 export default async function TeamPage({ searchParams }: PageProps) {
-  const { identity } = await getCurrentSession();
-  if (!identity) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
-
-  if (!(await authenticatedRateLimit(identity.id))) {
-    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
-  }
+  await authGuardWithRateLimit();
 
   const params = await searchParams;
-  const canManageTeamAccess = hasPermission(identity.role, PERMISSIONS.TEAM_MANAGE_ACCESS);
+  const canManageTeamAccess = await hasSessionPermission(PERMISSIONS.TEAM_MANAGE_ACCESS);
 
   const status: EmployeeStatus = canManageTeamAccess
     ? (params.status as EmployeeStatus) || "active"
@@ -50,7 +39,7 @@ export default async function TeamPage({ searchParams }: PageProps) {
       </div>
 
       {/* Content: Search + Table/Cards view */}
-      <EmployeesList employees={employees} view={view} rolesPromise={rolesPromise} />
+      {/* <EmployeesList employees={employees} view={view} rolesPromise={rolesPromise} /> */}
     </Card>
   );
 }

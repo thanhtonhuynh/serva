@@ -3,6 +3,7 @@ import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
+import { authGuard } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Fragment } from "react";
@@ -13,6 +14,7 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await authGuard();
   const { years } = await populateMonthSelectData();
 
   return (

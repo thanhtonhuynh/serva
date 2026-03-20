@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getReportRaw } from "@/data-access/report";
-import { getCurrentSession } from "@/lib/auth/session";
-import { hasPermission } from "@/utils/access-control";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { formatInUTC, getTodayUTCMidnight, parseInUTC } from "@/utils/datetime";
 import { processReportDataForView } from "@/utils/report";
 import { utc } from "@date-fns/utc";
@@ -19,11 +18,11 @@ import { DeleteReportModal, ReportAuditLog } from "./_components";
 type SearchParams = Promise<{ date?: string }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { identity } = await getCurrentSession();
-  if (!identity) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
+  await authGuardWithRateLimit();
+  if (!(await hasSessionPermission(PERMISSIONS.REPORTS_VIEW))) return notFound();
 
-  if (!hasPermission(identity.role, PERMISSIONS.REPORTS_VIEW)) return notFound();
+  const canUpdateReport = await hasSessionPermission(PERMISSIONS.REPORTS_UPDATE);
+  const canDeleteReport = await hasSessionPermission(PERMISSIONS.REPORTS_DELETE);
 
   const searchParams = await props.searchParams;
   const dateParam = searchParams.date;
@@ -52,7 +51,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         <CardTitle>Sales Report</CardTitle>
 
         <div className="flex items-center gap-3">
-          {hasPermission(identity.role, PERMISSIONS.REPORTS_UPDATE) && (
+          {canUpdateReport && (
             <Button
               nativeButton={false}
               variant="outline-accent"
@@ -65,7 +64,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
               }
             />
           )}
-          {hasPermission(identity.role, PERMISSIONS.REPORTS_DELETE) && (
+          {canDeleteReport && (
             <DeleteReportModal reportId={processedReport.id!} date={processedReport.date} />
           )}
         </div>

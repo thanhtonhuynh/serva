@@ -26,11 +26,11 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { identity } = await getCurrentSession();
-  if (!identity) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
+  const { sessionCtx } = await getCurrentSession();
+  if (!sessionCtx) redirect("/login");
+  if (sessionCtx.identity.accountStatus !== "active") return notFound();
 
-  if (!(await authenticatedRateLimit(identity.id))) {
+  if (!(await authenticatedRateLimit(sessionCtx.identity.id))) {
     return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
   }
 
@@ -64,7 +64,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const monthIndex = selectedMonth - 1; // 0-indexed
   const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, monthIndex);
   const periods = getPeriodsForMonthAndYearInUTC(selectedYear, monthIndex);
-  const workDayRecords = await getWorkDayRecordsByIdentityAndDateRange(identity.id, dateRange);
+  const workDayRecords = await getWorkDayRecordsByIdentityAndDateRange(sessionCtx.identity.id, dateRange);
 
   const userShifts = workDayRecords.map((r) => ({
     date: r.date,

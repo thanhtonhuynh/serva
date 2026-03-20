@@ -2,23 +2,24 @@ import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@/constants/permissions";
-import type { Identity } from "@/lib/auth/session";
-import { hasPermission } from "@/utils/access-control";
+import { hasPermission } from "@/lib/auth/permission";
+import type { CompanyContext, Identity } from "@/lib/auth/session";
 import { Calculator01Icon, Calendar02Icon, UserAccountIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
 type Props = {
   identity: Identity;
+  companyCtx: CompanyContext;
 };
 
-export function QuickActions({ identity }: Props) {
+export function QuickActions({ identity, companyCtx }: Props) {
   return (
     <>
       <Typography variant="h3">Quick Actions</Typography>
 
       <div className="flex flex-col items-start gap-1">
-        {hasPermission(identity.role, PERMISSIONS.REPORTS_CREATE) && (
+        {hasPermission(identity, companyCtx, PERMISSIONS.REPORTS_CREATE) && (
           <Button
             nativeButton={false}
             size="sm"

@@ -6,13 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getExpensesByYear } from "@/data-access/expenses";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { formatMoney } from "@/lib/utils";
-import { hasPermission } from "@/utils/access-control";
 import { getCurrentMonth, getCurrentYear } from "@/utils/datetime";
 import { reshapeExpenses } from "@/utils/expenses";
 import { populateMonthSelectData } from "@/utils/hours-tips";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { notFound, redirect } from "next/navigation";
 import { AddExpenseModal, ExpenseRow, YearTotalTable } from "./_components";
@@ -23,14 +21,8 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { session, identity } = await getCurrentSession();
-  if (!session) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
-  if (!hasPermission(identity.role, PERMISSIONS.EXPENSES_VIEW)) return notFound();
-
-  if (!(await authenticatedRateLimit(identity.id))) {
-    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
-  }
+  await authGuardWithRateLimit();
+  if (!(await hasSessionPermission(PERMISSIONS.EXPENSES_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;
   const { years } = await populateMonthSelectData();

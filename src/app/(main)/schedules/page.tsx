@@ -1,19 +1,17 @@
 import { Container, Header, Loader } from "@/components/layout";
-import { NotiMessage, Typography } from "@/components/shared";
+import { Typography } from "@/components/shared";
 import { Card } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { getEmployees } from "@/data-access/employee";
 import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import type { DateRange } from "@/types/datetime";
-import { hasPermission } from "@/utils/access-control";
 import {
   formatInUTC,
   getEndOfWeekUTC,
   getStartOfWeekUTC,
   getTodayUTCMidnight,
 } from "@/utils/datetime";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { buildWorkDayRecordsByDate } from "@/utils/work-day-record";
 import { addDays } from "date-fns";
 import { notFound, redirect } from "next/navigation";
@@ -25,15 +23,8 @@ type PageProps = {
 };
 
 export default async function SchedulePage({ searchParams }: PageProps) {
-  const { identity } = await getCurrentSession();
-  if (!identity) redirect("/login");
-  if (identity.accountStatus !== "active") return notFound();
-
-  if (!hasPermission(identity.role, PERMISSIONS.SCHEDULE_VIEW)) return notFound();
-
-  if (!(await authenticatedRateLimit(identity.id))) {
-    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
-  }
+  await authGuardWithRateLimit();
+  if (!(await hasSessionPermission(PERMISSIONS.SCHEDULE_VIEW))) return notFound();
 
   const params = await searchParams;
   const dateParam = params.date;
@@ -42,7 +33,7 @@ export default async function SchedulePage({ searchParams }: PageProps) {
     redirect(`/schedules?date=${formatInUTC(getTodayUTCMidnight())}`);
   }
 
-  const canManage = hasPermission(identity.role, PERMISSIONS.SCHEDULE_MANAGE);
+  const canManageSchedule = await hasSessionPermission(PERMISSIONS.SCHEDULE_MANAGE);
 
   return (
     <Fragment>
@@ -52,7 +43,7 @@ export default async function SchedulePage({ searchParams }: PageProps) {
 
       <Container>
         <Suspense key={dateParam} fallback={<Loader />}>
-          <SchedulePageContent dateParam={dateParam} canManage={canManage} />
+          <SchedulePageContent dateParam={dateParam} canManage={canManageSchedule} />
         </Suspense>
       </Container>
     </Fragment>

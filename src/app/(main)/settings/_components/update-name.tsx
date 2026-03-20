@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { type Identity } from "@/lib/auth/session";
+import type { Identity } from "@/lib/auth/session";
 import { UpdateNameSchema, UpdateNameSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";

@@ -2,31 +2,20 @@
 
 import { PERMISSIONS } from "@/constants/permissions";
 import { createRole, deleteRole, roleNameExists, updateRole } from "@/data-access/roles";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import {
   CreateRoleInput,
   CreateRoleSchema,
   UpdateRoleInput,
   UpdateRoleSchema,
 } from "@/lib/validations/roles";
-import { hasPermission } from "@/utils/access-control";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
-export async function createRoleAction(data: CreateRoleInput) {
+export async function createRoleAction(data: CreateRoleInput): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE)
-    ) {
-      return { error: "Unauthorized" };
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.ROLES_MANAGE))) return { error: "Unauthorized" };
 
     const parsedData = CreateRoleSchema.parse(data);
 
@@ -38,27 +27,18 @@ export async function createRoleAction(data: CreateRoleInput) {
     await createRole(parsedData);
 
     revalidatePath("/roles");
-    return { success: true };
+    return {};
   } catch (error) {
     console.error(error);
     return { error: "Failed to create role. Please try again." };
   }
 }
 
-export async function updateRoleAction(data: UpdateRoleInput) {
+export async function updateRoleAction(data: UpdateRoleInput): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE)
-    ) {
-      return { error: "Unauthorized" };
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.ROLES_MANAGE))) return { error: "Unauthorized" };
 
     const parsedData = UpdateRoleSchema.parse(data);
 
@@ -74,32 +54,23 @@ export async function updateRoleAction(data: UpdateRoleInput) {
     });
 
     revalidatePath("/roles");
-    return { success: true };
+    return {};
   } catch (error) {
     console.error(error);
     return { error: "Failed to update role. Please try again." };
   }
 }
 
-export async function deleteRoleAction(id: string) {
+export async function deleteRoleAction(id: string): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.ROLES_MANAGE)
-    ) {
-      return { error: "Unauthorized" };
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.ROLES_MANAGE))) return { error: "Unauthorized" };
 
     await deleteRole(id);
 
     revalidatePath("/roles");
-    return { success: true };
+    return {};
   } catch (error) {
     console.error(error);
     if (error instanceof Error && error.message === "Cannot delete system roles") {

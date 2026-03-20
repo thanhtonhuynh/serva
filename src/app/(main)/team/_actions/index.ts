@@ -3,24 +3,22 @@
 import { PERMISSIONS } from "@/constants/permissions";
 import { getRoleById } from "@/data-access/roles";
 import { getIdentityById, updateIdentity } from "@/data-access/user";
+import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
+import { hasAssignRolePermission } from "@/lib/auth/permission";
 import { UpdateEmployeeRoleInput, UpdateEmployeeRoleSchema } from "@/lib/validations/employee";
-import { hasAssignRolePermission, hasPermission } from "@/utils/access-control";
-import { authorizeEmployeeAction } from "@/utils/authorize-employee";
 import { revalidatePath } from "next/cache";
 
 type ActionResult = { error?: string };
 
 /**
  * Activates a user account (used for both verification and reactivation).
- * @param identityId - The ID of the identity to activate
  */
 export async function activateUserAction(identityId: string): Promise<ActionResult> {
   try {
-    const authResult = await authorizeEmployeeAction();
+    const authResult = await authorizeAction();
     if ("error" in authResult) return authResult;
 
-    const { identity } = authResult;
-    if (!hasPermission(identity.role, PERMISSIONS.TEAM_MANAGE_ACCESS))
+    if (!(await hasSessionPermission(PERMISSIONS.TEAM_MANAGE_ACCESS)))
       return { error: "Unauthorized" };
 
     const targetIdentity = await getIdentityById(identityId);
@@ -43,11 +41,10 @@ export async function activateUserAction(identityId: string): Promise<ActionResu
  */
 export async function deactivateUserAction(identityId: string): Promise<ActionResult> {
   try {
-    const authResult = await authorizeEmployeeAction();
+    const authResult = await authorizeAction();
     if ("error" in authResult) return authResult;
 
-    const { identity } = authResult;
-    if (!hasPermission(identity.role, PERMISSIONS.TEAM_MANAGE_ACCESS))
+    if (!(await hasSessionPermission(PERMISSIONS.TEAM_MANAGE_ACCESS)))
       return { error: "Unauthorized" };
 
     const targetIdentity = await getIdentityById(identityId);
@@ -72,18 +69,20 @@ export async function updateIdentityRoleAction(
   data: UpdateEmployeeRoleInput,
 ): Promise<ActionResult> {
   try {
-    const authResult = await authorizeEmployeeAction();
+    const authResult = await authorizeAction();
     if ("error" in authResult) return authResult;
 
-    const { identity } = authResult;
+    const { identity, companyCtx } = authResult;
     const { identityId, roleId } = UpdateEmployeeRoleSchema.parse(data);
 
     const targetRole = await getRoleById(roleId);
     if (!targetRole) return { error: "Role not found" };
 
-    if (!hasAssignRolePermission(identity.role, targetRole)) return { error: "Unauthorized" };
+    if (!hasAssignRolePermission(identity, companyCtx, targetRole))
+      return { error: "Unauthorized" };
 
-    await updateIdentity(identityId, { roleId });
+    // TODO: Phase 4/5 — update operator/employee roleId instead of identity
+    // await updateIdentity(identityId, { roleId });
 
     revalidatePath("/team");
     return {};

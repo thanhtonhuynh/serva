@@ -3,7 +3,7 @@ import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getEmployeeStatusConfig } from "@/constants/employee";
-import type { Identity } from "@/lib/auth/session";
+import type { IdentityProfile } from "@/data-access/user";
 import {
   AtIcon,
   Calendar02Icon,
@@ -17,13 +17,17 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 type ProfileInfoProps = {
-  identity: Identity;
+  identity: IdentityProfile;
   isOwner: boolean;
 };
 
 export function ProfileInfo({ identity, isOwner }: ProfileInfoProps) {
   const statusConfig = getEmployeeStatusConfig(identity.accountStatus);
   const joinDate = format(new Date(identity.createdAt), "MMMM d, yyyy");
+
+  const roleName = identity.isAdminUser
+    ? "Platform Admin"
+    : (identity.roleName ?? "No Role");
 
   return (
     <div className="space-y-6">
@@ -84,9 +88,7 @@ export function ProfileInfo({ identity, isOwner }: ProfileInfoProps) {
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Role</p>
-            <span className="text-sm font-medium">
-              {identity.role?.isAdminUser ? "Platform Admin" : (identity.role?.name ?? "No Role")}
-            </span>
+            <span className="text-sm font-medium">{roleName}</span>
           </div>
         </div>
 

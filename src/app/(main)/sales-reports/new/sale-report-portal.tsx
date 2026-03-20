@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform } from "@/constants/platforms";
 import { useSession } from "@/contexts/SessionProvider";
+import { hasPermission } from "@/lib/auth/permission";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import type { CashType } from "@/types";
-import { hasPermission } from "@/utils/access-control";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";
@@ -108,14 +108,14 @@ export function SaleReportPortal({
   const [previousStep, setPreviousStep] = useState(0);
   const delta = currentStep - previousStep;
   const router = useRouter();
-  const { identity } = useSession();
+  const { identity, companyCtx } = useSession();
 
   async function processForm(data: SaleReportInputs) {
     startTransition(async () => {
       const { error, reportDate } = await saveReportAction(data, mode);
       if (error || !reportDate) toast.error(error);
       else {
-        if (hasPermission(identity?.role, PERMISSIONS.REPORTS_VIEW)) {
+        if (hasPermission(identity, companyCtx, PERMISSIONS.REPORTS_VIEW)) {
           router.push(`/sales-reports?date=${formatInUTC(reportDate)}`);
         } else {
           router.push("/");

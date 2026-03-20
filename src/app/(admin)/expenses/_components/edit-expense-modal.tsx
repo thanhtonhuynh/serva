@@ -80,7 +80,7 @@ export function EditExpenseModal({ expense, open, onOpenChange }: Props) {
     data.date = getUTCMidnightFromLocal(data.date);
 
     startTransition(async () => {
-      const error = await updateExpensesAction(data, expense.id);
+      const { error } = await updateExpensesAction(data, expense.id);
 
       if (error) {
         toast.error(error);

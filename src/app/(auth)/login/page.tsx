@@ -10,8 +10,8 @@ import { redirect } from "next/navigation";
 import { LoginForm } from "./LoginForm";
 
 export default async function Page() {
-  const { session } = await getCurrentSession();
-  if (session) redirect("/");
+  const { identity } = await getCurrentSession();
+  if (identity) redirect("/");
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-6 p-3">

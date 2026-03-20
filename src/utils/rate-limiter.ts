@@ -29,7 +29,7 @@ export async function rateLimitByIp({ key, limit, interval }: RateLimitOptions) 
   const ip = await getIp();
 
   if (!ip) {
-    return false;
+    return true;
   }
 
   return await rateLimitByKey({ key: `${ip}:${key}`, limit, interval });
@@ -50,10 +50,10 @@ export async function rateLimitByKey({ key, limit, interval }: RateLimitOptions)
   tracker.count++;
 
   if (tracker.count > limit) {
-    return false;
+    return true;
   }
 
-  return true;
+  return false;
 }
 
 export async function authenticatedRateLimit(identityId: string) {

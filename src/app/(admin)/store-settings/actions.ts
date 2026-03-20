@@ -2,7 +2,7 @@
 
 import { PERMISSIONS } from "@/constants/permissions";
 import { updateStoreSettings } from "@/data-access/store";
-import { getCurrentSession } from "@/lib/auth/session";
+import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { toCents } from "@/lib/utils";
 import {
   UpdateActivePlatformsInput,
@@ -10,24 +10,14 @@ import {
   UpdateStartCashInput,
   UpdateStartCashSchema,
 } from "@/lib/validations/store";
-import { hasPermission } from "@/utils/access-control";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { revalidatePath } from "next/cache";
 
-export async function updateStartCash(data: UpdateStartCashInput) {
+export async function updateStartCash(data: UpdateStartCashInput): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
-    ) {
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.STORE_SETTINGS_MANAGE)))
       return { error: "Unauthorized." };
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
 
     const { startCash } = UpdateStartCashSchema.parse(data);
 
@@ -36,25 +26,18 @@ export async function updateStartCash(data: UpdateStartCashInput) {
     revalidatePath("/store-settings");
     return {};
   } catch (error) {
-    console.log(error);
     return { error: "Update start cash failed. Please try again." };
   }
 }
 
-export async function updateActivePlatforms(data: UpdateActivePlatformsInput) {
+export async function updateActivePlatforms(
+  data: UpdateActivePlatformsInput,
+): Promise<{ error?: string }> {
   try {
-    const { identity } = await getCurrentSession();
-    if (
-      !identity ||
-      identity.accountStatus !== "active" ||
-      !hasPermission(identity.role, PERMISSIONS.STORE_SETTINGS_MANAGE)
-    ) {
+    const authResult = await authorizeAction();
+    if ("error" in authResult) return authResult;
+    if (!(await hasSessionPermission(PERMISSIONS.STORE_SETTINGS_MANAGE)))
       return { error: "Unauthorized." };
-    }
-
-    if (!(await authenticatedRateLimit(identity.id))) {
-      return { error: "Too many requests. Please try again later." };
-    }
 
     const { activePlatforms } = UpdateActivePlatformsSchema.parse(data);
 
@@ -63,7 +46,6 @@ export async function updateActivePlatforms(data: UpdateActivePlatformsInput) {
     revalidatePath("/store-settings");
     return {};
   } catch (error) {
-    console.log(error);
     return { error: "Update platforms failed. Please try again." };
   }
 }
