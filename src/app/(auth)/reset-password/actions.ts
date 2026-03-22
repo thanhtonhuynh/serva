@@ -1,6 +1,6 @@
 "use server";
 
-import { updateIdentity, updateIdentityPassword } from "@/data-access/user";
+import { updateIdentity, updateIdentityPassword } from "@/data-access/identity";
 import {
   deletePasswordResetTokenCookie,
   invalidatePasswordResetToken,
@@ -48,7 +48,6 @@ export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {
 
     return { success: true };
   } catch (error) {
-    console.error(error);
-    return { error: "Something went wrong" };
+    return { error: "Something went wrong. Please try again." };
   }
 }

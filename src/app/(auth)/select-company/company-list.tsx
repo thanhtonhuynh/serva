@@ -1,8 +1,8 @@
 "use client";
 
+import { SIcon } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import type { BasicCompany } from "@/types/company";
-import { Building2 } from "lucide-react";
 import { useTransition } from "react";
 import { selectCompanyAction } from "./actions";
 
@@ -20,20 +20,18 @@ export function CompanyList({ companies }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex w-full flex-col gap-3">
       {companies.map((company) => (
         <Button
           key={company.id}
           variant="outline"
-          className="h-auto justify-start gap-3 p-4"
+          size="lg"
+          className="h-12 justify-start gap-3 px-4 font-semibold tracking-wide"
           disabled={isPending}
           onClick={() => handleSelect(company.id)}
         >
-          <Building2 className="text-muted-foreground size-5" />
-          <div className="text-left">
-            <p className="font-medium">{company.name}</p>
-            <p className="text-muted-foreground text-xs">{company.slug}</p>
-          </div>
+          <SIcon icon="BUILDING" strokeWidth={1.5} className="size-5" />
+          {company.name}
         </Button>
       ))}
     </div>

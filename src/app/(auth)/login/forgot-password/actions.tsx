@@ -1,7 +1,7 @@
 "use server";
 
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
-import { getIdentityByEmail } from "@/data-access/user";
+import { getIdentityByEmail } from "@/data-access/identity";
 import {
   createPasswordResetToken,
   generatePasswordResetToken,
@@ -45,7 +45,6 @@ export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
 
     return { success: true };
   } catch (error) {
-    console.error(error);
     return { error: "Something went wrong. Please try again." };
   }
 }

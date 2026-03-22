@@ -1,46 +1,78 @@
+import { Container } from "@/components/layout";
+import { SIcon } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { getIdentityByEmail } from "@/data-access/identity";
+import { getInviteByToken } from "@/data-access/invite";
 import { getCurrentSession } from "@/lib/auth/session";
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { LoginForm } from "./LoginForm";
+import { notFound, redirect } from "next/navigation";
+import { LoginForm } from "./login-form";
 
-export default async function Page() {
+type Props = {
+  searchParams: Promise<{ invite?: string }>;
+};
+
+export default async function Page({ searchParams }: Props) {
   const { identity } = await getCurrentSession();
   if (identity) redirect("/");
 
-  return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-6 p-3">
-      <Image priority src={"/serva-logo-full.svg"} alt="Serva Logo" width={240} height={80} />
+  const { invite: inviteToken } = await searchParams;
+  const inviteMode = !!inviteToken;
+  let inviteEmail: string | undefined;
 
-      <Card className="w-full max-w-xl items-center">
-        <Typography variant="h1" className="text-xl">
-          Login
-        </Typography>
+  if (inviteToken) {
+    const invite = await getInviteByToken(inviteToken);
+
+    if (!invite || invite.status !== "awaiting" || invite.expiresAt.getTime() <= Date.now()) {
+      notFound();
+    }
+
+    inviteEmail = invite.email;
+
+    // If the invite email doesn't belong to an existing identity,
+    // redirect to signup instead
+    const existing = await getIdentityByEmail(invite.email);
+    if (existing) redirect(`/signup?invite=${encodeURIComponent(inviteToken)}`);
+  }
+
+  return (
+    <Container position="center">
+      <Card className="w-full max-w-xl items-center gap-10 py-12">
+        <CardHeader className="flex flex-col items-center gap-6">
+          <Image
+            priority
+            src={"/serva-logo-icon-2.svg"}
+            alt="Serva Logo"
+            width={100}
+            height={100}
+          />
+          <Typography variant="h1" className="text-xl">
+            {inviteMode ? "Login to join company" : "Welcome back!"}
+          </Typography>
+        </CardHeader>
 
         <CardContent className="flex w-full flex-col items-center space-y-3">
-          <LoginForm />
+          <LoginForm inviteToken={inviteToken} inviteEmail={inviteEmail} />
 
-          <Button
-            variant={"link"}
-            nativeButton={false}
-            className={"group gap-0.5 hover:no-underline"}
-            render={
-              <Link href={`/signup`}>
-                Don&apos;t have an account? Sign Up
-                <HugeiconsIcon
-                  icon={ArrowRight01Icon}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </Link>
-            }
-          />
+          {!inviteMode && (
+            <Button
+              variant={"link"}
+              nativeButton={false}
+              className={"group gap-0.5 hover:no-underline"}
+              render={<Link href="/signup" />}
+            >
+              Don&apos;t have an account? Sign Up
+              <SIcon
+                icon="ARROW_RIGHT"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Button>
+          )}
         </CardContent>
       </Card>
-    </main>
+    </Container>
   );
 }

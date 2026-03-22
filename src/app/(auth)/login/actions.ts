@@ -1,43 +1,44 @@
 "use server";
 
-import { getIdentityByEmailOrUsername, getIdentityPasswordHash } from "@/data-access/user";
+import { getIdentityByEmail, getIdentityPasswordHash } from "@/data-access/identity";
 import { verifyPassword } from "@/lib/auth/password";
 import { createSession, generateSessionToken } from "@/lib/auth/session";
-import { setSessionTokenCookie } from "@/lib/cookies";
+import { setCompanyIdCookie, setSessionTokenCookie } from "@/lib/cookies";
+import { consumeInviteForIdentity } from "@/lib/invite";
 import { redirect } from "next/navigation";
 // import {
 //   getUserEmailVerificationRequestByUserId,
 //   setEmailVerificationRequestCookie,
 // } from '@/lib/email-verification';
-import { LoginSchema, LoginSchemaTypes } from "@/lib/validations/auth";
+import { LoginInputs, LoginSchema } from "@/lib/validations/auth";
 import { rateLimitByKey, unauthenticatedRateLimit } from "@/utils/rate-limiter";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
-export async function loginAction(data: LoginSchemaTypes) {
+export async function loginAction(data: LoginInputs) {
   try {
     if (await unauthenticatedRateLimit()) {
       return { error: "Too many requests. Please try again later." };
     }
 
-    const { identifier, password } = LoginSchema.parse(data);
+    const { email, password, inviteToken } = LoginSchema.parse(data);
 
-    if (await rateLimitByKey({ key: identifier, limit: 3, interval: 10000 })) {
+    if (await rateLimitByKey({ key: email, limit: 3, interval: 10000 })) {
       return { error: "Too many requests. Please try again later." };
     }
 
-    const existingIdentity = await getIdentityByEmailOrUsername(identifier);
+    const existingIdentity = await getIdentityByEmail(email);
     if (!existingIdentity) {
-      return { error: "Invalid email, username, or password" };
+      return { error: "Invalid email or password" };
     }
 
     const passwordHash = await getIdentityPasswordHash(existingIdentity.id);
     if (!passwordHash) {
-      return { error: "Invalid email, username, or password" };
+      return { error: "Invalid email or password" };
     }
 
     const validPassword = await verifyPassword(passwordHash, password);
     if (!validPassword) {
-      return { error: "Invalid email, username, or password" };
+      return { error: "Invalid email or password" };
     }
 
     const sessionToken = generateSessionToken();
@@ -45,6 +46,16 @@ export async function loginAction(data: LoginSchemaTypes) {
       twoFactorVerified: false,
     });
     await setSessionTokenCookie(sessionToken, session.expiresAt);
+
+    if (inviteToken) {
+      const consume = await consumeInviteForIdentity(
+        inviteToken,
+        existingIdentity.id,
+        existingIdentity.email,
+      );
+      if (consume.error) return { error: consume.error };
+      await setCompanyIdCookie(consume.invite.companyId);
+    }
 
     // if (!existingUser.emailVerified) {
     //   const emailVerificationRequest =
@@ -64,7 +75,6 @@ export async function loginAction(data: LoginSchemaTypes) {
     if (isRedirectError(error)) {
       throw error;
     }
-    console.error(error);
     return { error: "Login failed. Please try again." };
   }
 
