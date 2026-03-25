@@ -1,29 +1,26 @@
-import { Container, Header } from "@/components/layout";
+import { Container } from "@/components/layout";
 import { SIcon, Typography } from "@/components/shared";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Fragment } from "react";
+import Link from "next/link";
 
 export default async function RateLimit() {
   return (
-    <>
-      <Fragment>
-        <Header></Header>
+    <Container position="center">
+      <Card className="w-full max-w-xl items-center py-12">
+        <CardHeader>
+          <CardTitle className="text-destructive flex flex-col items-center gap-3 text-lg tracking-wide">
+            <SIcon icon="ALERT" className="size-7" strokeWidth={2} />
+            Too Many Requests!
+          </CardTitle>
+        </CardHeader>
 
-        <Container className="flex h-full items-center justify-center p-3">
-          <Card className="w-full max-w-xl">
-            <CardHeader>
-              <CardTitle className="text-destructive flex items-center gap-2">
-                <SIcon icon="ALERT" />
-                Too Many Requests!
-              </CardTitle>
-            </CardHeader>
+        <CardContent className="flex flex-col items-center gap-6">
+          <Typography>You have made too many requests. Please try again later.</Typography>
 
-            <CardContent>
-              <Typography>You have made too many requests. Please try again later.</Typography>
-            </CardContent>
-          </Card>
-        </Container>
-      </Fragment>
-    </>
+          <Button nativeButton={false} render={<Link href="/">Return to Home</Link>} />
+        </CardContent>
+      </Card>
+    </Container>
   );
 }
