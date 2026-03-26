@@ -53,7 +53,6 @@ type Props = {
   mode: "create" | "edit";
   reporterName?: string;
   reporterImage?: string | null;
-  reporterUsername?: string;
 };
 
 export function SaleReportPortal({
@@ -63,7 +62,6 @@ export function SaleReportPortal({
   mode,
   reporterName,
   reporterImage,
-  reporterUsername,
 }: Props) {
   const [isPending, startTransition] = useTransition();
   const saleReportForm = useForm<SaleReportInputs>({
@@ -223,7 +221,6 @@ export function SaleReportPortal({
             startCashPromise={startCashPromise}
             reporterName={reporterName}
             reporterImage={reporterImage}
-            reporterUsername={reporterUsername}
           />
         </MotionContainer>
       )}

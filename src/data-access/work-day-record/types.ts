@@ -1,36 +1,30 @@
 import type { Prisma } from "@prisma/client";
 
-// ---------------------------------------------------------------------------
-// Reusable select shapes and generated payload types for WorkDayRecord
-// ---------------------------------------------------------------------------
-
 /**
- * Select shape for WorkDayRecord with identity relation.
+ * Select shape for WorkDayRecord with employee → identity relation.
  */
-export const workDayRecordSelectWithIdentity = {
+export const workDayRecordSelectWithEmployee = {
   id: true,
   date: true,
-  identityId: true,
+  employeeId: true,
   shifts: true,
   totalHours: true,
   tips: true,
-  identity: {
+  employee: {
     select: {
-      name: true,
-      username: true,
-      image: true,
+      identity: { select: { name: true, image: true } },
     },
   },
 } satisfies Prisma.WorkDayRecordSelect;
 
 /**
- * Return type for queries using workDayRecordSelectWithIdentity.
+ * Return type for queries using workDayRecordSelectWithEmployee.
  */
-export type WorkDayRecordWithIdentity = Prisma.WorkDayRecordGetPayload<{
-  select: typeof workDayRecordSelectWithIdentity;
+export type WorkDayRecordWithEmployee = Prisma.WorkDayRecordGetPayload<{
+  select: typeof workDayRecordSelectWithEmployee;
 }>;
 
 /**
  * WorkDayRecords by date: key = date YYYY-MM-DD, value = WorkDayRecords for that date.
  */
-export type WorkDayRecordsByDate = Record<string, WorkDayRecordWithIdentity[]>;
+export type WorkDayRecordsByDate = Record<string, WorkDayRecordWithEmployee[]>;

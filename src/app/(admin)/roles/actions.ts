@@ -18,13 +18,13 @@ export async function createRoleAction(data: CreateRoleInput): Promise<{ error?:
     if (!(await hasSessionPermission(PERMISSIONS.ROLES_MANAGE))) return { error: "Unauthorized" };
 
     const parsedData = CreateRoleSchema.parse(data);
+    const { companyCtx } = authResult;
 
-    // Check if role name already exists
-    if (await roleNameExists(parsedData.name)) {
+    if (await roleNameExists(parsedData.name, companyCtx.companyId)) {
       return { error: "A role with this name already exists" };
     }
 
-    await createRole(parsedData);
+    await createRole(companyCtx.companyId, parsedData);
 
     revalidatePath("/roles");
     return {};
@@ -41,9 +41,9 @@ export async function updateRoleAction(data: UpdateRoleInput): Promise<{ error?:
     if (!(await hasSessionPermission(PERMISSIONS.ROLES_MANAGE))) return { error: "Unauthorized" };
 
     const parsedData = UpdateRoleSchema.parse(data);
+    const { companyCtx } = authResult;
 
-    // Check if role name already exists (excluding current role)
-    if (await roleNameExists(parsedData.name, parsedData.id)) {
+    if (await roleNameExists(parsedData.name, companyCtx.companyId, parsedData.id)) {
       return { error: "A role with this name already exists" };
     }
 

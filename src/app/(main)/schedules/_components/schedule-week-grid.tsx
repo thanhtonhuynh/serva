@@ -14,7 +14,7 @@ import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
 import { useNavigationGuard } from "@/hooks/use-navigation-guard";
 import { cn } from "@/lib/utils";
 import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
-import type { DisplayUser } from "@/types";
+import type { DisplayEmployee } from "@/types";
 import type { DateRange } from "@/types/datetime";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { DragDropProvider } from "@dnd-kit/react";
@@ -35,7 +35,7 @@ type Props = {
   nextWeekParam: string;
   weekDates: string[];
   recordsByDate: WorkDayRecordsByDate;
-  employees: DisplayUser[];
+  employees: DisplayEmployee[];
   canManage: boolean;
 };
 
@@ -221,8 +221,12 @@ export function ScheduleWeekGrid(props: Props) {
                   <TableRow key={emp.id} className="divide-x">
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-2">
-                        <ProfilePicture image={emp.image} size={28} name={emp.name} />
-                        <span className="text-sm">{emp.name}</span>
+                        <ProfilePicture
+                          image={emp.identity.image}
+                          size={28}
+                          name={emp.identity.name}
+                        />
+                        <span className="text-sm">{emp.identity.name}</span>
                       </div>
                     </TableCell>
 

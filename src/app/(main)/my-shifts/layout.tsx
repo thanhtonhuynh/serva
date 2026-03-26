@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared";
+import { authGuard } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";
 import { PeriodSelector } from "./_components";
@@ -10,7 +11,8 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { years } = await populateMonthSelectData();
+  const { companyCtx } = await authGuard();
+  const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   return (
     <Fragment>

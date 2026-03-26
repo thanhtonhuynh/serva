@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage, SuccessMessage } from "@/components/shared/noti-message";
+import { Callout } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import {
@@ -65,8 +65,8 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          {error && <ErrorMessage message={error} />}
-          {success && <SuccessMessage message="Start cash updated" />}
+          {error && <Callout variant="error" message={error} />}
+          {success && <Callout variant="success" message="Start cash updated" />}
 
           <FormField
             name={"startCash"}

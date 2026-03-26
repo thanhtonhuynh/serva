@@ -97,14 +97,13 @@ export function RoleActions({ role, permissionsGrouped }: RoleActionsProps) {
               className="text-warning flex items-center gap-2 font-semibold"
             >
               <HugeiconsIcon icon={ICONS.ALERT} className="size-4" strokeWidth={2} />
-              This role is currently assigned to {role._count.operators +
-                role._count.employees}{" "}
-              members.
+              This role is currently assigned to {role._count.operators} operator(s). Employees
+              use jobs (Chef/Server), not this role.
             </Typography>
 
             <Typography variant="p-sm">
               <div className="font-semibold">Are you sure you want to delete this role?</div>
-              <div>Members with this role will have "No role" assigned to them.</div>
+              <div>Operators with this role will have no role assigned until you pick another.</div>
             </Typography>
           </DialogBody>
 

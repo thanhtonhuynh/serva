@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
 import { TotalHoursTips } from "@/types";
-import Link from "next/link";
 
 type HoursTipsTableProps = {
   data: TotalHoursTips[];
@@ -28,15 +27,15 @@ export async function HoursTipsTable({ data }: HoursTipsTableProps) {
 
       <TableBody>
         {data.map((employee) => (
-          <TableRow key={employee.identityId}>
+          <TableRow key={employee.employeeId}>
             <TableCell className="flex items-center gap-2">
-              <Link
+              {/* <Link
                 href={`/profile/${employee.username}`}
                 className="group flex w-max items-center gap-2"
-              >
-                <ProfilePicture image={employee.image} size={32} name={employee.name} />
-                <span className="underline-offset-2 group-hover:underline">{employee.name}</span>
-              </Link>
+              > */}
+              <ProfilePicture image={employee.image} size={32} name={employee.name} />
+              <span className="underline-offset-2 group-hover:underline">{employee.name}</span>
+              {/* </Link> */}
             </TableCell>
             <TableCell className="text-center">{employee.totalHours}</TableCell>
             <TableCell className="text-center">{formatMoney(employee.totalTips)}</TableCell>

@@ -35,7 +35,7 @@ export function RolesTable({ roles, canManageRoles, permissionsGrouped }: RolesT
           <TableHead>Role</TableHead>
           <TableHead>Description</TableHead>
           <TableHead className="text-center">Permissions</TableHead>
-          <TableHead className="text-center">Assigned to</TableHead>
+          <TableHead className="text-center">Operators</TableHead>
           <TableHead className="text-center">Created on</TableHead>
           {canManageRoles && <TableHead className="w-20">Actions</TableHead>}
         </TableRow>
@@ -68,7 +68,7 @@ export function RolesTable({ roles, canManageRoles, permissionsGrouped }: RolesT
 
               <TableCell>
                 <div className="flex items-center justify-center gap-2">
-                  <span className="text-xs">{role._count.operators + role._count.employees}</span>
+                  <span className="text-xs">{role._count.operators}</span>
                   <HugeiconsIcon icon={ICONS.USER_TWO} className="size-4" />
                 </div>
               </TableCell>

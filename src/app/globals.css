@@ -144,8 +144,8 @@
   --primary-13: oklch(0.18 0.06 255);
   --primary-14: oklch(0.14 0.05 255);
 
-  --destructive: oklch(0.58 0.22 27);
-  --error: oklch(0.58 0.22 27);
+  --destructive: oklch(50.5% 0.213 27.518);
+  --error: oklch(50.5% 0.213 27.518);
   --info: oklch(58.8% 0.158 241.966);
   --warning: oklch(55.4% 0.135 66.442);
   --success: oklch(44.8% 0.119 151.328);

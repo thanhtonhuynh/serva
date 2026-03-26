@@ -204,15 +204,32 @@ async function seedPermissionsAndRoles() {
     console.log(`  ✓ Permission: ${permission.code}`);
   }
 
-  // Create all roles with their permissions
+  // Seed roles for every company in the database
+  const companies = await prisma.company.findMany({ select: { id: true, name: true } });
+  if (companies.length === 0) {
+    console.log("⚠️  No companies found. Create a company first, then re-run the seed.");
+    return;
+  }
+
+  for (const company of companies) {
+    console.log(`\nSeeding roles for company: ${company.name}`);
+    await seedRolesForCompany(company.id, permissionMap);
+  }
+
+  console.log("\n✅ Permissions and roles seeded successfully!");
+}
+
+async function seedRolesForCompany(
+  companyId: string,
+  permissionMap: Map<string, string>,
+) {
   for (const role of DEFAULT_ROLES) {
     const permissionIds = role.permissions
       .map((code) => permissionMap.get(code))
       .filter((id): id is string => id !== undefined);
 
-    // Find existing role by name (since name is no longer unique at DB level)
     const existingRole = await prisma.role.findFirst({
-      where: { name: role.name },
+      where: { name: role.name, companyId },
     });
 
     if (existingRole) {
@@ -227,6 +244,7 @@ async function seedPermissionsAndRoles() {
     } else {
       await prisma.role.create({
         data: {
+          companyId,
           name: role.name,
           description: role.description,
           editable: role.editable,
@@ -236,8 +254,6 @@ async function seedPermissionsAndRoles() {
     }
     console.log(`  ✓ Role: ${role.name} (${permissionIds.length} permissions)`);
   }
-
-  console.log("✅ Permissions and roles seeded successfully!");
 }
 
 async function main() {

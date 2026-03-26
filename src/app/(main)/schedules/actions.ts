@@ -24,10 +24,11 @@ export async function saveWeekScheduleAction(
     if (!(await hasSessionPermission(PERMISSIONS.SCHEDULE_MANAGE)))
       return { error: "Unauthorized" };
 
+    const { companyCtx } = authResult;
     const payload = WeekScheduleSchema.parse(input);
 
-    await replaceWeekSchedule(dateRange, payload.days);
-    await recomputeTipsForDateRange(dateRange);
+    await replaceWeekSchedule(companyCtx.companyId, dateRange, payload.days);
+    await recomputeTipsForDateRange(companyCtx.companyId, dateRange);
 
     revalidatePath("/schedules");
     return {};

@@ -4,7 +4,7 @@ import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@/constants/permissions";
 import { hasPermission } from "@/lib/auth/permission";
 import type { CompanyContext, Identity } from "@/lib/auth/session";
-import { Calculator01Icon, Calendar02Icon, UserAccountIcon } from "@hugeicons/core-free-icons";
+import { Calculator01Icon, Calendar02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
@@ -56,19 +56,6 @@ export function QuickActions({ identity, companyCtx }: Props) {
             <Link href="/my-shifts">
               <HugeiconsIcon icon={Calendar02Icon} />
               My shifts
-            </Link>
-          }
-        />
-
-        <Button
-          nativeButton={false}
-          variant="link"
-          size="sm"
-          className="text-foreground border-0 p-0"
-          render={
-            <Link href={`/profile/${identity.username}`}>
-              <HugeiconsIcon icon={UserAccountIcon} />
-              My profile
             </Link>
           }
         />

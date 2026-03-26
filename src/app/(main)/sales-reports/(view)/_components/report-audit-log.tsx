@@ -6,7 +6,6 @@ import { Typography } from "@/components/shared/typography";
 import { ICONS } from "@/constants/icons";
 import { type ReportAuditLog } from "@/types";
 import { format } from "date-fns";
-import Link from "next/link";
 
 type Props = {
   auditLogs: ReportAuditLog[] | undefined;
@@ -31,13 +30,13 @@ export function ReportAuditLog({ auditLogs }: Props) {
               <DecoIcon icon={ICONS.DOT} fill="currentColor" size={2} />
               <Typography variant="p-sm">Edited by</Typography>
 
-              <Link
-                href={`/profile/${log.username}`}
+              <div
+                // href={`/profile/${log.username}`}
                 className="group flex items-center gap-2 transition-opacity hover:opacity-80"
               >
                 <ProfilePicture image={log.image} size={24} name={log.name} />
                 <span className="group-hover:underline">{log.name}</span>
-              </Link>
+              </div>
             </div>
 
             <Typography variant="p-xs" className="text-muted-foreground self-end sm:self-center">

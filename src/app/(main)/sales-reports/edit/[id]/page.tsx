@@ -3,8 +3,8 @@ import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
 import { PERMISSIONS } from "@/constants/permissions";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
+import { getActivePlatforms, getStartCash } from "@/data-access/company-settings";
 import { getReportRaw } from "@/data-access/report";
-import { getActivePlatforms, getStartCash } from "@/data-access/store";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { formatInUTC } from "@/utils/datetime";
@@ -15,14 +15,17 @@ import { SaleReportPortal } from "../../new/sale-report-portal";
 type Params = Promise<{ id: string }>;
 
 export default async function Page(props: { params: Params }) {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.REPORTS_UPDATE))) return notFound();
 
   const params = await props.params;
   const report = await getReportRaw({ id: params.id });
   if (!report) notFound();
 
-  const [startCashPromise, activePlatformIds] = [getStartCash(), getActivePlatforms()];
+  const [startCashPromise, activePlatformIds] = [
+    getStartCash(companyCtx.companyId),
+    getActivePlatforms(companyCtx.companyId),
+  ];
 
   const activePlatforms = (await activePlatformIds)
     .map((id) => getPlatformById(id))
@@ -67,7 +70,6 @@ export default async function Page(props: { params: Params }) {
             mode="edit"
             reporterName={report.reporterName}
             reporterImage={report.reporterImage}
-            reporterUsername={report.reporterUsername}
           />
         </section>
       </Container>

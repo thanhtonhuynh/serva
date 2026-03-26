@@ -14,14 +14,11 @@ export function buildSimplifiedRole(
 }
 
 /**
- * Merge permissions from operator and employee roles.
+ * Effective permissions in company context: operator RBAC only.
+ * Employees are gated by having an employee record (see route guards), not by Role on Employee.
  */
-export function mergePermissions(
-  operator: Operator | null,
-  employee: Employee | null,
-): PermissionCode[] {
+export function mergePermissions(operator: Operator | null, _employee: Employee | null): PermissionCode[] {
   const permissions = new Set<PermissionCode>();
   operator?.role.permissions.forEach((p) => permissions.add(p));
-  employee?.role.permissions.forEach((p) => permissions.add(p));
   return [...permissions];
 }

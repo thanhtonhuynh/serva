@@ -2,40 +2,37 @@ import prisma from "@/lib/prisma";
 import { cache } from "react";
 import "server-only";
 
-// Get all roles
-export const getRoles = cache(async () => {
+export const getRoles = cache(async (companyId: string) => {
   return prisma.role.findMany({
+    where: { companyId },
     include: {
       permissions: true,
       _count: {
-        select: { operators: true, employees: true },
+        select: { operators: true },
       },
     },
     orderBy: [{ editable: "asc" }, { name: "asc" }],
   });
 });
 
-// Get a single role by ID
 export const getRoleById = cache(async (id: string) => {
   return prisma.role.findUnique({
     where: { id },
     include: {
       permissions: true,
       _count: {
-        select: { operators: true, employees: true },
+        select: { operators: true },
       },
     },
   });
 });
 
-// Get all permissions
 export const getPermissions = cache(async () => {
   return prisma.permission.findMany({
     orderBy: [{ resource: "asc" }, { action: "asc" }],
   });
 });
 
-// Get permissions grouped by resource
 export const getPermissionsGrouped = cache(async () => {
   const permissions = await prisma.permission.findMany({
     orderBy: [{ resource: "asc" }, { action: "asc" }],
@@ -52,14 +49,17 @@ export const getPermissionsGrouped = cache(async () => {
   return grouped;
 });
 
-// Create a new role
-export async function createRole(data: {
-  name: string;
-  description?: string;
-  permissionIds: string[];
-}) {
+export async function createRole(
+  companyId: string,
+  data: {
+    name: string;
+    description?: string;
+    permissionIds: string[];
+  },
+) {
   return prisma.role.create({
     data: {
+      companyId,
       name: data.name,
       description: data.description,
       permissionIds: data.permissionIds,
@@ -67,7 +67,6 @@ export async function createRole(data: {
   });
 }
 
-// Update a role
 export async function updateRole(
   id: string,
   data: {
@@ -82,7 +81,6 @@ export async function updateRole(
   });
 }
 
-// Delete a role (only non-default roles)
 export async function deleteRole(id: string) {
   const role = await prisma.role.findUnique({
     where: { id },
@@ -100,10 +98,10 @@ export async function deleteRole(id: string) {
   return prisma.role.delete({ where: { id } });
 }
 
-// Check if role name already exists
-export async function roleNameExists(name: string, excludeId?: string) {
+export async function roleNameExists(name: string, companyId: string, excludeId?: string) {
   const role = await prisma.role.findFirst({
     where: {
+      companyId,
       name: { equals: name, mode: "insensitive" },
       ...(excludeId && { id: { not: excludeId } }),
     },

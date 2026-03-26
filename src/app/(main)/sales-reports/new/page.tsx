@@ -3,17 +3,20 @@ import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared";
 import { PERMISSIONS } from "@/constants/permissions";
 import { PLATFORMS, getPlatformById } from "@/constants/platforms";
-import { getActivePlatforms, getStartCash } from "@/data-access/store";
+import { getActivePlatforms, getStartCash } from "@/data-access/company-settings";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { SaleReportPortal } from "./sale-report-portal";
 
 export default async function Page() {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.REPORTS_CREATE))) return notFound();
 
-  const [startCashPromise, activePlatformIds] = [getStartCash(), getActivePlatforms()];
+  const [startCashPromise, activePlatformIds] = [
+    getStartCash(companyCtx.companyId),
+    getActivePlatforms(companyCtx.companyId),
+  ];
 
   const activePlatforms = (await activePlatformIds)
     .map((id) => getPlatformById(id))

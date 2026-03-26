@@ -1,14 +1,13 @@
-import { DisplayUser } from "@/types";
-import type { RoleWithDetails } from "@/types/rbac";
+import { DisplayEmployee } from "@/types";
 import { EmployeeActions } from "./employee-actions";
 import { EmployeeCard } from "./employee-card";
 
 type EmployeesCardsProps = {
-  employees: DisplayUser[];
-  rolesPromise: Promise<RoleWithDetails[]>;
+  employees: DisplayEmployee[];
+  jobs: { id: string; name: string }[];
 };
 
-export function EmployeesCards({ employees, rolesPromise }: EmployeesCardsProps) {
+export function EmployeesCards({ employees, jobs }: EmployeesCardsProps) {
   if (employees.length === 0) {
     return <div className="text-muted-foreground py-8 text-center">No results found.</div>;
   }
@@ -20,7 +19,7 @@ export function EmployeesCards({ employees, rolesPromise }: EmployeesCardsProps)
           <EmployeeCard
             key={employee.id}
             user={employee}
-            actions={<EmployeeActions employee={employee} rolesPromise={rolesPromise} />}
+            actions={<EmployeeActions employee={employee} jobs={jobs} />}
           />
         );
       })}

@@ -6,8 +6,8 @@ import { differenceInDays } from "date-fns";
 import { cache } from "react";
 import { getCurrentYear } from "./datetime";
 
-export const populateMonthSelectData = cache(async () => {
-  const firstReportDate = await getFirstReportDate();
+export const populateMonthSelectData = cache(async (companyId: string) => {
+  const firstReportDate = await getFirstReportDate(companyId);
 
   if (!firstReportDate)
     return {
@@ -30,13 +30,13 @@ export const populateMonthSelectData = cache(async () => {
   };
 });
 
-/** WorkDayRecord shape used for hours/tips breakdown (with identity relation). */
+/** WorkDayRecord shape used for hours/tips breakdown (with employee → identity). */
 export type WorkDayRecordForBreakdown = {
   date: Date;
-  identityId: string;
+  employeeId: string;
   totalHours: number;
   tips: number;
-  identity: { name: string; username: string; image: string | null };
+  employee: { identity: { name: string; image: string | null } };
 };
 
 export function getHoursTipsBreakdownInDateRange(
@@ -49,10 +49,9 @@ export function getHoursTipsBreakdownInDateRange(
   const numDays = differenceInDays(dateRange.end, dateRange.start, { in: utc }) + 1;
 
   const makeEmptyRow = (record: WorkDayRecordForBreakdown): BreakdownData => ({
-    identityId: record.identityId,
-    identityName: record.identity.name,
-    identityUsername: record.identity.username,
-    identityImage: record.identity.image ?? "",
+    employeeId: record.employeeId,
+    name: record.employee.identity.name,
+    image: record.employee.identity.image ?? "",
     keyData: Array(numDays).fill(0),
     total: 0,
   });
@@ -62,25 +61,24 @@ export function getHoursTipsBreakdownInDateRange(
 
     if (index < 0 || index >= numDays) continue;
 
-    let hoursRow = hoursMap.get(record.identityId);
+    let hoursRow = hoursMap.get(record.employeeId);
     if (!hoursRow) {
       hoursRow = makeEmptyRow(record);
-      hoursMap.set(record.identityId, hoursRow);
+      hoursMap.set(record.employeeId, hoursRow);
     }
     hoursRow.keyData[index] = record.totalHours;
     hoursRow.total += record.totalHours;
 
-    let tipsRow = tipsMap.get(record.identityId);
+    let tipsRow = tipsMap.get(record.employeeId);
     if (!tipsRow) {
       tipsRow = makeEmptyRow(record);
-      tipsMap.set(record.identityId, tipsRow);
+      tipsMap.set(record.employeeId, tipsRow);
     }
     tipsRow.keyData[index] = record.tips;
     tipsRow.total += record.tips;
   }
 
-  const sortByName = (a: BreakdownData, b: BreakdownData) =>
-    a.identityName.localeCompare(b.identityName);
+  const sortByName = (a: BreakdownData, b: BreakdownData) => a.name.localeCompare(b.name);
 
   return {
     hoursBreakdown: Array.from(hoursMap.values()).sort(sortByName),

@@ -1,6 +1,6 @@
 import type {
   WorkDayRecordsByDate,
-  WorkDayRecordWithIdentity,
+  WorkDayRecordWithEmployee,
 } from "@/data-access/work-day-record";
 import { WorkShift } from "@prisma/client";
 import { isSameDay } from "date-fns";
@@ -29,24 +29,19 @@ export function distributeTips(
   workDayRecords: { id: string; totalHours: number }[],
   totalTipsCents: number,
 ): { id: string; tips: number }[] {
-  // If there are no tips or no work day records, return an empty array
   if (totalTipsCents <= 0 || workDayRecords.length === 0) {
     return workDayRecords.map((r) => ({ id: r.id, tips: 0 }));
   }
 
-  // Compute the total hours worked by all employees
   const totalHours = workDayRecords.reduce(
     (acc, r) => acc + (r.totalHours > 0 ? r.totalHours : 0),
     0,
   );
 
-  // If the total hours worked is 0, return an empty array
   if (totalHours <= 0) {
     return workDayRecords.map((r) => ({ id: r.id, tips: 0 }));
   }
 
-  // Compute tips using half-up rounding based on each employee's hours worked
-  // proportional to the total hours worked
   return workDayRecords.map((r) => {
     const ratio = r.totalHours / totalHours;
     const tips = Math.round(ratio * totalTipsCents);
@@ -58,7 +53,7 @@ export function distributeTips(
  * Build records-by-date map from flat WorkDayRecord[] for the week (7 days from weekStartUTC).
  */
 export function buildWorkDayRecordsByDate(
-  workDayRecords: WorkDayRecordWithIdentity[],
+  workDayRecords: WorkDayRecordWithEmployee[],
   weekStartUTC: Date,
 ): WorkDayRecordsByDate {
   const weekDates = buildWeekDatesUTC(weekStartUTC);

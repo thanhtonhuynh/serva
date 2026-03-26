@@ -1,47 +1,46 @@
 import { z } from "zod";
 
 const trimmedString = z.string().trim();
-const requiredString = trimmedString.min(1, "Required");
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
 // Sign up
-export const SignupSchema = z.object({
-  name: trimmedString
-    .min(2, "Name must be at least 2 characters")
-    .max(20, "Name must not exceed 20 characters")
-    .transform((data) => {
-      return data
-        .split(" ")
-        .map((word) => {
-          return word.charAt(0).toUpperCase() + word.slice(1);
-        })
-        .join(" ");
-    }),
-  username: trimmedString
-    .min(6, "Username must be at least 6 characters")
-    .max(50, "Username must not exceed 50 characters")
-    .regex(
-      /^[a-zA-Z0-9._-]+$/,
-      "Username can only contain letters, numbers, dots, underscores, and hyphens",
-    )
-    .toLowerCase(),
-  email: requiredString.email("Invalid email address").toLowerCase(),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^`+~.-])[A-Za-z\d@$!%*?&#^`+~.-]{8,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-    ),
-});
-export type SignupSchemaTypes = z.infer<typeof SignupSchema>;
+export const SignupSchema = z
+  .object({
+    name: trimmedString
+      .min(2, "Name must be at least 2 characters")
+      .max(20, "Name must not exceed 20 characters")
+      .transform((data) => {
+        return data
+          .split(" ")
+          .map((word) => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          })
+          .join(" ");
+      }),
+    email: z.email("Invalid email address").toLowerCase(),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^`+~.-])[A-Za-z\d@$!%*?&#^`+~.-]{8,}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      ),
+    confirmPassword: z.string(),
+    inviteToken: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    error: "Passwords do not match",
+  });
+export type SignupInputs = z.infer<typeof SignupSchema>;
 
 // Login
 export const LoginSchema = z.object({
-  identifier: requiredString.toLowerCase(),
+  email: z.email("Invalid email address").toLowerCase(),
   password: z.string(),
+  inviteToken: z.string().optional(),
 });
-export type LoginSchemaTypes = z.infer<typeof LoginSchema>;
+export type LoginInputs = z.infer<typeof LoginSchema>;
 
 // Update name, make first letter of every word uppercase
 export const UpdateNameSchema = z.object({
@@ -59,22 +58,9 @@ export const UpdateNameSchema = z.object({
 });
 export type UpdateNameSchemaInput = z.infer<typeof UpdateNameSchema>;
 
-// Update username
-export const UpdateUsernameSchema = z.object({
-  username: trimmedString
-    .min(6, "Username must be at least 6 characters")
-    .max(50, "Username must not exceed 50 characters")
-    .regex(
-      /^[a-zA-Z0-9._-]+$/,
-      "Username can only contain letters, numbers, dots, underscores, and hyphens",
-    )
-    .toLowerCase(),
-});
-export type UpdateUsernameSchemaInput = z.infer<typeof UpdateUsernameSchema>;
-
 // Update email
 export const UpdateEmailSchema = z.object({
-  email: requiredString.email("Invalid email address").toLowerCase(),
+  email: z.email("Invalid email address").toLowerCase(),
 });
 export type UpdateEmailSchemaInput = z.infer<typeof UpdateEmailSchema>;
 
@@ -123,7 +109,7 @@ export type VerificationCodeSchemaTypes = z.infer<typeof VerificationCodeSchema>
 
 // Forgot password
 export const ForgotPasswordSchema = z.object({
-  email: requiredString.email("Invalid email address").toLowerCase(),
+  email: z.email("Invalid email address").toLowerCase(),
 });
 export type ForgotPasswordSchemaTypes = z.infer<typeof ForgotPasswordSchema>;
 

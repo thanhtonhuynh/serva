@@ -14,8 +14,9 @@ export async function addExpensesAction(data: ExpensesFormInput): Promise<{ erro
       return { error: "Unauthorized" };
 
     const parsedData = ExpensesFormSchema.parse(data);
+    const { companyCtx } = authResult;
 
-    await createExpenses(parsedData);
+    await createExpenses(parsedData, companyCtx.companyId);
 
     revalidatePath("/expenses");
 

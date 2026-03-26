@@ -10,11 +10,14 @@ import { Fragment } from "react";
 import { CreateRoleModal, RolesTable } from "./_components";
 
 export default async function RolesPage() {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.ROLES_VIEW))) return notFound();
 
   const canManageRoles = await hasSessionPermission(PERMISSIONS.ROLES_MANAGE);
-  const [roles, permissionsGrouped] = await Promise.all([getRoles(), getPermissionsGrouped()]);
+  const [roles, permissionsGrouped] = await Promise.all([
+    getRoles(companyCtx.companyId),
+    getPermissionsGrouped(),
+  ]);
 
   return (
     <Fragment>

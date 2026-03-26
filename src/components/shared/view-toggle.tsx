@@ -7,7 +7,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export type ViewMode = "table" | "cards";
 
-export function ViewToggle() {
+type Props = {
+  basePath: string;
+};
+
+export function ViewToggle({ basePath }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentView = (searchParams.get("view") as ViewMode) || "table";
@@ -15,7 +19,7 @@ export function ViewToggle() {
   function handleViewChange(view: ViewMode) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("view", view);
-    router.push(`/team?${params.toString()}`);
+    router.push(`${basePath}?${params.toString()}`);
   }
 
   return (

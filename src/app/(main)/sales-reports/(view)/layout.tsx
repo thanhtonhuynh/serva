@@ -13,7 +13,7 @@ import { SalesAnalyticsSkeleton } from "../_components/sales-analytics/sales-ana
 import { RecentReports, ReportPicker } from "./_components";
 
 export default async function ReportViewLayout({ children }: { children: ReactNode }) {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
 
   const canCreateReport = await hasSessionPermission(PERMISSIONS.REPORTS_CREATE);
 
@@ -39,14 +39,14 @@ export default async function ReportViewLayout({ children }: { children: ReactNo
         )}
 
         <Suspense fallback={<SalesAnalyticsSkeleton />}>
-          <SalesAnalyticsDashboard />
+          <SalesAnalyticsDashboard companyId={companyCtx.companyId} />
         </Suspense>
 
         <div className="flex flex-col gap-6 min-[1150px]:flex-row min-[1150px]:items-start">
           <div className="flex flex-col gap-6">
             <ReportPicker />
             <Suspense fallback={null}>
-              <RecentReports />
+              <RecentReports companyId={companyCtx.companyId} />
             </Suspense>
           </div>
 

@@ -7,8 +7,8 @@ import { formatInUTC } from "@/utils/datetime";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
-export async function RecentReports() {
-  const reports = await getRecentReports(5);
+export async function RecentReports({ companyId }: { companyId: string }) {
+  const reports = await getRecentReports(companyId, 5);
 
   return (
     <Card className="gap-3">

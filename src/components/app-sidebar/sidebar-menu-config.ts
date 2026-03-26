@@ -3,13 +3,14 @@ import { PERMISSIONS } from "@/constants/permissions";
 import type { PermissionCode } from "@/types/rbac";
 import type { IconSvgElement } from "@hugeicons/react";
 
-export const MENU_GROUPS = ["home", "team", "finance", "settings", "account"] as const;
+export const MENU_GROUPS = ["home", "team", "operators", "finance", "settings", "account"] as const;
 
 export type MenuGroupKey = (typeof MENU_GROUPS)[number];
 
 export const MENU_GROUP_LABELS: Record<MenuGroupKey, string> = {
   home: "",
   team: "Team",
+  operators: "Operators",
   finance: "Finance",
   settings: "Settings",
   account: "Account",
@@ -20,8 +21,10 @@ export type MenuItem = {
   url: string;
   icon: IconSvgElement;
   group: MenuGroupKey;
-  /** If set, user must have this permission to see the item. If undefined, item is visible to all. */
+  /** If set, user must have this permission to see the item. If undefined, item is visible to all (unless employeeOnly). */
   permission?: PermissionCode;
+  /** If true, user must have an Employee record in the active company (no permission check for this flag). */
+  employeeOnly?: boolean;
 };
 
 export const MENU_ITEMS: MenuItem[] = [
@@ -45,12 +48,25 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: ICONS.CALCULATOR,
     group: "home",
   },
-  { title: "My Shifts", url: "/my-shifts", icon: ICONS.CALENDAR, group: "home" },
+  {
+    title: "My Shifts",
+    url: "/my-shifts",
+    icon: ICONS.CALENDAR,
+    group: "home",
+  },
+
   // Team
   {
-    title: "Team",
-    url: "/team",
+    title: "Employees",
+    url: "/employees",
     icon: ICONS.USER_GROUP,
+    group: "team",
+    permission: PERMISSIONS.TEAM_VIEW,
+  },
+  {
+    title: "Jobs",
+    url: "/jobs",
+    icon: ICONS.REPORT,
     group: "team",
     permission: PERMISSIONS.TEAM_VIEW,
   },
@@ -59,8 +75,23 @@ export const MENU_ITEMS: MenuItem[] = [
     url: "/schedules",
     icon: ICONS.CALENDAR,
     group: "team",
-    permission: PERMISSIONS.SCHEDULE_VIEW,
   },
+
+  // Operators
+  {
+    title: "Operators",
+    url: "/operators",
+    icon: ICONS.OPERATOR,
+    group: "operators",
+  },
+  {
+    title: "Roles & Permissions",
+    url: "/roles",
+    icon: ICONS.SHIELD,
+    group: "operators",
+    permission: PERMISSIONS.ROLES_VIEW,
+  },
+
   // Finance
   {
     title: "Hours & Tips",
@@ -83,14 +114,8 @@ export const MENU_ITEMS: MenuItem[] = [
     group: "finance",
     permission: PERMISSIONS.EXPENSES_VIEW,
   },
+
   // Settings
-  {
-    title: "Roles & Permissions",
-    url: "/roles",
-    icon: ICONS.SHIELD,
-    group: "settings",
-    permission: PERMISSIONS.ROLES_VIEW,
-  },
   {
     title: "Store Settings",
     url: "/store-settings",
@@ -98,7 +123,4 @@ export const MENU_ITEMS: MenuItem[] = [
     group: "settings",
     permission: PERMISSIONS.STORE_SETTINGS_MANAGE,
   },
-  // Account
-  { title: "My Profile", url: "__profile__", icon: ICONS.USER_ACCOUNT, group: "account" },
-  { title: "Account Settings", url: "/settings", icon: ICONS.ACCOUNT_SETTINGS, group: "account" },
 ];

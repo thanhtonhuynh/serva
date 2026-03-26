@@ -11,7 +11,6 @@ import { formatMoney } from "@/lib/utils";
 import { BreakdownData, DayRange } from "@/types";
 import { formatInUTC } from "@/utils/datetime";
 import { addDays } from "date-fns";
-import Link from "next/link";
 
 type DataTableProps = {
   dateRange: DayRange;
@@ -44,21 +43,15 @@ export async function DataTable({ dateRange, data, isMoney = false }: DataTableP
 
       <TableBody>
         {data.map((employee) => (
-          <TableRow key={employee.identityId}>
-            <TableCell className="border-r">
-              <Link
-                href={`/profile/${employee.identityUsername}`}
+          <TableRow key={employee.employeeId}>
+            <TableCell className="flex items-center gap-2 border-r">
+              {/* <Link
+                href={`/profile/${employee.username}`}
                 className="group flex w-max items-center gap-2"
-              >
-                <ProfilePicture
-                  image={employee.identityImage}
-                  size={32}
-                  name={employee.identityName}
-                />
-                <span className="underline-offset-2 group-hover:underline">
-                  {employee.identityName}
-                </span>
-              </Link>
+              > */}
+              <ProfilePicture image={employee.image} size={32} name={employee.name} />
+              <span className="underline-offset-2 group-hover:underline">{employee.name}</span>
+              {/* </Link> */}
             </TableCell>
 
             {employee.keyData.map((key, index) => (

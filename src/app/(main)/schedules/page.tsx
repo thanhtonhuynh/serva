@@ -2,7 +2,7 @@ import { Container, Header, Loader } from "@/components/layout";
 import { Typography } from "@/components/shared";
 import { Card } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
-import { getEmployees } from "@/data-access/employee";
+import { getEmployeesByCompany } from "@/data-access/employee";
 import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import type { DateRange } from "@/types/datetime";
@@ -14,7 +14,7 @@ import {
 } from "@/utils/datetime";
 import { buildWorkDayRecordsByDate } from "@/utils/work-day-record";
 import { addDays } from "date-fns";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { Fragment, Suspense } from "react";
 import { ScheduleWeekGrid } from "./_components/schedule-week-grid";
 
@@ -23,8 +23,7 @@ type PageProps = {
 };
 
 export default async function SchedulePage({ searchParams }: PageProps) {
-  await authGuardWithRateLimit();
-  if (!(await hasSessionPermission(PERMISSIONS.SCHEDULE_VIEW))) return notFound();
+  const { companyCtx } = await authGuardWithRateLimit();
 
   const params = await searchParams;
   const dateParam = params.date;
@@ -43,7 +42,11 @@ export default async function SchedulePage({ searchParams }: PageProps) {
 
       <Container>
         <Suspense key={dateParam} fallback={<Loader />}>
-          <SchedulePageContent dateParam={dateParam} canManage={canManageSchedule} />
+          <SchedulePageContent
+            dateParam={dateParam}
+            canManage={canManageSchedule}
+            companyId={companyCtx.companyId}
+          />
         </Suspense>
       </Container>
     </Fragment>
@@ -54,17 +57,19 @@ export default async function SchedulePage({ searchParams }: PageProps) {
 async function SchedulePageContent({
   dateParam,
   canManage,
+  companyId,
 }: {
   dateParam: string;
   canManage: boolean;
+  companyId: string;
 }) {
   const weekStartUTC = getStartOfWeekUTC(dateParam);
   const weekEndUTC = getEndOfWeekUTC(dateParam);
 
   const dateRangeUTC: DateRange = { start: weekStartUTC, end: weekEndUTC };
   const [workDayRecords, employees] = await Promise.all([
-    getWorkDayRecordsByDateRange(dateRangeUTC),
-    getEmployees({ status: "active", excludeAdmin: true }),
+    getWorkDayRecordsByDateRange(companyId, dateRangeUTC),
+    getEmployeesByCompany(companyId, "active"),
   ]);
 
   const prevWeekStart = addDays(weekStartUTC, -7);

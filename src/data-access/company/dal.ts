@@ -17,3 +17,15 @@ export const getCompaniesByIdentityId = cache(
     });
   },
 );
+
+export const getCompanyById = cache(async (companyId: string) => {
+  return prisma.company.findUnique({
+    where: { id: companyId },
+  });
+});
+
+export const getCompanyBySlug = cache(async (slug: string) => {
+  return prisma.company.findUnique({
+    where: { slug },
+  });
+});

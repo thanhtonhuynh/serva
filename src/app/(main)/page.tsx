@@ -14,7 +14,7 @@ export default async function Home() {
     <Fragment>
       <Header>
         {/* Business name, will change later when scaling */}
-        <Typography variant="h1">Ongba Eatery</Typography>
+        <Typography variant="h1">{companyCtx.companyName}</Typography>
       </Header>
 
       <Container>
@@ -28,7 +28,7 @@ export default async function Home() {
           </CardContent>
         </Card>
 
-        <CurrentPayPeriodSummary identity={identity} />
+        {companyCtx.employee && <CurrentPayPeriodSummary employeeId={companyCtx.employee.id} />}
       </Container>
     </Fragment>
   );

@@ -15,7 +15,6 @@ type Props = {
   startCashPromise: Promise<number>;
   reporterName?: string;
   reporterImage?: string | null;
-  reporterUsername?: string;
 };
 
 export function ReportPreview({
@@ -23,7 +22,6 @@ export function ReportPreview({
   startCashPromise,
   reporterName,
   reporterImage,
-  reporterUsername,
 }: Props) {
   const { identity } = useSession();
   const startCash = use(startCashPromise);
@@ -48,7 +46,6 @@ export function ReportPreview({
     startCash,
     reporterName: reporterName ?? identity?.name ?? "Unknown user",
     reporterImage: reporterImage ?? identity?.image ?? null,
-    reporterUsername: reporterUsername ?? identity?.username ?? "unknown",
   };
 
   const processedData = processReportDataForView(rawData);

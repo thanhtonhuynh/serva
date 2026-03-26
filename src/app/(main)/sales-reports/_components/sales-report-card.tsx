@@ -9,7 +9,6 @@ import { cn, formatMoney } from "@/lib/utils";
 import { SaleReportCardProcessedData } from "@/types";
 import { formatInUTC } from "@/utils/datetime";
 import { getPlatformAmount } from "@/utils/report";
-import Link from "next/link";
 
 type Props = {
   data: SaleReportCardProcessedData | undefined;
@@ -36,8 +35,8 @@ export function SaleReportCard({ data }: Props) {
           </div>
         </div>
 
-        <Link
-          href={`/profile/${data.reporterUsername}`}
+        <div
+          // href={`/profile/${data.reporterUsername}`}
           className="group flex items-center gap-2 transition-opacity hover:opacity-80"
         >
           <ProfilePicture image={data.reporterImage} size={36} name={data.reporterName} />
@@ -47,7 +46,7 @@ export function SaleReportCard({ data }: Props) {
               {data.reporterName}
             </Typography>
           </div>
-        </Link>
+        </div>
       </div>
 
       {/* Sales Section */}

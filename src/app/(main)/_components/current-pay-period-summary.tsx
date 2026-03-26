@@ -4,21 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ICONS } from "@/constants/icons";
-import { getWorkDayRecordsByIdentityAndDateRange } from "@/data-access/work-day-record/dal";
-import { type Identity } from "@/lib/auth/session";
+import { getWorkDayRecordsByEmployeeAndDateRange } from "@/data-access/work-day-record/dal";
 import { formatMoney } from "@/lib/utils";
 import { formatInUTC, getCurrentBiweeklyPeriodInUTC } from "@/utils/datetime";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
 type Props = {
-  identity: Identity;
+  employeeId: string;
 };
 
-export async function CurrentPayPeriodSummary({ identity }: Props) {
+export async function CurrentPayPeriodSummary({ employeeId }: Props) {
   const todayBiweeklyPeriod = getCurrentBiweeklyPeriodInUTC();
-  const workDayRecords = await getWorkDayRecordsByIdentityAndDateRange(
-    identity.id,
+  const workDayRecords = await getWorkDayRecordsByEmployeeAndDateRange(
+    employeeId,
     todayBiweeklyPeriod,
   );
 

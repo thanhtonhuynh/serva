@@ -1,7 +1,7 @@
 "use server";
 
 import { PERMISSIONS } from "@/constants/permissions";
-import { updateStoreSettings } from "@/data-access/store";
+import { updateCompanySettings } from "@/data-access/company-settings";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { toCents } from "@/lib/utils";
 import {
@@ -20,8 +20,9 @@ export async function updateStartCash(data: UpdateStartCashInput): Promise<{ err
       return { error: "Unauthorized." };
 
     const { startCash } = UpdateStartCashSchema.parse(data);
+    const { companyCtx } = authResult;
 
-    await updateStoreSettings({ startCash: toCents(startCash) });
+    await updateCompanySettings(companyCtx.companyId, { startCash: toCents(startCash) });
 
     revalidatePath("/store-settings");
     return {};
@@ -40,8 +41,9 @@ export async function updateActivePlatforms(
       return { error: "Unauthorized." };
 
     const { activePlatforms } = UpdateActivePlatformsSchema.parse(data);
+    const { companyCtx } = authResult;
 
-    await updateStoreSettings({ activePlatforms });
+    await updateCompanySettings(companyCtx.companyId, { activePlatforms });
 
     revalidatePath("/store-settings");
     return {};

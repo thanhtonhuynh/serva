@@ -1,6 +1,5 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { CurrentBadge } from "@/components/shared";
-import { NotiMessage } from "@/components/shared/noti-message";
+import { Callout, CurrentBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform, getPlatformById } from "@/constants/platforms";
@@ -22,11 +21,11 @@ type SearchParams = Promise<{
 }>;
 
 export default async function MonthlyPage(props: { searchParams: SearchParams }) {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.CASHFLOW_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;
-  const { years } = await populateMonthSelectData();
+  const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   const currentYear = getCurrentYear();
   const currentMonth = getCurrentMonth(); // 0-indexed
@@ -38,9 +37,7 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
     const year = parseInt(searchParams.year);
 
     if (isNaN(year) || !years.includes(year)) {
-      return (
-        <NotiMessage variant="error" message="Invalid year. No data available for this year." />
-      );
+      return <Callout variant="error" message="Invalid year. No data available for this year." />;
     }
     selectedYear = year;
   }
@@ -51,7 +48,7 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
 
     if (isNaN(month) || !NUM_MONTHS.includes(month)) {
       return (
-        <NotiMessage variant="error" message="Invalid month. Please check the URL and try again." />
+        <Callout variant="error" message="Invalid month. Please check the URL and try again." />
       );
     }
     selectedMonth = month - 1; // 0-indexed
@@ -59,7 +56,7 @@ export default async function MonthlyPage(props: { searchParams: SearchParams })
 
   // Fetch monthly data
   const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, selectedMonth); // 0-indexed
-  const reports = await getReportsByDateRange(dateRange);
+  const reports = await getReportsByDateRange(companyCtx.companyId, dateRange);
   const processedReports = processCashFlowData(reports);
 
   // Derive platforms from actual data

@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ErrorMessage, SuccessMessage } from "@/components/shared/noti-message";
+import { Callout } from "@/components/shared";
 import { PlatformIcon } from "@/components/shared/platform-icon";
 import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
@@ -62,8 +62,8 @@ export function PlatformsForm({ currentActivePlatformIds }: PlatformsFormProps) 
       </div>
 
       <form id="platforms-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {error && <ErrorMessage message={error} />}
-        {success && <SuccessMessage message="Platforms updated" />}
+        {error && <Callout variant="error" message={error} />}
+        {success && <Callout variant="success" message="Platforms updated" />}
 
         <Controller
           name="activePlatforms"

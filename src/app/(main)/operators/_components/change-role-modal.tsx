@@ -18,17 +18,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UpdateEmployeeRoleInput, UpdateEmployeeRoleSchema } from "@/lib/validations/employee";
-import { DisplayUser } from "@/types";
+import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
+import { DisplayOperator } from "@/types";
 import type { RoleWithDetails } from "@/types/rbac";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { use, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateIdentityRoleAction } from "../_actions";
+import { updateOperatorRoleAction } from "../actions";
 
 type Props = {
-  selectedUser: DisplayUser;
+  selectedUser: DisplayOperator;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   rolesPromise: Promise<RoleWithDetails[]>;
@@ -38,17 +38,17 @@ export function ChangeRoleModal({ selectedUser, open, onOpenChange, rolesPromise
   const [isPending, startTransition] = useTransition();
   const roles = use(rolesPromise);
 
-  const form = useForm<UpdateEmployeeRoleInput>({
-    resolver: zodResolver(UpdateEmployeeRoleSchema),
+  const form = useForm<UpdateOperatorRoleInput>({
+    resolver: zodResolver(UpdateOperatorRoleSchema),
     defaultValues: {
-      identityId: selectedUser.id,
+      identityId: selectedUser.identityId,
       roleId: selectedUser.role?.id ?? "",
     },
   });
 
-  async function onSubmit(data: UpdateEmployeeRoleInput) {
+  async function onSubmit(data: UpdateOperatorRoleInput) {
     startTransition(async () => {
-      const { error } = await updateIdentityRoleAction(data);
+      const { error } = await updateOperatorRoleAction(data);
       if (error) {
         toast.error(error);
       } else {
@@ -73,7 +73,7 @@ export function ChangeRoleModal({ selectedUser, open, onOpenChange, rolesPromise
 
         <DialogBody className="space-y-3">
           <div className="space-y-1">
-            <Typography variant="h2">{selectedUser.name}</Typography>
+            <Typography variant="h2">{selectedUser.identity.name}</Typography>
             <Typography variant="p" className="font-semibold">
               Current role: {selectedUser.role?.name ?? "No Role"}
             </Typography>

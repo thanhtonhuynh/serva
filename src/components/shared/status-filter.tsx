@@ -11,15 +11,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const STATUS_OPTIONS = [
   { value: "active", label: "Active" },
-  { value: "inactive", label: "Awaiting Verification" },
+  { value: "awaiting", label: "Awaiting" },
   { value: "deactivated", label: "Deactivated" },
 ] as const;
 
 type Props = {
   canManageTeamAccess: boolean;
+  /** e.g. `/employees` or `/operators` */
+  basePath: string;
 };
 
-export function StatusFilter({ canManageTeamAccess }: Props) {
+export function StatusFilter({ canManageTeamAccess, basePath }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStatus = searchParams.get("status") || "active";
@@ -28,7 +30,7 @@ export function StatusFilter({ canManageTeamAccess }: Props) {
     if (!value) return;
     const params = new URLSearchParams(searchParams.toString());
     params.set("status", value);
-    router.push(`/team?${params.toString()}`);
+    router.push(`${basePath}?${params.toString()}`);
   }
 
   return (

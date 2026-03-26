@@ -2,11 +2,10 @@
 
 import {
   getIdentityByEmail,
-  getIdentityByUsername,
   getIdentityPasswordHash,
   updateIdentity,
   updateIdentityPassword,
-} from "@/data-access/user";
+} from "@/data-access/identity";
 import { authorizeAction } from "@/lib/auth/authorize";
 import { verifyPassword } from "@/lib/auth/password";
 import { invalidateIdentitySessionsExceptCurrent } from "@/lib/auth/session";
@@ -19,8 +18,6 @@ import {
   UpdateNameSchemaInput,
   UpdatePasswordSchema,
   UpdatePasswordSchemaInput,
-  UpdateUsernameSchema,
-  UpdateUsernameSchemaInput,
 } from "@/lib/validations/auth";
 import { deleteImage, uploadImage } from "@/lib/vercel-blob/storage";
 import { revalidatePath } from "next/cache";
@@ -42,36 +39,6 @@ export async function updateNameAction(data: UpdateNameSchemaInput): Promise<{ e
   } catch (error) {
     console.error(error);
     return { error: "Update name failed. Please try again." };
-  }
-}
-
-// Update username
-export async function updateUsernameAction(
-  data: UpdateUsernameSchemaInput,
-): Promise<{ error?: string }> {
-  try {
-    const authResult = await authorizeAction();
-    if ("error" in authResult) return authResult;
-
-    const { identity } = authResult;
-
-    const { username } = UpdateUsernameSchema.parse(data);
-
-    if (username === identity.username) {
-      return {};
-    }
-
-    const existingUsername = await getIdentityByUsername(username);
-    if (existingUsername) {
-      return { error: "Username already in use." };
-    }
-
-    await updateIdentity(identity.id, { username });
-
-    revalidatePath("/");
-    return {};
-  } catch (error) {
-    return { error: "Update username failed. Please try again." };
   }
 }
 

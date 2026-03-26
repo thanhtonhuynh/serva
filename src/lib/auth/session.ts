@@ -16,7 +16,6 @@ const SESSION_TTL_SHORT = 1000 * 60 * 60 * 24 * 15; // 15 days
 export type Identity = {
   id: string;
   name: string;
-  username: string;
   email: string;
   emailVerified: boolean;
   accountStatus: string;
@@ -34,15 +33,17 @@ export type Operator = {
 
 export type Employee = {
   id: string;
-  role: Role;
   status: string;
+  /** Display job (Chef, Server). Not used for permission checks. */
+  job: { name: string } | null;
 };
 
 export type CompanyContext = {
   companyId: string;
+  companyName: string;
   operator: Operator | null;
   employee: Employee | null;
-  /** Merged permissions from operator + employee accounts (union). */
+  /** Permissions from the operator account only (RBAC). */
   permissions: PermissionCode[];
 };
 
@@ -78,8 +79,8 @@ export async function validateSessionToken(token: string): Promise<SessionValida
             select: {
               id: true,
               company: { select: { id: true, name: true, slug: true } },
-              role: { select: { name: true, permissions: { select: { code: true } } } },
               status: true,
+              job: { select: { name: true } },
             },
           },
         },
@@ -143,7 +144,11 @@ export async function validateSessionToken(token: string): Promise<SessionValida
     : null;
 
   const employee: Employee | null = empRecord
-    ? { id: empRecord.id, role: buildSimplifiedRole(empRecord.role), status: empRecord.status }
+    ? {
+        id: empRecord.id,
+        status: empRecord.status,
+        job: empRecord.job ? { name: empRecord.job.name } : null,
+      }
     : null;
 
   return {
@@ -154,6 +159,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
     },
     companyCtx: {
       companyId: activeCompany.id,
+      companyName: activeCompany.name,
       operator,
       employee,
       permissions: mergePermissions(operator, employee),

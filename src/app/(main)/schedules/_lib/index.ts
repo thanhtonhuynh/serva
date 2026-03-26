@@ -1,6 +1,6 @@
 import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
 import type { DayScheduleInput, WeekScheduleInput, WorkDayRecordInput } from "@/lib/validations";
-import type { DisplayUser } from "@/types";
+import type { DisplayEmployee } from "@/types";
 import { computeTotalHours } from "@/utils/work-day-record";
 
 /** Identifier for a shift in the grid: day index, entry index, shift index. */
@@ -38,16 +38,14 @@ export function minutesToTimeInput(minutes: number): string {
 export function buildInitialWeekScheduleInput(
   weekDates: string[],
   recordsByDate: WorkDayRecordsByDate,
-  employees: DisplayUser[],
+  employees: DisplayEmployee[],
 ): WeekScheduleInput {
   const days: DayScheduleInput[] = weekDates.map((dateStr) => {
-    // Get records for this day
     const dayRecords = recordsByDate[dateStr] ?? [];
 
-    // Map employees to records, creating empty records for employees with no shifts
     const records: WorkDayRecordInput[] = employees.map((emp) => {
-      const record = dayRecords.find((r) => r.identityId === emp.id);
-      return record || { identityId: emp.id, shifts: [] };
+      const record = dayRecords.find((r) => r.employeeId === emp.id);
+      return record || { employeeId: emp.id, shifts: [] };
     });
 
     return { dateStr, records };

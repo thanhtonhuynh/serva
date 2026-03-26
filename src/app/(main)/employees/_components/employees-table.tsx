@@ -9,26 +9,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DisplayUser } from "@/types";
-import type { RoleWithDetails } from "@/types/rbac";
-import { useRouter } from "next/navigation";
+import { DisplayEmployee } from "@/types";
 import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {
-  employees: DisplayUser[];
-  rolesPromise: Promise<RoleWithDetails[]>;
+  employees: DisplayEmployee[];
+  jobs: { id: string; name: string }[];
 };
 
-export function EmployeesTable({ employees, rolesPromise }: EmployeesTableProps) {
-  const router = useRouter();
+export function EmployeesTable({ employees, jobs }: EmployeesTableProps) {
+  // const router = useRouter();
 
   if (employees.length === 0) {
     return <div className="text-muted-foreground py-8 text-center text-sm">No results found.</div>;
   }
 
-  const handleRowClick = (username: string) => {
-    router.push(`/profile/${username}`);
-  };
+  // const handleRowClick = (username: string) => {
+  //   router.push(`/profile/${username}`);
+  // };
 
   return (
     <Table>
@@ -36,7 +34,7 @@ export function EmployeesTable({ employees, rolesPromise }: EmployeesTableProps)
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead>Role</TableHead>
+          <TableHead>Job</TableHead>
           <TableHead>Status</TableHead>
           <TableHead className="w-20">Actions</TableHead>
         </TableRow>
@@ -47,25 +45,29 @@ export function EmployeesTable({ employees, rolesPromise }: EmployeesTableProps)
             <TableRow
               key={employee.id}
               className="cursor-pointer"
-              onClick={() => handleRowClick(employee.username)}
+              // onClick={() => handleRowClick(employee.identity.username)}
             >
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <ProfilePicture image={employee.image} size={32} name={employee.name} />
-                  <span className="font-medium">{employee.name}</span>
+                  <ProfilePicture
+                    image={employee.identity.image}
+                    size={32}
+                    name={employee.identity.name}
+                  />
+                  <span className="font-medium">{employee.identity.name}</span>
                 </div>
               </TableCell>
 
-              <TableCell className="text-muted-foreground">{employee.email}</TableCell>
+              <TableCell className="text-muted-foreground">{employee.identity.email}</TableCell>
 
-              <TableCell>{employee.role?.name ?? "No Role"}</TableCell>
+              <TableCell>{employee.job?.name ?? "—"}</TableCell>
 
               <TableCell>
-                <AccountStatusBadge status={employee.accountStatus} />
+                <AccountStatusBadge status={employee.status} />
               </TableCell>
 
               <TableCell onClick={(e) => e.stopPropagation()}>
-                <EmployeeActions employee={employee} rolesPromise={rolesPromise} />
+                <EmployeeActions employee={employee} jobs={jobs} />
               </TableCell>
             </TableRow>
           );

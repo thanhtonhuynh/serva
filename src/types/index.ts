@@ -1,26 +1,32 @@
-import { Expense, Permission, Role } from "@prisma/client";
+import { Expense } from "@prisma/client";
 
-export type EmployeeStatus = "active" | "inactive" | "deactivated";
+export type EmployeeStatus = "active" | "awaiting" | "deactivated";
 
-// Role with permissions
-export type RoleWithPermissions = Role & { permissions: Permission[] };
-
-// Basic user type for display purposes (without permissionContext)
-export type DisplayUser = {
+/** Display type for an operator record (with nested identity). */
+export type DisplayOperator = {
   id: string;
-  name: string;
-  username: string;
-  email: string;
-  emailVerified: boolean;
-  accountStatus: string;
-  image: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  identityId: string;
+  companyId: string;
+  status: string;
   role: {
     id: string;
     name: string;
     permissions: { code: string }[];
   } | null;
+  identity: { name: string; email: string; image: string | null };
+};
+
+/** Display type for an employee record (with nested identity). */
+export type DisplayEmployee = {
+  id: string;
+  identityId: string;
+  companyId: string;
+  status: string;
+  /** Kitchen/service job title (Chef, Server). Not RBAC. */
+  job: { id: string; name: string } | null;
+  locationId?: string | null;
+  departmentId?: string | null;
+  identity: { name: string; email: string; image: string | null };
 };
 
 export type CashType =
@@ -51,7 +57,6 @@ export type ReportAuditLog = {
   timestamp: Date;
   name?: string;
   image?: string | null;
-  username?: string;
 };
 
 export interface SaleReportCardRawData {
@@ -59,7 +64,6 @@ export interface SaleReportCardRawData {
   date: Date;
   reporterName: string;
   reporterImage: string | null;
-  reporterUsername: string;
   totalSales: number;
   cardSales: number;
   expenses: number;
@@ -112,19 +116,17 @@ export type DayRange = {
 };
 
 export type TotalHoursTips = {
-  identityId: string;
+  employeeId: string;
   name: string;
-  username: string;
   image: string;
   totalHours: number;
   totalTips: number;
 };
 
 export type BreakdownData = {
-  identityId: string;
-  identityName: string;
-  identityUsername: string;
-  identityImage: string;
+  employeeId: string;
+  name: string;
+  image: string;
   keyData: number[];
   total: number;
 };

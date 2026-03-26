@@ -21,8 +21,9 @@ export async function saveReportAction(
     }
 
     const parsedData = SaleReportSchema.parse(data);
+    const { companyCtx } = authResult;
 
-    const result = await upsertReport(parsedData, authResult.identity.id);
+    const result = await upsertReport(parsedData, authResult.identity.id, companyCtx.companyId);
 
     return {
       reportDate: result.report.date,

@@ -1,6 +1,5 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { CurrentBadge } from "@/components/shared";
-import { NotiMessage } from "@/components/shared/noti-message";
+import { Callout, CurrentBadge } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
@@ -27,11 +26,11 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.HOURS_TIPS_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;
-  const { years } = await populateMonthSelectData();
+  const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   const currentYear = getCurrentYear();
   const currentMonth = getCurrentMonth();
@@ -47,7 +46,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   if (!yearParam || !monthParam) {
     return (
-      <NotiMessage
+      <Callout
         variant="error"
         message="Year and month are required. Redirecting to current period."
       />
@@ -59,7 +58,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   if (isNaN(year) || isNaN(month) || !years.includes(year) || !NUM_MONTHS.includes(month)) {
     return (
-      <NotiMessage
+      <Callout
         variant="error"
         message="Invalid year or month. Please check the URL and try again."
       />
@@ -70,8 +69,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const periods = getPeriodsForMonthAndYearInUTC(year, monthIndex);
 
   const [firstPeriodRecords, secondPeriodRecords] = await Promise.all([
-    getWorkDayRecordsByDateRange(periods[0]),
-    getWorkDayRecordsByDateRange(periods[1]),
+    getWorkDayRecordsByDateRange(companyCtx.companyId, periods[0]),
+    getWorkDayRecordsByDateRange(companyCtx.companyId, periods[1]),
   ]);
 
   const hoursTipsBreakdowns = [
@@ -82,13 +81,12 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const totalHoursTips: TotalHoursTips[] = [];
   for (const breakdown of hoursTipsBreakdowns) {
     for (const data of breakdown.hoursBreakdown) {
-      const index = totalHoursTips.findIndex((total) => total.identityId === data.identityId);
+      const index = totalHoursTips.findIndex((total) => total.employeeId === data.employeeId);
       if (index === -1) {
         totalHoursTips.push({
-          identityId: data.identityId,
-          name: data.identityName,
-          username: data.identityUsername,
-          image: data.identityImage,
+          employeeId: data.employeeId,
+          name: data.name,
+          image: data.image,
           totalHours: data.total,
           totalTips: 0,
         });
@@ -97,13 +95,12 @@ export default async function Page(props: { searchParams: SearchParams }) {
       }
     }
     for (const data of breakdown.tipsBreakdown) {
-      const index = totalHoursTips.findIndex((total) => total.identityId === data.identityId);
+      const index = totalHoursTips.findIndex((total) => total.employeeId === data.employeeId);
       if (index === -1) {
         totalHoursTips.push({
-          identityId: data.identityId,
-          name: data.identityName,
-          username: data.identityUsername,
-          image: data.identityImage,
+          employeeId: data.employeeId,
+          name: data.name,
+          image: data.image,
           totalHours: 0,
           totalTips: data.total,
         });

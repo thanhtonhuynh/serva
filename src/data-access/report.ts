@@ -6,14 +6,28 @@ import { parseInUTC } from "@/utils/datetime";
 import { Prisma } from "@prisma/client";
 import { cache } from "react";
 import "server-only";
-import { getEmployeesByIds } from "./employee";
-import { getStartCash } from "./store";
+import { getStartCash } from "./company-settings";
+import { getIdentitiesByIds } from "./employee";
 import { recomputeTipsForDate } from "./work-day-record/dal";
 
-// Get recent reports submitted by an identity
-export const getRecentReportsByIdentity = cache(async (identityId: string, limit: number = 5) => {
-  const reports = await prisma.saleReport.findMany({
-    where: { identityId },
+export const getRecentReportsByIdentity = cache(
+  async (identityId: string, companyId: string, limit: number = 5) => {
+    return prisma.saleReport.findMany({
+      where: { identityId, companyId },
+      orderBy: { date: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        date: true,
+        totalSales: true,
+      },
+    });
+  },
+);
+
+export const getRecentReports = cache(async (companyId: string, limit: number = 5) => {
+  return prisma.saleReport.findMany({
+    where: { companyId },
     orderBy: { date: "desc" },
     take: limit,
     select: {
@@ -22,30 +36,11 @@ export const getRecentReportsByIdentity = cache(async (identityId: string, limit
       totalSales: true,
     },
   });
-
-  return reports;
 });
 
-// Get the most recent reports by date (for quick links on sales-reports page)
-export const getRecentReports = cache(async (limit: number = 5) => {
-  const reports = await prisma.saleReport.findMany({
-    orderBy: { date: "desc" },
-    take: limit,
-    select: {
-      id: true,
-      date: true,
-      totalSales: true,
-    },
-  });
-
-  return reports;
-});
-
-// Upsert a report
-export async function upsertReport(data: SaleReportOutput, identityId: string) {
+export async function upsertReport(data: SaleReportOutput, identityId: string, companyId: string) {
   const { cardTips, cashTips, extraTips, dateStr, platformSales, ...raw } = data;
 
-  // Convert all money values to cents
   const reportDataInCents = {
     totalSales: toCents(raw.totalSales),
     cardSales: toCents(raw.cardSales),
@@ -60,14 +55,18 @@ export async function upsertReport(data: SaleReportOutput, identityId: string) {
     extraTips: toCents(extraTips),
   };
 
-  const startCash = await getStartCash();
+  const startCash = await getStartCash(companyId);
 
   const date = parseInUTC(dateStr);
 
   const existingReport = await prisma.saleReport.findUnique({
     where: { date },
-    select: { id: true, auditLogs: true },
+    select: { id: true, auditLogs: true, companyId: true },
   });
+
+  if (existingReport && existingReport.companyId !== companyId) {
+    throw new Error("Report belongs to a different company");
+  }
 
   const auditLogs = existingReport?.auditLogs;
 
@@ -91,18 +90,18 @@ export async function upsertReport(data: SaleReportOutput, identityId: string) {
         data: {
           date,
           identityId,
+          companyId,
           startCash,
           expensesReason: raw.expensesReason,
           ...reportDataInCents,
         },
       });
 
-  await recomputeTipsForDate(date);
+  await recomputeTipsForDate(companyId, date);
 
   return { report };
 }
 
-// Check if a report exists by id
 export const reportExists = cache(async (id: string) => {
   const report = await prisma.saleReport.findUnique({
     where: { id },
@@ -112,13 +111,12 @@ export const reportExists = cache(async (id: string) => {
   return !!report;
 });
 
-// Get report raw data by unique input
 export const getReportRaw = cache(
   async (where: Prisma.SaleReportWhereUniqueInput): Promise<SaleReportCardRawData | null> => {
     const report = await prisma.saleReport.findUnique({
       where,
       include: {
-        reporter: { select: { name: true, image: true, username: true } },
+        reporter: { select: { name: true, image: true } },
       },
     });
 
@@ -126,19 +124,14 @@ export const getReportRaw = cache(
 
     let expandedAuditLogs: ReportAuditLog[] | undefined = undefined;
 
-    // Only fetch identities and expand audit logs if there are any audit logs
     if (report.auditLogs.length > 0) {
-      // Collect identityIds from audit logs
       const identityIds = [...report.auditLogs.map((log) => log.identityId)];
+      const identities = await getIdentitiesByIds(identityIds);
 
-      // Get identity info for those identityIds
-      const identities = await getEmployeesByIds(identityIds);
-
-      // Map identityId to identity info
       const identityMap = new Map(
         identities.map((identity) => [
           identity.id,
-          { name: identity.name, image: identity.image || "", username: identity.username },
+          { name: identity.name, image: identity.image || "" },
         ]),
       );
 
@@ -149,7 +142,6 @@ export const getReportRaw = cache(
           timestamp: log.timestamp,
           name: identity?.name,
           image: identity?.image,
-          username: identity?.username,
         };
       });
     }
@@ -158,25 +150,24 @@ export const getReportRaw = cache(
       ...report,
       reporterName: report.reporter.name,
       reporterImage: report.reporter.image,
-      reporterUsername: report.reporter.username,
       auditLogs: expandedAuditLogs,
     };
   },
 );
 
-// Get first report date
-export const getFirstReportDate = cache(async () => {
+export const getFirstReportDate = cache(async (companyId: string) => {
   const report = await prisma.saleReport.findFirst({
+    where: { companyId },
     orderBy: { date: "asc" },
   });
 
   return report?.date;
 });
 
-// Get reports by date range
-export const getReportsByDateRange = cache(async (dateRange: DayRange) => {
-  const reports = await prisma.saleReport.findMany({
+export const getReportsByDateRange = cache(async (companyId: string, dateRange: DayRange) => {
+  return prisma.saleReport.findMany({
     where: {
+      companyId,
       date: { gte: dateRange.start, lte: dateRange.end },
     },
     select: {
@@ -189,24 +180,21 @@ export const getReportsByDateRange = cache(async (dateRange: DayRange) => {
     },
     orderBy: { date: "asc" },
   });
-
-  return reports;
 });
 
-// Delete a report by id
 export async function deleteReportById(reportId: string) {
   await prisma.saleReport.delete({
     where: { id: reportId },
   });
 }
 
-// Get reports for a specific year (for analytics heatmap)
-export const getReportsForYear = cache(async (year: number) => {
+export const getReportsForYear = cache(async (companyId: string, year: number) => {
   const startDate = new Date(`${year}-01-01T00:00:00.000Z`);
   const endDate = new Date(`${year}-12-31T23:59:59.999Z`);
 
-  const reports = await prisma.saleReport.findMany({
+  return prisma.saleReport.findMany({
     where: {
+      companyId,
       date: { gte: startDate, lte: endDate },
     },
     select: {
@@ -215,17 +203,14 @@ export const getReportsForYear = cache(async (year: number) => {
     },
     orderBy: { date: "asc" },
   });
-
-  return reports;
 });
 
-// Get reports for multiple years (for analytics dashboard)
-export const getReportsForYears = cache(async (years: number[]) => {
+export const getReportsForYears = cache(async (companyId: string, years: number[]) => {
   const reportsByYear: Record<number, { date: Date; totalSales: number }[]> = {};
 
   await Promise.all(
     years.map(async (year) => {
-      const reports = await getReportsForYear(year);
+      const reports = await getReportsForYear(companyId, year);
       reportsByYear[year] = reports;
     }),
   );

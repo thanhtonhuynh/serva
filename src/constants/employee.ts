@@ -6,7 +6,8 @@ export const EMPLOYEE_STATUS_LABELS: Record<
   }
 > = {
   active: { label: "Active", variant: "success" },
-  inactive: { label: "Awaiting", variant: "outline" },
+  awaiting: { label: "Awaiting", variant: "outline" },
+  inactive: { label: "Awaiting", variant: "outline" }, // legacy data compatibility
   deactivated: { label: "Deactivated", variant: "destructive" },
 };
 

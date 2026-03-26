@@ -14,18 +14,32 @@ import { ICONS } from "@/constants/icons";
 import type { CompanyContext, Identity } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 
 type Props = {
   identity: Identity;
   companyCtx: CompanyContext;
 };
 
+const userMenuItems = [
+  {
+    label: "Switch company",
+    icon: ICONS.EXCHANGE,
+    href: "/select-company",
+  },
+  {
+    label: "Account settings",
+    icon: ICONS.ACCOUNT_SETTINGS,
+    href: "/settings",
+  },
+];
+
 export function UserMenu({ identity, companyCtx }: Props) {
   const { operator, employee } = companyCtx;
 
   const roleName = identity.isPlatformAdmin
     ? "Platform Admin"
-    : (operator?.role.name ?? employee?.role.name ?? "No Role");
+    : (operator?.role.name ?? employee?.job?.name ?? "");
 
   return (
     <SidebarMenu>
@@ -52,6 +66,20 @@ export function UserMenu({ identity, companyCtx }: Props) {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent side="top" className="w-(--anchor-width)">
+            {userMenuItems.map((item) => (
+              <DropdownMenuItem key={item.href} className="p-0">
+                <Button
+                  nativeButton={false}
+                  variant={`accent`}
+                  className="w-full justify-start rounded-xl"
+                  render={<Link href={item.href} />}
+                >
+                  <HugeiconsIcon icon={item.icon} strokeWidth={1.5} />
+                  <span className="ml-2">{item.label}</span>
+                </Button>
+              </DropdownMenuItem>
+            ))}
+
             <DropdownMenuItem className="p-0">
               <Button
                 variant={`accent`}

@@ -11,8 +11,8 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await authGuard();
-  const { years } = await populateMonthSelectData();
+  const { companyCtx } = await authGuard();
+  const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   return (
     <Fragment>

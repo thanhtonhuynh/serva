@@ -13,29 +13,26 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@/constants/permissions";
 import { useSession } from "@/contexts/SessionProvider";
-import { DisplayUser } from "@/types";
-import type { RoleWithDetails } from "@/types/rbac";
 import { hasPermission } from "@/lib/auth/permission";
+import { DisplayOperator } from "@/types";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ShieldCheck, ShieldOff, UserCog } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { activateUserAction, deactivateUserAction } from "../_actions";
-import { ChangeRoleModal } from "./change-role-modal";
+import { updateOperatorStatusAction } from "../actions";
 
-type EmployeeActionsProps = {
-  employee: DisplayUser;
-  rolesPromise: Promise<RoleWithDetails[]>;
+type Props = {
+  operator: DisplayOperator;
+  onChangeRole: () => void;
 };
 
 type ConfirmAction = {
-  type: "deactivate" | "verify" | "reactivate";
+  type: "deactivate" | "activate" | "reactivate";
   title: string;
   description: string;
   confirmText: string;
@@ -44,37 +41,37 @@ type ConfirmAction = {
 
 const CONFIRM_ACTIONS: Record<ConfirmAction["type"], Omit<ConfirmAction, "type">> = {
   deactivate: {
-    title: "Deactivate employee?",
-    description: "Deactivating will revoke their access to the system.",
+    title: "Deactivate operator?",
+    description:
+      "Deactivating will mark this operator record as inactive for your company (RBAC access).",
     confirmText: "Yes, deactivate",
     variant: "destructive",
   },
-  verify: {
-    title: "Grant access?",
+  activate: {
+    title: "Activate operator?",
     description:
-      "User will have general access to the system. You can then assign them a specific role.",
-    confirmText: "Yes, grant access",
+      "This sets the operator record to active so they can use dashboard permissions for this company.",
+    confirmText: "Yes, activate",
     variant: "default",
   },
   reactivate: {
-    title: "Reactivate employee?",
-    description: "Reactivating will grant them access to the system again.",
+    title: "Reactivate operator?",
+    description: "This sets the operator record back to active.",
     confirmText: "Yes, reactivate",
     variant: "default",
   },
 };
 
-export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps) {
-  const { sessionCtx } = useSession();
+export function OperatorActions({ operator, onChangeRole }: Props) {
+  const { identity, companyCtx } = useSession();
   const [isPending, startTransition] = useTransition();
   const [confirmAction, setConfirmAction] = useState<ConfirmAction["type"] | null>(null);
-  const [roleDialogOpen, setRoleDialogOpen] = useState(false);
 
-  const status = employee.accountStatus;
+  const status = operator.status;
   const actionConfig = confirmAction ? CONFIRM_ACTIONS[confirmAction] : null;
 
-  const canManageTeamAccess = hasPermission(sessionCtx, PERMISSIONS.TEAM_MANAGE_ACCESS);
-  const canAssignRole = hasPermission(sessionCtx, PERMISSIONS.TEAM_ASSIGN_ROLES);
+  const canManageTeamAccess = hasPermission(identity, companyCtx, PERMISSIONS.TEAM_MANAGE_ACCESS);
+  const canAssignRole = hasPermission(identity, companyCtx, PERMISSIONS.TEAM_ASSIGN_ROLES);
 
   async function handleConfirm() {
     if (!confirmAction) return;
@@ -84,21 +81,21 @@ export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps
 
       switch (confirmAction) {
         case "deactivate":
-          result = await deactivateUserAction(employee.id);
+          result = await updateOperatorStatusAction(operator.id, "deactivated");
           if (!result.error) {
-            toast.success(`${employee.name} has been deactivated.`);
+            toast.success(`${operator.identity.name} has been deactivated.`);
           }
           break;
-        case "verify":
-          result = await activateUserAction(employee.id);
+        case "activate":
+          result = await updateOperatorStatusAction(operator.id, "active");
           if (!result.error) {
-            toast.success(`${employee.name} has been verified.`);
+            toast.success(`${operator.identity.name} is now active.`);
           }
           break;
         case "reactivate":
-          result = await activateUserAction(employee.id);
+          result = await updateOperatorStatusAction(operator.id, "active");
           if (!result.error) {
-            toast.success(`${employee.name} has been reactivated.`);
+            toast.success(`${operator.identity.name} has been reactivated.`);
           }
           break;
       }
@@ -124,33 +121,35 @@ export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps
         />
 
         <DropdownMenuContent align="end">
-          {status === "active" && (
-            <>
-              <DropdownMenuItem onClick={() => setRoleDialogOpen(true)} disabled={!canAssignRole}>
-                <UserCog className="mr-2 h-4 w-4" />
-                Change role
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={() => setConfirmAction("deactivate")}
-                disabled={!canManageTeamAccess}
-              >
-                <ShieldOff className="mr-2 h-4 w-4" />
-                Deactivate
-              </DropdownMenuItem>
-            </>
+          {canAssignRole && (
+            <DropdownMenuItem
+              onClick={() => {
+                onChangeRole();
+              }}
+            >
+              <UserCog className="mr-2 h-4 w-4" />
+              Change role
+            </DropdownMenuItem>
           )}
 
-          {status === "inactive" && (
+          {status === "active" && (
             <DropdownMenuItem
-              onClick={() => setConfirmAction("verify")}
+              variant="destructive"
+              onClick={() => setConfirmAction("deactivate")}
+              disabled={!canManageTeamAccess}
+            >
+              <ShieldOff className="mr-2 h-4 w-4" />
+              Deactivate
+            </DropdownMenuItem>
+          )}
+
+          {status === "awaiting" && (
+            <DropdownMenuItem
+              onClick={() => setConfirmAction("activate")}
               disabled={!canManageTeamAccess}
             >
               <ShieldCheck className="mr-2 h-4 w-4" />
-              Grant access
+              Activate
             </DropdownMenuItem>
           )}
 
@@ -166,14 +165,15 @@ export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Confirmation Dialog */}
       <Dialog
         open={confirmAction !== null}
         onOpenChange={(open) => !open && setConfirmAction(null)}
       >
         <DialogContent>
           <DialogHeader showBorder>
-            <DialogTitle>{actionConfig?.title.replace("?", ` ${employee.name}?`)}</DialogTitle>
+            <DialogTitle>
+              {actionConfig?.title.replace("?", ` ${operator.identity.name}?`)}
+            </DialogTitle>
           </DialogHeader>
 
           <DialogBody>{actionConfig?.description}</DialogBody>
@@ -185,14 +185,6 @@ export function EmployeeActions({ employee, rolesPromise }: EmployeeActionsProps
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      {/* Change Role Dialog */}
-      <ChangeRoleModal
-        selectedUser={employee}
-        open={roleDialogOpen}
-        onOpenChange={setRoleDialogOpen}
-        rolesPromise={rolesPromise}
-      />
     </>
   );
 }

@@ -4,7 +4,7 @@ import type { PermissionCode } from "@/types/rbac";
 
 /**
  * Check if an identity has a specific permission in a company context.
- * Uses merged permissions from operator + employee roles.
+ * Uses permissions from the operator account (RBAC). Employees are not a permission source.
  * Platform admins and company-level Admins bypass all checks.
  */
 export function hasPermission(
@@ -17,9 +17,8 @@ export function hasPermission(
   // Platform admins bypass all permission checks
   if (identity.isPlatformAdmin) return true;
 
-  // Company-level Admin role (either operator or employee side)
-  if (companyCtx.operator?.role.name === "Admin" || companyCtx.employee?.role.name === "Admin")
-    return true;
+  // Company-level Admin role on operator account
+  if (companyCtx.operator?.role.name === "Admin") return true;
 
   return companyCtx.permissions.includes(permissionCode);
 }
@@ -38,9 +37,8 @@ export function hasAssignRolePermission(
   // Platform admins bypass all permission checks
   if (identity.isPlatformAdmin) return true;
 
-  // Company-level Admin role (either operator or employee side)
-  if (companyCtx.operator?.role.name === "Admin" || companyCtx.employee?.role.name === "Admin")
-    return true;
+  // Company-level Admin role on operator account
+  if (companyCtx.operator?.role.name === "Admin") return true;
 
   // Check if the identity has the permission to assign roles
   if (!companyCtx.permissions.includes(PERMISSIONS.TEAM_ASSIGN_ROLES)) return false;

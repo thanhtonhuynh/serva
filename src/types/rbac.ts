@@ -14,8 +14,8 @@ export type RoleWithPermissions = PrismaRole & {
   permissions: Permission[];
 };
 
-// Role with permissions and count of operators + employees included
+// Role with permissions and count of operators (RBAC); employees use jobs, not roles
 export type RoleWithDetails = PrismaRole & {
   permissions: Permission[];
-  _count: { operators: number; employees: number };
+  _count: { operators: number };
 };

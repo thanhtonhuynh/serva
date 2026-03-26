@@ -19,6 +19,7 @@
     "@date-fns/tz": "^1.4.1",
     "@date-fns/utc": "^2.1.1",
     "@dnd-kit/react": "^0.3.2",
+    "@flags-sdk/growthbook": "^0.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@hugeicons/core-free-icons": "^3.1.1",
     "@hugeicons/react": "^1.1.4",

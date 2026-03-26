@@ -14,7 +14,6 @@ datasource db {
 model Identity {
   id            String  @id @default(auto()) @map("_id") @db.ObjectId
   name          String
-  username      String  @unique
   email         String  @unique
   emailVerified Boolean @default(false)
   accountStatus String  @default("inactive")
@@ -99,8 +98,10 @@ model Company {
   locations      Location[]
   departments    Department[]
   roles          Role[]
+  jobs           Job[]
   operators      Operator[]
   employees      Employee[]
+  invites        Invite[]
   saleReports    SaleReport[]
   workDayRecords WorkDayRecord[]
   expenses       Expense[]
@@ -149,8 +150,6 @@ model Department {
 model Operator {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name String
-
   identityId String   @db.ObjectId
   identity   Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
 
@@ -160,7 +159,7 @@ model Operator {
   roleId String? @db.ObjectId
   role   Role?   @relation(fields: [roleId], references: [id])
 
-  status String @default("active")
+  status String @default("awaiting")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -168,10 +167,24 @@ model Operator {
   @@unique([identityId, companyId])
 }
 
+model Job {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  employees Employee[]
+  invites   Invite[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, name])
+}
+
 model Employee {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  name String
 
   identityId String   @db.ObjectId
   identity   Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
@@ -179,10 +192,10 @@ model Employee {
   companyId String  @db.ObjectId
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  roleId String? @db.ObjectId
-  role   Role?   @relation(fields: [roleId], references: [id])
+  jobId String? @db.ObjectId
+  job   Job?    @relation(fields: [jobId], references: [id])
 
-  status String @default("active")
+  status String @default("awaiting")
 
   locationId String?   @db.ObjectId
   location   Location? @relation(fields: [locationId], references: [id])
@@ -196,6 +209,31 @@ model Employee {
   updatedAt DateTime @updatedAt
 
   @@unique([identityId, locationId, departmentId])
+}
+
+model Invite {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  companyId String  @db.ObjectId
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  name        String
+  email       String
+  profileType String // "operator" | "employee"
+  roleId      String? @db.ObjectId
+  role        Role?   @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  jobId       String? @db.ObjectId
+  job         Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  token      String    @unique
+  status     String    @default("awaiting") // awaiting | accepted | expired | revoked
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([companyId, profileType, status])
+  @@index([email, status])
 }
 
 model SaleReport {
@@ -309,7 +347,7 @@ model Role {
   permissions   Permission[] @relation(fields: [permissionIds], references: [id])
 
   operators Operator[]
-  employees Employee[]
+  invites   Invite[]
 
   @@unique([companyId, name])
 }

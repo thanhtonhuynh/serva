@@ -1,6 +1,5 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { CurrentBadge, Typography } from "@/components/shared";
-import { NotiMessage } from "@/components/shared/noti-message";
+import { Callout, CurrentBadge, Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
@@ -21,11 +20,11 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.EXPENSES_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;
-  const { years } = await populateMonthSelectData();
+  const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   const currentYear = getCurrentYear();
   const currentMonth = getCurrentMonth();
@@ -37,25 +36,21 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const selectedYear = parseInt(searchParams.year);
 
   if (isNaN(selectedYear) || !years.includes(selectedYear)) {
-    return (
-      <NotiMessage variant="error" message="Invalid year. Please check the URL and try again." />
-    );
+    return <Callout variant="error" message="Invalid year. Please check the URL and try again." />;
   }
 
   const selectedMonthParam = searchParams.month;
   const selectedMonth = selectedMonthParam ? parseInt(selectedMonthParam) - 1 : currentMonth;
 
   if (selectedMonthParam && (isNaN(selectedMonth) || !NUM_MONTHS.includes(selectedMonth + 1))) {
-    return (
-      <NotiMessage variant="error" message="Invalid month. Please check the URL and try again." />
-    );
+    return <Callout variant="error" message="Invalid month. Please check the URL and try again." />;
   }
 
   if (!selectedMonthParam) {
     redirect(`/expenses?year=${selectedYear}&month=${selectedMonth + 1}`);
   }
 
-  const expenses = await getExpensesByYear(selectedYear);
+  const expenses = await getExpensesByYear(companyCtx.companyId, selectedYear);
   const monthlyExpenses = reshapeExpenses(expenses);
 
   const selectedMonthData = monthlyExpenses[selectedMonth];

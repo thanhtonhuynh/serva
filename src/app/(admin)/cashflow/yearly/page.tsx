@@ -1,5 +1,4 @@
-import { CurrentBadge } from "@/components/shared";
-import { ErrorMessage } from "@/components/shared/noti-message";
+import { Callout, CurrentBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSIONS } from "@/constants/permissions";
 import { type Platform, getPlatformById } from "@/constants/platforms";
@@ -17,11 +16,11 @@ type SearchParams = Promise<{
 }>;
 
 export default async function YearlyPage(props: { searchParams: SearchParams }) {
-  await authGuardWithRateLimit();
+  const { companyCtx } = await authGuardWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.CASHFLOW_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;
-  const { years } = await populateMonthSelectData();
+  const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   const currentYear = getCurrentYear();
   let selectedYear = currentYear;
@@ -31,12 +30,7 @@ export default async function YearlyPage(props: { searchParams: SearchParams }) 
     const year = parseInt(searchParams.year);
 
     if (isNaN(year) || !years.includes(year)) {
-      return (
-        <ErrorMessage
-          className="self-start"
-          message="Invalid year. No data available for this year."
-        />
-      );
+      return <Callout variant="error" message="Invalid year. No data available for this year." />;
     }
     selectedYear = year;
   }
@@ -44,8 +38,8 @@ export default async function YearlyPage(props: { searchParams: SearchParams }) 
   // Fetch yearly data
   const yearDateRange = getDateRangeForYearInUTC(selectedYear);
   const [yearReports, yearMainExpenses] = await Promise.all([
-    getReportsByDateRange(yearDateRange),
-    getExpensesByYear(selectedYear),
+    getReportsByDateRange(companyCtx.companyId, yearDateRange),
+    getExpensesByYear(companyCtx.companyId, selectedYear),
   ]);
   const yearProcessedReports = processYearCashFlowData(yearReports, yearMainExpenses);
 

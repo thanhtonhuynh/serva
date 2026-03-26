@@ -58,7 +58,7 @@ function buildCsv(payload: ExportPeriodPayload): string {
   lines.push(headerRow.map(escapeCsvCell).join(","));
   for (const row of hoursBreakdown) {
     const cells = [
-      row.identityName,
+      row.name,
       ...row.keyData.map((v) => (v > 0 ? v : "")),
       row.total > 0 ? row.total : "",
     ];
@@ -71,7 +71,7 @@ function buildCsv(payload: ExportPeriodPayload): string {
   lines.push(headerRow.map(escapeCsvCell).join(","));
   for (const row of tipsBreakdown) {
     const cells = [
-      row.identityName,
+      row.name,
       ...row.keyData.map((v) => (v > 0 ? formatTipsMoney(v) : "")),
       row.total > 0 ? formatTipsMoney(row.total) : "",
     ];
@@ -106,7 +106,7 @@ function buildExcel(payload: ExportPeriodPayload): ArrayBuffer {
   const hoursData: (string | number)[][] = [headerRow];
   for (const row of hoursBreakdown) {
     hoursData.push([
-      row.identityName,
+      row.name,
       ...row.keyData.map((v) => (v > 0 ? v : "")),
       row.total > 0 ? row.total : "",
     ]);
@@ -118,7 +118,7 @@ function buildExcel(payload: ExportPeriodPayload): ArrayBuffer {
   const tipsData: (string | number)[][] = [headerRow];
   for (const row of tipsBreakdown) {
     tipsData.push([
-      row.identityName,
+      row.name,
       ...row.keyData.map((v) => (v > 0 ? formatTipsMoney(v) : "")),
       row.total > 0 ? formatTipsMoney(row.total) : "",
     ]);

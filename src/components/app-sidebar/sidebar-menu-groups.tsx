@@ -32,12 +32,18 @@ export function SidebarMenuGroups() {
   const { toggleSidebar } = useSidebar();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
-  const username = identity?.username ?? "";
+  const email = identity?.email ?? "";
 
   const visibleItems = useMemo(() => {
-    return MENU_ITEMS.filter((item) =>
-      item.permission ? hasPermission(identity, companyCtx, item.permission) : true,
-    );
+    return MENU_ITEMS.filter((item) => {
+      if (item.employeeOnly) {
+        return !!companyCtx?.employee;
+      }
+      if (item.permission) {
+        return hasPermission(identity, companyCtx, item.permission);
+      }
+      return true;
+    });
   }, [identity, companyCtx]);
 
   const itemsByGroup = useMemo(() => {
@@ -51,8 +57,9 @@ export function SidebarMenuGroups() {
   }, [visibleItems]);
 
   const resolveUrl = useCallback(
-    (url: string) => (url === PROFILE_URL_PLACEHOLDER ? `/profile/${username}` : url),
-    [username],
+    (url: string) =>
+      url === PROFILE_URL_PLACEHOLDER ? `/profile/${encodeURIComponent(email)}` : url,
+    [email],
   );
 
   const isActive = useCallback(
@@ -87,7 +94,11 @@ export function SidebarMenuGroups() {
                         onClick={() => isMobile && toggleSidebar()}
                         render={
                           <Link href={href}>
-                            <HugeiconsIcon icon={item.icon} strokeWidth={1.5} />
+                            <HugeiconsIcon
+                              icon={item.icon}
+                              strokeWidth={1.5}
+                              className="transition-transform duration-150 ease-linear group-hover/menu-item:scale-115 group-hover/menu-item:-rotate-3"
+                            />
                             <span>{item.title}</span>
                           </Link>
                         }

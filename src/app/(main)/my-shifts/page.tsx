@@ -1,11 +1,10 @@
 import { UserShiftTable } from "@/app/(main)/my-shifts/_components";
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { CurrentBadge, Typography } from "@/components/shared";
-import { NotiMessage } from "@/components/shared/noti-message";
+import { Callout, CurrentBadge, Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
-import { getWorkDayRecordsByIdentityAndDateRange } from "@/data-access/work-day-record/dal";
-import { getCurrentSession } from "@/lib/auth/session";
+import { getWorkDayRecordsByEmployeeAndDateRange } from "@/data-access/work-day-record/dal";
+import { authGuardWithRateLimit } from "@/lib/auth/authorize";
 import { formatMoney } from "@/lib/utils";
 import {
   formatInUTC,
@@ -15,7 +14,6 @@ import {
   getPeriodsForMonthAndYearInUTC,
 } from "@/utils/datetime";
 import { populateMonthSelectData } from "@/utils/hours-tips";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { notFound, redirect } from "next/navigation";
@@ -26,16 +24,12 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { sessionCtx } = await getCurrentSession();
-  if (!sessionCtx) redirect("/login");
-  if (sessionCtx.identity.accountStatus !== "active") return notFound();
+  const { companyCtx } = await authGuardWithRateLimit();
 
-  if (!(await authenticatedRateLimit(sessionCtx.identity.id))) {
-    return <NotiMessage variant="error" message="Too many requests. Please try again later." />;
-  }
+  if (!companyCtx.employee) return notFound();
 
   const searchParams = await props.searchParams;
-  const { years } = await populateMonthSelectData();
+  const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   const currentYear = getCurrentYear();
   const currentMonth = getCurrentMonth();
@@ -54,7 +48,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
     !NUM_MONTHS.includes(selectedMonth)
   ) {
     return (
-      <NotiMessage
+      <Callout
         variant="error"
         message="Invalid year or month. Please check the URL and try again."
       />
@@ -64,7 +58,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const monthIndex = selectedMonth - 1; // 0-indexed
   const dateRange = getDateRangeForMonthAndYearInUTC(selectedYear, monthIndex);
   const periods = getPeriodsForMonthAndYearInUTC(selectedYear, monthIndex);
-  const workDayRecords = await getWorkDayRecordsByIdentityAndDateRange(sessionCtx.identity.id, dateRange);
+  const workDayRecords = await getWorkDayRecordsByEmployeeAndDateRange(
+    companyCtx.employee.id,
+    dateRange,
+  );
 
   const userShifts = workDayRecords.map((r) => ({
     date: r.date,

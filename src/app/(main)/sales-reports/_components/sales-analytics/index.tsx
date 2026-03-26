@@ -3,13 +3,12 @@ import { getCurrentYear } from "@/utils/datetime";
 import { getAvailableYears } from "@/utils/sales-analytics";
 import { SalesAnalyticsDashboardClient } from "./sales-analytics-dashboard";
 
-export async function SalesAnalyticsDashboard() {
+export async function SalesAnalyticsDashboard({ companyId }: { companyId: string }) {
   const currentYear = getCurrentYear();
-  const firstReportDate = await getFirstReportDate();
+  const firstReportDate = await getFirstReportDate(companyId);
   const availableYears = getAvailableYears(firstReportDate ?? null);
 
-  // Fetch reports for all available years
-  const reportsByYear = await getReportsForYears(availableYears);
+  const reportsByYear = await getReportsForYears(companyId, availableYears);
 
   return (
     <SalesAnalyticsDashboardClient
