@@ -18,7 +18,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { addDays } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 import type { ExportPeriodPayload } from "./_components";
-import { DataTable, ExportPeriodButton, HoursTipsTable } from "./_components";
+import { ExportPeriodButton, HoursTipsPeriodTable, HoursTipsTable } from "./_components";
 
 type SearchParams = Promise<{
   year?: string;
@@ -148,62 +148,39 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Hours</CardTitle>
+          <CardTitle>Breakdown</CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-10">
-          {periods.map((period, index) => (
-            <div key={index} className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <Typography variant="h3" className="flex items-center gap-2">
-                  <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
-                  <span>{formatInUTC(period.start, "MMM d")}</span>
-                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
-                  <span>{formatInUTC(period.end, "d")}</span>
-                </Typography>
-                <ExportPeriodButton payload={buildExportPayload(index)} />
-              </div>
+          {periods.map((period, index) => {
+            const hoursData = hoursTipsBreakdowns[index].hoursBreakdown;
+            const tipsData = hoursTipsBreakdowns[index].tipsBreakdown;
+            const hasData = hoursData.length > 0 || tipsData.length > 0;
 
-              {hoursTipsBreakdowns[index].hoursBreakdown.length > 0 ? (
-                <>
-                  <DataTable dateRange={period} data={hoursTipsBreakdowns[index].hoursBreakdown} />
-                </>
-              ) : (
-                <Typography className="text-center">No record found for this period</Typography>
-              )}
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+            return (
+              <div key={index} className="space-y-6">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <Typography variant="h3" className="flex items-center gap-2">
+                    <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
+                    <span>{formatInUTC(period.start, "MMM d")}</span>
+                    <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
+                    <span>{formatInUTC(period.end, "d")}</span>
+                  </Typography>
+                  <ExportPeriodButton payload={buildExportPayload(index)} />
+                </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Tips</CardTitle>
-        </CardHeader>
-
-        <CardContent className="space-y-10">
-          {periods.map((period, index) => (
-            <div key={index} className="space-y-6">
-              <Typography variant="h3" className="flex items-center gap-2">
-                <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
-                <span>{formatInUTC(period.start, "MMM d")}</span>
-                <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
-                <span>{formatInUTC(period.end, "d")}</span>
-              </Typography>
-
-              {hoursTipsBreakdowns[index].tipsBreakdown.length > 0 ? (
-                <>
-                  <DataTable
+                {hasData ? (
+                  <HoursTipsPeriodTable
                     dateRange={period}
-                    data={hoursTipsBreakdowns[index].tipsBreakdown}
-                    isMoney
+                    hoursData={hoursData}
+                    tipsData={tipsData}
                   />
-                </>
-              ) : (
-                <Typography className="text-center">No record found for this period</Typography>
-              )}
-            </div>
-          ))}
+                ) : (
+                  <Typography className="text-center">No record found for this period</Typography>
+                )}
+              </div>
+            );
+          })}
         </CardContent>
       </Card>
     </div>
