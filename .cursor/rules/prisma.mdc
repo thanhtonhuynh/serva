@@ -1,0 +1,11 @@
+---
+description: Prisma schema and MongoDB conventions
+globs: prisma/**
+alwaysApply: false
+---
+
+# Prisma (`prisma/`)
+
+- **Schema**: follow existing **ObjectId** / relation patterns; keep `Identity` and auth-related models consistent with `src/lib/auth` and seeds.
+- After schema edits, callers need **`pnpm exec prisma generate`**; update **`prisma/seed.ts`** and **`scripts/seed-roles-and-permissions.ts`** (or related scripts) when enums, roles, or permissions change.
+- Remember the client **omits** `identity.passwordHash` globally — password work must go through intentional auth paths.

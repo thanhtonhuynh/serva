@@ -31,8 +31,8 @@ export default function ResetPasswordEmail({
     <Html>
       <Head />
       <Preview>
-        Hello {identity.name}, Ongba EMS received a request to reset your password. Click the link
-        to continue with the password reset process.
+        Hello {identity.name}, Serva received a request to reset your password. Click the link to
+        continue with the password reset process.
       </Preview>
       <Tailwind>
         <React.Fragment>
@@ -40,8 +40,8 @@ export default function ResetPasswordEmail({
             <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
               <Section className="mt-[32px] mb-[32px]">
                 <Img
-                  src={`${process.env.BASE_URL}/ongbaLogo.png`}
-                  alt="Ongba EMS Logo"
+                  src={`${process.env.BASE_URL}/serva-logo-full.png`}
+                  alt="Serva"
                   className="mx-auto aspect-square h-[200px] w-[200px] object-cover"
                 />
 

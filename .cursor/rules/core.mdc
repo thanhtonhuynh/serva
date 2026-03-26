@@ -1,0 +1,13 @@
+---
+description: Project-wide standards — scope, tooling, secrets
+alwaysApply: true
+---
+
+# Core (Serva)
+
+- Use **pnpm** for scripts and installs (`pnpm dev`, `pnpm lint`, `pnpm build`).
+- Keep changes **minimal and on-task**: no unrelated refactors, no extra docs unless asked.
+- **Never** put real secrets or `.env` values in rules, commits, or chat; reference env var names only.
+- Before inventing a new pattern, **read nearby code** in the same feature folder and match style, imports (`@/`), and types.
+- After substantive edits, run **`pnpm lint`** when practical.
+- Repo orientation: see root **`AGENTS.md`**.

@@ -1,0 +1,13 @@
+---
+description: Next.js App Router and React UI patterns
+globs: "**/src/**/*.tsx"
+alwaysApply: false
+---
+
+# Next.js & UI
+
+- Prefer **Server Components**; add **`"use client"`** only for hooks, event handlers, or browser-only APIs.
+- Colocate feature UI under **`src/app/.../_components/`** (and feature-specific `\_context` / hooks) when that matches the surrounding route.
+- Reuse **shared primitives** from `src/components/ui/` and `src/components/shared/` before adding one-off styles.
+- Forms: align with existing **react-hook-form + Zod** usage in the same area.
+- Keep **accessibility** consistent with existing components (labels, dialogs, focus).

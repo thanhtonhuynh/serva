@@ -20,7 +20,7 @@ export async function sendEmail({
   html: string;
 }) {
   await transporter.sendMail({
-    from: `Ongba EMS Support ${process.env.GMAIL_USER}`,
+    from: `Serva <${process.env.GMAIL_USER}>`,
     to,
     subject,
     html,

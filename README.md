@@ -1,1 +1,1 @@
-Ongba Vietnamese Eatery Management System
+Serva — restaurant and store operations
