@@ -74,17 +74,6 @@ model AdminUser {
   identity   Identity @relation(fields: [identityId], references: [id], onDelete: Cascade)
 }
 
-model StoreSettings {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  uniqueKey String @unique @default("store")
-
-  startCash       Int
-  activePlatforms String[] @default(["uber_eats", "doordash", "skip_the_dishes", "ritual"])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 // ==========================================
 // Company (multi-tenant)
 // ==========================================
