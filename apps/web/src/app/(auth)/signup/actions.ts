@@ -1,7 +1,6 @@
 "use server";
 
-import { createIdentity, getIdentityByEmail } from "@/data-access/identity";
-import { getInviteByToken } from "@/data-access/invite";
+import { createIdentity, getIdentityByEmail, getInviteByToken } from "@serva/database";
 import { redirect } from "next/navigation";
 // import {
 //   sendVerificationEmail,

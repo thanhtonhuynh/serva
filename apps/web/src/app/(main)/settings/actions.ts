@@ -5,7 +5,7 @@ import {
   getIdentityPasswordHash,
   updateIdentity,
   updateIdentityPassword,
-} from "@/data-access/identity";
+} from "@serva/database";
 import { authorizeAction } from "@/lib/auth/authorize";
 import { verifyPassword } from "@/lib/auth/password";
 import { invalidateIdentitySessionsExceptCurrent } from "@/lib/auth/session";

@@ -1,8 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "baseUrl": "."
-  },
-  "include": ["src/**/*.ts", "generated/**/*.ts", "prisma/**/*.ts"]
+  "include": ["src/**/*.ts", "generated/**/*.ts", "prisma/**/*.ts"],
+  "extends": "../../tsconfig.base.json"
 }

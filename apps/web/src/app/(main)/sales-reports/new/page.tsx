@@ -2,7 +2,7 @@ import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared";
 import { PERMISSIONS, PLATFORMS, getPlatformById } from "@serva/shared";
-import { getActivePlatforms, getStartCash } from "@/data-access/company-settings";
+import { getActivePlatforms, getStartCash } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";

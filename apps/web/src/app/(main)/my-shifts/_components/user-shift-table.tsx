@@ -6,8 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatMoney } from "@/lib/utils";
-import { DateRange, UserShift, formatInUTC } from "@serva/shared";
+import { DateRange, UserShift, formatInUTC, formatMoney } from "@serva/shared";
 import { addDays } from "date-fns";
 
 export function UserShiftTable({

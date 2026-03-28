@@ -3,9 +3,8 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Callout, CurrentBadge, Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
-import { getWorkDayRecordsByEmployeeAndDateRange } from "@/data-access/work-day-record/dal";
+import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database";
 import { authGuardWithRateLimit } from "@/lib/auth/authorize";
-import { formatMoney } from "@/lib/utils";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -15,6 +14,7 @@ import {
   getCurrentYear,
   getDateRangeForMonthAndYearInUTC,
   getPeriodsForMonthAndYearInUTC,
+  formatMoney,
 } from "@serva/shared";
 import { notFound, redirect } from "next/navigation";
 

@@ -2,11 +2,11 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Callout, CurrentBadge } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record/dal";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { getHoursTipsBreakdownInDateRange, populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { getWorkDayRecordsByDateRange } from "@serva/database";
 import {
   PERMISSIONS,
   TotalHoursTips,

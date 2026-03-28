@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "baseUrl": ".",
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -12,7 +13,11 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "target": "ES2023"
+    "target": "ES2023",
+    "paths": {
+      "@serva/database": ["libs/database/src/index.ts"],
+      "@serva/shared": ["libs/shared/src/index.ts"]
+    }
   },
   "exclude": ["node_modules"]
 }

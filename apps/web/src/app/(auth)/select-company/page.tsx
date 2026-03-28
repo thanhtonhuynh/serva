@@ -3,7 +3,7 @@ import { SIcon } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { getCompaniesByIdentityId } from "@/data-access/company/dal";
+import { getCompaniesByIdentityId } from "@serva/database";
 import { getCurrentSession } from "@/lib/auth/session";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import Image from "next/image";

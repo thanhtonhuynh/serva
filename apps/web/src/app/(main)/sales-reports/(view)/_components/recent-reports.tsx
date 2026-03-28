@@ -1,10 +1,9 @@
 import { Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
-import { getRecentReports } from "@/data-access/report";
-import { formatMoney } from "@/lib/utils";
+import { getRecentReports } from "@serva/database";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { formatInUTC } from "@serva/shared";
+import { formatInUTC, formatMoney } from "@serva/shared";
 import Link from "next/link";
 
 export async function RecentReports({ companyId }: { companyId: string }) {

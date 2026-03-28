@@ -9,12 +9,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { formatMoney } from "@/lib/utils";
 import {
   calculateSalesAnalytics,
   DaySalesData,
   generateHeatmapData,
   SalesAnalytics,
+  formatMoney,
 } from "@serva/shared";
 import { useCallback, useMemo, useState } from "react";
 import { SalesHeatmap } from "./sales-heatmap";

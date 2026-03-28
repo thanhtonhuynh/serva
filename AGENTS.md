@@ -33,17 +33,18 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | Area                                         | Path                                                            |
 | -------------------------------------------- | --------------------------------------------------------------- |
 | App Router routes                            | `apps/web/src/app/` — route groups include `(auth)`, `(main)`, `(admin)` |
-| DB access helpers                            | `apps/web/src/data-access/` (Prisma types/client from `@serva/database`) |
-| Shared database package                      | `libs/database/` — schema, `prisma` CLI config, generated client        |
+| DB access layer (DAL)                        | `libs/database/src/dal/` — all Prisma queries, exported via `@serva/database` |
+| Shared types, constants, utils               | `libs/shared/` — `@serva/shared` (types, constants, helpers, utils) |
+| Shared database package                      | `libs/database/` — schema, Prisma CLI config, generated client, DAL |
 | Shared libs (auth helpers, etc.)             | `apps/web/src/lib/`                                             |
 | UI primitives & shared components            | `apps/web/src/components/`                                      |
 
-Prisma schema: `libs/database/prisma/schema.prisma`. Moving all DAL into `libs/database` is deferred until shared `@serva/types` / `@serva/utils` (and similar) exist—today’s data-access modules import app-layer paths (`@/lib`, `@/types`, `@/utils`).
+Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs/database/src/dal/` and are imported via `@serva/database`. Shared types, constants, and utils are in `libs/shared/` (`@serva/shared`). The remaining app-local modules (`@/lib/auth`, `@/lib/validations`, etc.) still exist—today’s data-access modules import app-layer paths (`@/lib`, `@/types`, `@/utils`).
 
 ## Conventions
 
 - Prefer **small, task-scoped changes**; avoid drive-by refactors unrelated to the request.
-- **Database**: use `apps/web/src/data-access/` and `import { prisma } from "@serva/database"` (or model types from `@serva/database`) instead of sprinkling `PrismaClient` in UI or route files.
+- **Database**: import DAL functions and Prisma model types from `@serva/database` instead of using `PrismaClient` directly in UI or route files.
 - **Server vs client**: server components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity).
 - Match **existing naming**, imports (`@/…`), and component patterns in the nearest feature folder.
 

@@ -1,9 +1,9 @@
 "use server";
 
-import { PERMISSIONS } from "@serva/shared";
-import { createExpenses, deleteExpense, updateExpenses } from "@/data-access/expenses";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
+import { createExpenses, deleteExpense, updateExpenses } from "@serva/database";
+import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 
 export async function addExpensesAction(data: ExpensesFormInput): Promise<{ error?: string }> {

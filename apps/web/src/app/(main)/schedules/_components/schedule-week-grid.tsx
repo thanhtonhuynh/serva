@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
+import type { WorkDayRecordsByDate } from "@serva/database";
 import { useNavigationGuard } from "@/hooks/use-navigation-guard";
 import { cn } from "@/lib/utils";
 import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";

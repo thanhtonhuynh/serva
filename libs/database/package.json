@@ -16,12 +16,9 @@
     "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.2",
-    "dotenv": "^17.3.1"
+    "@prisma/client": "^6.19.2"
   },
   "devDependencies": {
-    "@types/node": "^20.19.27",
-    "prisma": "^6.19.2",
-    "tsx": "^4.19.2"
+    "prisma": "^6.19.2"
   }
 }

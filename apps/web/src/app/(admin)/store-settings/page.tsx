@@ -1,9 +1,9 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
-import { PERMISSIONS } from "@serva/shared";
-import { getActivePlatforms, getStartCash } from "@/data-access/company-settings";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { getActivePlatforms, getStartCash } from "@serva/database";
+import { PERMISSIONS } from "@serva/shared";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { PlatformsForm } from "./platforms-form";

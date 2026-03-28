@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ICONS } from "@/constants/icons";
-import { getWorkDayRecordsByEmployeeAndDateRange } from "@/data-access/work-day-record/dal";
-import { formatMoney } from "@/lib/utils";
+import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { formatInUTC, getCurrentBiweeklyPeriodInUTC } from "@serva/shared";
+import { formatInUTC, getCurrentBiweeklyPeriodInUTC, formatMoney } from "@serva/shared";
 import Link from "next/link";
 
 type Props = {

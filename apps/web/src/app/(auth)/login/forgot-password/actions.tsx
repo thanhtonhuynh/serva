@@ -1,7 +1,6 @@
 "use server";
 
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
-import { getIdentityByEmail } from "@/data-access/identity";
 import {
   createPasswordResetToken,
   generatePasswordResetToken,
@@ -11,6 +10,7 @@ import { sendEmail } from "@/lib/email";
 import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@/lib/validations/auth";
 import { rateLimitByKey, unauthenticatedRateLimit } from "@/utils/rate-limiter";
 import { render } from "@react-email/components";
+import { getIdentityByEmail } from "@serva/database";
 
 export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
   try {

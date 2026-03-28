@@ -1,7 +1,7 @@
 import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import type { IdentityProfile } from "@/data-access/identity";
+import type { IdentityProfile } from "@serva/database";
 import {
   Calendar02Icon,
   Mail01Icon,

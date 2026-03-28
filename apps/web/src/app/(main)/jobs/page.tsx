@@ -2,7 +2,7 @@ import { Container, Header } from "@/components/layout";
 import { Typography } from "@/components/shared";
 import { Card } from "@/components/ui/card";
 import { PERMISSIONS } from "@serva/shared";
-import { getJobsByCompany } from "@/data-access/job";
+import { getJobsByCompany } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";

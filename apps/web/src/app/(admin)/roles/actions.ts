@@ -1,7 +1,5 @@
 "use server";
 
-import { PERMISSIONS } from "@serva/shared";
-import { createRole, deleteRole, roleNameExists, updateRole } from "@/data-access/roles";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import {
   CreateRoleInput,
@@ -9,6 +7,8 @@ import {
   UpdateRoleInput,
   UpdateRoleSchema,
 } from "@/lib/validations/roles";
+import { createRole, deleteRole, roleNameExists, updateRole } from "@serva/database";
+import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 
 export async function createRoleAction(data: CreateRoleInput): Promise<{ error?: string }> {

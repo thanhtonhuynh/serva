@@ -7,8 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatMoney } from "@/lib/utils";
-import { BreakdownData, formatInUTC, type DateRange } from "@serva/shared";
+import { BreakdownData, formatInUTC, formatMoney, type DateRange } from "@serva/shared";
 import { addDays } from "date-fns";
 
 type HoursTipsPeriodTableProps = {

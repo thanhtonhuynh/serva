@@ -1,6 +1,6 @@
 "use server";
 
-import { updateIdentity, updateIdentityPassword } from "@/data-access/identity";
+import { updateIdentity, updateIdentityPassword } from "@serva/database";
 import {
   deletePasswordResetTokenCookie,
   invalidatePasswordResetToken,

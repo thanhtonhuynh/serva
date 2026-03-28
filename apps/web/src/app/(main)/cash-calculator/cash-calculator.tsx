@@ -5,8 +5,7 @@ import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { formatMoney } from "@/lib/utils";
-import type { CashType } from "@serva/shared";
+import { formatMoney, type CashType } from "@serva/shared";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 

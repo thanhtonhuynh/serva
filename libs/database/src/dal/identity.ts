@@ -1,5 +1,5 @@
-import { hashPassword } from "@/lib/auth/password";
-import type { Identity } from "@/lib/auth/session";
+import { hashPassword } from "./password";
+import type { Identity } from "@serva/shared";
 import { prisma } from "@serva/database";
 import { type Identity as PrismaIdentity } from "@serva/database";
 import { cache } from "react";

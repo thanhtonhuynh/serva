@@ -1,9 +1,9 @@
 "use server";
 
-import { PERMISSIONS, type DateRange } from "@serva/shared";
-import { recomputeTipsForDateRange, replaceWeekSchedule } from "@/data-access/work-day-record/dal";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { WeekScheduleSchema, type WeekScheduleInput } from "@/lib/validations";
+import { recomputeTipsForDateRange, replaceWeekSchedule } from "@serva/database";
+import { PERMISSIONS, type DateRange } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 
 type ActionResult = { error?: string };

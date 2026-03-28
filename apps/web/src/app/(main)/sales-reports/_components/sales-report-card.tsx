@@ -4,12 +4,13 @@ import { DecoIcon, Typography } from "@/components/shared";
 import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Separator } from "@/components/ui/separator";
 import { ICONS } from "@/constants/icons";
-import { cn, formatMoney } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   formatInUTC,
   getPlatformAmount,
   getPlatformById,
   SaleReportCardProcessedData,
+  formatMoney,
   type Platform,
 } from "@serva/shared";
 

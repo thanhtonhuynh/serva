@@ -1,7 +1,7 @@
 "use server";
 
 import { PERMISSIONS } from "@serva/shared";
-import { upsertReport } from "@/data-access/report";
+import { upsertReport } from "@serva/database";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 

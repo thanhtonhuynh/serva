@@ -1,8 +1,7 @@
 import { Container, Header, Loader } from "@/components/layout";
 import { Typography } from "@/components/shared";
 import { Card } from "@/components/ui/card";
-import { getEmployeesByCompany } from "@/data-access/employee";
-import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
+import { getEmployeesByCompany, getWorkDayRecordsByDateRange } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { buildWorkDayRecordsByDate } from "@/utils/work-day-record";
 import {

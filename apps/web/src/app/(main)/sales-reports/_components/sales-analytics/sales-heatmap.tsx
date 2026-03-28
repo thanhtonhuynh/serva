@@ -1,8 +1,8 @@
 "use client";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn, formatMoney } from "@/lib/utils";
-import { HeatmapCell, HeatmapData, WEEKDAY_LABELS } from "@serva/shared";
+import { cn } from "@/lib/utils";
+import { HeatmapCell, HeatmapData, WEEKDAY_LABELS, formatMoney } from "@serva/shared";
 import { useRouter } from "next/navigation";
 
 type SalesHeatmapProps = {

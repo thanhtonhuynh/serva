@@ -4,4 +4,6 @@ export * from "./types";
 export * from "./types/company";
 export * from "./types/datetime";
 export * from "./types/rbac";
+export * from "./types/session";
+export * from "./types/validations";
 export * from "./utils";

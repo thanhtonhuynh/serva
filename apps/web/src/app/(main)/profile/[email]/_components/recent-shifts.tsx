@@ -1,8 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatMoney } from "@/lib/utils";
 import { LinkSquare01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { formatInUTC } from "@serva/shared";
+import { formatInUTC, formatMoney } from "@serva/shared";
 import Link from "next/link";
 
 type RecentShift = {

@@ -1,7 +1,7 @@
 "use server";
 
 import { PERMISSIONS } from "@serva/shared";
-import { deleteReportById, reportExists } from "@/data-access/report";
+import { deleteReportById, reportExists } from "@serva/database";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { revalidatePath } from "next/cache";
 

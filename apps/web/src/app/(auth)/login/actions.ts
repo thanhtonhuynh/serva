@@ -1,10 +1,10 @@
 "use server";
 
-import { getIdentityByEmail, getIdentityPasswordHash } from "@/data-access/identity";
 import { verifyPassword } from "@/lib/auth/password";
 import { createSession, generateSessionToken } from "@/lib/auth/session";
 import { setCompanyIdCookie, setSessionTokenCookie } from "@/lib/cookies";
 import { consumeInviteForIdentity } from "@/lib/invite";
+import { getIdentityByEmail, getIdentityPasswordHash } from "@serva/database";
 import { redirect } from "next/navigation";
 // import {
 //   getUserEmailVerificationRequestByUserId,

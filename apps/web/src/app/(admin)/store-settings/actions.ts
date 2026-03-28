@@ -1,15 +1,14 @@
 "use server";
 
-import { PERMISSIONS } from "@serva/shared";
-import { updateCompanySettings } from "@/data-access/company-settings";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
-import { toCents } from "@/lib/utils";
 import {
   UpdateActivePlatformsInput,
   UpdateActivePlatformsSchema,
   UpdateStartCashInput,
   UpdateStartCashSchema,
 } from "@/lib/validations/store";
+import { updateCompanySettings } from "@serva/database";
+import { PERMISSIONS, toCents } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 
 export async function updateStartCash(data: UpdateStartCashInput): Promise<{ error?: string }> {

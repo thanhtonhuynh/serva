@@ -10,17 +10,26 @@
     "dev:all": "nx run-many -t dev",
     "postinstall": "pnpm --filter @serva/database run db:generate"
   },
-  "devDependencies": {
-    "@serva/database": "workspace:*",
-    "nx": "^21.3.2",
-    "prettier": "^3.7.4",
-    "prettier-plugin-tailwindcss": "^0.6.14",
-    "typescript": "^5.9.3"
-  },
   "dependencies": {
     "@date-fns/tz": "^1.4.1",
     "@date-fns/utc": "^2.1.1",
-    "date-fns": "^4.1.0"
+    "@node-rs/argon2": "^2.0.2",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.3.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@serva/database": "workspace:*",
+    "@types/node": "^20.19.27",
+    "@types/react": "19.2.13",
+    "@types/react-dom": "19.2.3",
+    "nx": "^21.3.2",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

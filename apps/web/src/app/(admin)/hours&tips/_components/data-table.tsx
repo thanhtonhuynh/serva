@@ -7,8 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatMoney } from "@/lib/utils";
-import { BreakdownData, DateRange, formatInUTC } from "@serva/shared";
+import { BreakdownData, DateRange, formatInUTC, formatMoney } from "@serva/shared";
 import { addDays } from "date-fns";
 
 type DataTableProps = {
