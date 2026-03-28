@@ -11,6 +11,7 @@ export * from "./dal/invite";
 export * from "./dal/job";
 export * from "./dal/operator";
 export * from "./dal/password";
+export * from "./dal/platform-admin";
 export * from "./dal/report";
 export * from "./dal/roles";
 export * from "./dal/work-day-record";

@@ -1,0 +1,22 @@
+{
+  "name": "@serva/admin-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack --port 3002",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@serva/auth": "workspace:*",
+    "@serva/database": "workspace:*",
+    "@serva/shared": "workspace:*",
+    "@serva/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "eslint-config-next": "16.0.8"
+  }
+}

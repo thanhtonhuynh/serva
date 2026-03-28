@@ -2,7 +2,7 @@ import { setCompanyIdCookie } from "@serva/auth/cookies";
 import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getCurrentSession } from "@serva/auth/session";
 import { getCompaniesByIdentityId } from "@serva/database";
-import { getWebUrl } from "@serva/shared";
+import { getAdminUrl, getWebUrl } from "@serva/shared";
 import { SIcon } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
@@ -49,7 +49,19 @@ export default async function SelectCompanyPage() {
 
         <CardContent className="flex w-full flex-col items-center gap-6">
           {companies.length === 0 ? (
-            <Typography>Please contact your manager to get access to your company.</Typography>
+            <>
+              {identity.isPlatformAdmin ? (
+                <div className="flex flex-col items-center gap-3">
+                  <Typography>You have no company memberships.</Typography>
+                  <Button nativeButton={false} render={<a href={getAdminUrl()} />}>
+                    <SIcon icon="ADMIN" strokeWidth={1.5} />
+                    Open Admin Dashboard
+                  </Button>
+                </div>
+              ) : (
+                <Typography>Please contact your manager to get access to your company.</Typography>
+              )}
+            </>
           ) : (
             <CompanyList companies={companies} />
           )}

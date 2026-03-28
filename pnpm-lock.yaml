@@ -145,6 +145,28 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  apps/admin:
+    dependencies:
+      '@serva/auth':
+        specifier: workspace:*
+        version: link:../../libs/auth
+      '@serva/database':
+        specifier: workspace:*
+        version: link:../../libs/database
+      '@serva/shared':
+        specifier: workspace:*
+        version: link:../../libs/shared
+      '@serva/ui':
+        specifier: workspace:*
+        version: link:../../libs/ui
+    devDependencies:
+      eslint:
+        specifier: ^9.39.2
+        version: 9.39.4(jiti@2.6.1)
+      eslint-config-next:
+        specifier: 16.0.8
+        version: 16.0.8(@typescript-eslint/parser@8.57.2(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+
   apps/auth:
     dependencies:
       '@serva/auth':
@@ -214,7 +236,7 @@ importers:
         version: 9.39.4(jiti@2.6.1)
       eslint-config-next:
         specifier: 16.0.8
-        version: 16.0.8(@typescript-eslint/parser@8.57.2(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+        version: 16.0.8(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       react-email:
         specifier: ^5.0.8
         version: 5.2.10

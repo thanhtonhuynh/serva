@@ -1,0 +1,25 @@
+import type { NextConfig } from "next";
+import packageJson from "./package.json" with { type: "json" };
+
+const workspacePackages = Object.entries({
+  ...packageJson.dependencies,
+  ...packageJson.devDependencies,
+})
+  .filter(([, v]) => v.startsWith("workspace:"))
+  .map(([name]) => name);
+
+const nextConfig: NextConfig = {
+  transpilePackages: workspacePackages,
+  reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.public.blob.vercel-storage.com",
+        pathname: "/**",
+      },
+    ],
+  },
+};
+
+export default nextConfig;

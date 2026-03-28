@@ -49,6 +49,7 @@ import {
   UserGroupIcon,
   UserIcon,
   UserMultipleIcon,
+  UserStar01Icon,
 } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 
@@ -57,6 +58,7 @@ export type IconKey = keyof typeof ICONS;
 export const ICONS = {
   ACCOUNT_SETTINGS: Settings01Icon,
   ADD: Add01Icon,
+  ADMIN: UserStar01Icon,
   ALERT: Alert02Icon,
   ARROW_LEFT: ArrowLeft01Icon,
   ARROW_RIGHT: ArrowRight01Icon,
