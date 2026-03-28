@@ -1,11 +1,11 @@
-import { hasPermission } from "@/lib/auth/permission";
-import { getCurrentSession, type CompanyContext, type Identity } from "@/lib/auth/session";
-import type { PermissionCode } from "@serva/shared";
-import { authenticatedRateLimit } from "@/utils/rate-limiter";
 import type { Session } from "@serva/database";
+import type { PermissionCode } from "@serva/shared";
 import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import "server-only";
+import { hasPermission } from "./permission";
+import { authenticatedRateLimit } from "./rate-limiter";
+import { getCurrentSession, type CompanyContext, type Identity } from "./session";
 
 type AuthorizeActionResult =
   | { identity: Identity; companyCtx: CompanyContext; session: Session }

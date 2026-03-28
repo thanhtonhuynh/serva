@@ -1,6 +1,6 @@
 "use server";
 
-import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
+import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
 import { createExpenses, deleteExpense, updateExpenses } from "@serva/database";
 import { PERMISSIONS } from "@serva/shared";

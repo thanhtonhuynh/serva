@@ -5,10 +5,10 @@ import {
   deletePasswordResetTokenCookie,
   invalidatePasswordResetToken,
   validatePasswordResetRequest,
-} from "@/lib/auth/password-reset";
-import { invalidateIdentitySessions } from "@/lib/auth/session";
+} from "@serva/auth/password-reset";
+import { invalidateIdentitySessions } from "@serva/auth/session";
 import { ResetPasswordSchema, ResetPasswordSchemaTypes } from "@/lib/validations/auth";
-import { rateLimitByIp, unauthenticatedRateLimit } from "@/utils/rate-limiter";
+import { rateLimitByIp, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { cookies } from "next/headers";
 
 export async function resetPasswordAction(data: ResetPasswordSchemaTypes) {

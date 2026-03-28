@@ -1,5 +1,5 @@
-import type { Employee, Operator } from "@/lib/auth/session";
 import type { PermissionCode, Role } from "@serva/shared";
+import type { Employee, Operator } from "./session";
 
 /**
  * Build a simplified role object with flattened permissions.

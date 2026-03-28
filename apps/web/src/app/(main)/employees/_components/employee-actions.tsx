@@ -18,7 +18,7 @@ import {
 import { ICONS } from "@serva/ui/constants/icons";
 import { PERMISSIONS, DisplayEmployee } from "@serva/shared";
 import { useSession } from "@/contexts/SessionProvider";
-import { hasPermission } from "@/lib/auth/permission";
+import { hasPermission } from "@serva/auth/permission";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Briefcase, ShieldCheck, ShieldOff } from "lucide-react";
 import { useState, useTransition } from "react";

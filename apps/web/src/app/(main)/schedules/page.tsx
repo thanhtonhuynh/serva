@@ -3,7 +3,7 @@ import { Container, Loader } from "@serva/ui";
 import { Typography } from "@serva/ui";
 import { Card } from "@serva/ui/components/card";
 import { getEmployeesByCompany, getWorkDayRecordsByDateRange } from "@serva/database";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { buildWorkDayRecordsByDate } from "@/utils/work-day-record";
 import {
   PERMISSIONS,

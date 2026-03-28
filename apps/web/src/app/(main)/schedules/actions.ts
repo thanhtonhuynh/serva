@@ -1,6 +1,6 @@
 "use server";
 
-import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
+import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { WeekScheduleSchema, type WeekScheduleInput } from "@/lib/validations";
 import { recomputeTipsForDateRange, replaceWeekSchedule } from "@serva/database";
 import { PERMISSIONS, type DateRange } from "@serva/shared";

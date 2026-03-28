@@ -1,4 +1,3 @@
-import { buildSimplifiedRole, mergePermissions } from "@/utils/roles";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { prisma, Session } from "@serva/database";
@@ -14,7 +13,8 @@ import {
 } from "@serva/shared";
 import { cache } from "react";
 import "server-only";
-import { getCompanyIdCookie, getSessionTokenCookie } from "../cookies";
+import { getCompanyIdCookie, getSessionTokenCookie } from "./cookies";
+import { buildSimplifiedRole, mergePermissions } from "./roles";
 
 export type { CompanyContext, Employee, Identity, Operator, SessionFlags, SessionValidationResult };
 

@@ -6,9 +6,9 @@ import {
   updateIdentity,
   updateIdentityPassword,
 } from "@serva/database";
-import { authorizeAction } from "@/lib/auth/authorize";
-import { verifyPassword } from "@/lib/auth/password";
-import { invalidateIdentitySessionsExceptCurrent } from "@/lib/auth/session";
+import { authorizeAction } from "@serva/auth/authorize";
+import { verifyPassword } from "@serva/auth/password";
+import { invalidateIdentitySessionsExceptCurrent } from "@serva/auth/session";
 import {
   UpdateAvatarSchema,
   UpdateAvatarSchemaInput,

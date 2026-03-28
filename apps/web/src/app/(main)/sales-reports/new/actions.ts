@@ -2,7 +2,7 @@
 
 import { PERMISSIONS } from "@serva/shared";
 import { upsertReport } from "@serva/database";
-import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
+import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 
 export async function saveReportAction(

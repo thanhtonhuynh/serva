@@ -3,7 +3,7 @@ import { SIcon } from "@serva/ui";
 import { Typography } from "@serva/ui/components/serva/typography";
 import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
-import { getCurrentSession } from "@/lib/auth/session";
+import { getCurrentSession } from "@serva/auth/session";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";

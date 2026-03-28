@@ -4,7 +4,7 @@ import { Typography } from "@serva/ui/components/serva/typography";
 import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database";
-import { getCurrentSession } from "@/lib/auth/session";
+import { getCurrentSession } from "@serva/auth/session";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";

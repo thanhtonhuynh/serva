@@ -4,7 +4,7 @@ import { LoadingButton } from "@serva/ui/components/serva/loading-button";
 import { Typography } from "@serva/ui/components/serva/typography";
 import { Button } from "@serva/ui/components/button";
 import { useSession } from "@/contexts/SessionProvider";
-import { hasPermission } from "@/lib/auth/permission";
+import { hasPermission } from "@serva/auth/permission";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";

@@ -1,4 +1,4 @@
-import { hash, verify } from '@node-rs/argon2';
+import { hash, verify } from "@node-rs/argon2";
 
 // Hash Password
 export async function hashPassword(plainTextPassword: string) {
@@ -11,10 +11,7 @@ export async function hashPassword(plainTextPassword: string) {
 }
 
 // Verify Password
-export async function verifyPassword(
-  passwordHash: string,
-  plainTextPassword: string
-) {
+export async function verifyPassword(passwordHash: string, plainTextPassword: string) {
   return await verify(passwordHash, plainTextPassword);
 }
 

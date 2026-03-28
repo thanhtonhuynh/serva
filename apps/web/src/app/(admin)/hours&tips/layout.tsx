@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@serva/ui/components/serva/container";
 import { Typography } from "@serva/ui";
-import { authGuard } from "@/lib/auth/authorize";
+import { authGuard } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";
 import { PeriodSelector } from "./_components";

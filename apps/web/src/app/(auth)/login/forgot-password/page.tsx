@@ -2,7 +2,7 @@ import { Container } from "@serva/ui";
 import { Callout, SIcon, Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
-import { getCurrentSession } from "@/lib/auth/session";
+import { getCurrentSession } from "@serva/auth/session";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";

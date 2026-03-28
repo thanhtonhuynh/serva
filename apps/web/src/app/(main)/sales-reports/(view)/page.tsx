@@ -4,7 +4,7 @@ import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { ICONS } from "@serva/ui/constants/icons";
 import { getReportRaw } from "@serva/database";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { utc } from "@date-fns/utc";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {

@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@serva/ui/components/form";
 import { Input } from "@serva/ui/components/input";
-import type { Identity } from "@/lib/auth/session";
+import type { Identity } from "@serva/auth/session";
 import { UpdateAvatarSchema, UpdateAvatarSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";

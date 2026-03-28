@@ -2,8 +2,8 @@
 
 import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
 import { createInvite, deleteInviteById, revokeInviteById, updateOperatorRole, getRoleById, prisma } from "@serva/database";
-import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
-import { hasAssignRolePermission } from "@/lib/auth/permission";
+import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
+import { hasAssignRolePermission } from "@serva/auth/permission";
 import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/lib/invite";
 import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
 import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/lib/validations/invite";

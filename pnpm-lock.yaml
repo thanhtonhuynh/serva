@@ -29,6 +29,18 @@ importers:
       '@node-rs/argon2':
         specifier: ^2.0.2
         version: 2.0.2
+      '@oslojs/binary':
+        specifier: ^1.0.0
+        version: 1.0.0
+      '@oslojs/crypto':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@oslojs/encoding':
+        specifier: ^1.1.0
+        version: 1.1.0
+      '@oslojs/otp':
+        specifier: ^1.1.0
+        version: 1.1.0
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -47,9 +59,15 @@ importers:
       lucide-react:
         specifier: ^0.479.0
         version: 0.479.0(react@19.2.4)
+      next:
+        specifier: 16.1.6
+        version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      nodemailer:
+        specifier: ^7.0.11
+        version: 7.0.13
       radix-ui:
         specifier: ^1.4.3
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -87,6 +105,9 @@ importers:
       '@types/node':
         specifier: ^20.19.27
         version: 20.19.37
+      '@types/nodemailer':
+        specifier: ^6.4.21
+        version: 6.4.23
       '@types/react':
         specifier: 19.2.13
         version: 19.2.13
@@ -129,21 +150,12 @@ importers:
       '@flags-sdk/growthbook':
         specifier: ^0.2.0
         version: 0.2.0(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
-      '@oslojs/binary':
-        specifier: ^1.0.0
-        version: 1.0.0
-      '@oslojs/crypto':
-        specifier: ^1.0.1
-        version: 1.0.1
-      '@oslojs/encoding':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@oslojs/otp':
-        specifier: ^1.1.0
-        version: 1.1.0
       '@react-email/components':
         specifier: ^1.0.1
         version: 1.0.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@serva/auth':
+        specifier: workspace:*
+        version: link:../../libs/auth
       '@serva/database':
         specifier: workspace:*
         version: link:../../libs/database
@@ -162,9 +174,6 @@ importers:
       framer-motion:
         specifier: ^11.18.2
         version: 11.18.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      next:
-        specifier: 16.1.6
-        version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       nodemailer:
         specifier: ^7.0.11
         version: 7.0.13
@@ -178,9 +187,6 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
     devDependencies:
-      '@types/nodemailer':
-        specifier: ^6.4.21
-        version: 6.4.23
       eslint:
         specifier: ^9.39.2
         version: 9.39.4(jiti@2.6.1)
@@ -194,6 +200,8 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.19.37)(typescript@5.9.3)
 
+  libs/auth: {}
+
   libs/database:
     dependencies:
       '@prisma/client':
@@ -206,11 +214,7 @@ importers:
 
   libs/shared: {}
 
-  libs/ui:
-    devDependencies:
-      next:
-        specifier: 16.1.6
-        version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+  libs/ui: {}
 
 packages:
 

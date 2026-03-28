@@ -1,6 +1,6 @@
 "use server";
 
-import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
+import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import {
   CreateRoleInput,
   CreateRoleSchema,

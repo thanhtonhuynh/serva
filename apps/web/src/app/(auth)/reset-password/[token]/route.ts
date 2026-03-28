@@ -1,7 +1,7 @@
 import {
   setPasswordResetTokenCookie,
   validatePasswordResetRequest,
-} from "@/lib/auth/password-reset";
+} from "@serva/auth/password-reset";
 import { redirect } from "next/navigation";
 
 type Params = Promise<{ token: string }>;

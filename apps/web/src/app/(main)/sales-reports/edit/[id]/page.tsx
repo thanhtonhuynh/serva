@@ -2,7 +2,7 @@ import { Header } from "@/components/layout";
 import { Container } from "@serva/ui/components/serva/container";
 import { Typography } from "@serva/ui/components/serva/typography";
 import { getActivePlatforms, getStartCash, getReportRaw } from "@serva/database";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { PERMISSIONS, PLATFORMS, formatInUTC, getPlatformById } from "@serva/shared";
 import { notFound } from "next/navigation";

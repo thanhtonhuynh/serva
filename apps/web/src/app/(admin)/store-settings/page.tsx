@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@serva/ui/components/serva/container";
 import { Typography } from "@serva/ui/components/serva/typography";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getActivePlatforms, getStartCash } from "@serva/database";
 import { PERMISSIONS } from "@serva/shared";
 import { notFound } from "next/navigation";

@@ -11,6 +11,8 @@
       "@/*": ["./src/*"],
       "@serva/database": ["../../libs/database/src/index.ts"],
       "@serva/shared": ["../../libs/shared/src/index.ts"],
+      "@serva/auth": ["../../libs/auth/src/index.ts"],
+      "@serva/auth/*": ["../../libs/auth/src/*"],
       "@serva/ui": ["../../libs/ui/src/index.ts"],
       "@serva/ui/*": ["../../libs/ui/src/*"]
     }

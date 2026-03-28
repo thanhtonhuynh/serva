@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { StatusFilter, ViewToggle, type ViewMode } from "@/components/shared";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import {
   getAwaitingInvitesByCompanyAndType,
   getEmployeesByCompany,

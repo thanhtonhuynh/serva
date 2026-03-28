@@ -4,7 +4,7 @@ import { Typography } from "@serva/ui";
 import { Card } from "@serva/ui/components/card";
 import { PERMISSIONS } from "@serva/shared";
 import { getJobsByCompany } from "@serva/database";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { JobsManager } from "./_components/jobs-manager";

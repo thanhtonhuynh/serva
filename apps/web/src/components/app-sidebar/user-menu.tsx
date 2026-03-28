@@ -1,8 +1,8 @@
 "use client";
 
 import { logoutAction } from "@/app/(auth)/actions";
-import type { CompanyContext, Identity } from "@/lib/auth/session";
 import { HugeiconsIcon } from "@hugeicons/react";
+import type { CompanyContext, Identity } from "@serva/auth/session";
 import { ProfilePicture, Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import {

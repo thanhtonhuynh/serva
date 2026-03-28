@@ -14,10 +14,7 @@
   "dependencies": {
     "@dnd-kit/react": "^0.3.2",
     "@flags-sdk/growthbook": "^0.2.0",
-    "@oslojs/binary": "^1.0.0",
-    "@oslojs/crypto": "^1.0.1",
-    "@oslojs/encoding": "^1.1.0",
-    "@oslojs/otp": "^1.1.0",
+    "@serva/auth": "workspace:*",
     "@serva/database": "workspace:*",
     "@serva/shared": "workspace:*",
     "@serva/ui": "workspace:*",
@@ -25,14 +22,12 @@
     "@vercel/blob": "^2.3.1",
     "date-fns-tz": "^3.2.0",
     "framer-motion": "^11.18.2",
-    "next": "16.1.6",
     "nodemailer": "^7.0.11",
     "react-dropzone": "^14.3.8",
     "xlsx": "^0.18.5",
     "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.21",
     "eslint": "^9.39.2",
     "eslint-config-next": "16.0.8",
     "react-email": "^5.0.8",

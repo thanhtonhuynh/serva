@@ -15,8 +15,5 @@
     "./components/*": "./src/components/*.tsx",
     "./components/serva/*": "./src/components/serva/*.tsx",
     "./hooks/*": "./src/hooks/*.ts"
-  },
-  "devDependencies": {
-    "next": "16.1.6"
   }
 }

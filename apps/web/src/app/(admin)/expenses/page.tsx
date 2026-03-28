@@ -3,7 +3,7 @@ import { Callout, CurrentBadge, Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { ICONS } from "@serva/ui/constants/icons";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getExpensesByYear } from "@serva/database";

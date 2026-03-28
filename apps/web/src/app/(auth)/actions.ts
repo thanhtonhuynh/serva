@@ -1,7 +1,7 @@
 "use server";
 
-import { getCurrentSession, invalidateSession } from "@/lib/auth/session";
-import { deleteCompanyIdCookie, deleteSessionTokenCookie } from "@/lib/cookies";
+import { getCurrentSession, invalidateSession } from "@serva/auth/session";
+import { deleteCompanyIdCookie, deleteSessionTokenCookie } from "@serva/auth/cookies";
 import { redirect } from "next/navigation";
 
 export async function logoutAction() {

@@ -4,7 +4,7 @@ import { Typography } from "@serva/ui/components/serva/typography";
 import { Button } from "@serva/ui/components/button";
 import { ICONS } from "@serva/ui/constants/icons";
 import { PERMISSIONS } from "@serva/shared";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { Fragment, ReactNode, Suspense } from "react";

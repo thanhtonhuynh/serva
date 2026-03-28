@@ -1,7 +1,7 @@
 "use server";
 
-import { getCurrentSession } from "@/lib/auth/session";
-import { setCompanyIdCookie } from "@/lib/cookies";
+import { getCurrentSession } from "@serva/auth/session";
+import { setCompanyIdCookie } from "@serva/auth/cookies";
 import { redirect } from "next/navigation";
 
 export async function selectCompanyAction(companyId: string) {

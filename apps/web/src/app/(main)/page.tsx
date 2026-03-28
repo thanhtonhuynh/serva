@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout";
-import { authGuardWithRateLimit } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit } from "@serva/auth/authorize";
 import { Card, CardContent, CardHeader, CardTitle, Container, Typography } from "@serva/ui";
 import { Fragment } from "react";
 import { CurrentPayPeriodSummary } from "./_components";

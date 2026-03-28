@@ -3,7 +3,7 @@ import { Container } from "@serva/ui/components/serva/container";
 import { Typography } from "@serva/ui";
 import { PERMISSIONS, PLATFORMS, getPlatformById } from "@serva/shared";
 import { getActivePlatforms, getStartCash } from "@serva/database";
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { SaleReportPortal } from "./sale-report-portal";

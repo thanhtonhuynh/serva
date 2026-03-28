@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
-import { getCurrentSession } from "@/lib/auth/session";
+import { getCurrentSession } from "@serva/auth/session";
 import { SidebarInset, SidebarProvider, TailwindScreenSizeIndicator } from "@serva/ui";
 import "@serva/ui/globals.css";
 import type { Metadata, Viewport } from "next";

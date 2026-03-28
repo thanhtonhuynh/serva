@@ -7,11 +7,11 @@ import { redirect } from "next/navigation";
 //   setEmailVerificationRequestCookie,
 //   upsertEmailVerificationRequest,
 // } from '@/lib/email-verification';
-import { createSession, generateSessionToken } from "@/lib/auth/session";
-import { setCompanyIdCookie, setSessionTokenCookie } from "@/lib/cookies";
+import { createSession, generateSessionToken } from "@serva/auth/session";
+import { setCompanyIdCookie, setSessionTokenCookie } from "@serva/auth/cookies";
 import { consumeInviteForIdentity } from "@/lib/invite";
 import { SignupInputs, SignupSchema } from "@/lib/validations/auth";
-import { rateLimitByIp, unauthenticatedRateLimit } from "@/utils/rate-limiter";
+import { rateLimitByIp, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
 
 export async function signUpAction(data: SignupInputs) {
   try {

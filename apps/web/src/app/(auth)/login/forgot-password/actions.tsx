@@ -5,10 +5,10 @@ import {
   createPasswordResetToken,
   generatePasswordResetToken,
   invalidatePasswordResetToken,
-} from "@/lib/auth/password-reset";
+} from "@serva/auth/password-reset";
 import { sendEmail } from "@/lib/email";
 import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@/lib/validations/auth";
-import { rateLimitByKey, unauthenticatedRateLimit } from "@/utils/rate-limiter";
+import { rateLimitByKey, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { render } from "@react-email/components";
 import { getIdentityByEmail } from "@serva/database";
 

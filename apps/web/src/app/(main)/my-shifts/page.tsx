@@ -4,7 +4,7 @@ import { Callout, CurrentBadge, Typography } from "@serva/ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { ICONS } from "@serva/ui/constants/icons";
 import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database";
-import { authGuardWithRateLimit } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";

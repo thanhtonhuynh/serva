@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout";
-import { authGuard } from "@/lib/auth/authorize";
+import { authGuard } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Container, Typography } from "@serva/ui";
 import { Fragment } from "react";

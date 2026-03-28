@@ -1,4 +1,4 @@
-import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { getExpensesByYear, getReportsByDateRange } from "@serva/database";
 import {

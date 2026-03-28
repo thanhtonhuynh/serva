@@ -1,6 +1,6 @@
-import { prisma } from "@serva/database";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
+import { prisma } from "@serva/database";
 import { cookies } from "next/headers";
 
 const PASSWORD_RESET_TOKEN_TTL = 1000 * 60 * 30; // 30 minutes
