@@ -12,7 +12,9 @@
   },
   "devDependencies": {
     "@serva/database": "workspace:*",
-    "nx": "^21.3.2"
+    "nx": "^21.3.2",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.6.14"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
