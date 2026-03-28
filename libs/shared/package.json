@@ -7,6 +7,10 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./email": {
+      "types": "./src/helpers/email.ts",
+      "default": "./src/helpers/email.ts"
     }
   }
 }

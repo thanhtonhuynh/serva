@@ -4,6 +4,7 @@ import { prisma } from "@serva/database";
 import { cookies } from "next/headers";
 
 const PASSWORD_RESET_TOKEN_TTL = 1000 * 60 * 30; // 30 minutes
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN;
 // const PASSWORD_RESET_TOKEN_TTL = 3000; // 3 seconds
 
 export function generatePasswordResetToken() {
@@ -36,6 +37,7 @@ export async function setPasswordResetTokenCookie(token: string, expiresAt: Date
     sameSite: "lax",
     expires: expiresAt,
     path: "/",
+    ...(COOKIE_DOMAIN && { domain: COOKIE_DOMAIN }),
   });
 }
 
@@ -46,6 +48,7 @@ export async function deletePasswordResetTokenCookie() {
     sameSite: "lax",
     maxAge: 0,
     path: "/",
+    ...(COOKIE_DOMAIN && { domain: COOKIE_DOMAIN }),
   });
 }
 

@@ -8,6 +8,20 @@ alwaysApply: true
 - Use **pnpm** for scripts and installs (`pnpm dev`, `pnpm lint`, `pnpm build`).
 - Keep changes **minimal and on-task**: no unrelated refactors, no extra docs unless asked.
 - **Never** put real secrets or `.env` values in rules, commits, or chat; reference env var names only.
-- Before inventing a new pattern, **read nearby code** in the same feature folder and match style, imports (`@/`), and types.
+- Before inventing a new pattern, **read nearby code** in the same feature folder and match style, imports, and types.
 - After substantive edits, run **`pnpm lint`** when practical.
 - Repo orientation: see root **`AGENTS.md`**.
+
+## Import conventions
+
+- **`@serva/database`** — Prisma client, model types, DAL functions.
+- **`@serva/shared`** — shared types, constants, helper utilities, auth validation schemas (e.g. `LoginSchema`, `SignupSchema`).
+- **`@serva/auth`** or **`@serva/auth/<module>`** — session, authorize, permissions, cookies, password helpers.
+- **`@serva/ui/components/<name>`** — shadcn primitives. **`@serva/ui/components/serva/<name>`** — Serva custom components. **`@serva/ui/lib/utils`** — `cn` utility.
+- **`@/*`** — app-local paths inside each app's `src/`.
+
+## Multi-app architecture
+
+- **`apps/web`** (`@serva/web`) — main app (port 3000).
+- **`apps/auth`** (`@serva/auth-app`) — centralized auth portal (port 3001). Owns login, signup, password reset, company selection, invite flows.
+- Consumer apps redirect to **`AUTH_URL`** for login/logout; cookies are shared via **`COOKIE_DOMAIN`** in production.

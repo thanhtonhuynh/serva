@@ -1,8 +1,8 @@
 "use client";
 
-import { logoutAction } from "@/app/(auth)/actions";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { CompanyContext, Identity } from "@serva/auth/session";
+import { getPublicAuthUrl } from "@serva/shared";
 import { ProfilePicture, Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import {
@@ -29,7 +29,7 @@ const userMenuItems = [
   {
     label: "Switch company",
     icon: ICONS.EXCHANGE,
-    href: "/select-company",
+    href: `${getPublicAuthUrl()}/select-company`,
   },
   {
     label: "Account settings",
@@ -86,11 +86,10 @@ export function UserMenu({ identity, companyCtx }: Props) {
 
             <DropdownMenuItem className="p-0">
               <Button
+                nativeButton={false}
                 variant={`accent`}
                 className="w-full justify-start rounded-xl"
-                onClick={async () => {
-                  await logoutAction();
-                }}
+                render={<a href={`${getPublicAuthUrl()}/logout`} />}
               >
                 <HugeiconsIcon icon={ICONS.LOGOUT} strokeWidth={1.5} />
                 <span className="ml-2">Logout</span>

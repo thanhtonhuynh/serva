@@ -7,7 +7,10 @@ alwaysApply: false
 # Next.js & UI
 
 - Prefer **Server Components**; add **`"use client"`** only for hooks, event handlers, or browser-only APIs.
-- Colocate feature UI under **`src/app/.../_components/`** (and feature-specific `\_context` / hooks) when that matches the surrounding route.
-- Reuse **shared primitives** from `src/components/ui/` and `src/components/shared/` before adding one-off styles.
+- Colocate feature UI under **`src/app/.../_components/`** (and feature-specific `_context` / hooks) when that matches the surrounding route.
+- Import **shadcn primitives** from `@serva/ui/components/<name>` and **Serva custom components** from `@serva/ui/components/serva/<name>`.
+- Import **`cn`** from `@serva/ui/lib/utils`.
+- Import **auth/session helpers** from `@serva/auth` or `@serva/auth/<module>` — not from `@/lib/auth`.
+- Auth UI (login, signup, password reset) lives in **`apps/auth`**, not `apps/web`.
 - Forms: align with existing **react-hook-form + Zod** usage in the same area.
 - Keep **accessibility** consistent with existing components (labels, dialogs, focus).

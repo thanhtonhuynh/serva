@@ -70,3 +70,62 @@ export async function deleteInviteById(inviteId: string, companyId: string) {
     where: { id: inviteId, companyId },
   });
 }
+
+export async function consumeInviteForIdentity(
+  token: string,
+  identityId: string,
+  identityEmail: string,
+) {
+  const invite = await getInviteByToken(token);
+  if (!invite) {
+    return { error: "Invite not found." as const };
+  }
+  if (invite.status !== "awaiting") {
+    return { error: "Invite is no longer valid." as const };
+  }
+  if (invite.expiresAt.getTime() <= Date.now()) {
+    await prisma.invite.update({
+      where: { id: invite.id },
+      data: { status: "expired" },
+    });
+    return { error: "Invite has expired." as const };
+  }
+  if (invite.email.toLowerCase() !== identityEmail.toLowerCase()) {
+    return { error: "Invite email does not match your account email." as const };
+  }
+
+  if (invite.profileType === "operator") {
+    const existing = await prisma.operator.findFirst({
+      where: { identityId, companyId: invite.companyId },
+      select: { id: true },
+    });
+    if (!existing) {
+      await prisma.operator.create({
+        data: {
+          identityId,
+          companyId: invite.companyId,
+          roleId: invite.roleId ?? null,
+          status: "active",
+        },
+      });
+    }
+  } else {
+    const existing = await prisma.employee.findFirst({
+      where: { identityId, companyId: invite.companyId },
+      select: { id: true },
+    });
+    if (!existing) {
+      await prisma.employee.create({
+        data: {
+          identityId,
+          companyId: invite.companyId,
+          jobId: invite.jobId ?? null,
+          status: "active",
+        },
+      });
+    }
+  }
+
+  await markInviteAccepted(invite.id);
+  return { invite, error: null as null };
+}

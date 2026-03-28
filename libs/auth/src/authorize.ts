@@ -1,5 +1,5 @@
 import type { Session } from "@serva/database";
-import type { PermissionCode } from "@serva/shared";
+import { getAuthUrl, type PermissionCode } from "@serva/shared";
 import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import "server-only";
@@ -13,17 +13,16 @@ type AuthorizeActionResult =
 
 /**
  * Auth guard for the current session.
- * Redirects to login if not authenticated, not found if account status is not active,
- * and redirects to select company if no company context is found.
- * Returns the identity and company context.
+ * Redirects to the auth app if not authenticated, not found if account status is not active,
+ * and redirects to select company (on the auth app) if no company context is found.
  */
 export const authGuard = cache(
   async (): Promise<{ identity: Identity; companyCtx: CompanyContext }> => {
     const { identity, companyCtx } = await getCurrentSession();
 
-    if (!identity) redirect("/login");
+    if (!identity) redirect(`${getAuthUrl()}/login`);
     if (identity.accountStatus !== "active") notFound();
-    if (!companyCtx) redirect("/select-company");
+    if (!companyCtx) redirect(`${getAuthUrl()}/select-company`);
 
     return { identity, companyCtx };
   },
@@ -31,9 +30,6 @@ export const authGuard = cache(
 
 /**
  * Auth guard with rate limiting for the current session.
- * Redirects to login if not authenticated, not found if account status is not active,
- * and redirects to select company if no company context is found, and redirects to rate limit if the user is rate limited.
- * Returns the identity and company context.
  */
 export async function authGuardWithRateLimit(): Promise<{
   identity: Identity;
@@ -48,8 +44,6 @@ export async function authGuardWithRateLimit(): Promise<{
 
 /**
  * Check if the current session has a specific permission.
- * Returns true if the session has the permission, false otherwise.
- * Used in server components.
  */
 export async function hasSessionPermission(permissionCode: PermissionCode): Promise<boolean> {
   const { identity, companyCtx } = await getCurrentSession();
@@ -59,7 +53,6 @@ export async function hasSessionPermission(permissionCode: PermissionCode): Prom
 /**
  * Shared authorization check for server actions.
  * Verifies identity, account status, and rate limit.
- * Returns the current identity if authorized, or an error result.
  */
 export async function authorizeAction(): Promise<AuthorizeActionResult> {
   const { identity, companyCtx, session } = await getCurrentSession();

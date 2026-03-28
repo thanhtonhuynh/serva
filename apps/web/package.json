@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "email": "cp ../../.env ./node_modules/react-email && email dev --dir src/components/emails --port 3001"
+    "email": "cp ../../.env ./node_modules/react-email && email dev --dir ../../libs/ui/src/components/emails --port 3002"
   },
   "dependencies": {
     "@dnd-kit/react": "^0.3.2",
@@ -18,7 +18,6 @@
     "@serva/database": "workspace:*",
     "@serva/shared": "workspace:*",
     "@serva/ui": "workspace:*",
-    "@react-email/components": "^1.0.1",
     "@vercel/blob": "^2.3.1",
     "date-fns-tz": "^3.2.0",
     "framer-motion": "^11.18.2",

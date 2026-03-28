@@ -8,6 +8,6 @@ alwaysApply: false
 
 # Prisma (`libs/database/`)
 
-- **Schema**: follow existing **ObjectId** / relation patterns; keep `Identity` and auth-related models consistent with `apps/web/src/lib/auth` and seeds.
+- **Schema**: follow existing **ObjectId** / relation patterns; keep `Identity` and auth-related models consistent with `@serva/auth` and seeds.
 - After schema edits, callers need **`pnpm --filter @serva/database run db:generate`**; update **`libs/database/prisma/seed.ts`** and **`scripts/seed-roles-and-permissions.ts`** (or related scripts) when enums, roles, or permissions change.
-- Remember the client **omits** `identity.passwordHash` globally — password work must go through intentional auth paths.
+- Remember the client **omits** `identity.passwordHash` globally — password work must go through intentional auth paths (`@serva/auth`).

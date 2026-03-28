@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nx run @serva/web:dev",
-    "build": "nx run @serva/web:build",
+    "dev:web": "nx run @serva/web:dev",
+    "dev:auth": "nx run @serva/auth-app:dev",
+    "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "dev:all": "nx run-many -t dev",
     "postinstall": "pnpm --filter @serva/database run db:generate"
@@ -39,7 +40,8 @@
     "server-only": "^0.0.1",
     "zod": "^4.3.6",
     "sonner": "^1.7.4",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "@react-email/components": "^1.0.1"
   },
   "devDependencies": {
     "@serva/database": "workspace:*",
