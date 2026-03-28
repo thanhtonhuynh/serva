@@ -42,7 +42,7 @@ libs/database/generated
 .nx/workspace-data
 
 /temp
-/scripts_local
+/scripts/scripts_local
 
 # nx mcp auto-generated
 .agents/
