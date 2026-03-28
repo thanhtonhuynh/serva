@@ -2,10 +2,9 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Callout, CurrentBadge } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS, TotalHoursTips } from "@serva/shared";
 import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record/dal";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
-import { TotalHoursTips } from "@/types";
 import {
   formatInUTC,
   getCurrentMonth,

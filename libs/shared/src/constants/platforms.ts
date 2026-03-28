@@ -56,8 +56,3 @@ export const PLATFORMS: Platform[] = [
 
 /** Default platform IDs for new stores */
 export const DEFAULT_PLATFORM_IDS = PLATFORMS.map((p) => p.id);
-
-/** Look up a platform by its ID */
-export function getPlatformById(id: string): Platform | undefined {
-  return PLATFORMS.find((p) => p.id === id);
-}

@@ -1,6 +1,6 @@
 "use server";
 
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { updateCompanySettings } from "@/data-access/company-settings";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { toCents } from "@/lib/utils";

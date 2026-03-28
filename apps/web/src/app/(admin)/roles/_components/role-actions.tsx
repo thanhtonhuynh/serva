@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ICONS } from "@/constants/icons";
-import type { RoleWithDetails } from "@/types/rbac";
+import type { RoleWithDetails } from "@serva/shared";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Permission } from "@serva/database";
 import { useState, useTransition } from "react";

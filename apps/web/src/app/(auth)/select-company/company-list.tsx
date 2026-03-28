@@ -2,7 +2,7 @@
 
 import { SIcon } from "@/components/shared";
 import { Button } from "@/components/ui/button";
-import type { BasicCompany } from "@/types/company";
+import type { BasicCompany } from "@serva/shared";
 import { useTransition } from "react";
 import { selectCompanyAction } from "./actions";
 

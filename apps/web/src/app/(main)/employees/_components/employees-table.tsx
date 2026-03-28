@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DisplayEmployee } from "@/types";
+import { DisplayEmployee } from "@serva/shared";
 import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {

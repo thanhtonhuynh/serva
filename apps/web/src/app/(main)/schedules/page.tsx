@@ -1,11 +1,10 @@
 import { Container, Header, Loader } from "@/components/layout";
 import { Typography } from "@/components/shared";
 import { Card } from "@/components/ui/card";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS, type DateRange } from "@serva/shared";
 import { getEmployeesByCompany } from "@/data-access/employee";
 import { getWorkDayRecordsByDateRange } from "@/data-access/work-day-record";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
-import type { DateRange } from "@/types/datetime";
 import {
   formatInUTC,
   getEndOfWeekUTC,

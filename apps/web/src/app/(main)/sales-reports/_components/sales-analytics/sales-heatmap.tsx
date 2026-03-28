@@ -2,7 +2,7 @@
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn, formatMoney } from "@/lib/utils";
-import { WEEKDAY_LABELS } from "@/types/datetime";
+import { WEEKDAY_LABELS } from "@serva/shared";
 import { HeatmapCell, HeatmapData } from "@/utils/sales-analytics";
 import { useRouter } from "next/navigation";
 

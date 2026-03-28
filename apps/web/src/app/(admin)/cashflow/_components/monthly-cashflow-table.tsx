@@ -6,9 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type Platform } from "@/constants/platforms";
+import { CashFlowData, type Platform } from "@serva/shared";
 import { formatMoney } from "@/lib/utils";
-import { CashFlowData } from "@/types";
 import { getPlatformAmount } from "@/utils/report";
 
 type Props = {

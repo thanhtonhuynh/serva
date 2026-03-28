@@ -1,5 +1,5 @@
-import { monthLabels } from "@/types/datetime";
 import { utc } from "@date-fns/utc";
+import { monthLabels } from "@serva/shared";
 import { addDays, getMonth, getWeek } from "date-fns";
 import { formatInUTC, getCurrentYear, getEndOfYearUTC, getStartOfYearUTC } from "./datetime";
 

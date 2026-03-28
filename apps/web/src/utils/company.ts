@@ -1,4 +1,4 @@
-import type { BasicCompany } from "@/types/company";
+import type { BasicCompany } from "@serva/shared";
 
 /**
  * Build a set of unique companies from an array of operator and employee accounts.

@@ -1,5 +1,5 @@
 import type { Employee, Operator } from "@/lib/auth/session";
-import type { PermissionCode, Role } from "@/types/rbac";
+import type { PermissionCode, Role } from "@serva/shared";
 
 /**
  * Build a simplified role object with flattened permissions.
@@ -17,7 +17,10 @@ export function buildSimplifiedRole(
  * Effective permissions in company context: operator RBAC only.
  * Employees are gated by having an employee record (see route guards), not by Role on Employee.
  */
-export function mergePermissions(operator: Operator | null, _employee: Employee | null): PermissionCode[] {
+export function mergePermissions(
+  operator: Operator | null,
+  _employee: Employee | null,
+): PermissionCode[] {
   const permissions = new Set<PermissionCode>();
   operator?.role.permissions.forEach((p) => permissions.add(p));
   return [...permissions];

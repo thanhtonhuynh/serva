@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
-import { MonthlyExpense } from "@/types";
+import { MonthlyExpense } from "@serva/shared";
 
 type Props = {
   monthlyExpenses: MonthlyExpense[];

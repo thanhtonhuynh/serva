@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { getActivePlatforms, getStartCash } from "@/data-access/company-settings";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { notFound } from "next/navigation";

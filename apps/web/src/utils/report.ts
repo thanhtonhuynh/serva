@@ -1,4 +1,8 @@
-import { PlatformSaleData, SaleReportCardProcessedData, SaleReportCardRawData } from "@/types";
+import {
+  PlatformSaleData,
+  SaleReportCardProcessedData,
+  SaleReportCardRawData,
+} from "@serva/shared";
 
 /** Sum all platform sales from the platformSales array */
 export function sumPlatformSales(platformSales: PlatformSaleData[]): number {

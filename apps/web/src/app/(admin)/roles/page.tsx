@@ -2,7 +2,7 @@ import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { getPermissionsGrouped, getRoles } from "@/data-access/roles";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { notFound } from "next/navigation";

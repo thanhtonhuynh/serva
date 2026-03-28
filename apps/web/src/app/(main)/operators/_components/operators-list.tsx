@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DisplayOperator } from "@/types";
-import type { RoleWithDetails } from "@/types/rbac";
+import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { type ViewMode } from "../../../../components/shared/view-toggle";

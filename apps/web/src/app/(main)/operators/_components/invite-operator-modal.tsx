@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/lib/validations/invite";
-import type { RoleWithDetails } from "@/types/rbac";
+import type { RoleWithDetails } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

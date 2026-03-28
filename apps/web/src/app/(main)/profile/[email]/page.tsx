@@ -5,7 +5,7 @@ import { Container } from "@/components/layout/container";
 import { Callout } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { getEmployeeByIdentityAndCompany } from "@/data-access/employee";
 import { getIdentityProfileInCompanyByEmail } from "@/data-access/identity";
 import { getRecentReportsByIdentity } from "@/data-access/report";

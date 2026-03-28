@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ICONS } from "@/constants/icons";
 import { cn } from "@/lib/utils";
-import type { DateRange } from "@/types/datetime";
+import type { DateRange } from "@serva/shared";
 import { formatInUTC } from "@/utils/datetime";
 import { getLocalDateFromUTC } from "@/utils/datetime-client";
 import { ChevronRight, Left, Right } from "@hugeicons/core-free-icons";

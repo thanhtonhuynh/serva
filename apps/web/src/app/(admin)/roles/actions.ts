@@ -1,6 +1,6 @@
 "use server";
 
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { createRole, deleteRole, roleNameExists, updateRole } from "@/data-access/roles";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import {

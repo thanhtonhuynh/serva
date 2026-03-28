@@ -19,8 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
-import { DisplayOperator } from "@/types";
-import type { RoleWithDetails } from "@/types/rbac";
+import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { use, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";

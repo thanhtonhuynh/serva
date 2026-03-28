@@ -8,8 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
-import { BreakdownData } from "@/types";
-import type { DateRange } from "@/types/datetime";
+import { BreakdownData, type DateRange } from "@serva/shared";
 import { formatInUTC } from "@/utils/datetime";
 import { addDays } from "date-fns";
 

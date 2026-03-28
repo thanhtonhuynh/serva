@@ -1,4 +1,4 @@
-import { MonthlyExpense } from "@/types";
+import { MonthlyExpense } from "@serva/shared";
 import { Expense } from "@serva/database";
 
 export function reshapeExpenses(expenses: Expense[]): MonthlyExpense[] {

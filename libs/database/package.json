@@ -22,7 +22,6 @@
   "devDependencies": {
     "@types/node": "^20.19.27",
     "prisma": "^6.19.2",
-    "tsx": "^4.19.2",
-    "typescript": "^5.9.3"
+    "tsx": "^4.19.2"
   }
 }

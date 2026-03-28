@@ -1,6 +1,6 @@
 "use server";
 
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { createJob, updateJobName } from "@/data-access/job";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { CreateJobInput, CreateJobSchema, UpdateJobInput, UpdateJobSchema } from "@/lib/validations/job";

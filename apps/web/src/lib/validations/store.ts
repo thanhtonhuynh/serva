@@ -1,4 +1,4 @@
-import { PLATFORMS } from "@/constants/platforms";
+import { PLATFORMS } from "@serva/shared";
 import { z } from "zod";
 
 const trimmedString = z.string().trim();

@@ -7,7 +7,7 @@ import { Typography } from "@/components/shared/typography";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
-import { PLATFORMS } from "@/constants/platforms";
+import { PLATFORMS } from "@serva/shared";
 import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/lib/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";

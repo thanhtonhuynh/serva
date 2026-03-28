@@ -1,6 +1,6 @@
 import { AccountStatusBadge, ProfilePicture, Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DisplayOperator } from "@/types";
+import { DisplayOperator } from "@serva/shared";
 import { ReactNode } from "react";
 
 type Props = {

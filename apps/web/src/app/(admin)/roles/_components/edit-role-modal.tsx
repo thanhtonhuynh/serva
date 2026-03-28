@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UpdateRoleInput, UpdateRoleSchema } from "@/lib/validations/roles";
-import type { RoleWithDetails } from "@/types/rbac";
+import type { RoleWithDetails } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Permission } from "@serva/database";
 import { useTransition } from "react";

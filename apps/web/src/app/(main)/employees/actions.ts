@@ -1,13 +1,12 @@
 "use server";
 
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
 import { createInvite, deleteInviteById, revokeInviteById } from "@/data-access/invite";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/lib/invite";
 import { prisma } from "@serva/database";
 import { UpdateEmployeeJobInput, UpdateEmployeeJobSchema } from "@/lib/validations/employee";
 import { CreateEmployeeInviteInput, CreateEmployeeInviteSchema } from "@/lib/validations/invite";
-import type { EmployeeStatus } from "@/types";
 import { revalidatePath } from "next/cache";
 
 type ActionResult = { error?: string };

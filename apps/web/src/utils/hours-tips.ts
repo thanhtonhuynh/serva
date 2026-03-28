@@ -1,7 +1,6 @@
 import { getFirstReportDate } from "@/data-access/report";
-import { BreakdownData } from "@/types";
-import type { DateRange } from "@/types/datetime";
 import { utc } from "@date-fns/utc";
+import { BreakdownData, type DateRange } from "@serva/shared";
 import { differenceInDays } from "date-fns";
 import { cache } from "react";
 import { getCurrentYear } from "./datetime";

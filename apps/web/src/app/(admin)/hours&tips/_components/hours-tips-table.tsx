@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
-import { TotalHoursTips } from "@/types";
+import { TotalHoursTips } from "@serva/shared";
 
 type HoursTipsTableProps = {
   data: TotalHoursTips[];

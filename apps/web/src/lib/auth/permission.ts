@@ -1,6 +1,5 @@
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS, type PermissionCode } from "@serva/shared";
 import type { CompanyContext, Identity } from "@/lib/auth/session";
-import type { PermissionCode } from "@/types/rbac";
 
 /**
  * Check if an identity has a specific permission in a company context.

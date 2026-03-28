@@ -1,7 +1,6 @@
 import { Callout, CurrentBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PERMISSIONS } from "@/constants/permissions";
-import { type Platform, getPlatformById } from "@/constants/platforms";
+import { PERMISSIONS, getPlatformById, type Platform } from "@serva/shared";
 import { getExpensesByYear } from "@/data-access/expenses";
 import { getReportsByDateRange } from "@/data-access/report";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DisplayEmployee } from "@/types";
+import { DisplayEmployee } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";

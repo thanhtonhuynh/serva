@@ -1,7 +1,7 @@
 import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { ICONS } from "@/constants/icons";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { hasPermission } from "@/lib/auth/permission";
 import type { CompanyContext, Identity } from "@/lib/auth/session";
 import { Calculator01Icon, Calendar02Icon } from "@hugeicons/core-free-icons";

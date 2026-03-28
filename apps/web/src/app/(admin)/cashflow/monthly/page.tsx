@@ -1,8 +1,7 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Callout, CurrentBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PERMISSIONS } from "@/constants/permissions";
-import { type Platform, getPlatformById } from "@/constants/platforms";
+import { PERMISSIONS, getPlatformById, type Platform } from "@serva/shared";
 import { getReportsByDateRange } from "@/data-access/report";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { processCashFlowData } from "@/utils/cashflow";

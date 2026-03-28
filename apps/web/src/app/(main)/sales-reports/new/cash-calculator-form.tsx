@@ -5,7 +5,7 @@ import { Typography } from "@/components/shared/typography";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SaleReportInputs } from "@/lib/validations/report";
-import { CashType } from "@/types";
+import { CashType } from "@serva/shared";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 type Props = {

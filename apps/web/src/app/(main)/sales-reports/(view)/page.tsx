@@ -3,7 +3,7 @@ import { Typography } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { getReportRaw } from "@/data-access/report";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { formatInUTC, getTodayUTCMidnight, parseInUTC } from "@/utils/datetime";

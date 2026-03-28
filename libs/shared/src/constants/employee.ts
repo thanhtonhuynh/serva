@@ -10,12 +10,3 @@ export const EMPLOYEE_STATUS_LABELS: Record<
   inactive: { label: "Awaiting", variant: "outline" }, // legacy data compatibility
   deactivated: { label: "Deactivated", variant: "destructive" },
 };
-
-export function getEmployeeStatusConfig(accountStatus: string) {
-  return (
-    EMPLOYEE_STATUS_LABELS[accountStatus] || {
-      label: accountStatus,
-      variant: "secondary" as const,
-    }
-  );
-}

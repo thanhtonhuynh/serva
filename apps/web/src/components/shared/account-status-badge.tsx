@@ -1,4 +1,4 @@
-import { getEmployeeStatusConfig } from "@/constants/employee";
+import { getEmployeeStatusConfig } from "@serva/shared";
 import { ICONS } from "@/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Badge } from "../ui/badge";

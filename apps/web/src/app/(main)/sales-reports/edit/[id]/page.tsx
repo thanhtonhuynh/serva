@@ -1,8 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
-import { PERMISSIONS } from "@/constants/permissions";
-import { PLATFORMS, getPlatformById } from "@/constants/platforms";
+import { PERMISSIONS, PLATFORMS, getPlatformById } from "@serva/shared";
 import { getActivePlatforms, getStartCash } from "@/data-access/company-settings";
 import { getReportRaw } from "@/data-access/report";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

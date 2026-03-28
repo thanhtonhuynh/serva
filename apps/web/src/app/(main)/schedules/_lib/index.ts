@@ -1,6 +1,6 @@
 import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
 import type { DayScheduleInput, WeekScheduleInput, WorkDayRecordInput } from "@/lib/validations";
-import type { DisplayEmployee } from "@/types";
+import type { DisplayEmployee } from "@serva/shared";
 import { computeTotalHours } from "@/utils/work-day-record";
 
 /** Identifier for a shift in the grid: day index, entry index, shift index. */

@@ -1,6 +1,6 @@
-import type { DateRange } from "@/types/datetime";
 import { TZDate } from "@date-fns/tz";
 import { utc } from "@date-fns/utc";
+import type { DateRange } from "@serva/shared";
 import {
   addDays,
   endOfDay,

@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
-import { DayRange, UserShift } from "@/types";
+import { DayRange, UserShift } from "@serva/shared";
 import { formatInUTC } from "@/utils/datetime";
 import { addDays } from "date-fns";
 

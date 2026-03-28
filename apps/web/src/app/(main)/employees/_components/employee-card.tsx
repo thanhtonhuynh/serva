@@ -1,6 +1,6 @@
 import { AccountStatusBadge, ProfilePicture, Typography } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DisplayEmployee } from "@/types";
+import { DisplayEmployee } from "@serva/shared";
 import { ReactNode } from "react";
 
 type EmployeeCardProps = {

@@ -4,7 +4,7 @@ import { DecoIcon } from "@/components/shared";
 import { ProfilePicture } from "@/components/shared/profile-picture";
 import { Typography } from "@/components/shared/typography";
 import { ICONS } from "@/constants/icons";
-import { type ReportAuditLog } from "@/types";
+import { type ReportAuditLog } from "@serva/shared";
 import { format } from "date-fns";
 
 type Props = {

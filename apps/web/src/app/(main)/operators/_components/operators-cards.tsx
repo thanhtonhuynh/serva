@@ -1,7 +1,6 @@
 "use client";
 
-import { DisplayOperator } from "@/types";
-import type { RoleWithDetails } from "@/types/rbac";
+import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
 import { useState } from "react";
 import { ChangeRoleModal } from "./change-role-modal";
 import { OperatorActions } from "./operator-actions";

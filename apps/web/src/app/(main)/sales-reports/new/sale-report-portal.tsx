@@ -3,12 +3,10 @@
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
-import { PERMISSIONS } from "@/constants/permissions";
-import { type Platform } from "@/constants/platforms";
+import { PERMISSIONS, type Platform, type CashType } from "@serva/shared";
 import { useSession } from "@/contexts/SessionProvider";
 import { hasPermission } from "@/lib/auth/permission";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
-import type { CashType } from "@/types";
 import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";

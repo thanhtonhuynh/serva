@@ -1,9 +1,8 @@
-import { prisma } from "@serva/database";
 import { toCents } from "@/lib/utils";
 import { type SaleReportOutput } from "@/lib/validations/report";
-import { DayRange, SaleReportCardRawData, type ReportAuditLog } from "@/types";
 import { parseInUTC } from "@/utils/datetime";
-import { Prisma } from "@serva/database";
+import { prisma, Prisma } from "@serva/database";
+import { type DateRange, type ReportAuditLog, type SaleReportCardRawData } from "@serva/shared";
 import { cache } from "react";
 import "server-only";
 import { getStartCash } from "./company-settings";
@@ -164,7 +163,7 @@ export const getFirstReportDate = cache(async (companyId: string) => {
   return report?.date;
 });
 
-export const getReportsByDateRange = cache(async (companyId: string, dateRange: DayRange) => {
+export const getReportsByDateRange = cache(async (companyId: string, dateRange: DateRange) => {
   return prisma.saleReport.findMany({
     where: {
       companyId,

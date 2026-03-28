@@ -1,4 +1,4 @@
-import type { Platform } from "@/constants/platforms";
+import type { Platform } from "@serva/shared";
 
 export function PlatformIcon({ platform }: { platform: Platform }) {
   return (

@@ -16,10 +16,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ICONS } from "@/constants/icons";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS, DisplayEmployee } from "@serva/shared";
 import { useSession } from "@/contexts/SessionProvider";
 import { hasPermission } from "@/lib/auth/permission";
-import { DisplayEmployee } from "@/types";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Briefcase, ShieldCheck, ShieldOff } from "lucide-react";
 import { useState, useTransition } from "react";

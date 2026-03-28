@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { ICONS } from "@/constants/icons";
 import { cn } from "@/lib/utils";
-import type { RoleWithDetails } from "@/types/rbac";
+import type { RoleWithDetails } from "@serva/shared";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Permission } from "@serva/database";
 import { format } from "date-fns";

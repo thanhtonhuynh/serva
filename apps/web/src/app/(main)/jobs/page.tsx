@@ -1,7 +1,7 @@
 import { Container, Header } from "@/components/layout";
 import { Typography } from "@/components/shared";
 import { Card } from "@/components/ui/card";
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS } from "@serva/shared";
 import { getJobsByCompany } from "@/data-access/job";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { notFound } from "next/navigation";
