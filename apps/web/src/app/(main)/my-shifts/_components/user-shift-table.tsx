@@ -7,15 +7,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
-import { DayRange, UserShift } from "@serva/shared";
-import { formatInUTC } from "@/utils/datetime";
+import { DateRange, UserShift, formatInUTC } from "@serva/shared";
 import { addDays } from "date-fns";
 
 export function UserShiftTable({
   dateRange,
   userShifts,
 }: {
-  dateRange: DayRange;
+  dateRange: DateRange;
   userShifts: UserShift[];
 }) {
   const startDay = dateRange.start.getUTCDate();

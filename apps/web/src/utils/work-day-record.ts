@@ -3,8 +3,8 @@ import type {
   WorkDayRecordWithEmployee,
 } from "@/data-access/work-day-record";
 import { WorkShift } from "@serva/database";
+import { buildWeekDatesUTC, formatInUTC } from "@serva/shared";
 import { isSameDay } from "date-fns";
-import { buildWeekDatesUTC, formatInUTC } from "./datetime";
 
 /**
  * Compute the total hours from a list of shifts.

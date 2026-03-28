@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ICONS } from "@/constants/icons";
-import { formatInUTC } from "@/utils/datetime";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { formatInUTC } from "@serva/shared";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteReportAction } from "../../_actions";

@@ -1,4 +1,4 @@
-import { getCurrentMonth, getCurrentYear } from "@/utils/datetime";
+import { getCurrentMonth, getCurrentYear } from "@serva/shared";
 import { redirect } from "next/navigation";
 
 export default function CashflowPage() {

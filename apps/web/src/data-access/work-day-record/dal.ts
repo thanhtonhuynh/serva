@@ -1,8 +1,7 @@
 import type { DayScheduleInput, WorkDayRecordInput } from "@/lib/validations";
-import { getStartOfDayUTC } from "@/utils/datetime";
 import { computeTotalHours, distributeTips } from "@/utils/work-day-record";
 import { prisma } from "@serva/database";
-import type { DateRange } from "@serva/shared";
+import { getStartOfDayUTC, type DateRange } from "@serva/shared";
 import { cache } from "react";
 import "server-only";
 import { workDayRecordSelectWithEmployee } from "./types";

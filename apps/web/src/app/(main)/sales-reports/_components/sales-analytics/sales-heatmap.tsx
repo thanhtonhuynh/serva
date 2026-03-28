@@ -2,8 +2,7 @@
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn, formatMoney } from "@/lib/utils";
-import { WEEKDAY_LABELS } from "@serva/shared";
-import { HeatmapCell, HeatmapData } from "@/utils/sales-analytics";
+import { HeatmapCell, HeatmapData, WEEKDAY_LABELS } from "@serva/shared";
 import { useRouter } from "next/navigation";
 
 type SalesHeatmapProps = {
@@ -81,7 +80,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
 
                 // If no cell (date outside year), render empty
                 if (!cell) {
-                  return <div key={dayIdx} className="size-3 rounded-xs bg-transparent" />;
+                  return <div key={dayIdx} className="rounded-xs size-3 bg-transparent" />;
                 }
 
                 return (
@@ -90,7 +89,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
                       render={
                         <div
                           className={cn(
-                            "size-3 cursor-pointer rounded-xs transition-transform hover:scale-125",
+                            "rounded-xs size-3 cursor-pointer transition-transform hover:scale-125",
                             INTENSITY_CLASSES[cell.intensity],
                             cell.intensity === 0 && "border",
                           )}

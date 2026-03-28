@@ -14,9 +14,13 @@ import type { WorkDayRecordsByDate } from "@/data-access/work-day-record";
 import { useNavigationGuard } from "@/hooks/use-navigation-guard";
 import { cn } from "@/lib/utils";
 import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
-import { type DisplayEmployee, type DateRange } from "@serva/shared";
-import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { DragDropProvider } from "@dnd-kit/react";
+import {
+  formatInUTC,
+  getTodayUTCMidnight,
+  type DateRange,
+  type DisplayEmployee,
+} from "@serva/shared";
 import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

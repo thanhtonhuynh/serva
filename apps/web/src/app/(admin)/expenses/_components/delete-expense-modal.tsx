@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ICONS } from "@/constants/icons";
-import { formatInUTC } from "@/utils/datetime";
+import { formatInUTC } from "@serva/shared";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useTransition } from "react";
 import { toast } from "sonner";

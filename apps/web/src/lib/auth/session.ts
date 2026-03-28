@@ -1,6 +1,5 @@
 import { prisma } from "@serva/database";
-import { type BasicCompany, type PermissionCode, type Role } from "@serva/shared";
-import { buildUniqueCompaniesFromAccounts } from "@/utils/company";
+import { buildUniqueCompaniesFromAccounts, type BasicCompany, type PermissionCode, type Role } from "@serva/shared";
 import { buildSimplifiedRole, mergePermissions } from "@/utils/roles";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";

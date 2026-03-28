@@ -15,7 +15,7 @@ import {
   DaySalesData,
   generateHeatmapData,
   SalesAnalytics,
-} from "@/utils/sales-analytics";
+} from "@serva/shared";
 import { useCallback, useMemo, useState } from "react";
 import { SalesHeatmap } from "./sales-heatmap";
 import { SalesStats } from "./sales-stats";
@@ -87,11 +87,11 @@ export function SalesAnalyticsDashboardClient({
         <div className="text-muted-foreground mt-4 flex items-center gap-2 text-xs">
           <span>Fewer</span>
           <div className="flex gap-1">
-            <span className="size-3 rounded-xs border bg-neutral-100" />
-            <span className="bg-primary-3 size-3 rounded-xs" />
-            <span className="bg-primary-5 size-3 rounded-xs" />
-            <span className="bg-primary-7 size-3 rounded-xs" />
-            <span className="bg-primary-9 size-3 rounded-xs" />
+            <span className="rounded-xs size-3 border bg-neutral-100" />
+            <span className="bg-primary-3 rounded-xs size-3" />
+            <span className="bg-primary-5 rounded-xs size-3" />
+            <span className="bg-primary-7 rounded-xs size-3" />
+            <span className="bg-primary-9 rounded-xs size-3" />
           </div>
           <span>More</span>
         </div>

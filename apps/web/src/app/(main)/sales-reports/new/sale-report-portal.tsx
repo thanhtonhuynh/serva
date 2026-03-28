@@ -3,14 +3,19 @@
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
-import { PERMISSIONS, type Platform, type CashType } from "@serva/shared";
 import { useSession } from "@/contexts/SessionProvider";
 import { hasPermission } from "@/lib/auth/permission";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
-import { formatInUTC, getTodayUTCMidnight } from "@/utils/datetime";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  PERMISSIONS,
+  formatInUTC,
+  getTodayUTCMidnight,
+  type CashType,
+  type Platform,
+} from "@serva/shared";
 import { motion } from "framer-motion";
 import { TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -161,15 +166,15 @@ export function SaleReportPortal({
           {steps.map((step, index) => (
             <li key={step.name} className="flex-1">
               {currentStep > index ? (
-                <div className="border-primary/70 text-primary/80 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
+                <div className="border-primary/70 text-primary/80 flex w-full flex-col border-l-0 border-t-4 py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
                   <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               ) : currentStep === index ? (
-                <div className="border-primary text-primary flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
+                <div className="border-primary text-primary flex w-full flex-col border-l-0 border-t-4 py-2 pl-4 md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
                   <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               ) : (
-                <div className="border-primary/10 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
+                <div className="border-primary/10 flex w-full flex-col border-l-0 border-t-4 py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
                   <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               )}

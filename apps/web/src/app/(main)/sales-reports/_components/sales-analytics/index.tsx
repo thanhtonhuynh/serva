@@ -1,6 +1,5 @@
 import { getFirstReportDate, getReportsForYears } from "@/data-access/report";
-import { getCurrentYear } from "@/utils/datetime";
-import { getAvailableYears } from "@/utils/sales-analytics";
+import { getAvailableYears, getCurrentYear } from "@serva/shared";
 import { SalesAnalyticsDashboardClient } from "./sales-analytics-dashboard";
 
 export async function SalesAnalyticsDashboard({ companyId }: { companyId: string }) {

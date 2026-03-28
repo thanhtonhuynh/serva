@@ -3,8 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ICONS } from "@/constants/icons";
 import { getRecentReports } from "@/data-access/report";
 import { formatMoney } from "@/lib/utils";
-import { formatInUTC } from "@/utils/datetime";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { formatInUTC } from "@serva/shared";
 import Link from "next/link";
 
 export async function RecentReports({ companyId }: { companyId: string }) {

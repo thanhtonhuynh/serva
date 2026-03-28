@@ -5,15 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatPrice(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    // style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  }).format(amount);
-}
-
 /** Format a number as a currency string with 2 decimal places. Amount is in cents. Convert to dollars. */
 export function formatMoney(amount: number): string {
   return new Intl.NumberFormat("en-US", {

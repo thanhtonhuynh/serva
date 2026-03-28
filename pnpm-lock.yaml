@@ -7,6 +7,16 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@date-fns/tz':
+        specifier: ^1.4.1
+        version: 1.4.1
+      '@date-fns/utc':
+        specifier: ^2.1.1
+        version: 2.1.1
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
     devDependencies:
       '@serva/database':
         specifier: workspace:*
@@ -29,12 +39,6 @@ importers:
       '@base-ui/react':
         specifier: ^1.1.0
         version: 1.3.0(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@date-fns/tz':
-        specifier: ^1.4.1
-        version: 1.4.1
-      '@date-fns/utc':
-        specifier: ^2.1.1
-        version: 2.1.1
       '@dnd-kit/react':
         specifier: ^0.3.2
         version: 0.3.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -86,9 +90,6 @@ importers:
       cmdk:
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      date-fns:
-        specifier: ^4.1.0
-        version: 4.1.0
       date-fns-tz:
         specifier: ^3.2.0
         version: 3.2.0(date-fns@4.1.0)

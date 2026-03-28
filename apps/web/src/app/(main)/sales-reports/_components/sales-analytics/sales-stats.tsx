@@ -1,7 +1,7 @@
 "use client";
 
 import { formatMoney } from "@/lib/utils";
-import { SalesAnalytics } from "@/utils/sales-analytics";
+import { SalesAnalytics } from "@serva/shared";
 
 type SalesStatsProps = {
   analytics: SalesAnalytics;

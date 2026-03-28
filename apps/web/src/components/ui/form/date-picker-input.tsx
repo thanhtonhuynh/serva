@@ -2,7 +2,7 @@
 
 import { SIcon } from "@/components/shared";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { isValidDate, parseInUTC } from "@/utils/datetime";
+import { isValidDate, parseInUTC } from "@serva/shared";
 import { format } from "date-fns";
 import { useState, type ComponentProps } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -37,7 +37,7 @@ export function DatePickerInput({
         name={fieldName}
         control={form.control}
         render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid} className="w-full gap-1.5 sm:w-74">
+          <Field data-invalid={fieldState.invalid} className="sm:w-74 w-full gap-1.5">
             <FieldLabel htmlFor={htmlFor} className={labelClassName}>
               {label}
             </FieldLabel>

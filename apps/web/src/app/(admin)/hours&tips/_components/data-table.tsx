@@ -8,12 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatMoney } from "@/lib/utils";
-import { BreakdownData, DayRange } from "@serva/shared";
-import { formatInUTC } from "@/utils/datetime";
+import { BreakdownData, DateRange, formatInUTC } from "@serva/shared";
 import { addDays } from "date-fns";
 
 type DataTableProps = {
-  dateRange: DayRange;
+  dateRange: DateRange;
   data: BreakdownData[];
   isMoney?: boolean;
 };

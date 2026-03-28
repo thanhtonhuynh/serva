@@ -17,6 +17,11 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript": "^5.9.3"
   },
+  "dependencies": {
+    "@date-fns/tz": "^1.4.1",
+    "@date-fns/utc": "^2.1.1",
+    "date-fns": "^4.1.0"
+  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "@prisma/client",
