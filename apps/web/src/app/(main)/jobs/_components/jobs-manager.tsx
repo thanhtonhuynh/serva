@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Job } from "@prisma/client";
+import type { Job } from "@serva/database";
 import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";

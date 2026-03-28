@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import type { BasicCompany } from "@/types/company";
 import { cache } from "react";
 import "server-only";

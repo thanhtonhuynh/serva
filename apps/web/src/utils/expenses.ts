@@ -1,5 +1,5 @@
 import { MonthlyExpense } from "@/types";
-import { Expense } from "@prisma/client";
+import { Expense } from "@serva/database";
 
 export function reshapeExpenses(expenses: Expense[]): MonthlyExpense[] {
   const data = Array(12)

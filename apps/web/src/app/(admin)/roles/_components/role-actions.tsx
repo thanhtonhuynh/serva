@@ -19,7 +19,7 @@ import {
 import { ICONS } from "@/constants/icons";
 import type { RoleWithDetails } from "@/types/rbac";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Permission } from "@prisma/client";
+import { Permission } from "@serva/database";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { deleteRoleAction } from "../actions";

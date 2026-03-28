@@ -25,7 +25,7 @@ import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expense
 import { getLocalDateFromUTC, getUTCMidnightFromLocal } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Expense } from "@prisma/client";
+import { Expense } from "@serva/database";
 import { useEffect, useState, useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";

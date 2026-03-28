@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { ICONS } from "@/constants/icons";
 import { formatMoney } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Expense } from "@prisma/client";
+import { Expense } from "@serva/database";
 import { useState } from "react";
 import { DeleteExpenseModal } from "./delete-expense-modal";
 import { EditExpenseModal } from "./edit-expense-modal";

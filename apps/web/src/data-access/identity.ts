@@ -1,7 +1,7 @@
 import { hashPassword } from "@/lib/auth/password";
 import type { Identity } from "@/lib/auth/session";
-import prisma from "@/lib/prisma";
-import { type Identity as PrismaIdentity } from "@prisma/client";
+import { prisma } from "@serva/database";
+import { type Identity as PrismaIdentity } from "@serva/database";
 import { cache } from "react";
 import "server-only";
 

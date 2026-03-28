@@ -10,7 +10,7 @@
  *   --with-settings   Also create CompanySettings (startCash: 0, default activePlatforms)
  */
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@serva/database";
 
 const prisma = new PrismaClient();
 

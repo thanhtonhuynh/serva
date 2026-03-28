@@ -7,9 +7,11 @@
     "dev": "nx run @serva/web:dev",
     "build": "nx run @serva/web:build",
     "lint": "nx run-many -t lint",
-    "dev:all": "nx run-many -t dev"
+    "dev:all": "nx run-many -t dev",
+    "postinstall": "pnpm --filter @serva/database run db:generate"
   },
   "devDependencies": {
+    "@serva/database": "workspace:*",
     "nx": "^21.3.2"
   },
   "pnpm": {

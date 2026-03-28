@@ -4,7 +4,7 @@ import { PERMISSIONS } from "@/constants/permissions";
 import { createInvite, deleteInviteById, revokeInviteById } from "@/data-access/invite";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/lib/invite";
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import { UpdateEmployeeJobInput, UpdateEmployeeJobSchema } from "@/lib/validations/employee";
 import { CreateEmployeeInviteInput, CreateEmployeeInviteSchema } from "@/lib/validations/invite";
 import type { EmployeeStatus } from "@/types";

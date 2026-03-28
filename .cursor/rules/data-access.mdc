@@ -1,11 +1,11 @@
 ---
 description: Data-access module conventions
-globs: src/data-access/**/*.ts
+globs: apps/web/src/data-access/**/*.ts
 alwaysApply: false
 ---
 
-# Data access (`src/data-access/`)
+# Data access (`apps/web/src/data-access/`)
 
-- Implement **DB reads/writes here** using `import prisma from "@/lib/prisma"` — not in React trees or scattered server files.
-- **Reuse** existing query shapes and types from `@prisma/client` already used in the module.
+- Implement **DB reads/writes here** using `import { prisma } from "@serva/database"` — not in React trees or scattered server files.
+- **Reuse** existing query shapes and types from `@serva/database` already used in the module.
 - When adding functions, mirror **naming and error handling** of neighboring exports in the same file.

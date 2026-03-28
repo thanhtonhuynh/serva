@@ -12,7 +12,7 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 - **Prisma** 6 with **MongoDB** (`DATABASE_URL`)
 - **pnpm** (see `package.json` `pnpm.onlyBuiltDependencies`)
 - **Tailwind** 4, **Zod**, **react-hook-form**
-- Auth/session models and multi-tenant concepts live in `prisma/schema.prisma`
+- Auth/session models and multi-tenant concepts live in `libs/database/prisma/schema.prisma`
 
 ## Commands
 
@@ -22,9 +22,9 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 | Production build       | `pnpm build`                |
 | ESLint                 | `pnpm lint`                 |
 | React Email preview    | `pnpm email`                |
-| Prisma client          | `pnpm exec prisma generate` |
+| Prisma client          | `pnpm --filter @serva/database run db:generate` |
 
-`postinstall` runs `prisma generate` and `prisma db seed`. Seed entry: `prisma/seed.ts`. Extra seeds/scripts may live under `scripts/`.
+`postinstall` runs `pnpm --filter @serva/database run db:generate` (Prisma client output is under `libs/database/generated/prisma/`, gitignored). Seed entry: `libs/database/prisma/seed.ts`. Extra seeds/scripts may live under `scripts/`.
 
 Do **not** paste real secrets into rules or this file; use env var **names** only (e.g. `DATABASE_URL`).
 
@@ -32,17 +32,18 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 
 | Area                                         | Path                                                            |
 | -------------------------------------------- | --------------------------------------------------------------- |
-| App Router routes                            | `src/app/` — route groups include `(auth)`, `(main)`, `(admin)` |
-| DB access helpers                            | `src/data-access/`                                              |
-| Shared libs (Prisma singleton, auth helpers) | `src/lib/`                                                      |
-| UI primitives & shared components            | `src/components/`                                               |
+| App Router routes                            | `apps/web/src/app/` — route groups include `(auth)`, `(main)`, `(admin)` |
+| DB access helpers                            | `apps/web/src/data-access/` (Prisma types/client from `@serva/database`) |
+| Shared database package                      | `libs/database/` — schema, `prisma` CLI config, generated client        |
+| Shared libs (auth helpers, etc.)             | `apps/web/src/lib/`                                             |
+| UI primitives & shared components            | `apps/web/src/components/`                                      |
 
-Prisma schema and migrations: `prisma/`.
+Prisma schema: `libs/database/prisma/schema.prisma`. Moving all DAL into `libs/database` is deferred until shared `@serva/types` / `@serva/utils` (and similar) exist—today’s data-access modules import app-layer paths (`@/lib`, `@/types`, `@/utils`).
 
 ## Conventions
 
 - Prefer **small, task-scoped changes**; avoid drive-by refactors unrelated to the request.
-- **Database**: use `src/data-access/` (and `src/lib/prisma.ts`) instead of sprinkling `PrismaClient` in UI or route files.
+- **Database**: use `apps/web/src/data-access/` and `import { prisma } from "@serva/database"` (or model types from `@serva/database`) instead of sprinkling `PrismaClient` in UI or route files.
 - **Server vs client**: server components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity).
 - Match **existing naming**, imports (`@/…`), and component patterns in the nearest feature folder.
 

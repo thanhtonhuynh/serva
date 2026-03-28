@@ -7,7 +7,7 @@ import { getRoleById } from "@/data-access/roles";
 import { authorizeAction, hasSessionPermission } from "@/lib/auth/authorize";
 import { hasAssignRolePermission } from "@/lib/auth/permission";
 import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/lib/invite";
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
 import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/lib/validations/invite";
 import type { EmployeeStatus } from "@/types";

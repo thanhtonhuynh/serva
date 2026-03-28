@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import { type ExpensesFormOutput } from "@/lib/validations/expenses";
 import "server-only";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import type { CompanyContext, Identity } from "@/lib/auth/session";
-import { Session } from "@prisma/client";
+import { Session } from "@serva/database";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
 type SessionContextProps = {

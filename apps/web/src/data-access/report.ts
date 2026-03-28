@@ -1,9 +1,9 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import { toCents } from "@/lib/utils";
 import { type SaleReportOutput } from "@/lib/validations/report";
 import { DayRange, SaleReportCardRawData, type ReportAuditLog } from "@/types";
 import { parseInUTC } from "@/utils/datetime";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@serva/database";
 import { cache } from "react";
 import "server-only";
 import { getStartCash } from "./company-settings";

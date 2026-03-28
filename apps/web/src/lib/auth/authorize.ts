@@ -2,7 +2,7 @@ import { hasPermission } from "@/lib/auth/permission";
 import { getCurrentSession, type CompanyContext, type Identity } from "@/lib/auth/session";
 import type { PermissionCode } from "@/types/rbac";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";
-import type { Session } from "@prisma/client";
+import type { Session } from "@serva/database";
 import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import "server-only";

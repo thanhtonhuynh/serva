@@ -4,14 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "pnpm --filter @serva/database run db:generate",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "email": "cp ../../.env ./node_modules/react-email && email dev --dir src/components/emails --port 3001"
-  },
-  "prisma": {
-    "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
@@ -27,7 +25,7 @@
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@oslojs/otp": "^1.1.0",
-    "@prisma/client": "^6.19.1",
+    "@serva/database": "workspace:*",
     "@react-email/components": "^1.0.1",
     "@vercel/blob": "^2.3.1",
     "class-variance-authority": "^0.7.1",
@@ -66,7 +64,6 @@
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.6.14",
-    "prisma": "^6.19.1",
     "react-email": "^5.0.8",
     "tailwindcss": "^4.1.18",
     "ts-node": "^10.9.2",

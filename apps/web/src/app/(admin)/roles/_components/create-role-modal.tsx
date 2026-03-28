@@ -29,7 +29,7 @@ import { ICONS } from "@/constants/icons";
 import { CreateRoleInput, CreateRoleSchema } from "@/lib/validations/roles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Permission } from "@prisma/client";
+import { Permission } from "@serva/database";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

@@ -1,11 +1,11 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import type { BasicCompany } from "@/types/company";
 import type { PermissionCode, Role } from "@/types/rbac";
 import { buildUniqueCompaniesFromAccounts } from "@/utils/company";
 import { buildSimplifiedRole, mergePermissions } from "@/utils/roles";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
-import { Session } from "@prisma/client";
+import { Session } from "@serva/database";
 import { cache } from "react";
 import "server-only";
 import { getCompanyIdCookie, getSessionTokenCookie } from "../cookies";

@@ -1,5 +1,5 @@
 import { getInviteByToken, markInviteAccepted } from "@/data-access/invite";
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import { sendEmail } from "./email";
 
 const INVITE_TTL_DAYS = 7;

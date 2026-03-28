@@ -13,7 +13,7 @@ import { ICONS } from "@/constants/icons";
 import { cn } from "@/lib/utils";
 import type { RoleWithDetails } from "@/types/rbac";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Permission } from "@prisma/client";
+import { Permission } from "@serva/database";
 import { format } from "date-fns";
 import { RoleActions } from "./role-actions";
 

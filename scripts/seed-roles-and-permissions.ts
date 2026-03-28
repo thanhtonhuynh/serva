@@ -5,7 +5,7 @@
  *   npx tsx scripts/seed-roles-and-permissions.ts
  */
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@serva/database";
 const prisma = new PrismaClient();
 
 // Predefined permissions based on app features

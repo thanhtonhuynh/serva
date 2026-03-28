@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@serva/database";
 
 /**
  * Select shape for WorkDayRecord with employee → identity relation.

@@ -26,7 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { UpdateRoleInput, UpdateRoleSchema } from "@/lib/validations/roles";
 import type { RoleWithDetails } from "@/types/rbac";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Permission } from "@prisma/client";
+import { Permission } from "@serva/database";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

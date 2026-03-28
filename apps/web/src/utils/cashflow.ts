@@ -1,5 +1,5 @@
 import { CashFlowRawData, YearCashFlowData } from "@/types";
-import { Expense } from "@prisma/client";
+import { Expense } from "@serva/database";
 import { sumPlatformSales } from "./report";
 
 export function processCashFlowData(rawReports: CashFlowRawData[]) {

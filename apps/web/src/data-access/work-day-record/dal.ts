@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import type { DayScheduleInput, WorkDayRecordInput } from "@/lib/validations";
 import type { DateRange } from "@/types/datetime";
 import { getStartOfDayUTC } from "@/utils/datetime";

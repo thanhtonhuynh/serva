@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@serva/database";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { cookies } from "next/headers";

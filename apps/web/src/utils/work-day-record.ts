@@ -2,7 +2,7 @@ import type {
   WorkDayRecordsByDate,
   WorkDayRecordWithEmployee,
 } from "@/data-access/work-day-record";
-import { WorkShift } from "@prisma/client";
+import { WorkShift } from "@serva/database";
 import { isSameDay } from "date-fns";
 import { buildWeekDatesUTC, formatInUTC } from "./datetime";
 

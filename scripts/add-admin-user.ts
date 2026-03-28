@@ -5,7 +5,7 @@
  * Or: npx tsx scripts/add-admin-user.ts
  */
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@serva/database";
 
 const prisma = new PrismaClient();
 

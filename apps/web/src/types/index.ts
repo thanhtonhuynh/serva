@@ -1,4 +1,4 @@
-import { Expense } from "@prisma/client";
+import { Expense } from "@serva/database";
 
 export type EmployeeStatus = "active" | "awaiting" | "deactivated";
 

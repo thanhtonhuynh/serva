@@ -1,5 +1,5 @@
 import type { PERMISSIONS } from "@/constants/permissions";
-import type { Permission, Role as PrismaRole } from "@prisma/client";
+import type { Permission, Role as PrismaRole } from "@serva/database";
 
 export type PermissionCode = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
 
