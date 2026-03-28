@@ -2,9 +2,9 @@
 
 import { BILL_FIELDS, COIN_FIELDS, MONEY_FIELDS, MONEY_VALUES, ROLL_FIELDS } from "@/app/constants";
 import { Typography } from "@/components/shared/typography";
-import { Card } from "@/components/ui/card";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Card } from "@serva/ui/components/card";
+import { Field, FieldGroup, FieldLabel } from "@serva/ui/components/field";
+import { Input } from "@serva/ui/components/input";
 import { formatMoney, type CashType } from "@serva/shared";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";

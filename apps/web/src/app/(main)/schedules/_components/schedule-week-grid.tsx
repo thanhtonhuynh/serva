@@ -1,7 +1,7 @@
 "use client";
 
 import { ProfilePicture } from "@/components/shared";
-import { Card } from "@/components/ui/card";
+import { Card } from "@serva/ui/components/card";
 import {
   Table,
   TableBody,
@@ -9,10 +9,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@serva/ui/components/table";
 import type { WorkDayRecordsByDate } from "@serva/database";
 import { useNavigationGuard } from "@/hooks/use-navigation-guard";
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
 import { DragDropProvider } from "@dnd-kit/react";
 import {

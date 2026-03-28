@@ -1,7 +1,7 @@
 "use client";
 
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -9,13 +9,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@serva/ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@serva/ui/components/dropdown-menu";
 import { ICONS } from "@/constants/icons";
 import type { RoleWithDetails } from "@serva/shared";
 import { HugeiconsIcon } from "@hugeicons/react";

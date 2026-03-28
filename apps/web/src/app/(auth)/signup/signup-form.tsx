@@ -2,8 +2,8 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Callout, PasswordInputGroupInput, SIcon } from "@/components/shared";
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/ui/components/input-group";
 import { SignupInputs, SignupSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";

@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@serva/ui/components/table";
 import { MonthlyExpense, formatMoney } from "@serva/shared";
 
 type Props = {

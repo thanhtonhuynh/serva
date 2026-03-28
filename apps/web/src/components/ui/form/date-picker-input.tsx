@@ -1,14 +1,14 @@
 "use client";
 
 import { SIcon } from "@/components/shared";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
 import { isValidDate, parseInUTC } from "@serva/shared";
 import { format } from "date-fns";
 import { useState, type ComponentProps } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Calendar } from "../calendar";
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "../input-group";
-import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import { Calendar } from "@serva/ui/components/calendar";
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@serva/ui/components/input-group";
+import { Popover, PopoverContent, PopoverTrigger } from "@serva/ui/components/popover";
 
 type Props = {
   fieldName: string;

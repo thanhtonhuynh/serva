@@ -1,8 +1,8 @@
 import { Container } from "@/components/layout";
 import { SIcon } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@serva/ui/components/button";
+import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
 import { getCurrentSession } from "@/lib/auth/session";
 import { cookies } from "next/headers";
 import Image from "next/image";

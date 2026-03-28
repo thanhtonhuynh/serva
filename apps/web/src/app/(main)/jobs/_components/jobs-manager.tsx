@@ -2,7 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -10,9 +10,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+} from "@serva/ui/components/dialog";
+import { Field, FieldLabel } from "@serva/ui/components/field";
+import { Input } from "@serva/ui/components/input";
 import {
   Table,
   TableBody,
@@ -20,7 +20,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@serva/ui/components/table";
 import type { Job } from "@serva/database";
 import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";

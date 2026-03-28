@@ -2,17 +2,17 @@
 
 import { logoutAction } from "@/app/(auth)/actions";
 import { ProfilePicture, Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { SidebarMenu, sidebarMenuButtonVariants, SidebarMenuItem } from "@/components/ui/sidebar";
+} from "@serva/ui/components/dropdown-menu";
+import { SidebarMenu, sidebarMenuButtonVariants, SidebarMenuItem } from "@serva/ui/components/sidebar";
 import { ICONS } from "@/constants/icons";
 import type { CompanyContext, Identity } from "@/lib/auth/session";
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 

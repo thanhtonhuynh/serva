@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import { ICONS } from "@/constants/icons";
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
 import { useDroppable } from "@dnd-kit/react";
 import { HugeiconsIcon } from "@hugeicons/react";

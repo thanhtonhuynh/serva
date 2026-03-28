@@ -1,8 +1,8 @@
 "use client";
 
 import { SIcon } from "@/components/shared";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@serva/ui/components/button";
+import { cn } from "@serva/ui/lib/utils";
 import type { WorkShiftInput } from "@/lib/validations";
 import { useDraggable } from "@dnd-kit/react";
 import { useClipboard } from "../_context/clipboard-context";

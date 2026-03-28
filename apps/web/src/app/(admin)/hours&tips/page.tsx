@@ -1,7 +1,7 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Callout, CurrentBadge } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { getHoursTipsBreakdownInDateRange, populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";

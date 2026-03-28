@@ -1,7 +1,7 @@
 import { Container } from "@/components/layout";
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@serva/ui/components/button";
+import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database";
 import Image from "next/image";
 import Link from "next/link";

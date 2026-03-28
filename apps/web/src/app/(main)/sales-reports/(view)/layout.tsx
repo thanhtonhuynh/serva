@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared/typography";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@serva/shared";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

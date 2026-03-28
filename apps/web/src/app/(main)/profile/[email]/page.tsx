@@ -4,7 +4,7 @@ import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Callout } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
-import { Card } from "@/components/ui/card";
+import { Card } from "@serva/ui/components/card";
 import { PERMISSIONS } from "@serva/shared";
 import { getEmployeeByIdentityAndCompany, getIdentityProfileInCompanyByEmail, getRecentReportsByIdentity, getRecentWorkDayRecordsByEmployee } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

@@ -1,7 +1,7 @@
 import { Container } from "@/components/layout/container";
 import { Header } from "@/components/layout/header";
 import { Typography } from "@/components/shared";
-import { Card } from "@/components/ui/card";
+import { Card } from "@serva/ui/components/card";
 import { PERMISSIONS, DisplayOperator, type EmployeeStatus } from "@serva/shared";
 import { getAwaitingInvitesByCompanyAndType, getOperatorsByCompany, getRoles } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

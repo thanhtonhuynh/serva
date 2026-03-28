@@ -1,5 +1,5 @@
 import { AccountStatusBadge, ProfilePicture, Typography } from "@/components/shared";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { DisplayEmployee } from "@serva/shared";
 import { ReactNode } from "react";
 

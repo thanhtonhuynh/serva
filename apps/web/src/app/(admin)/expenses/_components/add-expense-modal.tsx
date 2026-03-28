@@ -1,8 +1,8 @@
 "use client";
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@serva/ui/components/button";
+import { Calendar } from "@serva/ui/components/calendar";
 import {
   Dialog,
   DialogBody,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@serva/ui/components/dialog";
 import {
   Form,
   FormControl,
@@ -18,10 +18,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { InputField } from "@/components/ui/form/input-field";
+} from "@serva/ui/components/form";
+import { InputField } from "@serva/ui/components/form/input-field";
 import { ICONS } from "@/constants/icons";
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
 import { getLocalDateFromUTC, getUTCMidnightFromLocal } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";

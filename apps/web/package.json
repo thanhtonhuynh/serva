@@ -12,49 +12,31 @@
     "email": "cp ../../.env ./node_modules/react-email && email dev --dir src/components/emails --port 3001"
   },
   "dependencies": {
-    "@base-ui/react": "^1.1.0",
     "@dnd-kit/react": "^0.3.2",
     "@flags-sdk/growthbook": "^0.2.0",
-    "@hookform/resolvers": "^5.2.2",
-    "@hugeicons/core-free-icons": "^3.1.1",
-    "@hugeicons/react": "^1.1.4",
     "@oslojs/binary": "^1.0.0",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@oslojs/otp": "^1.1.0",
     "@serva/database": "workspace:*",
     "@serva/shared": "workspace:*",
+    "@serva/ui": "workspace:*",
     "@react-email/components": "^1.0.1",
     "@vercel/blob": "^2.3.1",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "cmdk": "^1.1.1",
     "date-fns-tz": "^3.2.0",
     "framer-motion": "^11.18.2",
-    "lucide-react": "^0.479.0",
     "next": "16.1.6",
-    "next-themes": "^0.4.6",
+
     "nodemailer": "^7.0.11",
-    "radix-ui": "^1.4.3",
-    "react-day-picker": "^9.13.0",
     "react-dropzone": "^14.3.8",
-    "react-hook-form": "^7.71.2",
-    "sonner": "^1.7.4",
-    "tailwind-merge": "^3.4.0",
-    "tailwindcss-animate": "^1.0.7",
     "xlsx": "^0.18.5",
-    "xlsx-js-style": "^1.2.0",
-    "zod": "^4.3.6"
+    "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.18",
     "@types/nodemailer": "^6.4.21",
     "eslint": "^9.39.2",
     "eslint-config-next": "16.0.8",
-    "postcss": "^8.5.6",
     "react-email": "^5.0.8",
-    "tailwindcss": "^4.1.18",
-    "ts-node": "^10.9.2",
-    "tw-animate-css": "^1.4.0"
+    "ts-node": "^10.9.2"
   }
 }

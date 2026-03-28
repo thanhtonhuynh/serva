@@ -1,7 +1,7 @@
 "use client";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@serva/ui/components/tooltip";
+import { cn } from "@serva/ui/lib/utils";
 import { HeatmapCell, HeatmapData, WEEKDAY_LABELS, formatMoney } from "@serva/shared";
 import { useRouter } from "next/navigation";
 

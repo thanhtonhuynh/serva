@@ -2,9 +2,9 @@
 
 import { DecoIcon, Typography } from "@/components/shared";
 import { ProfilePicture } from "@/components/shared/profile-picture";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@serva/ui/components/separator";
 import { ICONS } from "@/constants/icons";
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import {
   formatInUTC,
   getPlatformAmount,

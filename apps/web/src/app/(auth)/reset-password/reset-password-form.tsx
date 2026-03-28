@@ -2,9 +2,9 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Callout, PasswordInputGroupInput, SIcon } from "@/components/shared";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
-import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
+import { Checkbox } from "@serva/ui/components/checkbox";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@serva/ui/components/field";
+import { InputGroup, InputGroupAddon } from "@serva/ui/components/input-group";
 import { ResetPasswordSchema, ResetPasswordSchemaTypes } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

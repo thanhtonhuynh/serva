@@ -1,7 +1,7 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Callout, CurrentBadge, Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@serva/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { ICONS } from "@/constants/icons";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";

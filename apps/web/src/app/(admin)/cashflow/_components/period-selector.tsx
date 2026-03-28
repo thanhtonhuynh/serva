@@ -1,8 +1,8 @@
 "use client";
 
 import { FULL_MONTHS, SHORT_MONTHS } from "@/app/constants";
-import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@serva/ui/components/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@serva/ui/components/popover";
 import {
   Select,
   SelectContent,
@@ -10,8 +10,8 @@ import {
   SelectTrigger,
   selectTriggerVariants,
   SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+} from "@serva/ui/components/select";
+import { cn } from "@serva/ui/lib/utils";
 import { getCurrentMonth, getCurrentYear } from "@serva/shared";
 import { ArrowDown01Icon, CalendarCheckInIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";

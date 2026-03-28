@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -8,13 +8,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@serva/ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@serva/ui/components/dropdown-menu";
 import { ICONS } from "@/constants/icons";
 import { PERMISSIONS, DisplayEmployee } from "@serva/shared";
 import { useSession } from "@/contexts/SessionProvider";

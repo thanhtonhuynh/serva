@@ -1,5 +1,5 @@
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import { ICONS } from "@/constants/icons";
 import { PERMISSIONS } from "@serva/shared";
 import { hasPermission } from "@/lib/auth/permission";

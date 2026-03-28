@@ -1,5 +1,5 @@
 import { Callout, CurrentBadge } from "@/components/shared";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { getExpensesByYear, getReportsByDateRange } from "@serva/database";

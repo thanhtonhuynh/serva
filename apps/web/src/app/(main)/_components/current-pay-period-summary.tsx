@@ -1,8 +1,8 @@
 import { UserShiftTable } from "@/app/(main)/my-shifts/_components";
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@serva/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
+import { Separator } from "@serva/ui/components/separator";
 import { ICONS } from "@/constants/icons";
 import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database";
 import { HugeiconsIcon } from "@hugeicons/react";

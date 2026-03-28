@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import { VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
-import { Button, buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "@serva/ui/components/button";
 
 export function LoadingButton({
   loading,

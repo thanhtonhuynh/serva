@@ -8,16 +8,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+} from "@serva/ui/components/dialog";
+import { Field, FieldGroup, FieldLabel } from "@serva/ui/components/field";
+import { Input } from "@serva/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@serva/ui/components/select";
 import { CreateEmployeeInviteInput, CreateEmployeeInviteSchema } from "@/lib/validations/invite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";

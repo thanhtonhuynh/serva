@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@serva/ui/components/skeleton";
 
 export function SalesAnalyticsSkeleton() {
   return (

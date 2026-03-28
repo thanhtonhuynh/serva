@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@serva/ui/components/separator";
+import { Skeleton } from "@serva/ui/components/skeleton";
 import { Fragment } from "react";
 
 export default function ProfileLoading() {

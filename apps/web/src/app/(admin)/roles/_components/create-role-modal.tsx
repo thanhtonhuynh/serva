@@ -2,8 +2,8 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@serva/ui/components/button";
+import { Checkbox } from "@serva/ui/components/checkbox";
 import {
   Dialog,
   DialogBody,
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@serva/ui/components/dialog";
 import {
   Field,
   FieldContent,
@@ -22,9 +22,9 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from "@serva/ui/components/field";
+import { Input } from "@serva/ui/components/input";
+import { Textarea } from "@serva/ui/components/textarea";
 import { ICONS } from "@/constants/icons";
 import { CreateRoleInput, CreateRoleSchema } from "@/lib/validations/roles";
 import { zodResolver } from "@hookform/resolvers/zod";

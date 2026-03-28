@@ -1,7 +1,7 @@
 import { getEmployeeStatusConfig } from "@serva/shared";
 import { ICONS } from "@/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Badge } from "../ui/badge";
+import { Badge } from "@serva/ui/components/badge";
 
 type Props = {
   status: string;

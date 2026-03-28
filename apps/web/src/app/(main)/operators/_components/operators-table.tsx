@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@serva/ui/components/table";
 import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
 import { useState } from "react";
 import { ChangeRoleModal } from "./change-role-modal";

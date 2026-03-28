@@ -2,7 +2,7 @@
 
 import { Typography } from "@/components/shared";
 import { DatePickerInput } from "@/components/ui/form/date-picker-input";
-import { InputFieldV2 } from "@/components/ui/form/input-field-v2";
+import { InputFieldV2 } from "@serva/ui/components/form/input-field-v2";
 import { getPlatformById } from "@serva/shared";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { useFormContext } from "react-hook-form";

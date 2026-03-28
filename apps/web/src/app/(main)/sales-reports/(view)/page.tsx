@@ -1,7 +1,7 @@
 import { SaleReportCard } from "@/app/(main)/sales-reports/_components/sales-report-card";
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@serva/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { ICONS } from "@/constants/icons";
 import { getReportRaw } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

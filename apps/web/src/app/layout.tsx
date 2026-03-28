@@ -1,12 +1,12 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { TailwindScreenSizeIndicator } from "@/components/dev/tw-screen-size-indicator";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@serva/ui/components/sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { getCurrentSession } from "@/lib/auth/session";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
-import "./globals.css";
+import "@serva/ui/globals.css";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",

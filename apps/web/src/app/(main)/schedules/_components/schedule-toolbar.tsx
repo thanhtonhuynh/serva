@@ -2,7 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { ConfirmDialog, SIcon } from "@/components/shared";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import { useState } from "react";
 
 type Props = {

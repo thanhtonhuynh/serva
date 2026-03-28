@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@serva/ui/components/table";
 import { DisplayEmployee } from "@serva/shared";
 import { EmployeeActions } from "./employee-actions";
 

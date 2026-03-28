@@ -3,8 +3,8 @@
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { PasswordInput } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
-import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Card } from "@serva/ui/components/card";
+import { Checkbox } from "@serva/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@serva/ui/components/form";
 import { UpdatePasswordSchema, UpdatePasswordSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";

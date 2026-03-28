@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout";
 import { Container } from "@/components/layout/container";
 import { Typography } from "@/components/shared";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { getPermissionsGrouped, getRoles } from "@serva/database";
 import { PERMISSIONS } from "@serva/shared";

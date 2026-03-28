@@ -1,7 +1,7 @@
 "use client";
 
 import { Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@serva/ui/components/dialog";
 import { ICONS } from "@/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { formatInUTC } from "@serva/shared";

@@ -1,14 +1,14 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+} from "@serva/ui/components/select";
+import { Separator } from "@serva/ui/components/separator";
 import {
   calculateSalesAnalytics,
   DaySalesData,

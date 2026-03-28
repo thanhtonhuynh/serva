@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@serva/ui/components/table";
 import { DateRange, UserShift, formatInUTC, formatMoney } from "@serva/shared";
 import { addDays } from "date-fns";
 

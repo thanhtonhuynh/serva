@@ -8,11 +8,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "@serva/ui/components/sidebar";
 import { useSession } from "@/contexts/SessionProvider";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { hasPermission } from "@/lib/auth/permission";
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

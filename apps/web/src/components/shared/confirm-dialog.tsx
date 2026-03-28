@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@serva/ui/components/dialog";
 
 type ConfirmDialogProps = {
   open: boolean;

@@ -2,7 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@serva/ui/components/checkbox";
 import {
   Dialog,
   DialogBody,
@@ -10,7 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@serva/ui/components/dialog";
 import {
   Field,
   FieldContent,
@@ -20,9 +20,9 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from "@serva/ui/components/field";
+import { Input } from "@serva/ui/components/input";
+import { Textarea } from "@serva/ui/components/textarea";
 import { UpdateRoleInput, UpdateRoleSchema } from "@/lib/validations/roles";
 import type { RoleWithDetails } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";

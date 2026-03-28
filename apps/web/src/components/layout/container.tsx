@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import type { ComponentProps } from "react";
 
 type Props = {

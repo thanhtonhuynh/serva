@@ -2,9 +2,9 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared/typography";
-import { Card } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Card } from "@serva/ui/components/card";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@serva/ui/components/form";
+import { Input } from "@serva/ui/components/input";
 import { type Identity } from "@/lib/auth/session";
 import { UpdateEmailSchema, UpdateEmailSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";

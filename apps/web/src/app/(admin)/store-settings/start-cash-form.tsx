@@ -3,7 +3,7 @@
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Callout } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
-import { Card } from "@/components/ui/card";
+import { Card } from "@serva/ui/components/card";
 import {
   Form,
   FormControl,
@@ -11,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@serva/ui/components/form";
+import { Input } from "@serva/ui/components/input";
 import { UpdateStartCashInput, UpdateStartCashSchema } from "@/lib/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";

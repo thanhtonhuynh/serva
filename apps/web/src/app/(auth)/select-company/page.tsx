@@ -1,8 +1,8 @@
 import { Container } from "@/components/layout/container";
 import { SIcon } from "@/components/shared";
 import { Typography } from "@/components/shared/typography";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@serva/ui/components/button";
+import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
 import { getCompaniesByIdentityId } from "@serva/database";
 import { getCurrentSession } from "@/lib/auth/session";
 import { authenticatedRateLimit } from "@/utils/rate-limiter";

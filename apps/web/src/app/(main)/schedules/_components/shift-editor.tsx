@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -9,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@serva/ui/components/dialog";
+import { Input } from "@serva/ui/components/input";
+import { Label } from "@serva/ui/components/label";
+import { Textarea } from "@serva/ui/components/textarea";
 import type { WorkShiftInput } from "@/lib/validations";
 import { useState } from "react";
 import { toast } from "sonner";

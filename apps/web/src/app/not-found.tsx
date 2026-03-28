@@ -1,7 +1,7 @@
 import { Container } from "@/components/layout";
 import { SIcon, Typography } from "@/components/shared";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@serva/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import Link from "next/link";
 
 export default async function NotFound() {

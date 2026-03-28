@@ -8,15 +8,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+} from "@serva/ui/components/dialog";
+import { Field, FieldGroup, FieldLabel } from "@serva/ui/components/field";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@serva/ui/components/select";
 import { DisplayEmployee } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";

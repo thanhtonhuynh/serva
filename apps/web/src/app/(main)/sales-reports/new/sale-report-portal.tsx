@@ -2,7 +2,7 @@
 
 import { LoadingButton } from "@/components/buttons/LoadingButton";
 import { Typography } from "@/components/shared/typography";
-import { Button } from "@/components/ui/button";
+import { Button } from "@serva/ui/components/button";
 import { useSession } from "@/contexts/SessionProvider";
 import { hasPermission } from "@/lib/auth/permission";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";

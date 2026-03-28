@@ -16,7 +16,9 @@
     "target": "ES2023",
     "paths": {
       "@serva/database": ["libs/database/src/index.ts"],
-      "@serva/shared": ["libs/shared/src/index.ts"]
+      "@serva/shared": ["libs/shared/src/index.ts"],
+      "@serva/ui": ["libs/ui/src/index.ts"],
+      "@serva/ui/*": ["libs/ui/src/*"]
     }
   },
   "exclude": ["node_modules"]

@@ -1,10 +1,10 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { buttonVariants } from "@serva/ui/components/button";
+import { Calendar } from "@serva/ui/components/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@serva/ui/components/popover";
 import { ICONS } from "@/constants/icons";
-import { cn } from "@/lib/utils";
+import { cn } from "@serva/ui/lib/utils";
 import { getLocalDateFromUTC } from "@/utils/datetime-client";
 import { ChevronRight, Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";

@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@serva/ui/components/button";
+import { Input } from "@serva/ui/components/input";
 import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
