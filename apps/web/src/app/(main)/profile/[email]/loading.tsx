@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout";
-import { Container } from "@/components/layout/container";
+import { Container } from "@serva/ui/components/serva/container";
 import { Separator } from "@serva/ui/components/separator";
 import { Skeleton } from "@serva/ui/components/skeleton";
 import { Fragment } from "react";

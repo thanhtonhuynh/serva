@@ -1,5 +1,5 @@
-import { Container } from "@/components/layout";
-import { Typography } from "@/components/shared";
+import { Container } from "@serva/ui";
+import { Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database";

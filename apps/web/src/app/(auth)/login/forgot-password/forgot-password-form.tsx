@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Callout, SIcon } from "@/components/shared";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Callout, SIcon } from "@serva/ui";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/ui/components/input-group";
 import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@/lib/validations/auth";

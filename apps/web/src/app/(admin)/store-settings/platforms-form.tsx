@@ -1,15 +1,15 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Callout } from "@/components/shared";
-import { PlatformIcon } from "@/components/shared/platform-icon";
-import { Typography } from "@/components/shared/typography";
+import { PlatformIcon } from "@/components/shared";
+import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/lib/validations/store";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PLATFORMS } from "@serva/shared";
+import { Callout } from "@serva/ui";
 import { Card } from "@serva/ui/components/card";
 import { Checkbox } from "@serva/ui/components/checkbox";
 import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@serva/ui/components/field";
-import { PLATFORMS } from "@serva/shared";
-import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/lib/validations/store";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Typography } from "@serva/ui/components/serva/typography";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { updateActivePlatforms } from "./actions";

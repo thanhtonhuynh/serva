@@ -11,7 +11,12 @@
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./src/lib/*.ts",
+    "./constants/*": "./src/constants/*.ts",
     "./components/*": "./src/components/*.tsx",
+    "./components/serva/*": "./src/components/serva/*.tsx",
     "./hooks/*": "./src/hooks/*.ts"
+  },
+  "devDependencies": {
+    "next": "16.1.6"
   }
 }

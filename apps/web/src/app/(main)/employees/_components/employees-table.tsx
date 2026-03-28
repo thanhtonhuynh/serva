@@ -1,6 +1,8 @@
 "use client";
 
-import { AccountStatusBadge, ProfilePicture } from "@/components/shared";
+import { AccountStatusBadge } from "@/components/shared";
+import { DisplayEmployee } from "@serva/shared";
+import { ProfilePicture } from "@serva/ui";
 import {
   Table,
   TableBody,
@@ -9,7 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/ui/components/table";
-import { DisplayEmployee } from "@serva/shared";
 import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {

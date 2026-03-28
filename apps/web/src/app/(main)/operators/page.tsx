@@ -1,14 +1,17 @@
-import { Container } from "@/components/layout/container";
 import { Header } from "@/components/layout/header";
-import { Typography } from "@/components/shared";
-import { Card } from "@serva/ui/components/card";
-import { PERMISSIONS, DisplayOperator, type EmployeeStatus } from "@serva/shared";
-import { getAwaitingInvitesByCompanyAndType, getOperatorsByCompany, getRoles } from "@serva/database";
+import { StatusFilter, ViewToggle, type ViewMode } from "@/components/shared";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import {
+  getAwaitingInvitesByCompanyAndType,
+  getOperatorsByCompany,
+  getRoles,
+} from "@serva/database";
+import { DisplayOperator, PERMISSIONS, type EmployeeStatus } from "@serva/shared";
+import { Typography } from "@serva/ui";
+import { Card } from "@serva/ui/components/card";
+import { Container } from "@serva/ui/components/serva/container";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
-import { StatusFilter } from "../../../components/shared/status-filter";
-import { ViewToggle, type ViewMode } from "../../../components/shared/view-toggle";
 import { OperatorsList } from "./_components/operators-list";
 
 type PageProps = {
@@ -29,7 +32,9 @@ export default async function OperatorsPage({ searchParams }: PageProps) {
   const view: ViewMode = (params.view as ViewMode) || "table";
 
   const [operatorsRaw, roles, awaitingInvites] = await Promise.all([
-    status === "awaiting" ? Promise.resolve([]) : getOperatorsByCompany(companyCtx.companyId, status),
+    status === "awaiting"
+      ? Promise.resolve([])
+      : getOperatorsByCompany(companyCtx.companyId, status),
     getRoles(companyCtx.companyId),
     status === "awaiting"
       ? getAwaitingInvitesByCompanyAndType(companyCtx.companyId, "operator")

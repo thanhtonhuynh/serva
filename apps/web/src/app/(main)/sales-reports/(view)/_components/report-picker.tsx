@@ -1,6 +1,6 @@
 "use client";
 
-import { Typography } from "@/components/shared";
+import { Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { Calendar } from "@serva/ui/components/calendar";
 import { Card } from "@serva/ui/components/card";

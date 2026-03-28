@@ -1,9 +1,9 @@
 "use client";
 
-import { Typography } from "@/components/shared";
+import { Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { Separator } from "@serva/ui/components/separator";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Expense } from "@serva/database";
 import { formatMoney } from "@serva/shared";

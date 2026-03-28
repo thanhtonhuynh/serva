@@ -1,7 +1,9 @@
 "use client";
 
 import { logoutAction } from "@/app/(auth)/actions";
-import { ProfilePicture, Typography } from "@/components/shared";
+import type { CompanyContext, Identity } from "@/lib/auth/session";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ProfilePicture, Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import {
   DropdownMenu,
@@ -9,11 +11,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@serva/ui/components/dropdown-menu";
-import { SidebarMenu, sidebarMenuButtonVariants, SidebarMenuItem } from "@serva/ui/components/sidebar";
-import { ICONS } from "@/constants/icons";
-import type { CompanyContext, Identity } from "@/lib/auth/session";
+import {
+  SidebarMenu,
+  sidebarMenuButtonVariants,
+  SidebarMenuItem,
+} from "@serva/ui/components/sidebar";
+import { ICONS } from "@serva/ui/constants/icons";
 import { cn } from "@serva/ui/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
 type Props = {

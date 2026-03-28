@@ -1,6 +1,6 @@
-import { Typography } from "@/components/shared";
+import { Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { PERMISSIONS } from "@serva/shared";
 import { hasPermission } from "@/lib/auth/permission";
 import type { CompanyContext, Identity } from "@/lib/auth/session";

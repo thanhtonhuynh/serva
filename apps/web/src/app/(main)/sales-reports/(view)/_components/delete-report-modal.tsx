@@ -1,6 +1,6 @@
 "use client";
 
-import { Typography } from "@/components/shared";
+import { Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@serva/ui/components/dialog";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { formatInUTC } from "@serva/shared";
 import { useTransition } from "react";

@@ -1,8 +1,8 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Callout } from "@/components/shared";
-import { Typography } from "@/components/shared/typography";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Callout } from "@serva/ui";
+import { Typography } from "@serva/ui/components/serva/typography";
 import { Card } from "@serva/ui/components/card";
 import {
   Form,

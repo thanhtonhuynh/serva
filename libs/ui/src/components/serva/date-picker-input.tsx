@@ -1,14 +1,19 @@
 "use client";
 
-import { SIcon } from "@/components/shared";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
 import { isValidDate, parseInUTC } from "@serva/shared";
+import { Calendar } from "@serva/ui/components/calendar";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@serva/ui/components/input-group";
+import { Popover, PopoverContent, PopoverTrigger } from "@serva/ui/components/popover";
+import { SIcon } from "@serva/ui/components/serva/icon";
 import { format } from "date-fns";
 import { useState, type ComponentProps } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Calendar } from "@serva/ui/components/calendar";
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@serva/ui/components/input-group";
-import { Popover, PopoverContent, PopoverTrigger } from "@serva/ui/components/popover";
 
 type Props = {
   fieldName: string;
@@ -37,7 +42,7 @@ export function DatePickerInput({
         name={fieldName}
         control={form.control}
         render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid} className="sm:w-74 w-full gap-1.5">
+          <Field data-invalid={fieldState.invalid} className="w-full gap-1.5 sm:w-74">
             <FieldLabel htmlFor={htmlFor} className={labelClassName}>
               {label}
             </FieldLabel>

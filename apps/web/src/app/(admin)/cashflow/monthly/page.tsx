@@ -1,6 +1,4 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { Callout, CurrentBadge } from "@/components/shared";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { getReportsByDateRange } from "@serva/database";
@@ -13,6 +11,7 @@ import {
   processCashFlowData,
   type Platform,
 } from "@serva/shared";
+import { Callout, Card, CardContent, CardHeader, CardTitle, CurrentBadge } from "@serva/ui";
 import { notFound } from "next/navigation";
 import { MonthlyCashFlowTable } from "../_components";
 

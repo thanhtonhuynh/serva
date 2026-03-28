@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@serva/ui/components/dropdown-menu";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { PERMISSIONS, DisplayEmployee } from "@serva/shared";
 import { useSession } from "@/contexts/SessionProvider";
 import { hasPermission } from "@/lib/auth/permission";

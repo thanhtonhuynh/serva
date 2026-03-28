@@ -1,8 +1,8 @@
 import { Header } from "@/components/layout";
-import { Container } from "@/components/layout/container";
-import { Typography } from "@/components/shared";
+import { Container } from "@serva/ui/components/serva/container";
+import { Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { authGuard } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { HugeiconsIcon } from "@hugeicons/react";

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@serva/ui/components/button";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { cn } from "@serva/ui/lib/utils";
 import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
 import { useDroppable } from "@dnd-kit/react";

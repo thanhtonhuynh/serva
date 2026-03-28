@@ -1,7 +1,7 @@
 "use client";
 
-import { Typography } from "@/components/shared";
-import { DatePickerInput } from "@/components/ui/form/date-picker-input";
+import { Typography } from "@serva/ui";
+import { DatePickerInput } from "@serva/ui/components/serva/date-picker-input";
 import { InputFieldV2 } from "@serva/ui/components/form/input-field-v2";
 import { getPlatformById } from "@serva/shared";
 import { SaleReportInputs } from "@/lib/validations/report";

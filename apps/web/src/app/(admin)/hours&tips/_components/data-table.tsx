@@ -1,4 +1,4 @@
-import { ProfilePicture } from "@/components/shared/profile-picture";
+import { ProfilePicture } from "@serva/ui/components/serva/profile-picture";
 import {
   Table,
   TableBody,

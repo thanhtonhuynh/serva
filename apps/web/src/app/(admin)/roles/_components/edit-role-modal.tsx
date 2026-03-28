@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/shared";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Typography } from "@serva/ui";
 import { Checkbox } from "@serva/ui/components/checkbox";
 import {
   Dialog,

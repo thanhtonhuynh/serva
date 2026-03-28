@@ -1,6 +1,6 @@
-import { Container } from "@/components/layout";
-import { SIcon } from "@/components/shared";
-import { Typography } from "@/components/shared/typography";
+import { Container } from "@serva/ui";
+import { SIcon } from "@serva/ui";
+import { Typography } from "@serva/ui/components/serva/typography";
 import { Button } from "@serva/ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
 import { getCurrentSession } from "@/lib/auth/session";

@@ -1,6 +1,6 @@
-import { ICONS } from "@/constants/icons";
 import type { IconSvgElement } from "@hugeicons/react";
 import { PERMISSIONS, type PermissionCode } from "@serva/shared";
+import { ICONS } from "@serva/ui/constants/icons";
 
 export const MENU_GROUPS = ["home", "team", "operators", "finance", "settings", "account"] as const;
 

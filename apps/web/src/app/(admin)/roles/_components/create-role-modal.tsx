@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/shared";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Typography } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { Checkbox } from "@serva/ui/components/checkbox";
 import {
@@ -25,7 +25,7 @@ import {
 } from "@serva/ui/components/field";
 import { Input } from "@serva/ui/components/input";
 import { Textarea } from "@serva/ui/components/textarea";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { CreateRoleInput, CreateRoleSchema } from "@/lib/validations/roles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";

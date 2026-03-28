@@ -1,4 +1,4 @@
-import { ProfilePicture } from "@/components/shared/profile-picture";
+import { ProfilePicture } from "@serva/ui/components/serva/profile-picture";
 import { Button } from "@serva/ui/components/button";
 import { Separator } from "@serva/ui/components/separator";
 import type { IdentityProfile } from "@serva/database";

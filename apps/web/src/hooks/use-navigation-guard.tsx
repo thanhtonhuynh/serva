@@ -1,6 +1,6 @@
 "use client";
 
-import { ConfirmDialog } from "@/components/shared";
+import { ConfirmDialog } from "@serva/ui";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 

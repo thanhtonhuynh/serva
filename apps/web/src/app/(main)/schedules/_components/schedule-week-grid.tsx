@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfilePicture } from "@/components/shared";
+import { ProfilePicture } from "@serva/ui";
 import { Card } from "@serva/ui/components/card";
 import {
   Table,

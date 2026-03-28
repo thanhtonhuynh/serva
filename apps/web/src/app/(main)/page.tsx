@@ -1,8 +1,6 @@
 import { Header } from "@/components/layout";
-import { Container } from "@/components/layout/container";
-import { Typography } from "@/components/shared";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { authGuardWithRateLimit } from "@/lib/auth/authorize";
+import { Card, CardContent, CardHeader, CardTitle, Container, Typography } from "@serva/ui";
 import { Fragment } from "react";
 import { CurrentPayPeriodSummary } from "./_components";
 import { QuickActions } from "./_components/quick-actions";

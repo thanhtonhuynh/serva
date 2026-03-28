@@ -1,9 +1,9 @@
 "use client";
 
-import { DecoIcon, Typography } from "@/components/shared";
-import { ProfilePicture } from "@/components/shared/profile-picture";
+import { DecoIcon, Typography } from "@serva/ui";
+import { ProfilePicture } from "@serva/ui/components/serva/profile-picture";
 import { Separator } from "@serva/ui/components/separator";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { cn } from "@serva/ui/lib/utils";
 import {
   formatInUTC,

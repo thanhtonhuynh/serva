@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/shared/typography";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Typography } from "@serva/ui/components/serva/typography";
 import { Card } from "@serva/ui/components/card";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@serva/ui/components/form";
 import { Input } from "@serva/ui/components/input";

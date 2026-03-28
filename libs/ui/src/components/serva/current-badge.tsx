@@ -1,6 +1,6 @@
-import { Badge } from "@serva/ui/components/badge";
 import { RecordIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { Badge } from "@serva/ui/components/badge";
 
 export function CurrentBadge() {
   return (

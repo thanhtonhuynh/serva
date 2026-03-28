@@ -1,7 +1,7 @@
 "use client";
 
 import { BILL_FIELDS, COIN_FIELDS, MONEY_FIELDS, MONEY_VALUES, ROLL_FIELDS } from "@/app/constants";
-import { Typography } from "@/components/shared/typography";
+import { Typography } from "@serva/ui/components/serva/typography";
 import { Card } from "@serva/ui/components/card";
 import { Field, FieldGroup, FieldLabel } from "@serva/ui/components/field";
 import { Input } from "@serva/ui/components/input";

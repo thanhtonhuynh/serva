@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ConfirmDialog, SIcon } from "@/components/shared";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { ConfirmDialog, SIcon } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { useState } from "react";
 

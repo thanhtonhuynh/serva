@@ -1,14 +1,17 @@
-import { Container } from "@/components/layout/container";
 import { Header } from "@/components/layout/header";
-import { Typography } from "@/components/shared";
-import { Card } from "@serva/ui/components/card";
-import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
-import { getEmployeesByCompany, getAwaitingInvitesByCompanyAndType, getJobsByCompany } from "@serva/database";
+import { StatusFilter, ViewToggle, type ViewMode } from "@/components/shared";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
+import {
+  getAwaitingInvitesByCompanyAndType,
+  getEmployeesByCompany,
+  getJobsByCompany,
+} from "@serva/database";
+import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
+import { Typography } from "@serva/ui";
+import { Card } from "@serva/ui/components/card";
+import { Container } from "@serva/ui/components/serva/container";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
-import { StatusFilter } from "../../../components/shared/status-filter";
-import { ViewToggle, type ViewMode } from "../../../components/shared/view-toggle";
 import { EmployeesList } from "./_components/employees-list";
 
 type PageProps = {
@@ -29,7 +32,9 @@ export default async function TeamEmployeesPage({ searchParams }: PageProps) {
   const view: ViewMode = (params.view as ViewMode) || "table";
 
   const [employees, jobs] = await Promise.all([
-    status === "awaiting" ? Promise.resolve([]) : getEmployeesByCompany(companyCtx.companyId, status),
+    status === "awaiting"
+      ? Promise.resolve([])
+      : getEmployeesByCompany(companyCtx.companyId, status),
     getJobsByCompany(companyCtx.companyId),
   ]);
   const awaitingInvites =

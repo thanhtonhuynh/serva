@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { Typography } from "@/components/shared/typography";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Typography } from "@serva/ui/components/serva/typography";
 import { Button } from "@serva/ui/components/button";
 import { useSession } from "@/contexts/SessionProvider";
 import { hasPermission } from "@/lib/auth/permission";

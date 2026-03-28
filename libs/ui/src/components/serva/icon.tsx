@@ -1,4 +1,4 @@
-import { ICONS, type IconKey } from "@/constants/icons";
+import { ICONS, type IconKey } from "@serva/ui/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 type Props = {

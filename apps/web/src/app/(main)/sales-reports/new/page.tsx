@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout";
-import { Container } from "@/components/layout/container";
-import { Typography } from "@/components/shared";
+import { Container } from "@serva/ui/components/serva/container";
+import { Typography } from "@serva/ui";
 import { PERMISSIONS, PLATFORMS, getPlatformById } from "@serva/shared";
 import { getActivePlatforms, getStartCash } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

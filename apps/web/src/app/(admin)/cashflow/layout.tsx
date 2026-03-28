@@ -1,8 +1,7 @@
 import { Header } from "@/components/layout";
-import { Container } from "@/components/layout/container";
-import { Typography } from "@/components/shared/typography";
 import { authGuard } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
+import { Container, Typography } from "@serva/ui";
 import { Fragment } from "react";
 import { PeriodSelector, TabNav } from "./_components";
 

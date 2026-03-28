@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@serva/ui/components/dropdown-menu";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Ban, Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";

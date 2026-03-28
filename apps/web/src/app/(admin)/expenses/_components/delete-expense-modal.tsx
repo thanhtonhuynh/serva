@@ -1,8 +1,9 @@
 "use client";
 
-import { Typography } from "@/components/shared";
-import { Button } from "@serva/ui/components/button";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { formatInUTC } from "@serva/shared";
 import {
+  Button,
   Dialog,
   DialogBody,
   DialogContent,
@@ -10,10 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@serva/ui/components/dialog";
-import { ICONS } from "@/constants/icons";
-import { formatInUTC } from "@serva/shared";
-import { HugeiconsIcon } from "@hugeicons/react";
+  ICONS,
+  Typography,
+} from "@serva/ui";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteExpenseAction } from "../actions";

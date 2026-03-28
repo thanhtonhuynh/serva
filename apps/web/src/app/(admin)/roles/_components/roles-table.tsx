@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/ui/components/table";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { cn } from "@serva/ui/lib/utils";
 import type { RoleWithDetails } from "@serva/shared";
 import { HugeiconsIcon } from "@hugeicons/react";

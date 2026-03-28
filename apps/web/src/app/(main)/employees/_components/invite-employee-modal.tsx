@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
 import {
   Dialog,
   DialogBody,

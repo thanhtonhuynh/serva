@@ -1,8 +1,8 @@
 import { UserShiftTable } from "@/app/(main)/my-shifts/_components";
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { Callout, CurrentBadge, Typography } from "@/components/shared";
+import { Callout, CurrentBadge, Typography } from "@serva/ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database";
 import { authGuardWithRateLimit } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";

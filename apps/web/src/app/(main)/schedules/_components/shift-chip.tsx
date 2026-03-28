@@ -1,6 +1,6 @@
 "use client";
 
-import { SIcon } from "@/components/shared";
+import { SIcon } from "@serva/ui";
 import { Button } from "@serva/ui/components/button";
 import { cn } from "@serva/ui/lib/utils";
 import type { WorkShiftInput } from "@/lib/validations";

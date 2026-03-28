@@ -1,5 +1,5 @@
-import { cn } from "@serva/ui/lib/utils";
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
+import { cn } from "@serva/ui/lib/utils";
 
 type Props = {
   showBackground?: boolean;

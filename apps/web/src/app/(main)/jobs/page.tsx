@@ -1,5 +1,6 @@
-import { Container, Header } from "@/components/layout";
-import { Typography } from "@/components/shared";
+import { Header } from "@/components/layout";
+import { Container } from "@serva/ui";
+import { Typography } from "@serva/ui";
 import { Card } from "@serva/ui/components/card";
 import { PERMISSIONS } from "@serva/shared";
 import { getJobsByCompany } from "@serva/database";

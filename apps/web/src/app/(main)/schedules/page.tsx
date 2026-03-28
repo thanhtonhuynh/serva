@@ -1,5 +1,6 @@
-import { Container, Header, Loader } from "@/components/layout";
-import { Typography } from "@/components/shared";
+import { Header } from "@/components/layout";
+import { Container, Loader } from "@serva/ui";
+import { Typography } from "@serva/ui";
 import { Card } from "@serva/ui/components/card";
 import { getEmployeesByCompany, getWorkDayRecordsByDateRange } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";

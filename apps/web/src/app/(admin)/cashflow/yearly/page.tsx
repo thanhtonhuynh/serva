@@ -1,5 +1,3 @@
-import { Callout, CurrentBadge } from "@/components/shared";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
 import { authGuardWithRateLimit, hasSessionPermission } from "@/lib/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { getExpensesByYear, getReportsByDateRange } from "@serva/database";
@@ -11,6 +9,7 @@ import {
   processYearCashFlowData,
   type Platform,
 } from "@serva/shared";
+import { Callout, Card, CardContent, CardHeader, CardTitle, CurrentBadge } from "@serva/ui";
 import { notFound } from "next/navigation";
 import { YearCashFlowTable } from "../_components";
 

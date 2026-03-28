@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@/components/buttons/LoadingButton";
-import { ICONS } from "@/constants/icons";
+import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { ICONS } from "@serva/ui/constants/icons";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
 import { getLocalDateFromUTC, getUTCMidnightFromLocal } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";

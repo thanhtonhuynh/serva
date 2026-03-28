@@ -1,7 +1,7 @@
 import { CashCalculator } from "@/app/(main)/cash-calculator/cash-calculator";
 import { Header } from "@/components/layout";
-import { Container } from "@/components/layout/container";
-import { Typography } from "@/components/shared/typography";
+import { Container } from "@serva/ui/components/serva/container";
+import { Typography } from "@serva/ui/components/serva/typography";
 import { authGuardWithRateLimit } from "@/lib/auth/authorize";
 import { Fragment } from "react";
 

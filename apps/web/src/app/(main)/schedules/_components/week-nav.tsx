@@ -3,7 +3,7 @@
 import { buttonVariants } from "@serva/ui/components/button";
 import { Calendar } from "@serva/ui/components/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@serva/ui/components/popover";
-import { ICONS } from "@/constants/icons";
+import { ICONS } from "@serva/ui/constants/icons";
 import { cn } from "@serva/ui/lib/utils";
 import { getLocalDateFromUTC } from "@/utils/datetime-client";
 import { ChevronRight, Left, Right } from "@hugeicons/core-free-icons";
