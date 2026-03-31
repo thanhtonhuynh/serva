@@ -11,6 +11,9 @@ const workspacePackages = Object.entries({
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
+  outputFileTracingIncludes: {
+    "/*": ["./libs/database/generated/**/*"],
+  },
   transpilePackages: workspacePackages,
   reactStrictMode: false,
   images: {
