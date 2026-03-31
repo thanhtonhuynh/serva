@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate --schema ../../libs/database/prisma/schema.prisma && next build",
     "start": "next start",
     "lint": "eslint .",
     "email": "cp ../../.env ./node_modules/react-email && email dev --dir ../../libs/ui/src/components/emails --port 3003"
