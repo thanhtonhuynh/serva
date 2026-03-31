@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import type { NextConfig } from "next";
 import packageJson from "./package.json" with { type: "json" };
 
@@ -9,6 +10,7 @@ const workspacePackages = Object.entries({
   .map(([name]) => name);
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
   transpilePackages: workspacePackages,
   reactStrictMode: false,
   images: {
