@@ -2,7 +2,7 @@
 
 import { Callout, LoadingButton } from "@serva/ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
-import { Field } from "@serva/ui/components/field";
+import { FieldGroup, FieldLabel } from "@serva/ui/components/field";
 import { Input } from "@serva/ui/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@serva/ui/components/select";
 import { useState, useTransition } from "react";
@@ -47,23 +47,26 @@ export function IdentityForm({ identityId, defaultValues }: Props) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {error && <Callout type="error">{error}</Callout>}
-          {success && <Callout type="success">Changes saved.</Callout>}
+          {error && <Callout variant="error" message={error} />}
+          {success && <Callout variant="success" message="Changes saved." />}
 
-          <Field label="Name">
-            <Input value={name} onChange={(e) => setName(e.target.value)} required />
-          </Field>
+          <FieldGroup>
+            <FieldLabel htmlFor="name">Name</FieldLabel>
+            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+          </FieldGroup>
 
-          <Field label="Email">
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </Field>
+          <FieldGroup>
+            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </FieldGroup>
 
-          <Field label="Account Status">
+          <FieldGroup>
+            <FieldLabel htmlFor="accountStatus">Account Status</FieldLabel>
             <Select
               value={accountStatus}
               onValueChange={(v) => setAccountStatus(v as UpdateIdentityInput["accountStatus"])}
             >
-              <SelectTrigger>
+              <SelectTrigger id="accountStatus">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -74,7 +77,7 @@ export function IdentityForm({ identityId, defaultValues }: Props) {
                 ))}
               </SelectContent>
             </Select>
-          </Field>
+          </FieldGroup>
 
           <LoadingButton type="submit" loading={isPending}>
             Save Changes

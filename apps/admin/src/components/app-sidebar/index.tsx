@@ -16,13 +16,11 @@ import {
 import { cn } from "@serva/ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";
 
 export function AppSidebar() {
   const { identity } = useSession();
   const { state, isMobile, toggleSidebar } = useSidebar();
-  const pathname = usePathname();
 
   if (!identity) return null;
 
