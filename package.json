@@ -7,7 +7,7 @@
     "dev:web": "nx run @serva/web:dev",
     "dev:auth": "nx run @serva/auth-app:dev",
     "dev:admin": "nx run @serva/admin-app:dev",
-    "build": "nx run-many -t build",
+    "build": "pnpm --filter @serva/database run db:generate && nx run-many -t build",
     "lint": "nx run-many -t lint",
     "dev:all": "nx run-many -t dev",
     "postinstall": "pnpm --filter @serva/database run db:generate"

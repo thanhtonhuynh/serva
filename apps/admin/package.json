@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prebuild": "pnpm --filter @serva/database run db:generate",
     "dev": "next dev --turbopack --port 3002",
     "build": "next build",
     "start": "next start",

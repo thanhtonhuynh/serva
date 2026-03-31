@@ -12,8 +12,9 @@ const workspacePackages = Object.entries({
 const nextConfig: NextConfig = {
   outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
   outputFileTracingIncludes: {
-    "/*": ["./libs/database/generated/**/*"],
+    "/*": ["./libs/database/generated/prisma/**/*"],
   },
+  serverExternalPackages: ["@prisma/client"],
   transpilePackages: workspacePackages,
   experimental: { serverActions: { bodySizeLimit: "5mb" } },
   images: {
