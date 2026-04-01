@@ -12,12 +12,10 @@ const workspacePackages = Object.entries({
 const nextConfig: NextConfig = {
   outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
   // Keys are matched against normalized route paths; `/**` covers nested routes.
-  // Include generated client + engines for Vercel serverless (globs cwd = this app).
+  // Include generated client + query engines (copied here by `prisma generate`).
+  // Do not trace `node_modules/.pnpm/**` — pnpm symlinks break Vercel serverless packaging.
   outputFileTracingIncludes: {
-    "/**": [
-      "../../libs/database/generated/prisma/**/*",
-      "../../node_modules/.pnpm/@prisma+engines*/**/*",
-    ],
+    "/**": ["../../libs/database/generated/prisma/**/*"],
   },
   serverExternalPackages: ["@prisma/client"],
   transpilePackages: workspacePackages,
