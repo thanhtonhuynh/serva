@@ -1,11 +1,11 @@
 "use client";
 
+import { type ViewMode } from "@/components/shared";
 import { Button } from "@serva/serva-ui/components/button";
 import { Input } from "@serva/serva-ui/components/input";
 import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { type ViewMode } from "../../../../components/shared/view-toggle";
 import { InviteOperatorModal } from "./invite-operator-modal";
 import { OperatorInviteActions } from "./operator-invite-actions";
 import { OperatorsCards } from "./operators-cards";
@@ -72,7 +72,9 @@ export function OperatorsList({
       {status === "awaiting" ? (
         <div className="space-y-2">
           {filteredInvites.length === 0 ? (
-            <div className="text-muted-foreground py-8 text-center text-sm">No awaiting invites.</div>
+            <div className="text-muted-foreground py-8 text-center text-sm">
+              No awaiting invites.
+            </div>
           ) : (
             filteredInvites.map((invite) => (
               <div
