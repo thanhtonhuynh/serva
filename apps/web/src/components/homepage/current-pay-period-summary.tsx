@@ -1,12 +1,12 @@
-import { UserShiftTable } from "@/app/(main)/my-shifts/_components";
+import { UserShiftTable } from "@/app/my-shifts/_components";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database/dal";
 import { Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { Separator } from "@serva/serva-ui/components/separator";
 import { ICONS } from "@serva/serva-ui/constants/icons";
-import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database/dal";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { formatInUTC, getCurrentBiweeklyPeriodInUTC, formatMoney } from "@serva/shared";
+import { formatInUTC, formatMoney, getCurrentBiweeklyPeriodInUTC } from "@serva/shared";
 import Link from "next/link";
 
 type Props = {

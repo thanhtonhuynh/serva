@@ -1,4 +1,4 @@
-import { CashCalculator } from "@/app/(main)/cash-calculator/cash-calculator";
+import { CashCalculator } from "@/app/cash-calculator/cash-calculator";
 import { Header } from "@/components/layout";
 import { authGuardWithRateLimit } from "@serva/auth/authorize";
 import { Container } from "@serva/serva-ui/components/serva/container";
