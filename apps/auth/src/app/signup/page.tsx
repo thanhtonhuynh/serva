@@ -1,10 +1,9 @@
-import { Container } from "@serva/serva-ui";
-import { SIcon } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
+import { getCurrentSession } from "@serva/auth/session";
+import { getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
+import { Container, SIcon } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/serva-ui/components/card";
-import { getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
-import { getCurrentSession } from "@serva/auth/session";
+import { Typography } from "@serva/serva-ui/components/serva/typography";
 import { getWebUrl } from "@serva/shared";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,13 +43,7 @@ export default async function Page({ searchParams }: Props) {
     <Container position="center">
       <Card className="w-full max-w-xl items-center py-12">
         <CardHeader className="flex flex-col items-center gap-6">
-          <Image
-            priority
-            src={"/serva-logo-icon-2.svg"}
-            alt="Serva Logo"
-            width={100}
-            height={100}
-          />
+          <Image priority src={"/serva-logo-icon.svg"} alt="Serva Logo" width={100} height={100} />
           <Typography variant="h1" className="text-xl">
             {inviteMode ? "Set password" : "Sign Up"}
           </Typography>

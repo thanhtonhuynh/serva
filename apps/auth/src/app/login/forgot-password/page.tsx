@@ -1,8 +1,7 @@
-import { Container } from "@serva/serva-ui";
-import { Callout, SIcon, Typography } from "@serva/serva-ui";
+import { getCurrentSession } from "@serva/auth/session";
+import { Callout, Container, SIcon, Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader } from "@serva/serva-ui/components/card";
-import { getCurrentSession } from "@serva/auth/session";
 import { getWebUrl } from "@serva/shared";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,13 +22,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
     <Container position="center">
       <Card className="w-full max-w-xl items-center py-12">
         <CardHeader className="flex flex-col items-center gap-6">
-          <Image
-            priority
-            src={"/serva-logo-icon-2.svg"}
-            alt="Serva Logo"
-            width={100}
-            height={100}
-          />
+          <Image priority src={"/serva-logo-icon.svg"} alt="Serva Logo" width={100} height={100} />
           <Typography variant="h1" className="text-xl">
             Forgot your password?
           </Typography>
