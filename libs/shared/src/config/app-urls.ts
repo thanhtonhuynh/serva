@@ -1,7 +1,7 @@
 /** Local dev defaults when env vars are unset */
-const DEFAULT_WEB_URL = "http://localhost:3000";
-const DEFAULT_AUTH_URL = "http://localhost:3001";
-const DEFAULT_ADMIN_URL = "http://localhost:3002";
+const DEFAULT_WEB_URL = "http://localhost:4100";
+const DEFAULT_AUTH_URL = "http://localhost:3100";
+const DEFAULT_ADMIN_URL = "http://localhost:5100";
 
 /**
  * Main app (consumer) base URL — used after login, signup, company selection.

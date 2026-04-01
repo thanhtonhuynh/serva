@@ -18,9 +18,9 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 
 | App   | Package                           | Port (dev) | Description                                                                         |
 | ----- | --------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
-| Web   | `@serva/web` (`apps/web`)         | 3000       | Main app — scheduling, sales, reports, tenant admin                                 |
-| Auth  | `@serva/auth-app` (`apps/auth`)   | 3001       | Centralized auth portal — login, signup, password reset, company selection, invites |
-| Admin | `@serva/admin-app` (`apps/admin`) | 3002       | Platform super-admin — global company & identity management (`isPlatformAdmin`)     |
+| Web   | `@serva/web` (`apps/web`)         | 4100       | Main app — scheduling, sales, reports, tenant admin                                 |
+| Auth  | `@serva/auth-app` (`apps/auth`)   | 3100       | Centralized auth portal — login, signup, password reset, company selection, invites |
+| Admin | `@serva/admin-app` (`apps/admin`) | 5100       | Platform super-admin — global company & identity management (`isPlatformAdmin`)     |
 
 In production, these run on subdomains (e.g. `app.serva.com`, `auth.serva.com`, `admin.serva.com`) with shared cookies via `COOKIE_DOMAIN`. Note: `apps/web/(admin)` is **tenant** admin (roles, expenses); `apps/admin` is **platform** super-admin.
 
@@ -60,9 +60,9 @@ Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs
 
 | Variable                | Description                               | Example (dev)           | Example (prod)            |
 | ----------------------- | ----------------------------------------- | ----------------------- | ------------------------- |
-| `AUTH_URL`              | Auth app base URL                         | `http://localhost:3001` | `https://auth.serva.com`  |
-| `WEB_URL`               | Web app base URL                          | `http://localhost:3000` | `https://app.serva.com`   |
-| `ADMIN_URL`             | Admin app base URL                        | `http://localhost:3002` | `https://admin.serva.com` |
+| `AUTH_URL`              | Auth app base URL                         | `http://localhost:3100` | `https://auth.serva.com`  |
+| `WEB_URL`               | Web app base URL                          | `http://localhost:4100` | `https://app.serva.com`   |
+| `ADMIN_URL`             | Admin app base URL                        | `http://localhost:5100` | `https://admin.serva.com` |
 | `NEXT_PUBLIC_AUTH_URL`  | Auth URL exposed to client components     | same as `AUTH_URL`      | same as `AUTH_URL`        |
 | `NEXT_PUBLIC_ADMIN_URL` | Admin URL exposed to client components    | same as `ADMIN_URL`     | same as `ADMIN_URL`       |
 | `COOKIE_DOMAIN`         | Shared cookie domain (omit for localhost) | _(unset)_               | `.serva.com`              |
