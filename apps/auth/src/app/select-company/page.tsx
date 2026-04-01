@@ -1,7 +1,7 @@
 import { setCompanyIdCookie } from "@serva/auth/cookies";
 import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getCurrentSession } from "@serva/auth/session";
-import { getCompaniesByIdentityId } from "@serva/database";
+import { getCompaniesByIdentityId } from "@serva/database/dal";
 import { getAdminUrl, getWebUrl } from "@serva/shared";
 import { SIcon } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";

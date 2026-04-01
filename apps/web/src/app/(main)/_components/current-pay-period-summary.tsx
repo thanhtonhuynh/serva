@@ -4,7 +4,7 @@ import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { Separator } from "@serva/serva-ui/components/separator";
 import { ICONS } from "@serva/serva-ui/constants/icons";
-import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database";
+import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database/dal";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { formatInUTC, getCurrentBiweeklyPeriodInUTC, formatMoney } from "@serva/shared";
 import Link from "next/link";

@@ -7,7 +7,7 @@ import {
   UpdateRoleInput,
   UpdateRoleSchema,
 } from "@/lib/validations/roles";
-import { createRole, deleteRole, roleNameExists, updateRole } from "@serva/database";
+import { createRole, deleteRole, roleNameExists, updateRole } from "@serva/database/dal";
 import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 

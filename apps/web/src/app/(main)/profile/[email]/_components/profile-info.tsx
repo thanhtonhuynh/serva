@@ -1,7 +1,7 @@
 import { ProfilePicture } from "@serva/serva-ui/components/serva/profile-picture";
 import { Button } from "@serva/serva-ui/components/button";
 import { Separator } from "@serva/serva-ui/components/separator";
-import type { IdentityProfile } from "@serva/database";
+import type { IdentityProfile } from "@serva/database/dal";
 import {
   Calendar02Icon,
   Mail01Icon,

@@ -14,7 +14,8 @@ alwaysApply: true
 
 ## Import conventions
 
-- **`@serva/database`** — Prisma client, model types, DAL functions.
+- **`@serva/database`** — Prisma client (`prisma`), generated model types, `hashPassword` / `verifyPassword` (script-safe, no `server-only`).
+- **`@serva/database/dal`** — DAL query functions (`server-only` in several modules).
 - **`@serva/shared`** — shared types, constants, helper utilities, auth validation schemas (e.g. `LoginSchema`, `SignupSchema`).
 - **`@serva/auth`** or **`@serva/auth/<module>`** — session, authorize, permissions, cookies, password helpers.
 - **`@serva/serva-ui/components/<name>`** — shadcn primitives. **`@serva/serva-ui/components/serva/<name>`** — Serva custom components. **`@serva/serva-ui/lib/utils`** — `cn` utility.

@@ -1,4 +1,4 @@
-import type { WorkDayRecordsByDate, WorkDayRecordWithEmployee } from "@serva/database";
+import type { WorkDayRecordsByDate, WorkDayRecordWithEmployee } from "@serva/database/dal";
 import { buildWeekDatesUTC, formatInUTC } from "@serva/shared";
 import { isSameDay } from "date-fns";
 

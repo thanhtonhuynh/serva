@@ -1,4 +1,4 @@
-import { getFirstReportDate, getReportsForYears } from "@serva/database";
+import { getFirstReportDate, getReportsForYears } from "@serva/database/dal";
 import { getAvailableYears, getCurrentYear } from "@serva/shared";
 import { SalesAnalyticsDashboardClient } from "./sales-analytics-dashboard";
 

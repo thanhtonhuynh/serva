@@ -10,7 +10,7 @@ import { sendEmail } from "@serva/shared/helpers/email";
 import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@serva/shared";
 import { rateLimitByKey, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { render } from "@react-email/components";
-import { getIdentityByEmail } from "@serva/database";
+import { getIdentityByEmail } from "@serva/database/dal";
 
 export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
   try {

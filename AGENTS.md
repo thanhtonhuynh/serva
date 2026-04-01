@@ -45,7 +45,7 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | Web app routes                              | `apps/web/src/app/` — route groups `(main)`, `(admin)` (tenant admin)                                   |
 | Auth app routes                             | `apps/auth/src/app/` — login, signup, forgot-password, reset-password, select-company, invite           |
 | Admin app routes                            | `apps/admin/src/app/` — companies, identities (platform super-admin)                                    |
-| Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (schema, generated client, DAL queries in `src/dal/`)              |
+| Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (client + types), `@serva/database/dal` (DAL in `src/dal/`)         |
 | Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                        |
 | Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)        |
 | UI (shadcn primitives)                      | `libs/serva-ui/src/components/` — `@serva/serva-ui`                                                                 |
@@ -54,7 +54,7 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                               |
 | App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                              |
 
-Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs/database/src/dal/` and are imported via `@serva/database`.
+Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs/database/src/dal/` and are imported via `@serva/database/dal`.
 
 ## Environment variables
 
@@ -83,7 +83,7 @@ All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by
 ## Conventions
 
 - Prefer **small, task-scoped changes**; avoid drive-by refactors unrelated to the request.
-- **Database**: import DAL functions and Prisma model types from `@serva/database` instead of using `PrismaClient` directly in UI or route files.
+- **Database**: import Prisma client, generated types, and `hashPassword` from `@serva/database`; import DAL functions from `@serva/database/dal` (not `PrismaClient` directly in UI).
 - **Auth**: import session, authorize, and permission helpers from `@serva/auth` — not from scattered app files. Auth UI lives in `apps/auth`; consumer apps redirect to `AUTH_URL` for login/logout.
 - **UI**: import shadcn primitives from `@serva/serva-ui/components/<name>` and Serva custom components from `@serva/serva-ui/components/serva/<name>`. The `cn` utility is at `@serva/serva-ui/lib/utils`.
 - **Server vs client**: server components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity).

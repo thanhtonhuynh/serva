@@ -1,5 +1,5 @@
 import { getCurrentSession } from "@serva/auth/session";
-import { getIdentityByEmail, getInviteByToken } from "@serva/database";
+import { getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
 import { getWebUrl } from "@serva/shared";
 import { Container, SIcon } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";

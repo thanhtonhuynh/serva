@@ -2,7 +2,7 @@ import { Header } from "@/components/layout";
 import { Container, Loader } from "@serva/serva-ui";
 import { Typography } from "@serva/serva-ui";
 import { Card } from "@serva/serva-ui/components/card";
-import { getEmployeesByCompany, getWorkDayRecordsByDateRange } from "@serva/database";
+import { getEmployeesByCompany, getWorkDayRecordsByDateRange } from "@serva/database/dal";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { buildWorkDayRecordsByDate } from "@/utils/work-day-record";
 import {

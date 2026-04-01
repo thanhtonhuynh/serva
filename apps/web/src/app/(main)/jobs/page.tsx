@@ -3,7 +3,7 @@ import { Container } from "@serva/serva-ui";
 import { Typography } from "@serva/serva-ui";
 import { Card } from "@serva/serva-ui/components/card";
 import { PERMISSIONS } from "@serva/shared";
-import { getJobsByCompany } from "@serva/database";
+import { getJobsByCompany } from "@serva/database/dal";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";

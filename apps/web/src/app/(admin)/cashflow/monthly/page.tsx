@@ -1,7 +1,7 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
-import { getReportsByDateRange } from "@serva/database";
+import { getReportsByDateRange } from "@serva/database/dal";
 import {
   PERMISSIONS,
   getCurrentMonth,

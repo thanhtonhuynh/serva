@@ -3,7 +3,7 @@ import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
 import { Callout, CurrentBadge, Typography } from "@serva/serva-ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { ICONS } from "@serva/serva-ui/constants/icons";
-import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database";
+import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database/dal";
 import { authGuardWithRateLimit } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";

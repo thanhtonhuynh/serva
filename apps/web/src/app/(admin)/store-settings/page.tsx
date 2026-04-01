@@ -2,7 +2,7 @@ import { Header } from "@/components/layout";
 import { Container } from "@serva/serva-ui/components/serva/container";
 import { Typography } from "@serva/serva-ui/components/serva/typography";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
-import { getActivePlatforms, getStartCash } from "@serva/database";
+import { getActivePlatforms, getStartCash } from "@serva/database/dal";
 import { PERMISSIONS } from "@serva/shared";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";

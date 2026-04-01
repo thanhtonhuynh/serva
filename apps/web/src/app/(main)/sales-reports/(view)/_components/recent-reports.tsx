@@ -1,7 +1,7 @@
 import { Typography } from "@serva/serva-ui";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { ICONS } from "@serva/serva-ui/constants/icons";
-import { getRecentReports } from "@serva/database";
+import { getRecentReports } from "@serva/database/dal";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { formatInUTC, formatMoney } from "@serva/shared";
 import Link from "next/link";

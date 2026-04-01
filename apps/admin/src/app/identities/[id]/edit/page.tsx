@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { platformAdminGuard } from "@serva/auth";
-import { getIdentityAdminDetail } from "@serva/database";
+import { getIdentityAdminDetail } from "@serva/database/dal";
 import { Typography } from "@serva/serva-ui";
 import { Container } from "@serva/serva-ui/components/serva/container";
 import { notFound } from "next/navigation";

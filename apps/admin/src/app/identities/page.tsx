@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { platformAdminGuard } from "@serva/auth";
-import { listAllIdentities } from "@serva/database";
+import { listAllIdentities } from "@serva/database/dal";
 import { Badge, Typography } from "@serva/serva-ui";
 import { Card, CardContent } from "@serva/serva-ui/components/card";
 import { Container } from "@serva/serva-ui/components/serva/container";

@@ -6,7 +6,7 @@ import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/author
 import { getHoursTipsBreakdownInDateRange, populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { getWorkDayRecordsByDateRange } from "@serva/database";
+import { getWorkDayRecordsByDateRange } from "@serva/database/dal";
 import {
   PERMISSIONS,
   TotalHoursTips,

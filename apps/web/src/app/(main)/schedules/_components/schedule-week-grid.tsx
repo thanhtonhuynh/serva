@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui/components/table";
-import type { WorkDayRecordsByDate } from "@serva/database";
+import type { WorkDayRecordsByDate } from "@serva/database/dal";
 import { useNavigationGuard } from "@/hooks/use-navigation-guard";
 import { cn } from "@serva/serva-ui/lib/utils";
 import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";

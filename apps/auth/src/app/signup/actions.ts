@@ -1,6 +1,6 @@
 "use server";
 
-import { consumeInviteForIdentity, createIdentity, getIdentityByEmail, getInviteByToken } from "@serva/database";
+import { consumeInviteForIdentity, createIdentity, getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
 import { redirect } from "next/navigation";
 // import {
 //   sendVerificationEmail,

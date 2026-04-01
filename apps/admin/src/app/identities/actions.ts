@@ -1,7 +1,7 @@
 "use server";
 
 import { platformAdminGuardWithRateLimit } from "@serva/auth";
-import { createAdminUser, removeAdminUser, updateIdentity } from "@serva/database";
+import { createAdminUser, removeAdminUser, updateIdentity } from "@serva/database/dal";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 

@@ -6,7 +6,7 @@ import { ICONS } from "@serva/serva-ui/constants/icons";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { getExpensesByYear } from "@serva/database";
+import { getExpensesByYear } from "@serva/database/dal";
 import {
   PERMISSIONS,
   formatMoney,

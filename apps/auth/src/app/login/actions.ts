@@ -7,7 +7,7 @@ import {
   consumeInviteForIdentity,
   getIdentityByEmail,
   getIdentityPasswordHash,
-} from "@serva/database";
+} from "@serva/database/dal";
 import { redirect } from "next/navigation";
 // import {
 //   getUserEmailVerificationRequestByUserId,

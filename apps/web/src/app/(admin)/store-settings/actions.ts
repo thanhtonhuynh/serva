@@ -7,7 +7,7 @@ import {
   UpdateStartCashInput,
   UpdateStartCashSchema,
 } from "@/lib/validations/store";
-import { updateCompanySettings } from "@serva/database";
+import { updateCompanySettings } from "@serva/database/dal";
 import { PERMISSIONS, toCents } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 

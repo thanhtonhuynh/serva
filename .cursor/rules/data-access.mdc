@@ -7,7 +7,7 @@ alwaysApply: false
 # Data access layer (`libs/database/src/dal/`)
 
 - Implement **DB reads/writes here** using `import { prisma } from "../client"` — not in React trees or scattered server files.
-- DAL functions are re-exported from `@serva/database` via `libs/database/src/index.ts`.
+- DAL functions are re-exported from `@serva/database/dal` via `libs/database/src/dal.ts`.
 - **Reuse** existing query shapes and types already used in the module.
 - When adding functions, mirror **naming and error handling** of neighboring exports in the same file.
-- App code imports DAL functions with `import { ... } from "@serva/database"`.
+- App code imports DAL functions with `import { ... } from "@serva/database/dal"` (Prisma client and generated types from `@serva/database`).

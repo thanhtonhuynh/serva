@@ -1,12 +1,19 @@
 "use server";
 
-import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
-import { createInvite, deleteInviteById, revokeInviteById, updateOperatorRole, getRoleById, prisma } from "@serva/database";
-import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
-import { hasAssignRolePermission } from "@serva/auth/permission";
 import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/lib/invite";
 import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
 import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/lib/validations/invite";
+import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
+import { hasAssignRolePermission } from "@serva/auth/permission";
+import { prisma } from "@serva/database";
+import {
+  createInvite,
+  deleteInviteById,
+  getRoleById,
+  revokeInviteById,
+  updateOperatorRole,
+} from "@serva/database/dal";
+import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 
 type ActionResult = { error?: string };

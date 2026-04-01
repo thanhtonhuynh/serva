@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./dal": "./src/dal.ts"
   },
   "scripts": {
     "db:generate": "prisma generate && cp prisma/schema.prisma generated/prisma/schema.prisma",

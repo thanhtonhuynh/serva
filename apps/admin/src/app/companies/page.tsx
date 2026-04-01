@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { platformAdminGuard } from "@serva/auth";
-import { listAllCompanies } from "@serva/database";
+import { listAllCompanies } from "@serva/database/dal";
 import { Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent } from "@serva/serva-ui/components/card";

@@ -5,7 +5,7 @@ import {
   getAwaitingInvitesByCompanyAndType,
   getEmployeesByCompany,
   getJobsByCompany,
-} from "@serva/database";
+} from "@serva/database/dal";
 import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
 import { Typography } from "@serva/serva-ui";
 import { Card } from "@serva/serva-ui/components/card";

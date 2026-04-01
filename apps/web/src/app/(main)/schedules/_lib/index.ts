@@ -1,4 +1,4 @@
-import type { WorkDayRecordsByDate } from "@serva/database";
+import type { WorkDayRecordsByDate } from "@serva/database/dal";
 import type { DayScheduleInput, WeekScheduleInput, WorkDayRecordInput } from "@/lib/validations";
 import { computeTotalHours, type DisplayEmployee } from "@serva/shared";
 

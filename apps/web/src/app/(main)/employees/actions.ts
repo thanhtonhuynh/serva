@@ -1,7 +1,8 @@
 "use server";
 
 import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
-import { createInvite, deleteInviteById, revokeInviteById, prisma } from "@serva/database";
+import { prisma } from "@serva/database";
+import { createInvite, deleteInviteById, revokeInviteById } from "@serva/database/dal";
 import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/lib/invite";
 import { UpdateEmployeeJobInput, UpdateEmployeeJobSchema } from "@/lib/validations/employee";

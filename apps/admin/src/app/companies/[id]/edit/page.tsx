@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout/header";
-import { getCompanyAdminDetail } from "@serva/database";
+import { getCompanyAdminDetail } from "@serva/database/dal";
 import { Typography } from "@serva/serva-ui";
 import { Container } from "@serva/serva-ui/components/serva/container";
 import { notFound } from "next/navigation";

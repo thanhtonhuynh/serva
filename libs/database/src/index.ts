@@ -1,17 +1,7 @@
+/**
+ * Script-safe entry: Prisma client, generated types, password helpers.
+ * DAL (`server-only`) is under `@serva/database/dal`.
+ */
 export * from "../generated/prisma/client";
 export { prisma } from "./client";
-
-export * from "./dal/admin-user";
-export * from "./dal/company";
-export * from "./dal/company-settings";
-export * from "./dal/employee";
-export * from "./dal/expenses";
-export * from "./dal/identity";
-export * from "./dal/invite";
-export * from "./dal/job";
-export * from "./dal/operator";
 export * from "./dal/password";
-export * from "./dal/platform-admin";
-export * from "./dal/report";
-export * from "./dal/roles";
-export * from "./dal/work-day-record";

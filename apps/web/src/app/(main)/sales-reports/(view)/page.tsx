@@ -3,7 +3,7 @@ import { Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { ICONS } from "@serva/serva-ui/constants/icons";
-import { getReportRaw } from "@serva/database";
+import { getReportRaw } from "@serva/database/dal";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { utc } from "@date-fns/utc";
 import { HugeiconsIcon } from "@hugeicons/react";
