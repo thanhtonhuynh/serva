@@ -1,7 +1,7 @@
 "use client";
 
-import { Input } from "@serva/ui/components/input";
-import { cn } from "@serva/ui/lib/utils";
+import { Input } from "@serva/serva-ui/components/input";
+import { cn } from "@serva/serva-ui/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 

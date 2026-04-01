@@ -48,9 +48,9 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (schema, generated client, DAL queries in `src/dal/`)              |
 | Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                        |
 | Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)        |
-| UI (shadcn primitives)                      | `libs/ui/src/components/` — `@serva/ui`                                                                 |
-| UI (Serva custom components)                | `libs/ui/src/components/serva/` — `@serva/ui` (app-designed components, icons registry in `constants/`) |
-| Email templates                             | `libs/ui/src/components/emails/` — `@serva/ui/components/emails/*`                                      |
+| UI (shadcn primitives)                      | `libs/ui/src/components/` — `@serva/serva-ui`                                                                 |
+| UI (Serva custom components)                | `libs/ui/src/components/serva/` — `@serva/serva-ui` (app-designed components, icons registry in `constants/`) |
+| Email templates                             | `libs/ui/src/components/emails/` — `@serva/serva-ui/components/emails/*`                                      |
 | App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                               |
 | App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                              |
 
@@ -85,7 +85,7 @@ All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by
 - Prefer **small, task-scoped changes**; avoid drive-by refactors unrelated to the request.
 - **Database**: import DAL functions and Prisma model types from `@serva/database` instead of using `PrismaClient` directly in UI or route files.
 - **Auth**: import session, authorize, and permission helpers from `@serva/auth` — not from scattered app files. Auth UI lives in `apps/auth`; consumer apps redirect to `AUTH_URL` for login/logout.
-- **UI**: import shadcn primitives from `@serva/ui/components/<name>` and Serva custom components from `@serva/ui/components/serva/<name>`. The `cn` utility is at `@serva/ui/lib/utils`.
+- **UI**: import shadcn primitives from `@serva/serva-ui/components/<name>` and Serva custom components from `@serva/serva-ui/components/serva/<name>`. The `cn` utility is at `@serva/serva-ui/lib/utils`.
 - **Server vs client**: server components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity).
 - Match **existing naming**, imports (`@serva/*` for libs, `@/…` for app-local), and component patterns in the nearest feature folder.
 

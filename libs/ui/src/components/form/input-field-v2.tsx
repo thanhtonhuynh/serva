@@ -1,5 +1,5 @@
-import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
-import { Input } from "@serva/ui/components/input";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
+import { Input } from "@serva/serva-ui/components/input";
 import type { ComponentProps } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 

@@ -8,8 +8,8 @@ alwaysApply: false
 
 - Prefer **Server Components**; add **`"use client"`** only for hooks, event handlers, or browser-only APIs.
 - Colocate feature UI under **`src/app/.../_components/`** (and feature-specific `_context` / hooks) when that matches the surrounding route.
-- Import **shadcn primitives** from `@serva/ui/components/<name>` and **Serva custom components** from `@serva/ui/components/serva/<name>`.
-- Import **`cn`** from `@serva/ui/lib/utils`.
+- Import **shadcn primitives** from `@serva/serva-ui/components/<name>` and **Serva custom components** from `@serva/serva-ui/components/serva/<name>`.
+- Import **`cn`** from `@serva/serva-ui/lib/utils`.
 - Import **auth/session helpers** from `@serva/auth` or `@serva/auth/<module>` — not from `@/lib/auth`.
 - Auth UI (login, signup, password reset) lives in **`apps/auth`**, not `apps/web`.
 - Forms: align with existing **react-hook-form + Zod** usage in the same area.

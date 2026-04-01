@@ -22,9 +22,9 @@ import {
   FormMessage,
   ICONS,
   LoadingButton,
-} from "@serva/ui";
-import { InputField } from "@serva/ui/components/form/input-field";
-import { cn } from "@serva/ui/lib/utils";
+} from "@serva/serva-ui";
+import { InputField } from "@serva/serva-ui/components/form/input-field";
+import { cn } from "@serva/serva-ui/lib/utils";
 import { ReactElement, useState, useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";

@@ -1,7 +1,7 @@
 "use client";
 
 import { SaleReportCard } from "@/app/(main)/sales-reports/_components/sales-report-card";
-import { Card } from "@serva/ui/components/card";
+import { Card } from "@serva/serva-ui/components/card";
 import { useSession } from "@/contexts/SessionProvider";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { SaleReportCardRawData, parseInUTC, processReportDataForView } from "@serva/shared";

@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
 import {
   Dialog,
   DialogBody,
@@ -8,16 +8,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/ui/components/dialog";
-import { Field, FieldGroup, FieldLabel } from "@serva/ui/components/field";
-import { Input } from "@serva/ui/components/input";
+} from "@serva/serva-ui/components/dialog";
+import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
+import { Input } from "@serva/serva-ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@serva/ui/components/select";
+} from "@serva/serva-ui/components/select";
 import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/lib/validations/invite";
 import type { RoleWithDetails } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -1,10 +1,10 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
-import { Typography } from "@serva/ui/components/serva/typography";
-import { Card } from "@serva/ui/components/card";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@serva/ui/components/form";
-import { Input } from "@serva/ui/components/input";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { Typography } from "@serva/serva-ui/components/serva/typography";
+import { Card } from "@serva/serva-ui/components/card";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@serva/serva-ui/components/form";
+import { Input } from "@serva/serva-ui/components/input";
 import { type Identity } from "@serva/auth/session";
 import { UpdateEmailSchema, UpdateEmailSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";

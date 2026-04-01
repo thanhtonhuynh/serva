@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/ui/components/serva/container";
-import { Typography } from "@serva/ui";
+import { Container } from "@serva/serva-ui/components/serva/container";
+import { Typography } from "@serva/serva-ui";
 import { authGuard } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Fragment } from "react";

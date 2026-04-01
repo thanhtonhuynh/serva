@@ -9,9 +9,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@serva/ui/components/sidebar";
+} from "@serva/serva-ui/components/sidebar";
 import { useSession } from "@/contexts/SessionProvider";
-import { cn } from "@serva/ui/lib/utils";
+import { cn } from "@serva/serva-ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";

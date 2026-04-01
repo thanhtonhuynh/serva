@@ -1,21 +1,21 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
-import { ICONS } from "@serva/ui/constants/icons";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { ICONS } from "@serva/serva-ui/constants/icons";
 import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
 import { getLocalDateFromUTC, getUTCMidnightFromLocal } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Expense } from "@serva/database";
-import { Button } from "@serva/ui/components/button";
-import { Calendar } from "@serva/ui/components/calendar";
+import { Button } from "@serva/serva-ui/components/button";
+import { Calendar } from "@serva/serva-ui/components/calendar";
 import {
   Dialog,
   DialogBody,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@serva/ui/components/dialog";
+} from "@serva/serva-ui/components/dialog";
 import {
   Form,
   FormControl,
@@ -23,9 +23,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@serva/ui/components/form";
-import { InputField } from "@serva/ui/components/form/input-field";
-import { cn } from "@serva/ui/lib/utils";
+} from "@serva/serva-ui/components/form";
+import { InputField } from "@serva/serva-ui/components/form/input-field";
+import { cn } from "@serva/serva-ui/lib/utils";
 import { useEffect, useState, useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";

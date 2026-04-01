@@ -1,7 +1,7 @@
 "use client";
 
 import { HugeiconsIcon } from "@hugeicons/react";
-import { cn } from "@serva/ui";
+import { cn } from "@serva/serva-ui";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@serva/ui/components/sidebar";
+} from "@serva/serva-ui/components/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback } from "react";

@@ -1,4 +1,4 @@
-import "@serva/ui/globals.css";
+import "@serva/serva-ui/globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";

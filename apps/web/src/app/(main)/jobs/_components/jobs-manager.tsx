@@ -1,8 +1,8 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
-import { Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -10,9 +10,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/ui/components/dialog";
-import { Field, FieldLabel } from "@serva/ui/components/field";
-import { Input } from "@serva/ui/components/input";
+} from "@serva/serva-ui/components/dialog";
+import { Field, FieldLabel } from "@serva/serva-ui/components/field";
+import { Input } from "@serva/serva-ui/components/input";
 import {
   Table,
   TableBody,
@@ -20,7 +20,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/ui/components/table";
+} from "@serva/serva-ui/components/table";
 import type { Job } from "@serva/database";
 import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";

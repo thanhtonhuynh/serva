@@ -1,6 +1,6 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getEmployeeStatusConfig } from "@serva/shared";
-import { Badge, ICONS } from "@serva/ui";
+import { Badge, ICONS } from "@serva/serva-ui";
 
 type Props = {
   status: string;

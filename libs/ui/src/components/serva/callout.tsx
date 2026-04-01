@@ -1,5 +1,5 @@
-import type { IconKey } from "@serva/ui/constants/icons";
-import { cn } from "@serva/ui/lib/utils";
+import type { IconKey } from "@serva/serva-ui/constants/icons";
+import { cn } from "@serva/serva-ui/lib/utils";
 import { useMemo, type ComponentProps } from "react";
 import { SIcon } from "./icon";
 

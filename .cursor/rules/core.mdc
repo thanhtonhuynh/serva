@@ -17,7 +17,7 @@ alwaysApply: true
 - **`@serva/database`** — Prisma client, model types, DAL functions.
 - **`@serva/shared`** — shared types, constants, helper utilities, auth validation schemas (e.g. `LoginSchema`, `SignupSchema`).
 - **`@serva/auth`** or **`@serva/auth/<module>`** — session, authorize, permissions, cookies, password helpers.
-- **`@serva/ui/components/<name>`** — shadcn primitives. **`@serva/ui/components/serva/<name>`** — Serva custom components. **`@serva/ui/lib/utils`** — `cn` utility.
+- **`@serva/serva-ui/components/<name>`** — shadcn primitives. **`@serva/serva-ui/components/serva/<name>`** — Serva custom components. **`@serva/serva-ui/lib/utils`** — `cn` utility.
 - **`@/*`** — app-local paths inside each app's `src/`.
 
 ## Multi-app architecture

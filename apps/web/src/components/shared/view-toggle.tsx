@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@serva/ui/components/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@serva/ui/components/tooltip";
+import { Button } from "@serva/serva-ui/components/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@serva/serva-ui/components/tooltip";
 import { LayoutGrid, TableIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 

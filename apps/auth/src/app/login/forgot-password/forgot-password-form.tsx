@@ -1,9 +1,9 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
-import { Callout, SIcon } from "@serva/ui";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/ui/components/input-group";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { Callout, SIcon } from "@serva/serva-ui";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/serva-ui/components/input-group";
 import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";

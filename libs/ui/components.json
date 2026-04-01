@@ -11,11 +11,11 @@
   },
   "iconLibrary": "hugeicons",
   "aliases": {
-    "components": "@serva/ui/components",
-    "utils": "@serva/ui/lib/utils",
-    "hooks": "@serva/ui/hooks",
-    "lib": "@serva/ui/lib",
-    "ui": "@serva/ui/components"
+    "components": "@serva/serva-ui/components",
+    "utils": "@serva/serva-ui/lib/utils",
+    "hooks": "@serva/serva-ui/hooks",
+    "lib": "@serva/serva-ui/lib",
+    "ui": "@serva/serva-ui/components"
   },
   "menuColor": "default",
   "menuAccent": "subtle"

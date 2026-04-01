@@ -1,16 +1,16 @@
 "use client";
 
 import { isValidDate, parseInUTC } from "@serva/shared";
-import { Calendar } from "@serva/ui/components/calendar";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
+import { Calendar } from "@serva/serva-ui/components/calendar";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@serva/ui/components/input-group";
-import { Popover, PopoverContent, PopoverTrigger } from "@serva/ui/components/popover";
-import { SIcon } from "@serva/ui/components/serva/icon";
+} from "@serva/serva-ui/components/input-group";
+import { Popover, PopoverContent, PopoverTrigger } from "@serva/serva-ui/components/popover";
+import { SIcon } from "@serva/serva-ui/components/serva/icon";
 import { format } from "date-fns";
 import { useState, type ComponentProps } from "react";
 import { Controller, useFormContext } from "react-hook-form";

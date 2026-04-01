@@ -1,10 +1,10 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
-import { Callout, PasswordInputGroupInput, SIcon } from "@serva/ui";
-import { Checkbox } from "@serva/ui/components/checkbox";
-import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@serva/ui/components/field";
-import { InputGroup, InputGroupAddon } from "@serva/ui/components/input-group";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { Callout, PasswordInputGroupInput, SIcon } from "@serva/serva-ui";
+import { Checkbox } from "@serva/serva-ui/components/checkbox";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@serva/serva-ui/components/field";
+import { InputGroup, InputGroupAddon } from "@serva/serva-ui/components/input-group";
 import { ResetPasswordSchema, ResetPasswordSchemaTypes } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

@@ -7,20 +7,20 @@ import * as React from "react";
 
 import { SidebarLeftIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Button } from "@serva/ui/components/button";
-import { Input } from "@serva/ui/components/input";
-import { Separator } from "@serva/ui/components/separator";
+import { Button } from "@serva/serva-ui/components/button";
+import { Input } from "@serva/serva-ui/components/input";
+import { Separator } from "@serva/serva-ui/components/separator";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@serva/ui/components/sheet";
-import { Skeleton } from "@serva/ui/components/skeleton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@serva/ui/components/tooltip";
-import { useIsMobile } from "@serva/ui/hooks/use-mobile";
-import { cn } from "@serva/ui/lib/utils";
+} from "@serva/serva-ui/components/sheet";
+import { Skeleton } from "@serva/serva-ui/components/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@serva/serva-ui/components/tooltip";
+import { useIsMobile } from "@serva/serva-ui/hooks/use-mobile";
+import { cn } from "@serva/serva-ui/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

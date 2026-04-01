@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@serva/ui/components/select";
+} from "@serva/serva-ui/components/select";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const STATUS_OPTIONS = [

@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@serva/ui/components/button";
-import { Input } from "@serva/ui/components/input";
+import { Button } from "@serva/serva-ui/components/button";
+import { Input } from "@serva/serva-ui/components/input";
 import { DisplayEmployee } from "@serva/shared";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";

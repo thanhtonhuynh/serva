@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
-import { Typography } from "@serva/ui";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { Typography } from "@serva/serva-ui";
 import {
   Dialog,
   DialogBody,
@@ -9,15 +9,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/ui/components/dialog";
-import { Field, FieldGroup, FieldLabel } from "@serva/ui/components/field";
+} from "@serva/serva-ui/components/dialog";
+import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@serva/ui/components/select";
+} from "@serva/serva-ui/components/select";
 import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
 import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";

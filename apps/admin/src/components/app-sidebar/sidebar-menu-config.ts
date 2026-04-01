@@ -1,5 +1,5 @@
 import type { IconSvgElement } from "@hugeicons/react";
-import { ICONS } from "@serva/ui/constants/icons";
+import { ICONS } from "@serva/serva-ui/constants/icons";
 
 export type MenuItem = {
   title: string;

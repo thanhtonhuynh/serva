@@ -3,7 +3,7 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import * as React from "react";
 
-import { cn } from "@serva/ui/lib/utils";
+import { cn } from "@serva/serva-ui/lib/utils";
 import {
   ArrowDown01Icon,
   ArrowUp01Icon,

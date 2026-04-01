@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@serva/ui/lib/utils";
+import { cn } from "@serva/serva-ui/lib/utils";
 
 function Card({
   className,

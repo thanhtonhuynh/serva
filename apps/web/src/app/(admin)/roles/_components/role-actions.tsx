@@ -1,7 +1,7 @@
 "use client";
 
-import { Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
+import { Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -9,14 +9,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/ui/components/dialog";
+} from "@serva/serva-ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@serva/ui/components/dropdown-menu";
-import { ICONS } from "@serva/ui/constants/icons";
+} from "@serva/serva-ui/components/dropdown-menu";
+import { ICONS } from "@serva/serva-ui/constants/icons";
 import type { RoleWithDetails } from "@serva/shared";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Permission } from "@serva/database";

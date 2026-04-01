@@ -1,8 +1,8 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
-import { Callout, CurrentBadge, Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
-import { ICONS } from "@serva/ui/constants/icons";
+import { Callout, CurrentBadge, Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
+import { ICONS } from "@serva/serva-ui/constants/icons";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { HugeiconsIcon } from "@hugeicons/react";

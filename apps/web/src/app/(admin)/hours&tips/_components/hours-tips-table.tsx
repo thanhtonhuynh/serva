@@ -1,4 +1,4 @@
-import { ProfilePicture } from "@serva/ui/components/serva/profile-picture";
+import { ProfilePicture } from "@serva/serva-ui/components/serva/profile-picture";
 import {
   Table,
   TableBody,
@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/ui/components/table";
+} from "@serva/serva-ui/components/table";
 import { TotalHoursTips, formatMoney } from "@serva/shared";
 
 type HoursTipsTableProps = {

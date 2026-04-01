@@ -1,6 +1,6 @@
-import { Separator } from "@serva/ui/components/separator";
-import { SidebarTrigger } from "@serva/ui/components/sidebar";
-import { cn } from "@serva/ui/lib/utils";
+import { Separator } from "@serva/serva-ui/components/separator";
+import { SidebarTrigger } from "@serva/serva-ui/components/sidebar";
+import { cn } from "@serva/serva-ui/lib/utils";
 import type { ComponentProps } from "react";
 
 export function Header({ children, className, ...props }: ComponentProps<"header">) {

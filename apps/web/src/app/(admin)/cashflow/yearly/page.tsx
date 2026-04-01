@@ -9,7 +9,7 @@ import {
   processYearCashFlowData,
   type Platform,
 } from "@serva/shared";
-import { Callout, Card, CardContent, CardHeader, CardTitle, CurrentBadge } from "@serva/ui";
+import { Callout, Card, CardContent, CardHeader, CardTitle, CurrentBadge } from "@serva/serva-ui";
 import { notFound } from "next/navigation";
 import { YearCashFlowTable } from "../_components";
 

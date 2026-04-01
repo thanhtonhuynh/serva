@@ -166,12 +166,12 @@ importers:
       '@serva/database':
         specifier: workspace:*
         version: link:../../libs/database
+      '@serva/serva-ui':
+        specifier: workspace:*
+        version: link:../../libs/ui
       '@serva/shared':
         specifier: workspace:*
         version: link:../../libs/shared
-      '@serva/ui':
-        specifier: workspace:*
-        version: link:../../libs/ui
     devDependencies:
       eslint:
         specifier: ^9.39.2
@@ -188,12 +188,12 @@ importers:
       '@serva/database':
         specifier: workspace:*
         version: link:../../libs/database
+      '@serva/serva-ui':
+        specifier: workspace:*
+        version: link:../../libs/ui
       '@serva/shared':
         specifier: workspace:*
         version: link:../../libs/shared
-      '@serva/ui':
-        specifier: workspace:*
-        version: link:../../libs/ui
     devDependencies:
       eslint:
         specifier: ^9.39.2
@@ -216,12 +216,12 @@ importers:
       '@serva/database':
         specifier: workspace:*
         version: link:../../libs/database
+      '@serva/serva-ui':
+        specifier: workspace:*
+        version: link:../../libs/ui
       '@serva/shared':
         specifier: workspace:*
         version: link:../../libs/shared
-      '@serva/ui':
-        specifier: workspace:*
-        version: link:../../libs/ui
       '@vercel/blob':
         specifier: ^2.3.1
         version: 2.3.1

@@ -1,7 +1,7 @@
-import { Container } from "@serva/ui";
-import { Callout, SIcon, Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
-import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
+import { Container } from "@serva/serva-ui";
+import { Callout, SIcon, Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
+import { Card, CardContent, CardHeader } from "@serva/serva-ui/components/card";
 import { getCurrentSession } from "@serva/auth/session";
 import { getWebUrl } from "@serva/shared";
 import Image from "next/image";

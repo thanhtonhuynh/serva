@@ -1,10 +1,10 @@
 "use client";
 
-import { Callout, LoadingButton } from "@serva/ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
-import { FieldGroup, FieldLabel } from "@serva/ui/components/field";
-import { Input } from "@serva/ui/components/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@serva/ui/components/select";
+import { Callout, LoadingButton } from "@serva/serva-ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
+import { FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
+import { Input } from "@serva/serva-ui/components/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@serva/serva-ui/components/select";
 import { useState, useTransition } from "react";
 import { updateIdentityAction, type UpdateIdentityInput } from "./actions";
 

@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/ui";
-import { Typography } from "@serva/ui";
-import { Card } from "@serva/ui/components/card";
+import { Container } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
+import { Card } from "@serva/serva-ui/components/card";
 import { PERMISSIONS } from "@serva/shared";
 import { getJobsByCompany } from "@serva/database";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";

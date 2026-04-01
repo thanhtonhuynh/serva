@@ -2,7 +2,7 @@
 
 import { useSession } from "@/contexts/SessionProvider";
 import { getPublicAuthUrl } from "@serva/shared";
-import { ProfilePicture, SIcon, Typography } from "@serva/ui";
+import { ProfilePicture, SIcon, Typography } from "@serva/serva-ui";
 import {
   Sidebar,
   SidebarContent,
@@ -12,8 +12,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@serva/ui/components/sidebar";
-import { cn } from "@serva/ui/lib/utils";
+} from "@serva/serva-ui/components/sidebar";
+import { cn } from "@serva/serva-ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";

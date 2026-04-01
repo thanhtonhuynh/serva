@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@serva/ui/components/button";
+import { Button } from "@serva/serva-ui/components/button";
 import {
   Dialog,
   DialogBody,
@@ -8,14 +8,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/ui/components/dialog";
+} from "@serva/serva-ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@serva/ui/components/dropdown-menu";
-import { ICONS } from "@serva/ui/constants/icons";
+} from "@serva/serva-ui/components/dropdown-menu";
+import { ICONS } from "@serva/serva-ui/constants/icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Ban, Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";

@@ -1,8 +1,8 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { getCurrentSession } from "@serva/auth/session";
-import { SidebarInset, SidebarProvider, TailwindScreenSizeIndicator } from "@serva/ui";
-import "@serva/ui/globals.css";
+import { SidebarInset, SidebarProvider, TailwindScreenSizeIndicator } from "@serva/serva-ui";
+import "@serva/serva-ui/globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";

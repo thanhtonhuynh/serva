@@ -2,7 +2,7 @@
 
 import { AccountStatusBadge } from "@/components/shared";
 import { DisplayEmployee } from "@serva/shared";
-import { ProfilePicture } from "@serva/ui";
+import { ProfilePicture } from "@serva/serva-ui";
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/ui/components/table";
+} from "@serva/serva-ui/components/table";
 import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {

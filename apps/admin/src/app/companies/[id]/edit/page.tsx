@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { getCompanyAdminDetail } from "@serva/database";
-import { Typography } from "@serva/ui";
-import { Container } from "@serva/ui/components/serva/container";
+import { Typography } from "@serva/serva-ui";
+import { Container } from "@serva/serva-ui/components/serva/container";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { CompanyForm } from "../../company-form";

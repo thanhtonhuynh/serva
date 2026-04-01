@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/ui/components/serva/container";
-import { Typography } from "@serva/ui/components/serva/typography";
+import { Container } from "@serva/serva-ui/components/serva/container";
+import { Typography } from "@serva/serva-ui/components/serva/typography";
 import { authGuardWithRateLimit } from "@serva/auth/authorize";
 import { Fragment } from "react";
 import { UpdateAvatar, UpdateEmailForm, UpdateNameForm, UpdatePasswordForm } from "./_components";

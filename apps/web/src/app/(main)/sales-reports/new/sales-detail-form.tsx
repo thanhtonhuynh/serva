@@ -1,8 +1,8 @@
 "use client";
 
-import { Typography } from "@serva/ui";
-import { DatePickerInput } from "@serva/ui/components/serva/date-picker-input";
-import { InputFieldV2 } from "@serva/ui/components/form/input-field-v2";
+import { Typography } from "@serva/serva-ui";
+import { DatePickerInput } from "@serva/serva-ui/components/serva/date-picker-input";
+import { InputFieldV2 } from "@serva/serva-ui/components/form/input-field-v2";
 import { getPlatformById } from "@serva/shared";
 import { SaleReportInputs } from "@/lib/validations/report";
 import { useFormContext } from "react-hook-form";

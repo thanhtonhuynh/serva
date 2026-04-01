@@ -7,9 +7,9 @@ import {
   getJobsByCompany,
 } from "@serva/database";
 import { PERMISSIONS, type EmployeeStatus } from "@serva/shared";
-import { Typography } from "@serva/ui";
-import { Card } from "@serva/ui/components/card";
-import { Container } from "@serva/ui/components/serva/container";
+import { Typography } from "@serva/serva-ui";
+import { Card } from "@serva/serva-ui/components/card";
+import { Container } from "@serva/serva-ui/components/serva/container";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { EmployeesList } from "./_components/employees-list";

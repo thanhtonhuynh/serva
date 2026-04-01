@@ -1,10 +1,10 @@
 import { getCurrentSession } from "@serva/auth/session";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database";
 import { getWebUrl } from "@serva/shared";
-import { Container, SIcon } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
-import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
-import { Typography } from "@serva/ui/components/serva/typography";
+import { Container, SIcon } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
+import { Card, CardContent, CardHeader } from "@serva/serva-ui/components/card";
+import { Typography } from "@serva/serva-ui/components/serva/typography";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";

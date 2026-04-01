@@ -1,6 +1,6 @@
 "use server";
 
-import ResetPasswordEmail from "@serva/ui/components/emails/reset-password-email";
+import ResetPasswordEmail from "@serva/serva-ui/components/emails/reset-password-email";
 import {
   createPasswordResetToken,
   generatePasswordResetToken,

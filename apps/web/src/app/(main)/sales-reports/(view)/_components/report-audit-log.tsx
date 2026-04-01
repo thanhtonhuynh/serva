@@ -1,9 +1,9 @@
 "use client";
 
-import { DecoIcon } from "@serva/ui";
-import { ProfilePicture } from "@serva/ui/components/serva/profile-picture";
-import { Typography } from "@serva/ui/components/serva/typography";
-import { ICONS } from "@serva/ui/constants/icons";
+import { DecoIcon } from "@serva/serva-ui";
+import { ProfilePicture } from "@serva/serva-ui/components/serva/profile-picture";
+import { Typography } from "@serva/serva-ui/components/serva/typography";
+import { ICONS } from "@serva/serva-ui/constants/icons";
 import { type ReportAuditLog } from "@serva/shared";
 import { format } from "date-fns";
 

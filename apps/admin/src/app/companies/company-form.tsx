@@ -1,9 +1,9 @@
 "use client";
 
-import { Callout, LoadingButton } from "@serva/ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
-import { FieldGroup, FieldLabel } from "@serva/ui/components/field";
-import { Input } from "@serva/ui/components/input";
+import { Callout, LoadingButton } from "@serva/serva-ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
+import { FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
+import { Input } from "@serva/serva-ui/components/input";
 import { useState, useTransition } from "react";
 import { createCompanyAction, updateCompanyAction, type CompanyInput } from "./actions";
 

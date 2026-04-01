@@ -3,21 +3,21 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { CompanyContext, Identity } from "@serva/auth/session";
 import { getPublicAuthUrl } from "@serva/shared";
-import { ProfilePicture, Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
+import { ProfilePicture, Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@serva/ui/components/dropdown-menu";
+} from "@serva/serva-ui/components/dropdown-menu";
 import {
   SidebarMenu,
   sidebarMenuButtonVariants,
   SidebarMenuItem,
-} from "@serva/ui/components/sidebar";
-import { ICONS } from "@serva/ui/constants/icons";
-import { cn } from "@serva/ui/lib/utils";
+} from "@serva/serva-ui/components/sidebar";
+import { ICONS } from "@serva/serva-ui/constants/icons";
+import { cn } from "@serva/serva-ui/lib/utils";
 import Link from "next/link";
 
 type Props = {

@@ -1,7 +1,7 @@
-import { Container } from "@serva/ui";
-import { Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
-import { Card, CardContent, CardHeader } from "@serva/ui/components/card";
+import { Container } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
+import { Card, CardContent, CardHeader } from "@serva/serva-ui/components/card";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database";
 import Image from "next/image";
 import Link from "next/link";

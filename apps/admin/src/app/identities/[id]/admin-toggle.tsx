@@ -1,7 +1,7 @@
 "use client";
 
-import { Badge } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
+import { Badge } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import {

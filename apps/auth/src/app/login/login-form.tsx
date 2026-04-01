@@ -2,10 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginInputs, LoginSchema } from "@serva/shared";
-import { Callout, PasswordInputGroupInput, SIcon } from "@serva/ui";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/ui/components/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/ui/components/input-group";
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
+import { Callout, PasswordInputGroupInput, SIcon } from "@serva/serva-ui";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/serva-ui/components/input-group";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";

@@ -1,7 +1,7 @@
 import { AccountStatusBadge } from "@/components/shared";
 import { DisplayEmployee } from "@serva/shared";
-import { ProfilePicture, Typography } from "@serva/ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
+import { ProfilePicture, Typography } from "@serva/serva-ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { ReactNode } from "react";
 
 type EmployeeCardProps = {

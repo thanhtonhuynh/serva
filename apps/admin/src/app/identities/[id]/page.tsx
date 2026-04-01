@@ -1,8 +1,8 @@
 import { Header } from "@/components/layout/header";
 import { getIdentityAdminDetail } from "@serva/database";
-import { Badge, Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/ui/components/card";
+import { Badge, Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import {
   Table,
   TableBody,
@@ -10,8 +10,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/ui/components/table";
-import { Container } from "@serva/ui/components/serva/container";
+} from "@serva/serva-ui/components/table";
+import { Container } from "@serva/serva-ui/components/serva/container";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";

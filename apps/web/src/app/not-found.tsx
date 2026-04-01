@@ -7,7 +7,7 @@ import {
   Container,
   SIcon,
   Typography,
-} from "@serva/ui";
+} from "@serva/serva-ui";
 import Link from "next/link";
 
 export default async function NotFound() {

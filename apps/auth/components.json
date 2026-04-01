@@ -15,8 +15,8 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@serva/ui/lib/utils",
-    "ui": "@serva/ui/components"
+    "utils": "@serva/serva-ui/lib/utils",
+    "ui": "@serva/serva-ui/components"
   },
   "menuColor": "default",
   "menuAccent": "subtle",

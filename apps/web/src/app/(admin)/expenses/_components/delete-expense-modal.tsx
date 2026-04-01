@@ -13,7 +13,7 @@ import {
   DialogTrigger,
   ICONS,
   Typography,
-} from "@serva/ui";
+} from "@serva/serva-ui";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteExpenseAction } from "../actions";

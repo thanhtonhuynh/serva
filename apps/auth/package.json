@@ -13,7 +13,7 @@
     "@serva/auth": "workspace:*",
     "@serva/database": "workspace:*",
     "@serva/shared": "workspace:*",
-    "@serva/ui": "workspace:*"
+    "@serva/serva-ui": "workspace:*"
   },
   "devDependencies": {
     "eslint": "^9.39.2",

@@ -1,8 +1,8 @@
 "use client";
 
-import { LoadingButton } from "@serva/ui/components/serva/loading-button";
-import { ConfirmDialog, SIcon } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
+import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { ConfirmDialog, SIcon } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
 import { useState } from "react";
 
 type Props = {

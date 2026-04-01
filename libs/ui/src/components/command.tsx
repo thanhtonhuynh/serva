@@ -9,9 +9,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@serva/ui/components/dialog";
-import { InputGroup, InputGroupAddon } from "@serva/ui/components/input-group";
-import { cn } from "@serva/ui/lib/utils";
+} from "@serva/serva-ui/components/dialog";
+import { InputGroup, InputGroupAddon } from "@serva/serva-ui/components/input-group";
+import { cn } from "@serva/serva-ui/lib/utils";
 import { SearchIcon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 

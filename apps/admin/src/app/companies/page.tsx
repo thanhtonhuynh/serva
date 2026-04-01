@@ -1,9 +1,9 @@
 import { Header } from "@/components/layout/header";
 import { listAllCompanies } from "@serva/database";
-import { Typography } from "@serva/ui";
-import { Button } from "@serva/ui/components/button";
-import { Card, CardContent } from "@serva/ui/components/card";
-import { Container } from "@serva/ui/components/serva/container";
+import { Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
+import { Card, CardContent } from "@serva/serva-ui/components/card";
+import { Container } from "@serva/serva-ui/components/serva/container";
 import {
   Table,
   TableBody,
@@ -11,7 +11,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/ui/components/table";
+} from "@serva/serva-ui/components/table";
 import Link from "next/link";
 import { Fragment } from "react";
 
