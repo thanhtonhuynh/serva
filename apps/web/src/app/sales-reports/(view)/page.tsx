@@ -39,7 +39,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
     return (
       <Card>
         <CardContent className="flex flex-col items-center justify-center space-y-3 py-10 text-center">
-          <Typography variant="h2" className="text-warning flex items-center gap-2">
+          <Typography variant="h2" className="text-primary flex items-center gap-2">
             <HugeiconsIcon icon={ICONS.REPORT_NOT_FOUND} className="size-5" strokeWidth={2} />
             Report not found on {format(dateParam, "yyyy-MM-dd", { in: utc })}
           </Typography>

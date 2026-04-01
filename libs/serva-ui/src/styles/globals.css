@@ -92,13 +92,13 @@
 
 :root {
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(26.9% 0 0);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(26.9% 0 0);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: oklch(26.9% 0 0);
 
   --primary: var(--color-primary-500);
   --primary-dark: var(--color-primary-950);
@@ -131,7 +131,7 @@
   --warning: oklch(55.4% 0.135 66.442);
   --success: oklch(44.8% 0.119 151.328);
 
-  --border: var(--color-neutral-200);
+  --border: var(--color-neutral-100);
   --input: var(--color-neutral-200);
   /* --input: oklch(88.2% 0.059 254.128); */
   /* --ring: oklch(28.2% 0.091 267.935); */
