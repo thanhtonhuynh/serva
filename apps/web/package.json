@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "pnpm --filter @serva/database run db:generate && next build --webpack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "email": "cp ../../.env ./node_modules/react-email && email dev --dir ../../libs/ui/src/components/emails --port 3003"

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack --port 3002",
-    "build": "pnpm --filter @serva/database run db:generate && next build --webpack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint ."
   },

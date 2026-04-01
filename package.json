@@ -7,7 +7,7 @@
     "dev:web": "nx run @serva/web:dev",
     "dev:auth": "nx run @serva/auth-app:dev",
     "dev:admin": "nx run @serva/admin-app:dev",
-    "build": "pnpm --filter @serva/database run db:generate && nx run-many -t build",
+    "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "dev:all": "nx run-many -t dev",
     "postinstall": "pnpm --filter @serva/database run db:generate"
@@ -46,7 +46,6 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@prisma/nextjs-monorepo-workaround-plugin": "6.19.2",
     "@serva/database": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20.19.27",
