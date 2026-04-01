@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "@/contexts/SessionProvider";
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +11,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@serva/serva-ui/components/sidebar";
-import { useSession } from "@/contexts/SessionProvider";
 import { cn } from "@serva/serva-ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +41,7 @@ export function AppSidebar() {
                     src={
                       state === "collapsed" && !isMobile
                         ? "/serva-logo-icon.svg"
-                        : "/serva-logo-full-white-border-and-text.svg"
+                        : "/serva-logo-full.svg"
                     }
                     alt="Serva"
                     width={240}

@@ -42,7 +42,7 @@ export function AppSidebar() {
                     src={
                       state === "collapsed" && !isMobile
                         ? "/serva-logo-icon.svg"
-                        : "/serva-logo-full-white-border-and-text.svg"
+                        : "/serva-logo-full.svg"
                     }
                     alt="Serva Admin"
                     width={240}

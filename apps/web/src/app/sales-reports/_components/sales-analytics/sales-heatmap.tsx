@@ -11,10 +11,10 @@ type SalesHeatmapProps = {
 
 const INTENSITY_CLASSES = [
   "bg-neutral-100", // 0 - no sales or no report
-  "bg-primary-3", // 1
-  "bg-primary-5", // 2
-  "bg-primary-7", // 3
-  "bg-primary-9", // 4
+  "bg-primary-200", // 1
+  "bg-primary-300", // 2
+  "bg-primary-400", // 3
+  "bg-primary-500", // 4
 ];
 
 export function SalesHeatmap({ data }: SalesHeatmapProps) {
@@ -80,7 +80,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
 
                 // If no cell (date outside year), render empty
                 if (!cell) {
-                  return <div key={dayIdx} className="rounded-xs size-3 bg-transparent" />;
+                  return <div key={dayIdx} className="size-3 rounded-xs bg-transparent" />;
                 }
 
                 return (
@@ -89,7 +89,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
                       render={
                         <div
                           className={cn(
-                            "rounded-xs size-3 cursor-pointer transition-transform hover:scale-125",
+                            "size-3 cursor-pointer rounded-xs transition-transform hover:scale-125",
                             INTENSITY_CLASSES[cell.intensity],
                             cell.intensity === 0 && "border",
                           )}

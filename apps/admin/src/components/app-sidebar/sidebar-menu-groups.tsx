@@ -35,7 +35,7 @@ export function SidebarMenuGroups() {
             return (
               <SidebarMenuItem key={item.url}>
                 <SidebarMenuButton
-                  className={cn(isActive(item.url) && "bg-primary-1 text-primary-dark")}
+                  className={cn(isActive(item.url) && "bg-primary-100 text-primary-dark")}
                   onClick={() => isMobile && toggleSidebar()}
                   render={
                     <Link href={item.url}>

@@ -2,7 +2,6 @@
 
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { CompanyContext, Identity } from "@serva/auth/session";
-import { getPublicAuthUrl } from "@serva/shared";
 import { ProfilePicture, Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import {
@@ -18,6 +17,7 @@ import {
 } from "@serva/serva-ui/components/sidebar";
 import { ICONS } from "@serva/serva-ui/constants/icons";
 import { cn } from "@serva/serva-ui/lib/utils";
+import { getPublicAuthUrl } from "@serva/shared";
 import Link from "next/link";
 
 type Props = {
@@ -53,7 +53,7 @@ export function UserMenu({ identity, companyCtx }: Props) {
             id="sidebar-user-menu-trigger"
             className={cn(
               sidebarMenuButtonVariants(),
-              "text-primary-1 h-fit cursor-pointer group-data-[collapsible=icon]:p-0!",
+              "text-primary-dark h-fit cursor-pointer group-data-[collapsible=icon]:p-0!",
             )}
           >
             <ProfilePicture image={identity.image} size={32} name={identity.name} />

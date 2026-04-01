@@ -3,7 +3,6 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import * as React from "react";
 
-import { cn } from "@serva/serva-ui/lib/utils";
 import {
   ArrowDown01Icon,
   ArrowUp01Icon,
@@ -11,6 +10,7 @@ import {
   UnfoldMoreIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { cn } from "@serva/serva-ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const Select = SelectPrimitive.Root;
@@ -43,7 +43,7 @@ export const selectTriggerVariants = cva(
         default:
           "border-transparent bg-primary text-primary-foreground hover:bg-primary/80 [&_svg]:text-primary-foreground/90",
         outline:
-          "border-primary bg-background text-primary-9 hover:bg-accent/50 [&_svg]:text-primary-9/90",
+          "border-primary bg-background text-primary-950 hover:bg-accent/50 [&_svg]:text-primary-950/90",
         accent:
           "border-transparent bg-accent text-accent-foreground hover:bg-accent/80 [&_svg]:text-accent-foreground/90",
         ghost:

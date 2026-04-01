@@ -12,9 +12,9 @@ import { Separator } from "@serva/serva-ui/components/separator";
 import {
   calculateSalesAnalytics,
   DaySalesData,
+  formatMoney,
   generateHeatmapData,
   SalesAnalytics,
-  formatMoney,
 } from "@serva/shared";
 import { useCallback, useMemo, useState } from "react";
 import { SalesHeatmap } from "./sales-heatmap";
@@ -87,11 +87,11 @@ export function SalesAnalyticsDashboardClient({
         <div className="text-muted-foreground mt-4 flex items-center gap-2 text-xs">
           <span>Fewer</span>
           <div className="flex gap-1">
-            <span className="rounded-xs size-3 border bg-neutral-100" />
-            <span className="bg-primary-3 rounded-xs size-3" />
-            <span className="bg-primary-5 rounded-xs size-3" />
-            <span className="bg-primary-7 rounded-xs size-3" />
-            <span className="bg-primary-9 rounded-xs size-3" />
+            <span className="size-3 rounded-xs border bg-neutral-100" />
+            <span className="bg-primary-200 size-3 rounded-xs" />
+            <span className="bg-primary-300 size-3 rounded-xs" />
+            <span className="bg-primary-400 size-3 rounded-xs" />
+            <span className="bg-primary-500 size-3 rounded-xs" />
           </div>
           <span>More</span>
         </div>
