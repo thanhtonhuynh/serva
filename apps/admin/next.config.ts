@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import type { NextConfig } from "next";
 import packageJson from "./package.json" with { type: "json" };
 
@@ -9,6 +10,14 @@ const workspacePackages = Object.entries({
   .map(([name]) => name);
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
+  outputFileTracingIncludes: {
+    "/*": [
+      "./libs/database/generated/prisma/**/*",
+      "./node_modules/.pnpm/@prisma+engines*/**/*",
+    ],
+  },
+  serverExternalPackages: ["@prisma/client"],
   transpilePackages: workspacePackages,
   reactStrictMode: false,
   images: {
