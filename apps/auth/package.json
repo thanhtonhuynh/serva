@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack --port 3001",
-    "build": "prisma generate --schema ../../libs/database/prisma/schema.prisma && next build --webpack",
+    "build": "pnpm --filter @serva/database run db:generate && next build --webpack",
     "start": "next start",
     "lint": "eslint ."
   },
