@@ -11,8 +11,12 @@ const workspacePackages = Object.entries({
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
+  // Keys are matched against normalized route paths; `/**` covers nested routes.
+  // Note: `outputFileTracingIncludes` is only applied when using Webpack for production
+  // build (`next build --webpack`). Turbopack builds omit buildTraceContext, so these
+  // globs are ignored and Prisma's native engine would be missing on Vercel.
   outputFileTracingIncludes: {
-    "/*": [
+    "/**": [
       "./libs/database/generated/prisma/**/*",
       "./node_modules/.pnpm/@prisma+engines*/**/*",
     ],
