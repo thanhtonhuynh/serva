@@ -1,6 +1,6 @@
+import type { NextConfig } from "next";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
-import type { NextConfig } from "next";
 import packageJson from "./package.json" with { type: "json" };
 
 const require = createRequire(import.meta.url);
@@ -28,7 +28,6 @@ const nextConfig: NextConfig = {
       "../../node_modules/.pnpm/@prisma+engines*/**/*",
     ],
   },
-  serverExternalPackages: ["@prisma/client"],
   transpilePackages: workspacePackages,
   webpack: (config, { isServer }) => {
     if (isServer) {
