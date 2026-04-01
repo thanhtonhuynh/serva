@@ -15,10 +15,11 @@ const nextConfig: NextConfig = {
   // Note: `outputFileTracingIncludes` is only applied when using Webpack for production
   // build (`next build --webpack`). Turbopack builds omit buildTraceContext, so these
   // globs are ignored and Prisma's native engine would be missing on Vercel.
+  // Globs run with cwd = this app (`apps/auth`), not `outputFileTracingRoot`.
   outputFileTracingIncludes: {
     "/**": [
-      "./libs/database/generated/prisma/**/*",
-      "./node_modules/.pnpm/@prisma+engines*/**/*",
+      "../../libs/database/generated/prisma/**/*",
+      "../../node_modules/.pnpm/@prisma+engines*/**/*",
     ],
   },
   serverExternalPackages: ["@prisma/client"],

@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
   outputFileTracingIncludes: {
     "/**": [
-      "./libs/database/generated/prisma/**/*",
-      "./node_modules/.pnpm/@prisma+engines*/**/*",
+      "../../libs/database/generated/prisma/**/*",
+      "../../node_modules/.pnpm/@prisma+engines*/**/*",
     ],
   },
   serverExternalPackages: ["@prisma/client"],
