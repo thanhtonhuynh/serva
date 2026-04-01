@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui/components/table";
+import { format } from "date-fns";
 import Link from "next/link";
 import { Fragment } from "react";
 
@@ -33,7 +34,7 @@ export default async function CompaniesPage() {
 
       <Container>
         <Card>
-          <CardContent className="p-0">
+          <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -41,7 +42,7 @@ export default async function CompaniesPage() {
                   <TableHead>Slug</TableHead>
                   <TableHead className="text-right">Operators</TableHead>
                   <TableHead className="text-right">Employees</TableHead>
-                  <TableHead>Created</TableHead>
+                  <TableHead className="text-right">Created</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -62,8 +63,8 @@ export default async function CompaniesPage() {
                       <TableCell className="text-muted-foreground">{c.slug}</TableCell>
                       <TableCell className="text-right">{c._count.operators}</TableCell>
                       <TableCell className="text-right">{c._count.employees}</TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {c.createdAt.toLocaleDateString()}
+                      <TableCell className="text-muted-foreground text-right">
+                        {format(c.createdAt, "MMM d, yyyy hh:mm a")}
                       </TableCell>
                     </TableRow>
                   ))

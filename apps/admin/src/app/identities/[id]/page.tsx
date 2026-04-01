@@ -90,7 +90,7 @@ export default async function IdentityDetailPage({ params }: Props) {
           <CardHeader>
             <CardTitle>Operator Memberships ({identity.operators.length})</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -133,7 +133,7 @@ export default async function IdentityDetailPage({ params }: Props) {
           <CardHeader>
             <CardTitle>Employee Memberships ({identity.employees.length})</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>

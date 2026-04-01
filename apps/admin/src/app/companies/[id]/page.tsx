@@ -13,6 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui/components/table";
+import { formatMoney } from "@serva/shared";
+import { format } from "date-fns";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
@@ -47,12 +49,58 @@ export default async function CompanyDetailPage({ params }: Props) {
       </Header>
 
       <Container className="flex flex-col gap-6">
+        {/* Overview */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div>
+                <Typography variant="p-xs" className="text-muted-foreground">
+                  Company ID
+                </Typography>
+                <Typography variant="p-sm">{company.id}</Typography>
+              </div>
+
+              <div>
+                <Typography variant="p-xs" className="text-muted-foreground">
+                  Created
+                </Typography>
+                <Typography variant="p-sm">
+                  {format(company.createdAt, "MMM d, yyyy hh:mm a")}
+                </Typography>
+              </div>
+
+              <div>
+                <Typography variant="p-xs" className="text-muted-foreground">
+                  Updated
+                </Typography>
+                <Typography variant="p-sm">
+                  {format(company.updatedAt, "MMM d, yyyy hh:mm a")}
+                </Typography>
+              </div>
+
+              <div>
+                <Typography variant="p-xs" className="text-muted-foreground">
+                  Settings
+                </Typography>
+                <Typography variant="p-sm">
+                  Start Cash: {formatMoney(company.settings?.startCash ?? 0 / 100)}
+                </Typography>
+                <Typography variant="p-sm">
+                  Active Platforms: {company.settings?.activePlatforms.join(", ")}
+                </Typography>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
         {/* Operators */}
         <Card>
           <CardHeader>
             <CardTitle>Operators ({company.operators.length})</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -97,7 +145,7 @@ export default async function CompanyDetailPage({ params }: Props) {
           <CardHeader>
             <CardTitle>Employees ({company.employees.length})</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -143,7 +191,7 @@ export default async function CompanyDetailPage({ params }: Props) {
             <CardHeader>
               <CardTitle>Pending Invites ({company.invites.length})</CardTitle>
             </CardHeader>
-            <CardContent className="p-0">
+            <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
