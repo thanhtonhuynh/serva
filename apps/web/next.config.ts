@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import { createRequire } from "node:module";
-import { resolve } from "node:path";
 import packageJson from "./package.json" with { type: "json" };
 
 const require = createRequire(import.meta.url);
@@ -16,11 +15,6 @@ const workspacePackages = Object.entries({
   .map(([name]) => name);
 
 const nextConfig: NextConfig = {
-  outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
-  outputFileTracingIncludes: {
-    "/**": ["../../libs/database/generated/prisma/**/*"],
-  },
-  serverExternalPackages: ["@prisma/client"],
   transpilePackages: workspacePackages,
   webpack: (config, { isServer }) => {
     if (isServer) {

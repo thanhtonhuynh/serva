@@ -15,14 +15,6 @@ const workspacePackages = Object.entries({
   .map(([name]) => name);
 
 const nextConfig: NextConfig = {
-  // outputFileTracingRoot: resolve(import.meta.dirname, "../../"),
-  // // Keys are matched against normalized route paths; `/**` covers nested routes.
-  // // Include generated client + engines. Avoid tracing `.pnpm/**` (symlinks break Vercel deploy).
-  // // Production build uses Webpack (`next build --webpack`) so PrismaPlugin can copy engines into output.
-  // outputFileTracingIncludes: {
-  //   "/**": ["../../libs/database/generated/prisma/**/*"],
-  // },
-  // serverExternalPackages: ["@prisma/client"],
   transpilePackages: workspacePackages,
   webpack: (config, { isServer }) => {
     if (isServer) {
