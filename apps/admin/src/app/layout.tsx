@@ -1,7 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SessionProvider } from "@/contexts/SessionProvider";
-import { platformAdminGuard } from "@serva/auth/authorize";
-import { getCurrentSession } from "@serva/auth/session";
+import { getCurrentSession } from "@serva/auth";
 import { SidebarInset, SidebarProvider, TailwindScreenSizeIndicator } from "@serva/serva-ui";
 import "@serva/serva-ui/globals.css";
 import type { Metadata, Viewport } from "next";
@@ -20,7 +19,6 @@ export const metadata: Metadata = { title: "Serva — Admin" };
 export const viewport: Viewport = { maximumScale: 1 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  await platformAdminGuard();
   const { session, identity } = await getCurrentSession();
 
   return (

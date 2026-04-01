@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/header";
+import { platformAdminGuard } from "@serva/auth";
 import { getIdentityAdminDetail } from "@serva/database";
 import { Typography } from "@serva/serva-ui";
 import { Container } from "@serva/serva-ui/components/serva/container";
@@ -9,6 +10,7 @@ import { IdentityForm } from "../../identity-form";
 type Props = { params: Promise<{ id: string }> };
 
 export default async function EditIdentityPage({ params }: Props) {
+  await platformAdminGuard();
   const { id } = await params;
   const identity = await getIdentityAdminDetail(id);
   if (!identity) notFound();

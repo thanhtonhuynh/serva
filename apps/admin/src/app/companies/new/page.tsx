@@ -1,10 +1,13 @@
 import { Header } from "@/components/layout/header";
+import { platformAdminGuard } from "@serva/auth";
 import { Typography } from "@serva/serva-ui";
 import { Container } from "@serva/serva-ui/components/serva/container";
 import { Fragment } from "react";
 import { CompanyForm } from "../company-form";
 
-export default function NewCompanyPage() {
+export default async function NewCompanyPage() {
+  await platformAdminGuard();
+
   return (
     <Fragment>
       <Header>

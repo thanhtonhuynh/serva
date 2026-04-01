@@ -1,8 +1,10 @@
 import { Header } from "@/components/layout/header";
+import { platformAdminGuard } from "@serva/auth";
 import { getCompanyAdminDetail } from "@serva/database";
 import { Badge, Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
+import { Container } from "@serva/serva-ui/components/serva/container";
 import {
   Table,
   TableBody,
@@ -11,7 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui/components/table";
-import { Container } from "@serva/serva-ui/components/serva/container";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
@@ -19,6 +20,7 @@ import { Fragment } from "react";
 type Props = { params: Promise<{ id: string }> };
 
 export default async function CompanyDetailPage({ params }: Props) {
+  await platformAdminGuard();
   const { id } = await params;
   const company = await getCompanyAdminDetail(id);
   if (!company) notFound();
@@ -71,16 +73,11 @@ export default async function CompanyDetailPage({ params }: Props) {
                   company.operators.map((op) => (
                     <TableRow key={op.id}>
                       <TableCell>
-                        <Link
-                          href={`/identities/${op.identity.id}`}
-                          className="hover:underline"
-                        >
+                        <Link href={`/identities/${op.identity.id}`} className="hover:underline">
                           {op.identity.name}
                         </Link>
                       </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {op.identity.email}
-                      </TableCell>
+                      <TableCell className="text-muted-foreground">{op.identity.email}</TableCell>
                       <TableCell>{op.role?.name ?? "—"}</TableCell>
                       <TableCell>
                         <Badge variant={op.status === "active" ? "default" : "secondary"}>
@@ -121,16 +118,11 @@ export default async function CompanyDetailPage({ params }: Props) {
                   company.employees.map((emp) => (
                     <TableRow key={emp.id}>
                       <TableCell>
-                        <Link
-                          href={`/identities/${emp.identity.id}`}
-                          className="hover:underline"
-                        >
+                        <Link href={`/identities/${emp.identity.id}`} className="hover:underline">
                           {emp.identity.name}
                         </Link>
                       </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {emp.identity.email}
-                      </TableCell>
+                      <TableCell className="text-muted-foreground">{emp.identity.email}</TableCell>
                       <TableCell>{emp.job?.name ?? "—"}</TableCell>
                       <TableCell>
                         <Badge variant={emp.status === "active" ? "default" : "secondary"}>

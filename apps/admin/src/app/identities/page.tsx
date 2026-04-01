@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/header";
+import { platformAdminGuard } from "@serva/auth";
 import { listAllIdentities } from "@serva/database";
 import { Badge, Typography } from "@serva/serva-ui";
 import { Card, CardContent } from "@serva/serva-ui/components/card";
@@ -15,6 +16,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 
 export default async function IdentitiesPage() {
+  await platformAdminGuard();
   const identities = await listAllIdentities();
 
   return (

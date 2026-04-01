@@ -1,6 +1,6 @@
 "use server";
 
-import { platformAdminGuardWithRateLimit } from "@serva/auth/authorize";
+import { platformAdminGuardWithRateLimit } from "@serva/auth";
 import { createCompany, updateCompany } from "@serva/database";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

@@ -1,6 +1,6 @@
 "use client";
 
-import type { Identity } from "@serva/auth/session";
+import type { Identity } from "@serva/auth";
 import type { Session } from "@serva/database";
 import { createContext, type ReactNode, useContext, useMemo } from "react";
 

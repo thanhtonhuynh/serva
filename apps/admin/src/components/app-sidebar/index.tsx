@@ -1,7 +1,6 @@
 "use client";
 
 import { useSession } from "@/contexts/SessionProvider";
-import { getPublicAuthUrl } from "@serva/shared";
 import { ProfilePicture, SIcon, Typography } from "@serva/serva-ui";
 import {
   Sidebar,
@@ -14,6 +13,7 @@ import {
   useSidebar,
 } from "@serva/serva-ui/components/sidebar";
 import { cn } from "@serva/serva-ui/lib/utils";
+import { getPublicAuthUrl } from "@serva/shared";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";
@@ -22,7 +22,7 @@ export function AppSidebar() {
   const { identity } = useSession();
   const { state, isMobile, toggleSidebar } = useSidebar();
 
-  if (!identity) return null;
+  if (!identity || !identity.isPlatformAdmin) return null;
 
   return (
     <Sidebar variant="floating" collapsible="icon">

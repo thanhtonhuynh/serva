@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/header";
+import { platformAdminGuard } from "@serva/auth";
 import { listAllCompanies } from "@serva/database";
 import { Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
@@ -16,6 +17,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 
 export default async function CompaniesPage() {
+  await platformAdminGuard();
   const companies = await listAllCompanies();
 
   return (

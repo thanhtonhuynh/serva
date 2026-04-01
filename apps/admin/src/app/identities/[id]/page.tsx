@@ -1,8 +1,10 @@
 import { Header } from "@/components/layout/header";
+import { platformAdminGuard } from "@serva/auth";
 import { getIdentityAdminDetail } from "@serva/database";
 import { Badge, Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
+import { Container } from "@serva/serva-ui/components/serva/container";
 import {
   Table,
   TableBody,
@@ -11,7 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui/components/table";
-import { Container } from "@serva/serva-ui/components/serva/container";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
@@ -20,6 +21,7 @@ import { AdminToggle } from "./admin-toggle";
 type Props = { params: Promise<{ id: string }> };
 
 export default async function IdentityDetailPage({ params }: Props) {
+  await platformAdminGuard();
   const { id } = await params;
   const identity = await getIdentityAdminDetail(id);
   if (!identity) notFound();
@@ -108,10 +110,7 @@ export default async function IdentityDetailPage({ params }: Props) {
                   identity.operators.map((op) => (
                     <TableRow key={op.id}>
                       <TableCell>
-                        <Link
-                          href={`/companies/${op.company.id}`}
-                          className="hover:underline"
-                        >
+                        <Link href={`/companies/${op.company.id}`} className="hover:underline">
                           {op.company.name}
                         </Link>
                       </TableCell>
@@ -154,10 +153,7 @@ export default async function IdentityDetailPage({ params }: Props) {
                   identity.employees.map((emp) => (
                     <TableRow key={emp.id}>
                       <TableCell>
-                        <Link
-                          href={`/companies/${emp.company.id}`}
-                          className="hover:underline"
-                        >
+                        <Link href={`/companies/${emp.company.id}`} className="hover:underline">
                           {emp.company.name}
                         </Link>
                       </TableCell>
