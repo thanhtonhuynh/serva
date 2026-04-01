@@ -17,7 +17,7 @@ import {
 } from "@serva/serva-ui/components/sidebar";
 import { ICONS } from "@serva/serva-ui/constants/icons";
 import { cn } from "@serva/serva-ui/lib/utils";
-import { getPublicAuthUrl } from "@serva/shared";
+import { getPublicAdminUrl, getPublicAuthUrl } from "@serva/shared";
 import Link from "next/link";
 
 type Props = {
@@ -83,6 +83,20 @@ export function UserMenu({ identity, companyCtx }: Props) {
                 </Button>
               </DropdownMenuItem>
             ))}
+
+            {identity.isPlatformAdmin && (
+              <DropdownMenuItem className="p-0">
+                <Button
+                  nativeButton={false}
+                  variant={`accent`}
+                  className="w-full justify-start rounded-xl"
+                  render={<Link href={getPublicAdminUrl()} />}
+                >
+                  <HugeiconsIcon icon={ICONS.ADMIN} strokeWidth={1.5} />
+                  <span className="ml-2">Platform admin portal</span>
+                </Button>
+              </DropdownMenuItem>
+            )}
 
             <DropdownMenuItem className="p-0">
               <Button
