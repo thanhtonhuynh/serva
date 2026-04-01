@@ -1,4 +1,4 @@
-import { SHORT_MONTHS } from "@/app/constants";
+import { SHORT_MONTHS } from "@/constants";
 import {
   Table,
   TableBody,

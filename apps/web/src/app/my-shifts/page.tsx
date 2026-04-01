@@ -1,4 +1,4 @@
-import { FULL_MONTHS, NUM_MONTHS } from "@/app/constants";
+import { FULL_MONTHS, NUM_MONTHS } from "@/constants";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
