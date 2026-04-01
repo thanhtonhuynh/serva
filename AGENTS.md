@@ -48,9 +48,9 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (schema, generated client, DAL queries in `src/dal/`)              |
 | Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                        |
 | Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)        |
-| UI (shadcn primitives)                      | `libs/ui/src/components/` — `@serva/serva-ui`                                                                 |
-| UI (Serva custom components)                | `libs/ui/src/components/serva/` — `@serva/serva-ui` (app-designed components, icons registry in `constants/`) |
-| Email templates                             | `libs/ui/src/components/emails/` — `@serva/serva-ui/components/emails/*`                                      |
+| UI (shadcn primitives)                      | `libs/serva-ui/src/components/` — `@serva/serva-ui`                                                                 |
+| UI (Serva custom components)                | `libs/serva-ui/src/components/serva/` — `@serva/serva-ui` (app-designed components, icons registry in `constants/`) |
+| Email templates                             | `libs/serva-ui/src/components/emails/` — `@serva/serva-ui/components/emails/*`                                      |
 | App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                               |
 | App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                              |
 

@@ -168,7 +168,7 @@ importers:
         version: link:../../libs/database
       '@serva/serva-ui':
         specifier: workspace:*
-        version: link:../../libs/ui
+        version: link:../../libs/serva-ui
       '@serva/shared':
         specifier: workspace:*
         version: link:../../libs/shared
@@ -190,7 +190,7 @@ importers:
         version: link:../../libs/database
       '@serva/serva-ui':
         specifier: workspace:*
-        version: link:../../libs/ui
+        version: link:../../libs/serva-ui
       '@serva/shared':
         specifier: workspace:*
         version: link:../../libs/shared
@@ -218,7 +218,7 @@ importers:
         version: link:../../libs/database
       '@serva/serva-ui':
         specifier: workspace:*
-        version: link:../../libs/ui
+        version: link:../../libs/serva-ui
       '@serva/shared':
         specifier: workspace:*
         version: link:../../libs/shared
@@ -261,9 +261,9 @@ importers:
 
   libs/database: {}
 
-  libs/shared: {}
+  libs/serva-ui: {}
 
-  libs/ui: {}
+  libs/shared: {}
 
 packages:
 
