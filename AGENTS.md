@@ -16,11 +16,11 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 
 ## Apps
 
-| App | Package | Port (dev) | Description |
-| --- | ------- | ---------- | ----------- |
-| Web | `@serva/web` (`apps/web`) | 3000 | Main app — scheduling, sales, reports, tenant admin |
-| Auth | `@serva/auth-app` (`apps/auth`) | 3001 | Centralized auth portal — login, signup, password reset, company selection, invites |
-| Admin | `@serva/admin-app` (`apps/admin`) | 3002 | Platform super-admin — global company & identity management (`isPlatformAdmin`) |
+| App   | Package                           | Port (dev) | Description                                                                         |
+| ----- | --------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
+| Web   | `@serva/web` (`apps/web`)         | 3000       | Main app — scheduling, sales, reports, tenant admin                                 |
+| Auth  | `@serva/auth-app` (`apps/auth`)   | 3001       | Centralized auth portal — login, signup, password reset, company selection, invites |
+| Admin | `@serva/admin-app` (`apps/admin`) | 3002       | Platform super-admin — global company & identity management (`isPlatformAdmin`)     |
 
 In production, these run on subdomains (e.g. `app.serva.com`, `auth.serva.com`, `admin.serva.com`) with shared cookies via `COOKIE_DOMAIN`. Note: `apps/web/(admin)` is **tenant** admin (roles, expenses); `apps/admin` is **platform** super-admin.
 
@@ -40,43 +40,43 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 
 ## Layout
 
-| Area | Package / Path |
-| ---- | -------------- |
-| Web app routes | `apps/web/src/app/` — route groups `(main)`, `(admin)` (tenant admin) |
-| Auth app routes | `apps/auth/src/app/` — login, signup, forgot-password, reset-password, select-company, invite |
-| Admin app routes | `apps/admin/src/app/` — companies, identities (platform super-admin) |
-| Database (Prisma, DAL) | `libs/database/` — `@serva/database` (schema, generated client, DAL queries in `src/dal/`) |
-| Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared` |
-| Auth & session | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting) |
-| UI (shadcn primitives) | `libs/ui/src/components/` — `@serva/ui` |
-| UI (Serva custom components) | `libs/ui/src/components/serva/` — `@serva/ui` (app-designed components, icons registry in `constants/`) |
-| Email templates | `libs/ui/src/components/emails/` — `@serva/ui/components/emails/*` |
-| App-local lib | `apps/web/src/lib/` (validations, invite) |
-| App-local components | `apps/web/src/components/` (app-sidebar, feature-specific) |
+| Area                                        | Package / Path                                                                                          |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Web app routes                              | `apps/web/src/app/` — route groups `(main)`, `(admin)` (tenant admin)                                   |
+| Auth app routes                             | `apps/auth/src/app/` — login, signup, forgot-password, reset-password, select-company, invite           |
+| Admin app routes                            | `apps/admin/src/app/` — companies, identities (platform super-admin)                                    |
+| Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (schema, generated client, DAL queries in `src/dal/`)              |
+| Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                        |
+| Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)        |
+| UI (shadcn primitives)                      | `libs/ui/src/components/` — `@serva/ui`                                                                 |
+| UI (Serva custom components)                | `libs/ui/src/components/serva/` — `@serva/ui` (app-designed components, icons registry in `constants/`) |
+| Email templates                             | `libs/ui/src/components/emails/` — `@serva/ui/components/emails/*`                                      |
+| App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                               |
+| App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                              |
 
 Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs/database/src/dal/` and are imported via `@serva/database`.
 
 ## Environment variables
 
-| Variable | Description | Example (dev) | Example (prod) |
-| -------- | ----------- | ------------- | -------------- |
-| `AUTH_URL` | Auth app base URL | `http://localhost:3001` | `https://auth.serva.com` |
-| `WEB_URL` | Web app base URL | `http://localhost:3000` | `https://app.serva.com` |
-| `ADMIN_URL` | Admin app base URL | `http://localhost:3002` | `https://admin.serva.com` |
-| `NEXT_PUBLIC_AUTH_URL` | Auth URL exposed to client components | same as `AUTH_URL` | same as `AUTH_URL` |
-| `NEXT_PUBLIC_ADMIN_URL` | Admin URL exposed to client components | same as `ADMIN_URL` | same as `ADMIN_URL` |
-| `COOKIE_DOMAIN` | Shared cookie domain (omit for localhost) | _(unset)_ | `.serva.com` |
-| `DATABASE_URL` | MongoDB connection string | _(in root .env)_ | _(in root .env)_ |
+| Variable                | Description                               | Example (dev)           | Example (prod)            |
+| ----------------------- | ----------------------------------------- | ----------------------- | ------------------------- |
+| `AUTH_URL`              | Auth app base URL                         | `http://localhost:3001` | `https://auth.serva.com`  |
+| `WEB_URL`               | Web app base URL                          | `http://localhost:3000` | `https://app.serva.com`   |
+| `ADMIN_URL`             | Admin app base URL                        | `http://localhost:3002` | `https://admin.serva.com` |
+| `NEXT_PUBLIC_AUTH_URL`  | Auth URL exposed to client components     | same as `AUTH_URL`      | same as `AUTH_URL`        |
+| `NEXT_PUBLIC_ADMIN_URL` | Admin URL exposed to client components    | same as `ADMIN_URL`     | same as `ADMIN_URL`       |
+| `COOKIE_DOMAIN`         | Shared cookie domain (omit for localhost) | _(unset)_               | `.serva.com`              |
+| `DATABASE_URL`          | MongoDB connection string                 | _(in root .env)_        | _(in root .env)_          |
 
 ## Deployment
 
 Each app is a separate Vercel project with `Root Directory` set to its folder:
 
-| Project | Root Directory | Domain | Key env vars |
-| ------- | -------------- | ------ | ------------ |
-| Web | `apps/web` | `app.serva.com` | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `COOKIE_DOMAIN` |
-| Auth | `apps/auth` | `auth.serva.com` | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN` |
-| Admin | `apps/admin` | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN` |
+| Project | Root Directory | Domain            | Key env vars                                                                                |
+| ------- | -------------- | ----------------- | ------------------------------------------------------------------------------------------- |
+| Web     | `apps/web`     | `app.serva.com`   | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `COOKIE_DOMAIN`                                      |
+| Auth    | `apps/auth`    | `auth.serva.com`  | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN` |
+| Admin   | `apps/admin`   | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN`           |
 
 All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by Auth works across subdomains.
 
@@ -115,5 +115,12 @@ Roles and permissions are seeded (see `scripts/seed-roles-and-permissions.ts`). 
 - DON'T USE for: basic generator syntax (`nx g @nx/react:app`), standard commands, things you already know
 - The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
 
-
 <!-- nx configuration end-->
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# Next.js: ALWAYS read docs before coding
+
+Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
+
+<!-- END:nextjs-agent-rules -->
