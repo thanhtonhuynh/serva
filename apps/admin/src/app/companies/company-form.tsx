@@ -1,75 +1,133 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Callout, LoadingButton } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
-import { FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
+import { DialogBody, DialogFooter } from "@serva/serva-ui/components/dialog";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@serva/serva-ui/components/field";
 import { Input } from "@serva/serva-ui/components/input";
-import { useState, useTransition } from "react";
-import { createCompanyAction, updateCompanyAction, type CompanyInput } from "./actions";
+import { useRouter } from "next/navigation";
+import * as React from "react";
+import { useTransition } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { createCompanyAction, updateCompanyAction } from "./actions";
+import { companyFormSchema, type CompanyFormValues } from "./company-schema";
 
 type Props = {
   mode: "create" | "edit";
   companyId?: string;
-  defaultValues?: CompanyInput;
+  defaultValues?: CompanyFormValues;
+  /** When the parent dialog opens, reset values (create clears; edit loads server data). */
+  dialogOpen: boolean;
+  onSuccess: () => void;
 };
 
-export function CompanyForm({ mode, companyId, defaultValues }: Props) {
+export function CompanyForm({ mode, companyId, defaultValues, dialogOpen, onSuccess }: Props) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-  const [name, setName] = useState(defaultValues?.name ?? "");
-  const [slug, setSlug] = useState(defaultValues?.slug ?? "");
+  const [serverError, setServerError] = React.useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
+  const form = useForm<CompanyFormValues>({
+    resolver: zodResolver(companyFormSchema),
+    defaultValues: defaultValues ?? { name: "", slug: "" },
+  });
 
+  React.useEffect(() => {
+    if (!dialogOpen) return;
+    setServerError(null);
+    form.reset(defaultValues ?? { name: "", slug: "" });
+  }, [dialogOpen, defaultValues, form]);
+
+  function onSubmit(data: CompanyFormValues) {
+    setServerError(null);
     startTransition(async () => {
-      const data: CompanyInput = { name, slug };
-      const result =
-        mode === "edit" && companyId
-          ? await updateCompanyAction(companyId, data)
-          : await createCompanyAction(data);
+      if (mode === "edit" && companyId) {
+        const result = await updateCompanyAction(companyId, data);
+        if ("error" in result && result.error) {
+          setServerError(result.error);
+          return;
+        }
+        onSuccess();
+        router.refresh();
+        return;
+      }
 
-      if (result?.error) setError(result.error);
+      const result = await createCompanyAction(data);
+      if ("error" in result && result.error) {
+        setServerError(result.error);
+        return;
+      }
+      if ("companyId" in result) {
+        onSuccess();
+        router.refresh();
+        router.push(`/companies/${result.companyId}`);
+      }
     });
   }
 
   return (
-    <Card className="max-w-lg">
-      <CardHeader>
-        <CardTitle>{mode === "create" ? "New Company" : "Edit Company"}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {error && <Callout variant="error" message={error} />}
+    <form onSubmit={form.handleSubmit(onSubmit)} className="contents">
+      <DialogBody className="flex flex-col gap-4">
+        {serverError && <Callout variant="error" message={serverError} />}
 
-          <FieldGroup>
-            <FieldLabel htmlFor="name">Name</FieldLabel>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Acme Restaurant"
-              required
-            />
-          </FieldGroup>
+        <FieldGroup>
+          <Controller
+            name="name"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="admin-company-name">Name</FieldLabel>
+                <Input
+                  {...field}
+                  id="admin-company-name"
+                  placeholder="Acme Restaurant"
+                  autoComplete="off"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
 
-          <FieldGroup>
-            <FieldLabel htmlFor="slug">Slug</FieldLabel>
-            <Input
-              id="slug"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
-              placeholder="acme-restaurant"
-              required
-            />
-          </FieldGroup>
+          <Controller
+            name="slug"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="admin-company-slug">Slug</FieldLabel>
+                <Input
+                  {...field}
+                  id="admin-company-slug"
+                  value={field.value}
+                  onChange={(e) => {
+                    const v = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "");
+                    field.onChange(v);
+                  }}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
+                  placeholder="acme-restaurant"
+                  autoComplete="off"
+                  aria-invalid={fieldState.invalid}
+                />
+                <FieldDescription>Lowercase letters, numbers, and hyphens only.</FieldDescription>
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+        </FieldGroup>
+      </DialogBody>
 
-          <LoadingButton type="submit" loading={isPending}>
-            {mode === "create" ? "Create Company" : "Save Changes"}
-          </LoadingButton>
-        </form>
-      </CardContent>
-    </Card>
+      <DialogFooter showCloseButton closeText="Cancel">
+        <LoadingButton type="submit" loading={isPending}>
+          {mode === "create" ? "Create company" : "Save changes"}
+        </LoadingButton>
+      </DialogFooter>
+    </form>
   );
 }

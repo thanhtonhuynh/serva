@@ -2,7 +2,6 @@ import { Header } from "@/components/layout/header";
 import { platformAdminGuard } from "@serva/auth";
 import { listAllCompanies } from "@serva/database/dal";
 import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent } from "@serva/serva-ui/components/card";
 import { Container } from "@serva/serva-ui/components/serva/container";
 import {
@@ -16,6 +15,7 @@ import {
 import { format } from "date-fns";
 import Link from "next/link";
 import { Fragment } from "react";
+import { NewCompanyDialog } from "./company-form-dialog";
 
 export default async function CompaniesPage() {
   await platformAdminGuard();
@@ -26,9 +26,7 @@ export default async function CompaniesPage() {
       <Header>
         <Typography variant="h1">Companies</Typography>
         <div className="ml-auto">
-          <Button nativeButton={false} size="sm" render={<Link href="/companies/new" />}>
-            New Company
-          </Button>
+          <NewCompanyDialog />
         </div>
       </Header>
 

@@ -53,7 +53,7 @@ export async function createCompany(name: string, slug: string) {
   return prisma.company.create({ data: { name, slug } });
 }
 
-export async function updateCompany(companyId: string, data: { name?: string; slug?: string }) {
+export async function updateCompany(companyId: string, data: { name: string; slug: string }) {
   return prisma.company.update({ where: { id: companyId }, data });
 }
 

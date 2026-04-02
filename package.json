@@ -13,6 +13,7 @@
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "dev:all": "nx run-many -t dev",
+    "db:push": "pnpm --filter @serva/database run db:push",
     "postinstall": "pnpm --filter @serva/database run db:generate"
   },
   "dependencies": {

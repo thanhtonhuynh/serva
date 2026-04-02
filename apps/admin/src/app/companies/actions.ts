@@ -3,31 +3,22 @@
 import { platformAdminGuardWithRateLimit } from "@serva/auth";
 import { createCompany, updateCompany } from "@serva/database/dal";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
+import { companyFormSchema, type CompanyFormValues } from "./company-schema";
 
-const CompanySchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  slug: z
-    .string()
-    .min(1, "Slug is required")
-    .max(60)
-    .regex(/^[a-z0-9-]+$/, "Slug must be lowercase alphanumeric with hyphens"),
-});
-
-export type CompanyInput = z.infer<typeof CompanySchema>;
+export type { CompanyFormValues as CompanyInput } from "./company-schema";
 
 export async function createCompanyAction(
-  data: CompanyInput,
-): Promise<{ error?: string }> {
+  data: CompanyFormValues,
+): Promise<{ error: string } | { companyId: string }> {
   await platformAdminGuardWithRateLimit();
 
-  const parsed = CompanySchema.safeParse(data);
+  const parsed = companyFormSchema.safeParse(data);
   if (!parsed.success) return { error: parsed.error.issues[0].message };
 
   try {
     const company = await createCompany(parsed.data.name, parsed.data.slug);
-    redirect(`/companies/${company.id}`);
+    revalidatePath("/companies");
+    return { companyId: company.id };
   } catch (err: unknown) {
     if (err instanceof Error && err.message.includes("Unique constraint"))
       return { error: "A company with this slug already exists." };
@@ -37,11 +28,11 @@ export async function createCompanyAction(
 
 export async function updateCompanyAction(
   companyId: string,
-  data: CompanyInput,
-): Promise<{ error?: string }> {
+  data: CompanyFormValues,
+): Promise<{ error: string } | { ok: true }> {
   await platformAdminGuardWithRateLimit();
 
-  const parsed = CompanySchema.safeParse(data);
+  const parsed = companyFormSchema.safeParse(data);
   if (!parsed.success) return { error: parsed.error.issues[0].message };
 
   try {
@@ -52,7 +43,7 @@ export async function updateCompanyAction(
     throw err;
   }
 
-  revalidatePath(`/companies/${companyId}`);
   revalidatePath("/companies");
-  redirect(`/companies/${companyId}`);
+  revalidatePath(`/companies/${companyId}`);
+  return { ok: true };
 }
