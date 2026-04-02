@@ -1,9 +1,8 @@
-import { hashPassword } from "./password";
-import type { Identity } from "@serva/shared";
-import { prisma } from "@serva/database";
-import { type Identity as PrismaIdentity } from "@serva/database";
+import { prisma, type Identity as PrismaIdentity } from "@serva/database";
+import { buildUniqueCompaniesFromAccounts, type Identity } from "@serva/shared";
 import { cache } from "react";
 import "server-only";
+import { hashPassword } from "./password";
 
 export type IdentityProfile = Identity & {
   roleName: string | null;
@@ -47,25 +46,40 @@ export const getIdentityProfileInCompanyByEmail = cache(
       include: {
         adminUser: { select: { id: true } },
         operators: {
-          where: { companyId },
-          select: { role: { select: { name: true } } },
-          take: 1,
+          select: {
+            company: { select: { id: true, name: true, slug: true } },
+            role: { select: { name: true } },
+          },
         },
         employees: {
-          where: { companyId },
-          select: { job: { select: { name: true } } },
-          take: 1,
+          select: {
+            company: { select: { id: true, name: true, slug: true } },
+            job: { select: { name: true } },
+          },
         },
       },
     });
 
     if (!identity) return null;
 
-    const roleName = identity.operators[0]?.role?.name ?? identity.employees[0]?.job?.name ?? null;
+    const companies = buildUniqueCompaniesFromAccounts(identity.operators, identity.employees);
+    const companyCount = companies.length;
+    const roleName =
+      identity.operators.find((o) => o.company.id === companyId)?.role?.name ??
+      identity.employees.find((e) => e.company.id === companyId)?.job?.name ??
+      null;
 
     return {
-      ...identity,
+      id: identity.id,
+      name: identity.name,
+      email: identity.email,
+      emailVerified: identity.emailVerified,
+      accountStatus: identity.accountStatus,
+      image: identity.image,
+      createdAt: identity.createdAt,
+      updatedAt: identity.updatedAt,
       isPlatformAdmin: !!identity.adminUser,
+      companyCount,
       roleName,
     };
   },
