@@ -1,11 +1,20 @@
 "use server";
 
-import { platformAdminGuardWithRateLimit } from "@serva/auth";
+import { createPlatformCompanyEntryToken, platformAdminGuardWithRateLimit } from "@serva/auth";
 import { createCompany, updateCompany } from "@serva/database/dal";
+import { getAuthUrl } from "@serva/shared";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { companyFormSchema, type CompanyFormValues } from "./company-schema";
 
 export type { CompanyFormValues as CompanyInput } from "./company-schema";
+
+/** Full navigation to auth → web (avoids client Link/RSC fetch + cross-origin redirect CORS). */
+export async function openCompanyInWebAction(companyId: string) {
+  await platformAdminGuardWithRateLimit();
+  const token = createPlatformCompanyEntryToken(companyId);
+  redirect(`${getAuthUrl()}/platform/impersonate?token=${encodeURIComponent(token)}`);
+}
 
 export async function createCompanyAction(
   data: CompanyFormValues,

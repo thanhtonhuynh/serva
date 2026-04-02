@@ -34,6 +34,11 @@ export type CompanyContext = {
   employee: Employee | null;
   /** Permissions from the operator account only (RBAC). */
   permissions: PermissionCode[];
+  /**
+   * True when `companyCtx` comes from the short-lived platform-admin impersonation cookie
+   * (no operator/employee row required for this company).
+   */
+  isImpersonatingCompany?: boolean;
 };
 
 export type SessionFlags = {

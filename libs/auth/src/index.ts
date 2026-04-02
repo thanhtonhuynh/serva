@@ -4,6 +4,7 @@ export * from "./get-ip";
 export * from "./password";
 export * from "./password-reset";
 export * from "./permission";
+export * from "./platform-company-entry-token";
 export * from "./rate-limiter";
 export * from "./roles";
 export * from "./session";

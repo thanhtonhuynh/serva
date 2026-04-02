@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <SidebarProvider>
             <AppSidebar />
             <SidebarInset className="overflow-x-auto md:peer-data-[variant=floating]:m-2 md:peer-data-[variant=floating]:ml-0 md:peer-data-[variant=floating]:peer-data-[state=collapsed]:ml-1">
-              <div className="mb-10 flex flex-1 flex-col">{children}</div>
+              <div className="relative mb-10 flex flex-1 flex-col">{children}</div>
               <Toaster richColors />
             </SidebarInset>
           </SidebarProvider>

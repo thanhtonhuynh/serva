@@ -68,6 +68,7 @@ Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs
 | `NEXT_PUBLIC_ADMIN_URL` | Admin URL exposed to client components    | same as `ADMIN_URL`     | same as `ADMIN_URL`       |
 | `COOKIE_DOMAIN`         | Shared cookie domain (omit for localhost) | _(unset)_               | `.serva.com`              |
 | `DATABASE_URL`          | MongoDB connection string                 | _(in root .env)_        | _(in root .env)_          |
+| `PLATFORM_COMPANY_IMPERSONATION_SECRET` | Shared HMAC secret for signed “open web app as company” links (`admin` → `auth` → `web`); **must match** on Auth and Admin | _(dev: set in root `.env`)_ | _(set on both Vercel projects)_ |
 
 ## Deployment
 
@@ -76,8 +77,8 @@ Each app is a separate Vercel project with `Root Directory` in Vercel project se
 | Project | Root Directory | Domain            | Key env vars                                                                                |
 | ------- | -------------- | ----------------- | ------------------------------------------------------------------------------------------- |
 | Web     | `apps/web`     | `app.serva.com`   | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `COOKIE_DOMAIN`                                      |
-| Auth    | `apps/auth`    | `auth.serva.com`  | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN` |
-| Admin   | `apps/admin`   | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN`           |
+| Auth    | `apps/auth`    | `auth.serva.com`  | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET` |
+| Admin   | `apps/admin`   | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET`           |
 
 All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by Auth works across subdomains.
 

@@ -13,7 +13,12 @@ import {
 } from "@serva/shared";
 import { cache } from "react";
 import "server-only";
-import { getCompanyIdCookie, getSessionTokenCookie } from "./cookies";
+import {
+  deleteImpersonatedCompanyCookie,
+  getCompanyIdCookie,
+  getImpersonatedCompanyCookie,
+  getSessionTokenCookie,
+} from "./cookies";
 import { buildSimplifiedRole, mergePermissions } from "./roles";
 
 export type { CompanyContext, Employee, Identity, Operator, SessionFlags, SessionValidationResult };
@@ -73,36 +78,64 @@ export async function validateSessionToken(token: string): Promise<SessionValida
     });
   }
 
-  // Resolve active company from cookie
-  const companyIdCookie = await getCompanyIdCookie();
   const companies = buildUniqueCompaniesFromAccounts(dbIdentity.operators, dbIdentity.employees);
+  const isPlatformAdmin = !!dbIdentity.adminUser;
 
+  const identityPayload = {
+    ...dbIdentity,
+    isPlatformAdmin,
+    companyCount: companies.length,
+  };
+
+  const impersonationCookie = await getImpersonatedCompanyCookie();
+  if (impersonationCookie && !isPlatformAdmin) await deleteImpersonatedCompanyCookie();
+
+  // Platform admin: short-lived impersonation cookie overrides normal company selection
+  if (isPlatformAdmin) {
+    const impersonatedId = impersonationCookie;
+    if (impersonatedId) {
+      const impersonatedCompany = await prisma.company.findUnique({
+        where: { id: impersonatedId },
+        select: { id: true, name: true },
+      });
+      if (impersonatedCompany) {
+        return {
+          session,
+          identity: identityPayload,
+          companyCtx: {
+            companyId: impersonatedCompany.id,
+            companyName: impersonatedCompany.name,
+            operator: null,
+            employee: null,
+            permissions: mergePermissions(null, null),
+            isImpersonatingCompany: true,
+          },
+        };
+      }
+      await deleteImpersonatedCompanyCookie();
+    }
+  }
+
+  // Resolve active company from membership + companyId cookie
+  const companyIdCookie = await getCompanyIdCookie();
   let activeCompany: BasicCompany | undefined;
 
-  // If a company ID cookie is set, use it to set the active company
   if (companyIdCookie) {
     activeCompany = companies.find((c) => c.id === companyIdCookie);
   }
 
-  // If no active company is set, and there is only one company, select it
   if (!activeCompany && companies.length === 1) {
     activeCompany = companies[0];
   }
 
-  // No active company resolved
   if (!activeCompany) {
     return {
       session,
-      identity: {
-        ...dbIdentity,
-        isPlatformAdmin: !!dbIdentity.adminUser,
-        companyCount: companies.length,
-      },
+      identity: identityPayload,
       companyCtx: null,
     };
   }
 
-  // Build operator / employee for active company
   const opRecord = dbIdentity.operators.find((o) => o.company.id === activeCompany.id);
   const empRecord = dbIdentity.employees.find((e) => e.company.id === activeCompany.id);
 
@@ -120,11 +153,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 
   return {
     session,
-    identity: {
-      ...dbIdentity,
-      isPlatformAdmin: !!dbIdentity.adminUser,
-      companyCount: companies.length,
-    },
+    identity: identityPayload,
     companyCtx: {
       companyId: activeCompany.id,
       companyName: activeCompany.name,

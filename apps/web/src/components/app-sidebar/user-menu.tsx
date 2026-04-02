@@ -1,8 +1,7 @@
 "use client";
 
-import { HugeiconsIcon } from "@hugeicons/react";
 import type { CompanyContext, Identity } from "@serva/auth/session";
-import { ProfilePicture, Typography } from "@serva/serva-ui";
+import { ProfilePicture, SIcon, Typography, type IconKey } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
 import {
   DropdownMenu,
@@ -15,10 +14,11 @@ import {
   sidebarMenuButtonVariants,
   SidebarMenuItem,
 } from "@serva/serva-ui/components/sidebar";
-import { ICONS } from "@serva/serva-ui/constants/icons";
 import { cn } from "@serva/serva-ui/lib/utils";
 import { getPublicAdminUrl, getPublicAuthUrl } from "@serva/shared";
 import Link from "next/link";
+import { useTransition } from "react";
+import { exitImpersonatedCompany } from "./actions";
 
 type Props = {
   identity: Identity;
@@ -28,24 +28,28 @@ type Props = {
 const userMenuItems = [
   {
     label: "Switch company",
-    icon: ICONS.EXCHANGE,
+    icon: "EXCHANGE",
     href: `${getPublicAuthUrl()}/select-company`,
-    hidden: (identity: Identity) => identity.companyCount <= 1,
+    hidden: (identity: Identity, companyCtx: CompanyContext) =>
+      identity.companyCount <= 1 || !!companyCtx.isImpersonatingCompany,
   },
   {
     label: "Account settings",
-    icon: ICONS.ACCOUNT_SETTINGS,
+    icon: "ACCOUNT_SETTINGS",
     href: "/settings",
-    hidden: false,
+    hidden: (_identity: Identity, _companyCtx: CompanyContext) => false,
   },
 ];
 
 export function UserMenu({ identity, companyCtx }: Props) {
   const { operator, employee } = companyCtx;
+  const [impersonationExitPending, startImpersonationExit] = useTransition();
 
-  const roleName = identity.isPlatformAdmin
-    ? "Platform Admin"
-    : (operator?.role.name ?? employee?.job?.name ?? "");
+  const roleName = companyCtx.isImpersonatingCompany
+    ? "Impersonation session"
+    : identity.isPlatformAdmin
+      ? "Platform Admin"
+      : (operator?.role.name ?? employee?.job?.name ?? "");
 
   return (
     <SidebarMenu>
@@ -68,13 +72,13 @@ export function UserMenu({ identity, companyCtx }: Props) {
                 {roleName}
               </Typography>
             </div>
-            <HugeiconsIcon icon={ICONS.ARROW_UP} strokeWidth={1.5} className="ml-auto" />
+            <SIcon icon="ARROW_UP" strokeWidth={1.5} className="ml-auto" />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent side="top" className="w-(--anchor-width)">
             {userMenuItems.map(
               (item) =>
-                !item.hidden && (
+                !item.hidden(identity, companyCtx) && (
                   <DropdownMenuItem key={item.href} className="p-0">
                     <Button
                       nativeButton={false}
@@ -82,11 +86,26 @@ export function UserMenu({ identity, companyCtx }: Props) {
                       className="w-full justify-start rounded-xl"
                       render={<Link href={item.href} />}
                     >
-                      <HugeiconsIcon icon={item.icon} strokeWidth={1.5} />
+                      <SIcon icon={item.icon as IconKey} strokeWidth={1.5} />
                       <span className="ml-2">{item.label}</span>
                     </Button>
                   </DropdownMenuItem>
                 ),
+            )}
+
+            {companyCtx.isImpersonatingCompany && (
+              <DropdownMenuItem className="p-0">
+                <Button
+                  type="button"
+                  variant="accent"
+                  disabled={impersonationExitPending}
+                  className="w-full justify-start rounded-xl"
+                  onClick={() => startImpersonationExit(() => void exitImpersonatedCompany())}
+                >
+                  <SIcon icon="CANCEL_CIRCLE" strokeWidth={1.5} />
+                  <span className="ml-2">Exit impersonation</span>
+                </Button>
+              </DropdownMenuItem>
             )}
 
             {identity.isPlatformAdmin && (
@@ -97,7 +116,7 @@ export function UserMenu({ identity, companyCtx }: Props) {
                   className="w-full justify-start rounded-xl"
                   render={<Link href={getPublicAdminUrl()} />}
                 >
-                  <HugeiconsIcon icon={ICONS.ADMIN} strokeWidth={1.5} />
+                  <SIcon icon="ADMIN" strokeWidth={1.5} />
                   <span className="ml-2">Platform admin portal</span>
                 </Button>
               </DropdownMenuItem>
@@ -110,7 +129,7 @@ export function UserMenu({ identity, companyCtx }: Props) {
                 className="w-full justify-start rounded-xl"
                 render={<a href={`${getPublicAuthUrl()}/logout`} />}
               >
-                <HugeiconsIcon icon={ICONS.LOGOUT} strokeWidth={1.5} />
+                <SIcon icon="LOGOUT" strokeWidth={1.5} />
                 <span className="ml-2">Logout</span>
               </Button>
             </DropdownMenuItem>

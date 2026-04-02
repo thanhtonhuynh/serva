@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/header";
 import { platformAdminGuard } from "@serva/auth";
 import { getCompanyAdminDetail } from "@serva/database/dal";
 import { Badge, Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { Container } from "@serva/serva-ui/components/serva/container";
 import {
@@ -17,6 +18,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
+import { openCompanyInWebAction } from "../actions";
 import { EditCompanyDialog } from "../company-form-dialog";
 
 type Props = { params: Promise<{ id: string }> };
@@ -36,7 +38,12 @@ export default async function CompanyDetailPage({ params }: Props) {
             {company.slug}
           </Typography>
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          <form action={openCompanyInWebAction.bind(null, id)} className="contents">
+            <Button type="submit" size="sm" variant="outline">
+              Open in web app
+            </Button>
+          </form>
           <EditCompanyDialog companyId={id} name={company.name} slug={company.slug} />
         </div>
       </Header>

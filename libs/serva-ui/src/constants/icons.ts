@@ -13,6 +13,7 @@ import {
   Building03Icon,
   Calculator01Icon,
   Calendar03Icon,
+  CancelCircleHalfDotIcon,
   CashIcon,
   Chart01Icon,
   CheckmarkCircle01Icon,
@@ -71,6 +72,7 @@ export const ICONS = {
 
   CALCULATOR: Calculator01Icon,
   CALENDAR: Calendar03Icon,
+  CANCEL_CIRCLE: CancelCircleHalfDotIcon,
   CASH_DIFFERENCE: BalanceScaleIcon,
   CASHFLOW: Chart01Icon,
   CASH_OUT: CashIcon,

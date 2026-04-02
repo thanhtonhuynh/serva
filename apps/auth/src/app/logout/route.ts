@@ -1,4 +1,8 @@
-import { deleteCompanyIdCookie, deleteSessionTokenCookie } from "@serva/auth/cookies";
+import {
+  deleteCompanyIdCookie,
+  deleteImpersonatedCompanyCookie,
+  deleteSessionTokenCookie,
+} from "@serva/auth/cookies";
 import { getCurrentSession, invalidateSession } from "@serva/auth/session";
 import { redirect } from "next/navigation";
 
@@ -10,6 +14,7 @@ export async function GET() {
       invalidateSession(session.id),
       deleteSessionTokenCookie(),
       deleteCompanyIdCookie(),
+      deleteImpersonatedCompanyCookie(),
     ]);
   }
 
