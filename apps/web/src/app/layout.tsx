@@ -4,7 +4,7 @@ import { getCurrentSession } from "@serva/auth/session";
 import { SidebarInset, SidebarProvider, TailwindScreenSizeIndicator } from "@serva/serva-ui";
 import "@serva/serva-ui/globals.css";
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Fira_Sans, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 
 const spaceGrotesk = Space_Grotesk({
@@ -12,7 +12,11 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+const firaSans = Fira_Sans({
+  variable: "--font-fira-sans",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = { title: "Serva" };
 
@@ -26,9 +30,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth`}
+      className={`${spaceGrotesk.variable} ${firaSans.variable} scroll-smooth`}
     >
-      <body className="font-space-grotesk antialiased">
+      <body className="font-fira-sans antialiased">
         <SessionProvider session={session} identity={identity} companyCtx={companyCtx}>
           <SidebarProvider>
             <AppSidebar />

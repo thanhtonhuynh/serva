@@ -8,8 +8,8 @@
 @source "../**/*.{ts,tsx}";
 
 @theme inline {
-  --font-inter: var(--font-inter);
   --font-space-grotesk: var(--font-space-grotesk);
+  --font-fira-sans: var(--font-fira-sans);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
