@@ -51,7 +51,7 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)                    |
 | UI (shadcn primitives)                      | `libs/serva-ui/src/components/` — `@serva/serva-ui`                                                                 |
 | UI (Serva custom components)                | `libs/serva-ui/src/components/serva/` — `@serva/serva-ui` (app-designed components, icons registry in `constants/`) |
-| Email templates                             | `libs/serva-ui/src/components/emails/` — `@serva/serva-ui/components/emails/*`                                      |
+| Email templates                             | `libs/serva-ui/src/components/emails/` — re-exported from `@serva/serva-ui` where listed in `libs/serva-ui/src/index.ts` |
 | App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                                           |
 | App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                                          |
 
@@ -86,7 +86,7 @@ All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by
 - Prefer **small, task-scoped changes**; avoid drive-by refactors unrelated to the request.
 - **Database**: import Prisma client, generated types, and `hashPassword` from `@serva/database`; import DAL functions from `@serva/database/dal` (not `PrismaClient` directly in UI).
 - **Auth**: import session, authorize, and permission helpers from `@serva/auth` — not from scattered app files. Auth UI lives in `apps/auth`; consumer apps redirect to `AUTH_URL` for login/logout.
-- **UI**: import shadcn primitives from `@serva/serva-ui/components/<name>` and Serva custom components from `@serva/serva-ui/components/serva/<name>`. The `cn` utility is at `@serva/serva-ui/lib/utils`.
+- **UI**: import primitives, Serva components, `cn`, `ICONS`, etc. from **`@serva/serva-ui`** (see `libs/serva-ui/src/index.ts`). Use **`@serva/serva-ui/globals.css`** for global styles only. **`InputField`** / **`InputFieldV2`** (react-hook-form) use **`@serva/serva-ui/components/form/input-field`** and **`.../input-field-v2`** — excluded from the barrel on purpose.
 - **Server vs client**: server components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity).
 - Match **existing naming**, imports (`@serva/*` for libs, `@/…` for app-local), and component patterns in the nearest feature folder.
 
