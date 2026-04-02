@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@serva/serva-ui/lib/utils";
+import { cn } from "@serva/serva-ui";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 

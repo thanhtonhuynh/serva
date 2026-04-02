@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@serva/serva-ui/lib/utils";
+import { cn } from "../../lib/utils";
 import { useFormContext } from "react-hook-form";
 import {
   FormControl,

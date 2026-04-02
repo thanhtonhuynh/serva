@@ -1,8 +1,8 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
-import { Card } from "@serva/serva-ui/components/card";
+import { LoadingButton } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
+import { Card } from "@serva/serva-ui";
 import {
   Form,
   FormControl,
@@ -11,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@serva/serva-ui/components/form";
-import { Input } from "@serva/serva-ui/components/input";
+} from "@serva/serva-ui";
+import { Input } from "@serva/serva-ui";
 import type { Identity } from "@serva/auth/session";
 import { UpdateNameSchema, UpdateNameSchemaInput } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";

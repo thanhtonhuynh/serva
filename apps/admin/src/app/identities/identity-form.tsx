@@ -1,10 +1,21 @@
 "use client";
 
-import { Callout, LoadingButton } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
-import { FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
-import { Input } from "@serva/serva-ui/components/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@serva/serva-ui/components/select";
+import {
+  Callout,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  FieldGroup,
+  FieldLabel,
+  Input,
+  LoadingButton,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@serva/serva-ui";
 import { useState, useTransition } from "react";
 import { updateIdentityAction, type UpdateIdentityInput } from "./actions";
 
@@ -57,7 +68,13 @@ export function IdentityForm({ identityId, defaultValues }: Props) {
 
           <FieldGroup>
             <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </FieldGroup>
 
           <FieldGroup>

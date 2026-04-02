@@ -7,7 +7,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@serva/serva-ui/components/sidebar";
+} from "@serva/serva-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function SidebarTrigger() {

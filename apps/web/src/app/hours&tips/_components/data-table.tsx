@@ -1,4 +1,4 @@
-import { ProfilePicture } from "@serva/serva-ui/components/serva/profile-picture";
+import { ProfilePicture } from "@serva/serva-ui";
 import {
   Table,
   TableBody,
@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/serva-ui/components/table";
+} from "@serva/serva-ui";
 import { BreakdownData, DateRange, formatInUTC, formatMoney } from "@serva/shared";
 import { addDays } from "date-fns";
 

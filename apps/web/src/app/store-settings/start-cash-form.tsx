@@ -1,9 +1,9 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { LoadingButton } from "@serva/serva-ui";
 import { Callout } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
-import { Card } from "@serva/serva-ui/components/card";
+import { Typography } from "@serva/serva-ui";
+import { Card } from "@serva/serva-ui";
 import {
   Form,
   FormControl,
@@ -11,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@serva/serva-ui/components/form";
-import { Input } from "@serva/serva-ui/components/input";
+} from "@serva/serva-ui";
+import { Input } from "@serva/serva-ui";
 import { UpdateStartCashInput, UpdateStartCashSchema } from "@/lib/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";

@@ -4,9 +4,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getExpensesByYear } from "@serva/database/dal";
 import { Callout, CurrentBadge, Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
-import { ICONS } from "@serva/serva-ui/constants/icons";
+import { Button } from "@serva/serva-ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
 import {
   PERMISSIONS,
   formatMoney,

@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui/components/serva/container";
+import { Container } from "@serva/serva-ui";
 import { Typography } from "@serva/serva-ui";
 import { authGuard } from "@serva/auth/authorize";
 import { populateMonthSelectData } from "@/utils/hours-tips";

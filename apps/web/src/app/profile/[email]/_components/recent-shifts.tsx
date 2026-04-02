@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
 import { LinkSquare01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { formatInUTC, formatMoney } from "@serva/shared";

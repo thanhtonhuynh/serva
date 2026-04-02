@@ -1,9 +1,9 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
+import { LoadingButton } from "@serva/serva-ui";
 import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { Checkbox } from "@serva/serva-ui/components/checkbox";
+import { Button } from "@serva/serva-ui";
+import { Checkbox } from "@serva/serva-ui";
 import {
   Dialog,
   DialogBody,
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@serva/serva-ui/components/dialog";
+} from "@serva/serva-ui";
 import {
   Field,
   FieldContent,
@@ -22,10 +22,10 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from "@serva/serva-ui/components/field";
-import { Input } from "@serva/serva-ui/components/input";
-import { Textarea } from "@serva/serva-ui/components/textarea";
-import { ICONS } from "@serva/serva-ui/constants/icons";
+} from "@serva/serva-ui";
+import { Input } from "@serva/serva-ui";
+import { Textarea } from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
 import { CreateRoleInput, CreateRoleSchema } from "@/lib/validations/roles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";

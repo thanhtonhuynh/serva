@@ -1,11 +1,19 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
-import { Callout, SIcon } from "@serva/serva-ui";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/serva-ui/components/input-group";
-import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Callout,
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  LoadingButton,
+  SIcon,
+} from "@serva/serva-ui";
+import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@serva/shared";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { forgotPasswordAction } from "./actions";

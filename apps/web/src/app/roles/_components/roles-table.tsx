@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@serva/serva-ui/components/badge";
+import { Badge } from "@serva/serva-ui";
 import {
   Table,
   TableBody,
@@ -8,9 +8,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/serva-ui/components/table";
-import { ICONS } from "@serva/serva-ui/constants/icons";
-import { cn } from "@serva/serva-ui/lib/utils";
+} from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
+import { cn } from "@serva/serva-ui";
 import type { RoleWithDetails } from "@serva/shared";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Permission } from "@serva/database";

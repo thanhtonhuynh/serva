@@ -8,8 +8,8 @@ import {
 } from "@serva/database/dal";
 import { DisplayOperator, PERMISSIONS, type EmployeeStatus } from "@serva/shared";
 import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui/components/card";
-import { Container } from "@serva/serva-ui/components/serva/container";
+import { Card } from "@serva/serva-ui";
+import { Container } from "@serva/serva-ui";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { OperatorsList } from "./_components/operators-list";

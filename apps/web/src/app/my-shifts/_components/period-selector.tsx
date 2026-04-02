@@ -3,8 +3,8 @@
 import { FULL_MONTHS, SHORT_MONTHS } from "@/constants";
 import { ArrowDown01Icon, CalendarCheckInIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Button } from "@serva/serva-ui/components/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@serva/serva-ui/components/popover";
+import { Button } from "@serva/serva-ui";
+import { Popover, PopoverContent, PopoverTrigger } from "@serva/serva-ui";
 import {
   Select,
   SelectContent,
@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   selectTriggerVariants,
   SelectValue,
-} from "@serva/serva-ui/components/select";
-import { cn } from "@serva/serva-ui/lib/utils";
+} from "@serva/serva-ui";
+import { cn } from "@serva/serva-ui";
 import { getCurrentMonth, getCurrentYear } from "@serva/shared";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";

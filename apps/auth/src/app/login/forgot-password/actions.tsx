@@ -1,16 +1,16 @@
 "use server";
 
-import ResetPasswordEmail from "@serva/serva-ui/components/emails/reset-password-email";
+import { render } from "@react-email/components";
 import {
   createPasswordResetToken,
   generatePasswordResetToken,
   invalidatePasswordResetToken,
 } from "@serva/auth/password-reset";
-import { sendEmail } from "@serva/shared/helpers/email";
-import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@serva/shared";
 import { rateLimitByKey, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
-import { render } from "@react-email/components";
 import { getIdentityByEmail } from "@serva/database/dal";
+import { ResetPasswordEmail } from "@serva/serva-ui";
+import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@serva/shared";
+import { sendEmail } from "@serva/shared/helpers/email";
 
 export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
   try {

@@ -1,5 +1,5 @@
-import { cn } from "@serva/serva-ui/lib/utils";
 import { ComponentProps } from "react";
+import { cn } from "../../lib/utils";
 
 type Props = {
   variant?: "h1" | "h2" | "h3" | "p" | "caption" | "p-sm" | "p-xs";

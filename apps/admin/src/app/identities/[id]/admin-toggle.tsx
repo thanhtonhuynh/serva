@@ -1,13 +1,9 @@
 "use client";
 
-import { Badge } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
+import { Badge, Button } from "@serva/serva-ui";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import {
-  demoteFromPlatformAdminAction,
-  promoteToPlatformAdminAction,
-} from "../actions";
+import { demoteFromPlatformAdminAction, promoteToPlatformAdminAction } from "../actions";
 
 type Props = { identityId: string; isPlatformAdmin: boolean };
 
@@ -16,9 +12,7 @@ export function AdminToggle({ identityId, isPlatformAdmin }: Props) {
 
   function handleToggle() {
     startTransition(async () => {
-      const action = isPlatformAdmin
-        ? demoteFromPlatformAdminAction
-        : promoteToPlatformAdminAction;
+      const action = isPlatformAdmin ? demoteFromPlatformAdminAction : promoteToPlatformAdminAction;
       const result = await action(identityId);
       if (result.error) {
         toast.error(result.error);

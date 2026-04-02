@@ -10,7 +10,7 @@ import {
   UnfoldMoreIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { cn } from "@serva/serva-ui/lib/utils";
+import { cn } from "../lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const Select = SelectPrimitive.Root;

@@ -2,10 +2,10 @@ import { UserShiftTable } from "@/app/my-shifts/_components";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database/dal";
 import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
-import { Separator } from "@serva/serva-ui/components/separator";
-import { ICONS } from "@serva/serva-ui/constants/icons";
+import { Button } from "@serva/serva-ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
+import { Separator } from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
 import { formatInUTC, formatMoney, getCurrentBiweeklyPeriodInUTC } from "@serva/shared";
 import Link from "next/link";
 

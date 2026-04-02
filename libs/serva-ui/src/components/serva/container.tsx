@@ -1,4 +1,4 @@
-import { cn } from "@serva/serva-ui/lib/utils";
+import { cn } from "../../lib/utils";
 import type { ComponentProps } from "react";
 
 type Props = {

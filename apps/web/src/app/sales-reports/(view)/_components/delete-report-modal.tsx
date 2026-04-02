@@ -1,7 +1,7 @@
 "use client";
 
 import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
+import { Button } from "@serva/serva-ui";
 import {
   Dialog,
   DialogBody,
@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@serva/serva-ui/components/dialog";
-import { ICONS } from "@serva/serva-ui/constants/icons";
+} from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { formatInUTC } from "@serva/shared";
 import { useTransition } from "react";

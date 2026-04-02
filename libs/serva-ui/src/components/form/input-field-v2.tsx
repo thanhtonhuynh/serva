@@ -1,7 +1,7 @@
-import { Field, FieldError, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
-import { Input } from "@serva/serva-ui/components/input";
 import type { ComponentProps } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../field";
+import { Input } from "../input";
 
 type Props = {
   fieldName: string;

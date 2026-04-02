@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/serva-ui/components/table";
+} from "@serva/serva-ui";
 import { CashFlowData, formatMoney, getPlatformAmount, type Platform } from "@serva/shared";
 
 type Props = {

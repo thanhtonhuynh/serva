@@ -1,8 +1,8 @@
 import { getCurrentSession } from "@serva/auth/session";
 import { Container, SIcon } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { Card, CardContent, CardHeader } from "@serva/serva-ui/components/card";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
+import { Button } from "@serva/serva-ui";
+import { Card, CardContent, CardHeader } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
 import { getWebUrl } from "@serva/shared";
 import { cookies } from "next/headers";
 import Image from "next/image";

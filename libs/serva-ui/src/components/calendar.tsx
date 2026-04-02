@@ -10,15 +10,15 @@ import {
   type DropdownProps,
 } from "react-day-picker";
 
-import { Button, buttonVariants } from "@serva/serva-ui/components/button";
+import { Button, buttonVariants } from "./button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@serva/serva-ui/components/select";
-import { cn } from "@serva/serva-ui/lib/utils";
+} from "./select";
+import { cn } from "../lib/utils";
 
 function CalendarDropdown(props: DropdownProps) {
   const { options = [], value, onChange, disabled, className, "aria-label": ariaLabel } = props;

@@ -10,8 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@serva/serva-ui/components/sidebar";
-import { cn } from "@serva/serva-ui/lib/utils";
+} from "@serva/serva-ui";
+import { cn } from "@serva/serva-ui";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";

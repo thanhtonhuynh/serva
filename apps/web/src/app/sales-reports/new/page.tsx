@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui/components/serva/container";
+import { Container } from "@serva/serva-ui";
 import { Typography } from "@serva/serva-ui";
 import { PERMISSIONS, PLATFORMS, getPlatformById } from "@serva/shared";
 import { getActivePlatforms, getStartCash } from "@serva/database/dal";

@@ -1,10 +1,10 @@
 // @ts-nocheck
 
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui/components/serva/container";
+import { Container } from "@serva/serva-ui";
 import { Callout } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
-import { Card } from "@serva/serva-ui/components/card";
+import { Typography } from "@serva/serva-ui";
+import { Card } from "@serva/serva-ui";
 import { PERMISSIONS } from "@serva/shared";
 import { getEmployeeByIdentityAndCompany, getIdentityProfileInCompanyByEmail, getRecentReportsByIdentity, getRecentWorkDayRecordsByEmployee } from "@serva/database/dal";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";

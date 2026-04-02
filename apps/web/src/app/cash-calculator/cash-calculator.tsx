@@ -1,10 +1,10 @@
 "use client";
 
 import { BILL_FIELDS, COIN_FIELDS, MONEY_FIELDS, MONEY_VALUES, ROLL_FIELDS } from "@/constants";
-import { Card } from "@serva/serva-ui/components/card";
-import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui/components/field";
-import { Input } from "@serva/serva-ui/components/input";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
+import { Card } from "@serva/serva-ui";
+import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui";
+import { Input } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
 import { formatMoney, type CashType } from "@serva/shared";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";

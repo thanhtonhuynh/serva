@@ -1,18 +1,22 @@
 import { Header } from "@/components/layout/header";
 import { platformAdminGuard } from "@serva/auth";
 import { getIdentityAdminDetail } from "@serva/database/dal";
-import { Badge, Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
-import { Container } from "@serva/serva-ui/components/serva/container";
 import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Container,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/serva-ui/components/table";
+  Typography,
+} from "@serva/serva-ui";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";

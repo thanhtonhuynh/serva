@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@serva/serva-ui/components/button";
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@serva/serva-ui/components/dialog";
+} from "@serva/serva-ui";
 import * as React from "react";
 import { CompanyForm } from "./company-form";
 

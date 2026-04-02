@@ -1,8 +1,10 @@
 "use client";
 
 import { useSession } from "@/contexts/SessionProvider";
-import { ProfilePicture, SIcon, Typography } from "@serva/serva-ui";
 import {
+  cn,
+  ProfilePicture,
+  SIcon,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -10,9 +12,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  Typography,
   useSidebar,
-} from "@serva/serva-ui/components/sidebar";
-import { cn } from "@serva/serva-ui/lib/utils";
+} from "@serva/serva-ui";
 import { getPublicAuthUrl } from "@serva/shared";
 import Image from "next/image";
 import Link from "next/link";

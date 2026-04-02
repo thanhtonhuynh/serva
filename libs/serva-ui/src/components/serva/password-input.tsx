@@ -1,9 +1,9 @@
 "use client";
 
-import { Input } from "@serva/serva-ui/components/input";
-import { cn } from "@serva/serva-ui/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { cn } from "../../lib/utils";
+import { Input } from "../input";
 
 export function PasswordInput({ className, ...props }: React.ComponentProps<"input">) {
   const [showPassword, setShowPassword] = useState(false);

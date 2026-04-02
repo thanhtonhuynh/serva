@@ -1,17 +1,18 @@
 import { Header } from "@/components/layout/header";
 import { platformAdminGuard } from "@serva/auth";
 import { listAllCompanies } from "@serva/database/dal";
-import { Typography } from "@serva/serva-ui";
-import { Card, CardContent } from "@serva/serva-ui/components/card";
-import { Container } from "@serva/serva-ui/components/serva/container";
 import {
+  Card,
+  CardContent,
+  Container,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/serva-ui/components/table";
+  Typography,
+} from "@serva/serva-ui";
 import { format } from "date-fns";
 import Link from "next/link";
 import { Fragment } from "react";

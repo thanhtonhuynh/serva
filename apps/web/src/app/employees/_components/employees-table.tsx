@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/serva-ui/components/table";
+} from "@serva/serva-ui";
 import { EmployeeActions } from "./employee-actions";
 
 type EmployeesTableProps = {

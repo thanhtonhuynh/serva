@@ -5,8 +5,8 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { authGuardWithRateLimit } from "@serva/auth/authorize";
 import { getWorkDayRecordsByEmployeeAndDateRange } from "@serva/database/dal";
 import { Callout, CurrentBadge, Typography } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
-import { ICONS } from "@serva/serva-ui/constants/icons";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
 import {
   formatInUTC,
   formatMoney,

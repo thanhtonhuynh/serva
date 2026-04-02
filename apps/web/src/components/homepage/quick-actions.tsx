@@ -1,6 +1,6 @@
 import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { ICONS } from "@serva/serva-ui/constants/icons";
+import { Button } from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
 import { PERMISSIONS } from "@serva/shared";
 import { hasPermission } from "@serva/auth/permission";
 import type { CompanyContext, Identity } from "@serva/auth/session";

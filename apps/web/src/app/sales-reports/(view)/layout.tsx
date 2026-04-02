@@ -1,8 +1,8 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui/components/serva/container";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
-import { Button } from "@serva/serva-ui/components/button";
-import { ICONS } from "@serva/serva-ui/constants/icons";
+import { Container } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
 import { PERMISSIONS } from "@serva/shared";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { HugeiconsIcon } from "@hugeicons/react";

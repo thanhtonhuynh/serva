@@ -1,8 +1,8 @@
 "use client";
 
 import { SIcon } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { cn } from "@serva/serva-ui/lib/utils";
+import { Button } from "@serva/serva-ui";
+import { cn } from "@serva/serva-ui";
 import type { WorkShiftInput } from "@/lib/validations";
 import { useDraggable } from "@dnd-kit/react";
 import { useClipboard } from "../_context/clipboard-context";

@@ -1,8 +1,8 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
-import { Button } from "@serva/serva-ui/components/button";
+import { LoadingButton } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
+import { Button } from "@serva/serva-ui";
 import { useSession } from "@/contexts/SessionProvider";
 import { hasPermission } from "@serva/auth/permission";
 import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";

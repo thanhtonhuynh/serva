@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@serva/serva-ui/components/table";
+} from "@serva/serva-ui";
 import { useState } from "react";
 import { ChangeRoleModal } from "./change-role-modal";
 import { OperatorActions } from "./operator-actions";

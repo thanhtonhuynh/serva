@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@serva/serva-ui/components/button";
+import { Button } from "@serva/serva-ui";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@serva/serva-ui/components/dropdown-menu";
+} from "@serva/serva-ui";
 import type { BreakdownData } from "@serva/shared";
 import { Download01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";

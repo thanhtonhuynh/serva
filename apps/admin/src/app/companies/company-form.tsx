@@ -1,16 +1,18 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Callout, LoadingButton } from "@serva/serva-ui";
-import { DialogBody, DialogFooter } from "@serva/serva-ui/components/dialog";
 import {
+  Callout,
+  DialogBody,
+  DialogFooter,
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@serva/serva-ui/components/field";
-import { Input } from "@serva/serva-ui/components/input";
+  Input,
+  LoadingButton,
+} from "@serva/serva-ui";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useTransition } from "react";

@@ -5,11 +5,11 @@ import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/lib/v
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PLATFORMS } from "@serva/shared";
 import { Callout } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui/components/card";
-import { Checkbox } from "@serva/serva-ui/components/checkbox";
-import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@serva/serva-ui/components/field";
-import { LoadingButton } from "@serva/serva-ui/components/serva/loading-button";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
+import { Card } from "@serva/serva-ui";
+import { Checkbox } from "@serva/serva-ui";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@serva/serva-ui";
+import { LoadingButton } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { updateActivePlatforms } from "./actions";

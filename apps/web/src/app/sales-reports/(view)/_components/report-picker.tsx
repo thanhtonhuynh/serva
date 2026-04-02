@@ -1,9 +1,9 @@
 "use client";
 
 import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { Calendar } from "@serva/serva-ui/components/calendar";
-import { Card } from "@serva/serva-ui/components/card";
+import { Button } from "@serva/serva-ui";
+import { Calendar } from "@serva/serva-ui";
+import { Card } from "@serva/serva-ui";
 import { getLocalDateFromUTC } from "@/utils/datetime-client";
 import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";

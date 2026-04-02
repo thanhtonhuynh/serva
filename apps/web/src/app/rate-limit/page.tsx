@@ -1,7 +1,7 @@
 import { Container } from "@serva/serva-ui";
 import { SIcon, Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
+import { Button } from "@serva/serva-ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
 import Link from "next/link";
 
 export default async function RateLimit() {

@@ -12,8 +12,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@serva/serva-ui/components/sidebar";
-import { cn } from "@serva/serva-ui/lib/utils";
+} from "@serva/serva-ui";
+import { cn } from "@serva/serva-ui";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";

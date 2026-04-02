@@ -3,8 +3,8 @@
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
 import * as React from "react";
 
-import { Button } from "@serva/serva-ui/components/button";
-import { cn } from "@serva/serva-ui/lib/utils";
+import { Button } from "./button";
+import { cn } from "../lib/utils";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 

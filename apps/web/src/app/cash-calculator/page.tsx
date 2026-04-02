@@ -1,8 +1,8 @@
 import { CashCalculator } from "@/app/cash-calculator/cash-calculator";
 import { Header } from "@/components/layout";
 import { authGuardWithRateLimit } from "@serva/auth/authorize";
-import { Container } from "@serva/serva-ui/components/serva/container";
-import { Typography } from "@serva/serva-ui/components/serva/typography";
+import { Container } from "@serva/serva-ui";
+import { Typography } from "@serva/serva-ui";
 import { Fragment } from "react";
 
 export default async function Page() {

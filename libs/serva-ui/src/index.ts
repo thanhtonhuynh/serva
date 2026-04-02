@@ -45,3 +45,5 @@ export * from "./hooks/use-mobile";
 export * from "./lib/utils";
 
 export * from "./constants/icons";
+
+export { default as ResetPasswordEmail } from "./components/emails/reset-password-email";

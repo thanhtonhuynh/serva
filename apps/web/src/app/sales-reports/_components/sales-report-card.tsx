@@ -1,10 +1,10 @@
 "use client";
 
 import { DecoIcon, Typography } from "@serva/serva-ui";
-import { ProfilePicture } from "@serva/serva-ui/components/serva/profile-picture";
-import { Separator } from "@serva/serva-ui/components/separator";
-import { ICONS } from "@serva/serva-ui/constants/icons";
-import { cn } from "@serva/serva-ui/lib/utils";
+import { ProfilePicture } from "@serva/serva-ui";
+import { Separator } from "@serva/serva-ui";
+import { ICONS } from "@serva/serva-ui";
+import { cn } from "@serva/serva-ui";
 import {
   formatInUTC,
   getPlatformAmount,
