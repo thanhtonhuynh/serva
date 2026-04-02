@@ -11,7 +11,7 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 - **Next.js** 16 (App Router), **React** 19, **TypeScript**
 - **Prisma** 6 with **MongoDB** (`DATABASE_URL`)
 - **pnpm** (see `package.json` `pnpm.onlyBuiltDependencies`)
-- **Tailwind** 4, **shadcn/ui**, **Zod**, **react-hook-form**
+- **Tailwind** 4, **shadcn/ui** with BaseUI as primitives, **Zod** v4, **react-hook-form**
 - Auth/session models and multi-tenant concepts live in `libs/database/prisma/schema.prisma`
 
 ## Apps
@@ -20,9 +20,10 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 | ----- | --------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
 | Web   | `@serva/web` (`apps/web`)         | 4100       | Main app — scheduling, sales, reports, tenant admin                                 |
 | Auth  | `@serva/auth-app` (`apps/auth`)   | 3100       | Centralized auth portal — login, signup, password reset, company selection, invites |
-| Admin | `@serva/admin-app` (`apps/admin`) | 5100       | Platform super-admin — global company & identity management (`isPlatformAdmin`)     |
+| Admin | `@serva/admin-app` (`apps/admin`) | 5100       | Platform super-admin (`isPlatformAdmin`)                                            |
 
-In production, these run on subdomains (e.g. `app.serva.com`, `auth.serva.com`, `admin.serva.com`) with shared cookies via `COOKIE_DOMAIN`. Note: `apps/web/(admin)` is **tenant** admin (roles, expenses); `apps/admin` is **platform** super-admin.
+In production, these run on subdomains (e.g. `app.serva.com`, `auth.serva.com`, `admin.serva.com`) with shared cookies via `COOKIE_DOMAIN`.
+Note: `apps/admin` is for **platform** super-admin, not company's admins.
 
 ## Commands
 
@@ -40,19 +41,19 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 
 ## Layout
 
-| Area                                        | Package / Path                                                                                          |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Web app routes                              | `apps/web/src/app/` — route groups `(main)`, `(admin)` (tenant admin)                                   |
-| Auth app routes                             | `apps/auth/src/app/` — login, signup, forgot-password, reset-password, select-company, invite           |
-| Admin app routes                            | `apps/admin/src/app/` — companies, identities (platform super-admin)                                    |
-| Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (client + types), `@serva/database/dal` (DAL in `src/dal/`)         |
-| Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                        |
-| Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)        |
+| Area                                        | Package / Path                                                                                                      |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Web app routes                              | `apps/web/src/app/`                                                                                                 |
+| Auth app routes                             | `apps/auth/src/app/`                                                                                                |
+| Admin app routes                            | `apps/admin/src/app/`                                                                                               |
+| Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (client + types), `@serva/database/dal` (DAL in `src/dal/`)                    |
+| Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                                    |
+| Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)                    |
 | UI (shadcn primitives)                      | `libs/serva-ui/src/components/` — `@serva/serva-ui`                                                                 |
 | UI (Serva custom components)                | `libs/serva-ui/src/components/serva/` — `@serva/serva-ui` (app-designed components, icons registry in `constants/`) |
 | Email templates                             | `libs/serva-ui/src/components/emails/` — `@serva/serva-ui/components/emails/*`                                      |
-| App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                               |
-| App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                              |
+| App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                                           |
+| App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                                          |
 
 Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs/database/src/dal/` and are imported via `@serva/database/dal`.
 
@@ -70,7 +71,7 @@ Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs
 
 ## Deployment
 
-Each app is a separate Vercel project with `Root Directory` set to its folder:
+Each app is a separate Vercel project with `Root Directory` in Vercel project settings set to the monorepo's root:
 
 | Project | Root Directory | Domain            | Key env vars                                                                                |
 | ------- | -------------- | ----------------- | ------------------------------------------------------------------------------------------- |
