@@ -11,6 +11,7 @@ export type Identity = {
   createdAt: Date;
   updatedAt: Date;
   isPlatformAdmin: boolean;
+  companyCount: number;
 };
 
 export type Operator = {

@@ -96,6 +96,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
       identity: {
         ...dbIdentity,
         isPlatformAdmin: !!dbIdentity.adminUser,
+        companyCount: companies.length,
       },
       companyCtx: null,
     };
@@ -122,6 +123,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
     identity: {
       ...dbIdentity,
       isPlatformAdmin: !!dbIdentity.adminUser,
+      companyCount: companies.length,
     },
     companyCtx: {
       companyId: activeCompany.id,

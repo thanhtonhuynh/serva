@@ -1,4 +1,3 @@
-import { setCompanyIdCookie } from "@serva/auth/cookies";
 import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getCurrentSession } from "@serva/auth/session";
 import { getCompaniesByIdentityId } from "@serva/database/dal";
@@ -21,7 +20,6 @@ export default async function SelectCompanyPage() {
   const companies = await getCompaniesByIdentityId(identity.id);
 
   if (companies.length === 1) {
-    await setCompanyIdCookie(companies[0].id);
     redirect(getWebUrl());
   }
 
