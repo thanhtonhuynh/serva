@@ -1,9 +1,6 @@
 "use server";
 
-import {
-  deletePlatformImpersonateCompanyIdCookie,
-  setCompanyIdCookie,
-} from "@serva/auth/cookies";
+import { setCompanyIdCookie } from "@serva/auth/cookies";
 import { getCurrentSession } from "@serva/auth/session";
 import { getCompaniesByIdentityId } from "@serva/database/dal";
 import { getWebUrl } from "@serva/shared";
@@ -18,7 +15,6 @@ export async function selectCompanyAction(companyId: string) {
     redirect("/select-company");
   }
 
-  await deletePlatformImpersonateCompanyIdCookie();
   await setCompanyIdCookie(companyId);
 
   redirect(getWebUrl());
