@@ -37,17 +37,15 @@ export function SidebarMenuGroups() {
                 <SidebarMenuButton
                   className={cn(isActive(item.url) && "bg-primary-100 text-primary-dark")}
                   onClick={() => isMobile && toggleSidebar()}
-                  render={
-                    <Link href={item.url}>
-                      <HugeiconsIcon
-                        icon={item.icon}
-                        strokeWidth={1.5}
-                        className="transition-transform duration-150 ease-linear group-hover/menu-item:scale-115 group-hover/menu-item:-rotate-3"
-                      />
-                      <span>{item.title}</span>
-                    </Link>
-                  }
-                />
+                  render={<Link href={item.url} />}
+                >
+                  <HugeiconsIcon
+                    icon={item.icon}
+                    strokeWidth={1.5}
+                    className="transition-transform duration-150 ease-linear group-hover/menu-item:scale-115 group-hover/menu-item:-rotate-3"
+                  />
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             );
           })}

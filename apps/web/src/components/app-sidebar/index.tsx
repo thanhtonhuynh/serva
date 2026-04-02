@@ -35,23 +35,27 @@ export function AppSidebar() {
                   className="hover:bg-transparent"
                   href={"/"}
                   onClick={() => isMobile && toggleSidebar()}
-                >
-                  <Image
-                    priority
-                    src={
-                      state === "collapsed" && !isMobile
-                        ? "/serva-logo-icon.svg"
-                        : "/serva-logo-full.svg"
-                    }
-                    alt="Serva"
-                    width={240}
-                    height={80}
-                    className={cn(state === "collapsed" && !isMobile ? "h-5" : "h-10 w-fit")}
-                  />
-                  <span className="sr-only">Serva home</span>
-                </Link>
+                />
               }
-            />
+            >
+              <Image
+                priority
+                src={
+                  state === "collapsed" && !isMobile
+                    ? "/serva-logo-icon.svg"
+                    : "/serva-logo-full.svg"
+                }
+                alt="Serva"
+                width={240}
+                height={80}
+                className={cn(
+                  "transition-transform duration-150 ease-linear group-hover/menu-item:scale-105",
+                  state === "collapsed" && !isMobile && "group-hover/menu-item:scale-115",
+                  state === "collapsed" && !isMobile ? "h-5" : "h-10 w-fit",
+                )}
+              />
+              <span className="sr-only">Serva home</span>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
