@@ -13,10 +13,11 @@
   "dependencies": {
     "@dnd-kit/react": "^0.3.2",
     "@flags-sdk/growthbook": "^0.2.0",
+    "@react-email/components": "^1.0.1",
     "@serva/auth": "workspace:*",
     "@serva/database": "workspace:*",
-    "@serva/shared": "workspace:*",
     "@serva/serva-ui": "workspace:*",
+    "@serva/shared": "workspace:*",
     "@vercel/blob": "^2.3.1",
     "date-fns-tz": "^3.2.0",
     "framer-motion": "^11.18.2",
@@ -26,6 +27,7 @@
     "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
+    "@react-email/preview-server": "5.2.10",
     "eslint": "^9.39.2",
     "eslint-config-next": "16.0.8",
     "react-email": "^5.0.8",

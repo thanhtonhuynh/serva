@@ -122,6 +122,7 @@ export async function createEmployeeInviteAction(
       companyName: company?.name ?? "your company",
       profileType: "employee",
       token,
+      inviteeName: parsed.name,
     });
 
     revalidatePath("/employees");

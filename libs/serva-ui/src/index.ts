@@ -46,4 +46,5 @@ export * from "./lib/utils";
 
 export * from "./constants/icons";
 
+export { default as InviteEmail } from "./components/emails/invite-email";
 export { default as ResetPasswordEmail } from "./components/emails/reset-password-email";

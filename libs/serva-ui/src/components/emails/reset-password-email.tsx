@@ -1,18 +1,6 @@
+import { Heading, Text } from "@react-email/components";
 import { getAuthUrl } from "@serva/shared";
-import {
-  Body,
-  Container,
-  Head,
-  Hr,
-  Html,
-  Img,
-  Link,
-  Preview,
-  Section,
-  Tailwind,
-  Text,
-} from "@react-email/components";
-import React from "react";
+import { ServaEmailPrimaryButton, ServaEmailShell } from "./serva-email-shell";
 
 ResetPasswordEmail.PreviewProps = {
   identity: {
@@ -28,57 +16,34 @@ export default function ResetPasswordEmail({
   identity: { name: string };
   token: string;
 }) {
+  const resetUrl = `${getAuthUrl().replace(/\/$/, "")}/reset-password/${token}`;
+
   return (
-    <Html>
-      <Head />
-      <Preview>
-        Hello {identity.name}, Serva received a request to reset your password. Click the link to
-        continue with the password reset process.
-      </Preview>
-      <Tailwind>
-        <React.Fragment>
-          <Body className="mx-auto my-auto bg-white font-sans">
-            <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
-              <Section className="mt-[32px] mb-[32px]">
-                <Img
-                  src={`${getAuthUrl()}/serva-logo-full.png`}
-                  alt="Serva"
-                  className="mx-auto aspect-square h-[200px] w-[200px] object-cover"
-                />
+    <ServaEmailShell
+      preview={`${identity.name}, reset your Serva password with this secure link.`}
+      fallbackUrl={resetUrl}
+      disclaimer="This link expires in 30 minutes and can only be used once. If you did not request a reset, you can ignore this email."
+    >
+      <Heading
+        as="h1"
+        className="m-0 text-[22px] leading-[1.3] font-bold tracking-tight"
+        style={{ color: "#1a1a1a" }}
+      >
+        Reset your password
+      </Heading>
 
-                <Text className="mb-8 text-[14px] leading-[24px] font-medium text-black">
-                  Hello {identity.name}, Serva received a request to reset your password. If you
-                  didn't make the request, you can safely ignore this email.
-                </Text>
+      <Text className="mt-4 mb-0 text-[15px] leading-[24px] font-bold" style={{ color: "#3d3d3d" }}>
+        Hello {identity.name},
+      </Text>
+      <Text className="mt-3 mb-0 text-[15px] leading-[24px]" style={{ color: "#3d3d3d" }}>
+        We received a request to reset the password for your Serva account. Use the button below to
+        choose a new password.
+      </Text>
+      <Text className="mt-3 mb-0 text-[15px] leading-[24px]" style={{ color: "#3d3d3d" }}>
+        If you did not make this request, no action is needed and your password will stay the same.
+      </Text>
 
-                <Text className="mb-8 text-[14px] leading-[24px] font-medium text-black">
-                  Otherwise, click the following link to continue with the password reset process:
-                </Text>
-
-                <Text className="text-[14px] leading-[24px] font-medium text-black">
-                  <Link
-                    href={`${getAuthUrl()}/reset-password/${token}`}
-                    target="_blank"
-                    className="rounded bg-black p-2 text-white underline"
-                  >
-                    Reset Password
-                  </Link>
-                </Text>
-
-                <Text className="mt-8 text-[14px] leading-[24px] font-medium text-black">
-                  This link will expire in 30 minutes.
-                </Text>
-              </Section>
-
-              <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
-
-              <Text className="text-muted-foreground flex items-center justify-center text-[12px] leading-[24px]">
-                &copy; {new Date().getFullYear()} Serva. All rights reserved.
-              </Text>
-            </Container>
-          </Body>
-        </React.Fragment>
-      </Tailwind>
-    </Html>
+      <ServaEmailPrimaryButton href={resetUrl}>Reset password</ServaEmailPrimaryButton>
+    </ServaEmailShell>
   );
 }

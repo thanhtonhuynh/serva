@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@serva/serva-ui/*": ["./src/*"]
+      "@serva/serva-ui/*": ["./src/*"],
+      "@serva/shared": ["../shared/src/index.ts"],
+      "@serva/shared/*": ["../shared/src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],

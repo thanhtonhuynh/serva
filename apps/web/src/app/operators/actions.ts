@@ -119,6 +119,7 @@ export async function createOperatorInviteAction(
       companyName: company?.name ?? "your company",
       profileType: "operator",
       token,
+      inviteeName: parsed.name,
     });
 
     revalidatePath("/operators");
