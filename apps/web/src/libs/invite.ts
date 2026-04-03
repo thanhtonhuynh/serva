@@ -1,5 +1,5 @@
 import { getAuthUrl } from "@serva/shared";
-import { sendEmail } from "@serva/shared/helpers/email";
+import { sendEmail } from "./email";
 
 const INVITE_TTL_DAYS = 7;
 
@@ -42,4 +42,3 @@ export async function sendInviteEmail(params: {
     html,
   });
 }
-

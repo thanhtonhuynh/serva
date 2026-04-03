@@ -1,12 +1,12 @@
 "use server";
 
-import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import {
   UpdateActivePlatformsInput,
   UpdateActivePlatformsSchema,
   UpdateStartCashInput,
   UpdateStartCashSchema,
-} from "@/lib/validations/store";
+} from "@/libs/validations/store";
+import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { updateCompanySettings } from "@serva/database/dal";
 import { PERMISSIONS, toCents } from "@serva/shared";
 import { revalidatePath } from "next/cache";

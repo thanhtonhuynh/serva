@@ -1,8 +1,8 @@
 "use server";
 
-import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/lib/invite";
-import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
-import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/lib/validations/invite";
+import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/libs/invite";
+import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/libs/validations/employee";
+import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/libs/validations/invite";
 import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { hasAssignRolePermission } from "@serva/auth/permission";
 import { prisma } from "@serva/database";

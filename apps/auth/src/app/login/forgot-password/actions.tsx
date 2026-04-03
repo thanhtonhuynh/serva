@@ -1,5 +1,6 @@
 "use server";
 
+import { sendEmail } from "@/libs/email";
 import { render } from "@react-email/components";
 import {
   createPasswordResetToken,
@@ -10,7 +11,6 @@ import { rateLimitByKey, unauthenticatedRateLimit } from "@serva/auth/rate-limit
 import { getIdentityByEmail } from "@serva/database/dal";
 import { ResetPasswordEmail } from "@serva/serva-ui";
 import { ForgotPasswordSchema, ForgotPasswordSchemaTypes } from "@serva/shared";
-import { sendEmail } from "@serva/shared/helpers/email";
 
 export async function forgotPasswordAction(data: ForgotPasswordSchemaTypes) {
   try {

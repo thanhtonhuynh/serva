@@ -1,11 +1,9 @@
 "use client";
 
-import { Button } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { cn } from "@serva/serva-ui";
-import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
+import type { WeekScheduleInput, WorkShiftInput } from "@/libs/validations";
 import { useDroppable } from "@dnd-kit/react";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { Button, cn, ICONS } from "@serva/serva-ui";
 import type { Control } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { useClipboard } from "../_context/clipboard-context";

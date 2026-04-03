@@ -1,10 +1,8 @@
 "use client";
 
-import { SIcon } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { cn } from "@serva/serva-ui";
-import type { WorkShiftInput } from "@/lib/validations";
+import type { WorkShiftInput } from "@/libs/validations";
 import { useDraggable } from "@dnd-kit/react";
+import { Button, cn, SIcon } from "@serva/serva-ui";
 import { useClipboard } from "../_context/clipboard-context";
 import { minutesToTimeString } from "../_lib";
 import { ShiftEditor } from "./shift-editor";

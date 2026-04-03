@@ -1,5 +1,5 @@
+import type { DayScheduleInput, WeekScheduleInput, WorkDayRecordInput } from "@/libs/validations";
 import type { WorkDayRecordsByDate } from "@serva/database/dal";
-import type { DayScheduleInput, WeekScheduleInput, WorkDayRecordInput } from "@/lib/validations";
 import { computeTotalHours, type DisplayEmployee } from "@serva/shared";
 
 /** Identifier for a shift in the grid: day index, entry index, shift index. */

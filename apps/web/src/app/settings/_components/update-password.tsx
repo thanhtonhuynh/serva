@@ -1,20 +1,20 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
-import { PasswordInput } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
-import { Checkbox } from "@serva/serva-ui";
+import { UpdatePasswordSchema, UpdatePasswordSchemaInput } from "@/libs/validations/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Card,
+  Checkbox,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
+  LoadingButton,
+  PasswordInput,
+  Typography,
 } from "@serva/serva-ui";
-import { UpdatePasswordSchema, UpdatePasswordSchemaInput } from "@/lib/validations/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

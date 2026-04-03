@@ -14,7 +14,7 @@
   "aliases": {
     "components": "@/components",
     "hooks": "@/hooks",
-    "lib": "@/lib",
+    "lib": "@/libs",
     "utils": "@serva/serva-ui/lib/utils",
     "ui": "@serva/serva-ui/components"
   },

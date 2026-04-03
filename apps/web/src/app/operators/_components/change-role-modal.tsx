@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
+import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/libs/validations/employee";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogBody,
@@ -9,18 +9,18 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/serva-ui";
-import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui";
-import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  LoadingButton,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Typography,
 } from "@serva/serva-ui";
-import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/lib/validations/employee";
 import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { use, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

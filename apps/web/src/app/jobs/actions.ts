@@ -1,9 +1,14 @@
 "use server";
 
-import { PERMISSIONS } from "@serva/shared";
-import { createJob, updateJobName } from "@serva/database/dal";
+import {
+  CreateJobInput,
+  CreateJobSchema,
+  UpdateJobInput,
+  UpdateJobSchema,
+} from "@/libs/validations/job";
 import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
-import { CreateJobInput, CreateJobSchema, UpdateJobInput, UpdateJobSchema } from "@/lib/validations/job";
+import { createJob, updateJobName } from "@serva/database/dal";
+import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 
 type ActionResult = { error?: string };
@@ -25,7 +30,12 @@ export async function createJobAction(data: CreateJobInput): Promise<ActionResul
     return {};
   } catch (error: unknown) {
     console.error(error);
-    if (error && typeof error === "object" && "code" in error && (error as { code?: string }).code === "P2002") {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "P2002"
+    ) {
       return { error: "A job with this name already exists." };
     }
     return { error: "Could not create job." };
@@ -51,7 +61,12 @@ export async function updateJobAction(data: UpdateJobInput): Promise<ActionResul
     return {};
   } catch (error: unknown) {
     console.error(error);
-    if (error && typeof error === "object" && "code" in error && (error as { code?: string }).code === "P2002") {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "P2002"
+    ) {
       return { error: "A job with this name already exists." };
     }
     return { error: "Could not update job." };

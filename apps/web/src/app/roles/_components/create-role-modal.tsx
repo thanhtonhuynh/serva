@@ -1,10 +1,12 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { Checkbox } from "@serva/serva-ui";
+import { CreateRoleInput, CreateRoleSchema } from "@/libs/validations/roles";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Permission } from "@serva/database";
 import {
+  Button,
+  Checkbox,
   Dialog,
   DialogBody,
   DialogContent,
@@ -12,8 +14,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@serva/serva-ui";
-import {
   Field,
   FieldContent,
   FieldDescription,
@@ -22,14 +22,12 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
+  ICONS,
+  Input,
+  LoadingButton,
+  Textarea,
+  Typography,
 } from "@serva/serva-ui";
-import { Input } from "@serva/serva-ui";
-import { Textarea } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { CreateRoleInput, CreateRoleSchema } from "@/lib/validations/roles";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Permission } from "@serva/database";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

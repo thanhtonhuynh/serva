@@ -1,6 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
+import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/libs/validations/invite";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogBody,
@@ -8,19 +9,18 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/serva-ui";
-import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui";
-import { Input } from "@serva/serva-ui";
-import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  Input,
+  LoadingButton,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@serva/serva-ui";
-import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/lib/validations/invite";
 import type { RoleWithDetails } from "@serva/shared";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createOperatorInviteAction } from "../actions";
@@ -63,7 +63,11 @@ export function InviteOperatorModal({ open, onOpenChange, roles }: Props) {
           <DialogTitle>Invite operator</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <form id="invite-operator-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <form
+            id="invite-operator-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-5"
+          >
             <FieldGroup>
               <Field className="space-y-1">
                 <FieldLabel htmlFor="invite-operator-name">Name</FieldLabel>

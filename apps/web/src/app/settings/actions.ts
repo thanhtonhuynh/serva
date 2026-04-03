@@ -1,15 +1,6 @@
 "use server";
 
 import {
-  getIdentityByEmail,
-  getIdentityPasswordHash,
-  updateIdentity,
-  updateIdentityPassword,
-} from "@serva/database/dal";
-import { authorizeAction } from "@serva/auth/authorize";
-import { verifyPassword } from "@serva/auth/password";
-import { invalidateIdentitySessionsExceptCurrent } from "@serva/auth/session";
-import {
   UpdateAvatarSchema,
   UpdateAvatarSchemaInput,
   UpdateEmailSchema,
@@ -18,8 +9,17 @@ import {
   UpdateNameSchemaInput,
   UpdatePasswordSchema,
   UpdatePasswordSchemaInput,
-} from "@/lib/validations/auth";
-import { deleteImage, uploadImage } from "@/lib/vercel-blob/storage";
+} from "@/libs/validations/auth";
+import { deleteImage, uploadImage } from "@/libs/vercel-blob/storage";
+import { authorizeAction } from "@serva/auth/authorize";
+import { verifyPassword } from "@serva/auth/password";
+import { invalidateIdentitySessionsExceptCurrent } from "@serva/auth/session";
+import {
+  getIdentityByEmail,
+  getIdentityPasswordHash,
+  updateIdentity,
+  updateIdentityPassword,
+} from "@serva/database/dal";
 import { revalidatePath } from "next/cache";
 
 // Update name

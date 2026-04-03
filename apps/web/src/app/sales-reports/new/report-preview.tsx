@@ -2,7 +2,7 @@
 
 import { SaleReportCard } from "@/app/sales-reports/_components/sales-report-card";
 import { useSession } from "@/contexts/SessionProvider";
-import { SaleReportInputs } from "@/lib/validations/report";
+import { SaleReportInputs } from "@/libs/validations/report";
 import { Card } from "@serva/serva-ui";
 import { SaleReportCardRawData, parseInUTC, processReportDataForView } from "@serva/shared";
 import { use } from "react";

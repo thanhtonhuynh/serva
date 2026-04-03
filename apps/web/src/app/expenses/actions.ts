@@ -1,7 +1,7 @@
 "use server";
 
+import { ExpensesFormInput, ExpensesFormSchema } from "@/libs/validations/expenses";
 import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
-import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
 import { createExpenses, deleteExpense, updateExpenses } from "@serva/database/dal";
 import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";

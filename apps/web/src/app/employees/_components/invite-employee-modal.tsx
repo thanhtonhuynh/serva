@@ -1,6 +1,7 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
+import { CreateEmployeeInviteInput, CreateEmployeeInviteSchema } from "@/libs/validations/invite";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogBody,
@@ -8,18 +9,17 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/serva-ui";
-import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui";
-import { Input } from "@serva/serva-ui";
-import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  Input,
+  LoadingButton,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@serva/serva-ui";
-import { CreateEmployeeInviteInput, CreateEmployeeInviteSchema } from "@/lib/validations/invite";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createEmployeeInviteAction } from "../actions";

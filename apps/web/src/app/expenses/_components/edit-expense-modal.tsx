@@ -1,6 +1,6 @@
 "use client";
 
-import { ExpensesFormInput, ExpensesFormSchema } from "@/lib/validations/expenses";
+import { ExpensesFormInput, ExpensesFormSchema } from "@/libs/validations/expenses";
 import { getLocalDateFromUTC, getUTCMidnightFromLocal } from "@/utils/datetime-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HugeiconsIcon } from "@hugeicons/react";

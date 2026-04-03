@@ -1,6 +1,6 @@
 "use client";
 
-import type { WeekScheduleInput } from "@/lib/validations";
+import type { WeekScheduleInput } from "@/libs/validations";
 import { useCallback, useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 

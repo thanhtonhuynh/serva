@@ -1,14 +1,12 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
 import { useSession } from "@/contexts/SessionProvider";
-import { hasPermission } from "@serva/auth/permission";
-import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
+import { SaleReportInputs, SaleReportSchema } from "@/libs/validations/report";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { hasPermission } from "@serva/auth/permission";
+import { Button, LoadingButton, Typography } from "@serva/serva-ui";
 import {
   PERMISSIONS,
   formatInUTC,
@@ -166,15 +164,15 @@ export function SaleReportPortal({
           {steps.map((step, index) => (
             <li key={step.name} className="flex-1">
               {currentStep > index ? (
-                <div className="border-primary/70 text-primary/80 flex w-full flex-col border-l-0 border-t-4 py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
+                <div className="border-primary/70 text-primary/80 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
                   <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               ) : currentStep === index ? (
-                <div className="border-primary text-primary flex w-full flex-col border-l-0 border-t-4 py-2 pl-4 md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
+                <div className="border-primary text-primary flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
                   <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               ) : (
-                <div className="border-primary/10 flex w-full flex-col border-l-0 border-t-4 py-2 pl-4 transition-colors md:border-l-0 md:pb-0 md:pl-0 md:pt-2">
+                <div className="border-primary/10 flex w-full flex-col border-t-4 border-l-0 py-2 pl-4 transition-colors md:border-l-0 md:pt-2 md:pb-0 md:pl-0">
                   <span className="hidden text-sm font-semibold md:block">{step.name}</span>
                 </div>
               )}

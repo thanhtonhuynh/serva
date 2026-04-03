@@ -1,15 +1,21 @@
 "use client";
 
 import { PlatformIcon } from "@/components/shared";
-import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/lib/validations/store";
+import { UpdateActivePlatformsInput, UpdateActivePlatformsSchema } from "@/libs/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Callout,
+  Card,
+  Checkbox,
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+  LoadingButton,
+  Typography,
+} from "@serva/serva-ui";
 import { PLATFORMS } from "@serva/shared";
-import { Callout } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
-import { Checkbox } from "@serva/serva-ui";
-import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@serva/serva-ui";
-import { LoadingButton } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { updateActivePlatforms } from "./actions";

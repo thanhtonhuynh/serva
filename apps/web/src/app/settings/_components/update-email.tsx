@@ -1,13 +1,19 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@serva/serva-ui";
-import { Input } from "@serva/serva-ui";
-import { type Identity } from "@serva/auth/session";
-import { UpdateEmailSchema, UpdateEmailSchemaInput } from "@/lib/validations/auth";
+import { UpdateEmailSchema, UpdateEmailSchemaInput } from "@/libs/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { type Identity } from "@serva/auth/session";
+import {
+  Card,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  Input,
+  LoadingButton,
+  Typography,
+} from "@serva/serva-ui";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

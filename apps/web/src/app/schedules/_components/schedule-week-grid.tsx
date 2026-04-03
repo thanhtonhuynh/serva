@@ -1,8 +1,13 @@
 "use client";
 
-import { ProfilePicture } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
+import { useNavigationGuard } from "@/hooks/use-navigation-guard";
+import type { WeekScheduleInput, WorkShiftInput } from "@/libs/validations";
+import { DragDropProvider } from "@dnd-kit/react";
+import type { WorkDayRecordsByDate } from "@serva/database/dal";
 import {
+  Card,
+  cn,
+  ProfilePicture,
   Table,
   TableBody,
   TableCell,
@@ -10,11 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui";
-import type { WorkDayRecordsByDate } from "@serva/database/dal";
-import { useNavigationGuard } from "@/hooks/use-navigation-guard";
-import { cn } from "@serva/serva-ui";
-import type { WeekScheduleInput, WorkShiftInput } from "@/lib/validations";
-import { DragDropProvider } from "@dnd-kit/react";
 import {
   formatInUTC,
   getTodayUTCMidnight,

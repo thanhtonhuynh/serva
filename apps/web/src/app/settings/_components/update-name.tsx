@@ -1,9 +1,10 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
+import { UpdateNameSchema, UpdateNameSchemaInput } from "@/libs/validations/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Identity } from "@serva/auth/session";
 import {
+  Card,
   Form,
   FormControl,
   FormDescription,
@@ -11,11 +12,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  Input,
+  LoadingButton,
+  Typography,
 } from "@serva/serva-ui";
-import { Input } from "@serva/serva-ui";
-import type { Identity } from "@serva/auth/session";
-import { UpdateNameSchema, UpdateNameSchemaInput } from "@/lib/validations/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

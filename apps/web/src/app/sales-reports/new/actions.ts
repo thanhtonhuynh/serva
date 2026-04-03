@@ -1,9 +1,9 @@
 "use server";
 
-import { PERMISSIONS } from "@serva/shared";
-import { upsertReport } from "@serva/database/dal";
+import { SaleReportInputs, SaleReportSchema } from "@/libs/validations/report";
 import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
-import { SaleReportInputs, SaleReportSchema } from "@/lib/validations/report";
+import { upsertReport } from "@serva/database/dal";
+import { PERMISSIONS } from "@serva/shared";
 
 export async function saveReportAction(
   data: SaleReportInputs,
