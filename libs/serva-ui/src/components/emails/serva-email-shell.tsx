@@ -12,9 +12,13 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
-import { getWebUrl } from "@serva/shared";
+import { getAuthUrl, getWebUrl } from "@serva/shared";
 import React from "react";
-import { servaEmailLogoSrc } from "./serva-email-logo";
+
+/** Public file on the auth app (apps/auth/public/serva-logo-full.png). Data-URI logos are stripped by Gmail and other clients. */
+function servaEmailLogoUrl(): string {
+  return `${getAuthUrl().replace(/\/$/, "")}/serva-logo-full.png`;
+}
 
 /** Serva primary-500 — readable on white and in buttons */
 export const SERVA_EMAIL_PRIMARY = "#613DC2";
@@ -82,7 +86,7 @@ export function ServaEmailShell({
           <Container className="mx-auto max-w-[480px] px-4 py-10">
             <Section className="mb-8 text-center">
               <Img
-                src={servaEmailLogoSrc}
+                src={servaEmailLogoUrl()}
                 alt="Serva"
                 width={254}
                 height={62}
