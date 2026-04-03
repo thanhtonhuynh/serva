@@ -108,11 +108,11 @@ export function ScheduleWeekGrid(props: Props) {
       if (!source || !target) return;
 
       const sourceData = source.data as
-        | { dayIdx: number; recordIdx: number; shiftIdx: number }
+        | { dayIndex: number; recordIndex: number; shiftIndex: number }
         | undefined;
       if (!sourceData) return;
 
-      // Parse target dropId: "drop-{dayIndex}-{entryIndex}"
+      // Parse target dropId: "drop-{dayIndex}-{recordIndex}" (matches EmployeeDayCell)
       const targetId = String(target.id);
       const match = targetId.match(/^drop-(\d+)-(\d+)$/);
       if (!match) return;
@@ -120,10 +120,11 @@ export function ScheduleWeekGrid(props: Props) {
       const targetRecordIdx = parseInt(match[2], 10);
 
       // Skip if dropping on same cell
-      if (sourceData.dayIdx === targetDayIdx && sourceData.recordIdx === targetRecordIdx) return;
+      if (sourceData.dayIndex === targetDayIdx && sourceData.recordIndex === targetRecordIdx)
+        return;
 
-      const srcShifts = getShifts(sourceData.dayIdx, sourceData.recordIdx);
-      const shift = srcShifts[sourceData.shiftIdx];
+      const srcShifts = getShifts(sourceData.dayIndex, sourceData.recordIndex);
+      const shift = srcShifts[sourceData.shiftIndex];
       if (!shift) return;
 
       // Alt/Option key held during the drop = copy, otherwise move
@@ -139,9 +140,9 @@ export function ScheduleWeekGrid(props: Props) {
       // Remove from source (unless copy)
       if (!isCopy) {
         setShifts(
-          sourceData.dayIdx,
-          sourceData.recordIdx,
-          srcShifts.filter((_, i) => i !== sourceData.shiftIdx),
+          sourceData.dayIndex,
+          sourceData.recordIndex,
+          srcShifts.filter((_, i) => i !== sourceData.shiftIndex),
         );
       }
 
