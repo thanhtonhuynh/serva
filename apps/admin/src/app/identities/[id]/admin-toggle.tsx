@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, Button } from "@serva/serva-ui";
+import { Badge, Button, SIcon } from "@serva/serva-ui";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { demoteFromPlatformAdminAction, promoteToPlatformAdminAction } from "../actions";
@@ -23,13 +23,18 @@ export function AdminToggle({ identityId, isPlatformAdmin }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       <Badge variant={isPlatformAdmin ? "destructive" : "secondary"}>
         {isPlatformAdmin ? "Yes" : "No"}
       </Badge>
-      <Button size="sm" variant="outline" onClick={handleToggle} disabled={isPending}>
-        {isPlatformAdmin ? "Demote" : "Promote"}
-      </Button>
+
+      {isPending ? (
+        <SIcon icon="LOADING" className="size-4 animate-spin" />
+      ) : (
+        <Button size="xs" variant="outline" onClick={handleToggle} disabled={isPending}>
+          {isPlatformAdmin ? "Remove platform admin" : "Make platform admin"}
+        </Button>
+      )}
     </div>
   );
 }

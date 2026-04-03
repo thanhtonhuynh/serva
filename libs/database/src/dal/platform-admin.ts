@@ -67,6 +67,7 @@ export const listAllIdentities = cache(async () => {
       id: true,
       name: true,
       email: true,
+      image: true,
       accountStatus: true,
       createdAt: true,
       adminUser: { select: { id: true } },

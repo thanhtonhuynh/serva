@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   Container,
+  ProfilePicture,
   Table,
   TableBody,
   TableCell,
@@ -14,6 +15,7 @@ import {
   TableRow,
   Typography,
 } from "@serva/serva-ui";
+import { format } from "date-fns";
 import Link from "next/link";
 import { Fragment } from "react";
 
@@ -37,7 +39,7 @@ export default async function IdentitiesPage() {
                   <TableHead>Email</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Admin</TableHead>
-                  <TableHead className="text-right">Companies</TableHead>
+                  <TableHead>Profiles</TableHead>
                   <TableHead>Created</TableHead>
                 </TableRow>
               </TableHeader>
@@ -54,8 +56,9 @@ export default async function IdentitiesPage() {
                       <TableCell>
                         <Link
                           href={`/identities/${identity.id}`}
-                          className="font-medium hover:underline"
+                          className="flex items-center gap-2 font-medium hover:underline"
                         >
+                          <ProfilePicture image={identity.image} size={32} name={identity.name} />
                           {identity.name}
                         </Link>
                       </TableCell>
@@ -70,11 +73,13 @@ export default async function IdentitiesPage() {
                       <TableCell>
                         {identity.adminUser ? <Badge variant="destructive">Admin</Badge> : "—"}
                       </TableCell>
-                      <TableCell className="text-right">
-                        {identity._count.operators + identity._count.employees}
+                      <TableCell>
+                        <Badge variant="outline">
+                          {identity._count.operators} ops + {identity._count.employees} emps
+                        </Badge>
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {identity.createdAt.toLocaleDateString()}
+                        {format(identity.createdAt, "MMMM d, yyyy")}
                       </TableCell>
                     </TableRow>
                   ))

@@ -30,6 +30,7 @@ import {
   HourglassIcon,
   InformationSquareIcon,
   Invoice02Icon,
+  Loading,
   LockPasswordIcon,
   LogoutCircle02Icon,
   Mail01Icon,
@@ -95,6 +96,7 @@ export const ICONS = {
 
   INFORMATION: InformationSquareIcon,
 
+  LOADING: Loading,
   LOCK_PASSWORD: LockPasswordIcon,
   LOGOUT: LogoutCircle02Icon,
 

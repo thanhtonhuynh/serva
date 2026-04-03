@@ -17,6 +17,7 @@ import {
   TableRow,
   Typography,
 } from "@serva/serva-ui";
+import { format } from "date-fns";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
@@ -59,7 +60,7 @@ export default async function IdentityDetailPage({ params }: Props) {
           <CardHeader>
             <CardTitle>Overview</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <CardContent className="space-y-3">
             <div>
               <Typography variant="p-xs" className="text-muted-foreground">
                 Account Status
@@ -74,7 +75,7 @@ export default async function IdentityDetailPage({ params }: Props) {
               </Typography>
               <Typography variant="p-sm">{identity.emailVerified ? "Yes" : "No"}</Typography>
             </div>
-            <div>
+            <div className="space-y-1">
               <Typography variant="p-xs" className="text-muted-foreground">
                 Platform Admin
               </Typography>
@@ -84,7 +85,17 @@ export default async function IdentityDetailPage({ params }: Props) {
               <Typography variant="p-xs" className="text-muted-foreground">
                 Created
               </Typography>
-              <Typography variant="p-sm">{identity.createdAt.toLocaleDateString()}</Typography>
+              <Typography variant="p-sm">
+                {format(identity.createdAt, "MMMM d, yyyy hh:mm a")}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="p-xs" className="text-muted-foreground">
+                Updated
+              </Typography>
+              <Typography variant="p-sm">
+                {format(identity.updatedAt, "MMMM d, yyyy hh:mm a")}
+              </Typography>
             </div>
           </CardContent>
         </Card>
