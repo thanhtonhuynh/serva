@@ -32,12 +32,7 @@ export default async function CompanyDetailPage({ params }: Props) {
   return (
     <Fragment>
       <Header>
-        <div>
-          <Typography variant="h1">{company.name}</Typography>
-          <Typography variant="p-xs" className="text-muted-foreground">
-            {company.slug}
-          </Typography>
-        </div>
+        <Typography variant="h1">Company Details</Typography>
         <div className="ml-auto flex items-center gap-2">
           <form action={openCompanyInWebAction.bind(null, id)} className="contents">
             <Button type="submit" size="sm" variant="outline">
@@ -54,13 +49,23 @@ export default async function CompanyDetailPage({ params }: Props) {
           <CardHeader>
             <CardTitle>Overview</CardTitle>
           </CardHeader>
+
           <CardContent>
             <div className="space-y-3">
+              <Typography variant="h1" className="text-primary">
+                {company.name}
+              </Typography>
+
               <div>
-                <Typography variant="p-xs" className="text-muted-foreground">
-                  Company ID
+                <Typography className="text-muted-foreground">Company Slug</Typography>
+                <Typography>{company.slug}</Typography>
+              </div>
+
+              <div>
+                <Typography className="text-muted-foreground">Company ID</Typography>
+                <Typography className="bg-accent w-fit rounded-sm px-2 py-1 italic">
+                  {company.id}
                 </Typography>
-                <Typography variant="p-sm">{company.id}</Typography>
               </div>
 
               <div>
@@ -89,7 +94,7 @@ export default async function CompanyDetailPage({ params }: Props) {
                   Start Cash: {formatMoney(company.settings?.startCash ?? 0 / 100)}
                 </Typography>
                 <Typography variant="p-sm">
-                  Active Platforms: {company.settings?.activePlatforms.join(", ")}
+                  Active Platforms: {company.settings?.activePlatforms.join(", ") ?? "—"}
                 </Typography>
               </div>
             </div>
@@ -197,7 +202,8 @@ export default async function CompanyDetailPage({ params }: Props) {
                   <TableRow>
                     <TableHead>Name</TableHead>
                     <TableHead>Email</TableHead>
-                    <TableHead>Type</TableHead>
+                    <TableHead>Profile Type</TableHead>
+                    <TableHead>Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -207,6 +213,9 @@ export default async function CompanyDetailPage({ params }: Props) {
                       <TableCell className="text-muted-foreground">{inv.email}</TableCell>
                       <TableCell>
                         <Badge variant="outline">{inv.profileType}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{inv.status}</Badge>
                       </TableCell>
                     </TableRow>
                   ))}
