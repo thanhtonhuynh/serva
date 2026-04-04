@@ -3,17 +3,21 @@
   "ui": "tui",
   "tasks": {
     "build": {
+      "description": "Compiles TypeScript and bundles the application",
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
+      "description": "Checks code style and catches common errors",
       "dependsOn": ["^lint"]
     },
     "check-types": {
+      "description": "Checks for type errors",
       "dependsOn": ["^check-types"]
     },
     "dev": {
+      "description": "Starts the development server",
       "cache": false,
       "persistent": true
     }

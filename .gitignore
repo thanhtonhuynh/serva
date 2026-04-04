@@ -41,11 +41,10 @@ libs/database/generated
 /temp
 /scripts/scripts_local
 
-# nx mcp auto-generated
 .agents/
 .cursor/
 
-.nx/polygraph
+.claude/
 .claude/worktrees
 .claude/settings.local.json
 
