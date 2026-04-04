@@ -111,7 +111,10 @@ export function getDateRangeForMonthAndYearInUTC(year: number, month: number): D
  * Get biweekly periods for a given month and year.
  * Month is 0-indexed.
  */
-export function getPeriodsForMonthAndYearInUTC(year: number, month: number): DateRange[] {
+export function getPeriodsForMonthAndYearInUTC(
+  year: number,
+  month: number,
+): readonly [DateRange, DateRange] {
   return [
     {
       start: new Date(Date.UTC(year, month, 1)),
