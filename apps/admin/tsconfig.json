@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@serva/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {

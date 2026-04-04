@@ -1,4 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@serva/typescript-config/base.json",
   "include": ["src/**/*.ts"]
 }

@@ -1,0 +1,4 @@
+{
+  "extends": "@serva/typescript-config/base.json"
+}
+

@@ -17,6 +17,7 @@
     "lib": "@serva/serva-ui/lib",
     "ui": "@serva/serva-ui/components"
   },
+  "rtl": false,
   "menuColor": "default",
   "menuAccent": "subtle"
 }

@@ -49,8 +49,10 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@prisma/nextjs-monorepo-workaround-plugin": "6.19.2",
+    "@serva/eslint-config": "workspace:*",
+    "@serva/typescript-config": "workspace:*",
     "@serva/database": "workspace:*",
+    "@prisma/nextjs-monorepo-workaround-plugin": "6.19.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20.19.27",
     "@types/nodemailer": "^6.4.21",

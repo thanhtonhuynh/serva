@@ -1,13 +1,10 @@
 {
+  "extends": "@serva/typescript-config/react-library.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@serva/serva-ui/*": ["./src/*"],
-      "@serva/shared": ["../shared/src/index.ts"],
-      "@serva/shared/*": ["../shared/src/*"]
-    }
+    "rootDir": "src",
+    "outDir": "dist",
+    "strictNullChecks": true,
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules"],
-  "extends": "../../tsconfig.base.json"
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"],
 }
