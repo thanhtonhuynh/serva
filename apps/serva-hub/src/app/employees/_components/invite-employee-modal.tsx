@@ -33,7 +33,7 @@ type Props = {
 export function InviteEmployeeModal({ open, onOpenChange, jobs }: Props) {
   const form = useForm<CreateEmployeeInviteInput>({
     resolver: zodResolver(CreateEmployeeInviteSchema),
-    defaultValues: { name: "", email: "", jobId: "__none__" },
+    defaultValues: { name: "", email: "", jobId: "" },
   });
 
   const isSubmitting = form.formState.isSubmitting;
@@ -46,7 +46,7 @@ export function InviteEmployeeModal({ open, onOpenChange, jobs }: Props) {
     }
     toast.success("Invite sent.");
     onOpenChange(false);
-    form.reset({ name: "", email: "", jobId: "__none__" });
+    form.reset({ name: "", email: "", jobId: "" });
   }
 
   return (
@@ -54,7 +54,7 @@ export function InviteEmployeeModal({ open, onOpenChange, jobs }: Props) {
       open={open}
       onOpenChange={(next) => {
         onOpenChange(next);
-        if (!next) form.reset({ name: "", email: "", jobId: "__none__" });
+        if (!next) form.reset({ name: "", email: "", jobId: "" });
       }}
     >
       <DialogContent>
