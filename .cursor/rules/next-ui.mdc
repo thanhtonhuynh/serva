@@ -10,6 +10,6 @@ alwaysApply: false
 - Colocate feature UI under **`src/app/.../_components/`** (and feature-specific `_context` / hooks) when that matches the surrounding route.
 - Import **UI primitives, Serva components, `cn`, `ICONS`, etc.** from **`@serva/serva-ui`** (barrel: `libs/serva-ui/src/index.ts`). Use **`@serva/serva-ui/globals.css`** only for global styles. **`InputField` / `InputFieldV2`**: **`@serva/serva-ui/components/form/input-field`** and **`.../input-field-v2`** (not barrel—RHF + bundler-safe).
 - Import **auth/session helpers** from `@serva/auth` or `@serva/auth/<module>` — not from `@/lib/auth`.
-- Auth UI (login, signup, password reset) lives in **`apps/auth`**, not `apps/serva-hub`.
+- Auth UI (login, signup, password reset) lives in **`apps/auth-portal`**, not `apps/serva-hub`.
 - Forms: align with existing **react-hook-form + Zod** usage in the same area.
 - Keep **accessibility** consistent with existing components (labels, dialogs, focus).

@@ -19,7 +19,7 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 | App   | Package                           | Port (dev) | Description                                                                         |
 | ----- | --------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
 | Hub   | `serva-hub` (`apps/serva-hub`)    | 4100       | Main app — scheduling, sales, reports, tenant admin                                 |
-| Auth  | `@serva/auth-app` (`apps/auth`)   | 3100       | Centralized auth portal — login, signup, password reset, company selection, invites |
+| Auth  | `auth-portal` (`apps/auth-portal`) | 3100       | Centralized auth portal — login, signup, password reset, company selection, invites |
 | Admin | `serva-admin` (`apps/serva-admin`) | 5100       | Platform super-admin (`isPlatformAdmin`)                                            |
 
 In production, these run on subdomains (e.g. `app.serva.com`, `auth.serva.com`, `admin.serva.com`) with shared cookies via `COOKIE_DOMAIN`.
@@ -44,7 +44,7 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | Area                                        | Package / Path                                                                                                      |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Hub app routes                              | `apps/serva-hub/src/app/`                                                                                           |
-| Auth app routes                             | `apps/auth/src/app/`                                                                                                |
+| Auth app routes                             | `apps/auth-portal/src/app/`                                                                                         |
 | Admin app routes                            | `apps/serva-admin/src/app/`                                                                                         |
 | Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (client + types), `@serva/database/dal` (DAL in `src/dal/`)                    |
 | Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                                    |
@@ -77,7 +77,7 @@ Each app is a separate Vercel project; set **Root Directory** to that app’s fo
 | Project | Root Directory | Domain            | Key env vars                                                                                |
 | ------- | -------------- | ----------------- | ------------------------------------------------------------------------------------------- |
 | Hub     | `apps/serva-hub` | `app.serva.com`   | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `COOKIE_DOMAIN`                                      |
-| Auth    | `apps/auth`    | `auth.serva.com`  | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET` |
+| Auth    | `apps/auth-portal` | `auth.serva.com`  | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET` |
 | Admin   | `apps/serva-admin` | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET`           |
 
 All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by Auth works across subdomains.
@@ -86,7 +86,7 @@ All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by
 
 - Prefer **small, task-scoped changes**; avoid drive-by refactors unrelated to the request.
 - **Database**: import Prisma client, generated types, and `hashPassword` from `@serva/database`; import DAL functions from `@serva/database/dal` (not `PrismaClient` directly in UI).
-- **Auth**: import session, authorize, and permission helpers from `@serva/auth` — not from scattered app files. Auth UI lives in `apps/auth`; consumer apps redirect to `AUTH_URL` for login/logout.
+- **Auth**: import session, authorize, and permission helpers from `@serva/auth` — not from scattered app files. Auth UI lives in `apps/auth-portal`; consumer apps redirect to `AUTH_URL` for login/logout.
 - **UI**: import primitives, Serva components, `cn`, `ICONS`, etc. from **`@serva/serva-ui`** (see `libs/serva-ui/src/index.ts`). Use **`@serva/serva-ui/globals.css`** for global styles only. **`InputField`** / **`InputFieldV2`** (react-hook-form) use **`@serva/serva-ui/components/form/input-field`** and **`.../input-field-v2`** — excluded from the barrel on purpose.
 - **Server vs client**: server components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity).
 - Match **existing naming**, imports (`@serva/*` for libs, `@/…` for app-local), and component patterns in the nearest feature folder.

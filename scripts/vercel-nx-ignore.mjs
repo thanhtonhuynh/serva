@@ -9,7 +9,7 @@
  * Vercel semantics: exit 0 = skip/cancel build, exit 1 = continue with build.
  *
  * Usage (Vercel project settings → Ignored Build Step → Custom):
- *   node scripts/vercel-nx-ignore.mjs @serva/auth-app
+ *   node scripts/vercel-nx-ignore.mjs auth-portal
  *
  * Optional: VERCEL_GIT_PREVIOUS_SHA / CACHED_COMMIT_REF are used as --base when set.
  */

@@ -1,5 +1,5 @@
 {
-  "name": "@serva/auth-app",
+  "name": "auth-portal",
   "private": true,
   "type": "module",
   "scripts": {
