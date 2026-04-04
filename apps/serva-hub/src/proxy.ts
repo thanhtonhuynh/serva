@@ -91,3 +91,8 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   }
   return NextResponse.next();
 }
+
+/** Limit Edge invocations: skip static assets, images, and metadata (see Next.js proxy `matcher` docs). */
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"],
+};
