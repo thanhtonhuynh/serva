@@ -18,7 +18,7 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 
 | App   | Package                           | Port (dev) | Description                                                                         |
 | ----- | --------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
-| Web   | `@serva/web` (`apps/web`)         | 4100       | Main app — scheduling, sales, reports, tenant admin                                 |
+| Hub   | `serva-hub` (`apps/serva-hub`)    | 4100       | Main app — scheduling, sales, reports, tenant admin                                 |
 | Auth  | `@serva/auth-app` (`apps/auth`)   | 3100       | Centralized auth portal — login, signup, password reset, company selection, invites |
 | Admin | `@serva/admin-app` (`apps/admin`) | 5100       | Platform super-admin (`isPlatformAdmin`)                                            |
 
@@ -29,7 +29,7 @@ Note: `apps/admin` is for **platform** super-admin, not company's admins.
 
 | Task                   | Command                                         |
 | ---------------------- | ----------------------------------------------- |
-| Dev server (Turbopack) | `pnpm dev` (web only) or `pnpm dev:all` (all)   |
+| Dev server (Turbopack) | `pnpm dev` (hub only) or `pnpm dev:all` (all)   |
 | Production build       | `pnpm build`                                    |
 | ESLint                 | `pnpm lint`                                     |
 | React Email preview    | `pnpm email`                                    |
@@ -43,7 +43,7 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 
 | Area                                        | Package / Path                                                                                                      |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Web app routes                              | `apps/web/src/app/`                                                                                                 |
+| Hub app routes                              | `apps/serva-hub/src/app/`                                                                                           |
 | Auth app routes                             | `apps/auth/src/app/`                                                                                                |
 | Admin app routes                            | `apps/admin/src/app/`                                                                                               |
 | Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (client + types), `@serva/database/dal` (DAL in `src/dal/`)                    |
@@ -52,8 +52,8 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | UI (shadcn primitives)                      | `libs/serva-ui/src/components/` — `@serva/serva-ui`                                                                 |
 | UI (Serva custom components)                | `libs/serva-ui/src/components/serva/` — `@serva/serva-ui` (app-designed components, icons registry in `constants/`) |
 | Email templates                             | `libs/serva-ui/src/components/emails/` — re-exported from `@serva/serva-ui` where listed in `libs/serva-ui/src/index.ts` |
-| App-local lib                               | `apps/web/src/lib/` (validations, invite)                                                                           |
-| App-local components                        | `apps/web/src/components/` (app-sidebar, feature-specific)                                                          |
+| App-local lib                               | `apps/serva-hub/src/lib/` (validations, invite)                                                                     |
+| App-local components                        | `apps/serva-hub/src/components/` (app-sidebar, feature-specific)                                                    |
 
 Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs/database/src/dal/` and are imported via `@serva/database/dal`.
 
@@ -72,11 +72,11 @@ Prisma schema: `libs/database/prisma/schema.prisma`. DAL functions live in `libs
 
 ## Deployment
 
-Each app is a separate Vercel project with `Root Directory` in Vercel project settings set to the monorepo's root:
+Each app is a separate Vercel project; set **Root Directory** to that app’s folder under the repo (not the monorepo root):
 
 | Project | Root Directory | Domain            | Key env vars                                                                                |
 | ------- | -------------- | ----------------- | ------------------------------------------------------------------------------------------- |
-| Web     | `apps/web`     | `app.serva.com`   | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `COOKIE_DOMAIN`                                      |
+| Hub     | `apps/serva-hub` | `app.serva.com`   | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `COOKIE_DOMAIN`                                      |
 | Auth    | `apps/auth`    | `auth.serva.com`  | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET` |
 | Admin   | `apps/admin`   | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET`           |
 

@@ -24,7 +24,7 @@ alwaysApply: true
 
 ## Multi-app architecture
 
-- **`apps/web`** (`@serva/web`) — main app (port 4100). `(admin)` route group = **tenant** admin.
+- **`apps/serva-hub`** (`serva-hub`) — main app (port 4100). `(admin)` route group = **tenant** admin.
 - **`apps/auth`** (`@serva/auth-app`) — centralized auth portal (port 3100). Owns login, signup, password reset, company selection, invite flows.
 - **`apps/admin`** (`@serva/admin-app`) — platform super-admin (port 5100). Global company/identity management for `isPlatformAdmin` users. Protected by `platformAdminGuard`.
 - Consumer apps redirect to **`AUTH_URL`** for login/logout; cookies are shared via **`COOKIE_DOMAIN`** in production.
