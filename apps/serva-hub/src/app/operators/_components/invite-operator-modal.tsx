@@ -87,16 +87,23 @@ export function InviteOperatorModal({ open, onOpenChange, roles }: Props) {
                   {...form.register("email")}
                 />
               </Field>
+
               <Controller
                 name="roleId"
                 control={form.control}
                 render={({ field }) => (
                   <Field className="space-y-1">
                     <FieldLabel htmlFor="invite-operator-role">Role</FieldLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
+
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      items={roles.map((role) => ({ label: role.name, value: role.id }))}
+                    >
                       <SelectTrigger id="invite-operator-role" variant="input">
                         <SelectValue placeholder="Select role" />
                       </SelectTrigger>
+
                       <SelectContent alignItemWithTrigger={false}>
                         {roles.map((role) => (
                           <SelectItem key={role.id} value={role.id}>
