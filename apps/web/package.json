@@ -1,13 +1,13 @@
 {
   "name": "@serva/web",
-  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack --port 4100",
+    "dev": "next dev --port 4100",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "eslint --max-warnings 0",
+    "check-types": "next typegen && tsc --noEmit",
     "email": "cp ../../.env ./node_modules/react-email && email dev --dir ../../libs/serva-ui/src/components/emails --port 3003"
   },
   "dependencies": {
@@ -24,13 +24,19 @@
     "nodemailer": "^7.0.11",
     "react-dropzone": "^14.3.8",
     "xlsx": "^0.18.5",
-    "xlsx-js-style": "^1.2.0"
+    "xlsx-js-style": "^1.2.0",
+    "next": "16.2.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@types/node": "^20.19.27",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "@react-email/preview-server": "5.2.10",
     "eslint": "^9.39.2",
     "eslint-config-next": "16.0.8",
     "react-email": "^5.0.8",
-    "ts-node": "^10.9.2"
+    "typescript": "^5.9.3"
   }
 }

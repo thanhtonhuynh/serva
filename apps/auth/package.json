@@ -1,22 +1,29 @@
 {
   "name": "@serva/auth-app",
-  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack --port 3100",
+    "dev": "next dev --port 3100",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint --max-warnings 0",
+    "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@serva/auth": "workspace:*",
     "@serva/database": "workspace:*",
     "@serva/shared": "workspace:*",
-    "@serva/serva-ui": "workspace:*"
+    "@serva/serva-ui": "workspace:*",
+    "next": "16.2.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@types/node": "^20.19.27",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "eslint": "^9.39.2",
-    "eslint-config-next": "16.0.8"
+    "eslint-config-next": "16.0.8",
+    "typescript": "^5.9.3"
   }
 }
