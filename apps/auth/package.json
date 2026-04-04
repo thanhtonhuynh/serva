@@ -12,8 +12,8 @@
   "dependencies": {
     "@serva/auth": "workspace:*",
     "@serva/database": "workspace:*",
-    "@serva/shared": "workspace:*",
     "@serva/serva-ui": "workspace:*",
+    "@serva/shared": "workspace:*",
     "next": "16.2.2",
     "react": "19.2.4",
     "react-dom": "19.2.4"
@@ -22,8 +22,8 @@
     "@types/node": "^20.19.27",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "eslint": "^9.39.2",
-    "eslint-config-next": "16.0.8",
-    "typescript": "^5.9.3"
+    "eslint": "^10.2.0",
+    "eslint-config-next": "16.2.2",
+    "typescript": "^6.0.2"
   }
 }
