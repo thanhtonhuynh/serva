@@ -28,3 +28,8 @@ alwaysApply: true
 - **`apps/auth-portal`** (`auth-portal`) — centralized auth portal (port 3100). Owns login, signup, password reset, company selection, invite flows.
 - **`apps/serva-admin`** (`serva-admin`) — platform super-admin (port 5100). Global company/identity management for `isPlatformAdmin` users. Protected by `platformAdminGuard`.
 - Consumer apps redirect to **`AUTH_URL`** for login/logout; cookies are shared via **`COOKIE_DOMAIN`** in production.
+
+## Monorepo & deploy
+
+- **pnpm** workspaces + **Turborepo** (`turbo.json` at repo root): use `pnpm build`, `pnpm lint`, `pnpm dev`, `pnpm check-types` from the root; scope with `pnpm exec turbo run <task> --filter=<package-name>` when needed (e.g. `serva-hub`, `auth-portal`, `serva-admin`).
+- **Vercel**: one project per app; **Root Directory** = `apps/serva-hub`, `apps/auth-portal`, or `apps/serva-admin`. Vercel runs Turbo-aware builds; align project env vars with `turbo.json` `env` / `globalEnv` so strict mode and cache keys stay correct (see root **`AGENTS.md`**).
