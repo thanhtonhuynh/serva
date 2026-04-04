@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "description": "Compiles TypeScript and bundles the application",
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
