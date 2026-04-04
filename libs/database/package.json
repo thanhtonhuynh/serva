@@ -12,7 +12,11 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts"
   },
+  "dependencies": {
+    "@prisma/client": "^6.19.2"
+  },
   "devDependencies": {
+    "prisma": "^6.19.2",
     "typescript": "^6.0.2"
   }
 }
