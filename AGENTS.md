@@ -20,10 +20,10 @@ Brief orientation for anyone (human or tool) working in this repo. For Cursor, s
 | ----- | --------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
 | Hub   | `serva-hub` (`apps/serva-hub`)    | 4100       | Main app — scheduling, sales, reports, tenant admin                                 |
 | Auth  | `@serva/auth-app` (`apps/auth`)   | 3100       | Centralized auth portal — login, signup, password reset, company selection, invites |
-| Admin | `@serva/admin-app` (`apps/admin`) | 5100       | Platform super-admin (`isPlatformAdmin`)                                            |
+| Admin | `serva-admin` (`apps/serva-admin`) | 5100       | Platform super-admin (`isPlatformAdmin`)                                            |
 
 In production, these run on subdomains (e.g. `app.serva.com`, `auth.serva.com`, `admin.serva.com`) with shared cookies via `COOKIE_DOMAIN`.
-Note: `apps/admin` is for **platform** super-admin, not company's admins.
+Note: `apps/serva-admin` is for **platform** super-admin, not company's admins.
 
 ## Commands
 
@@ -45,7 +45,7 @@ Do **not** paste real secrets into rules or this file; use env var **names** onl
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Hub app routes                              | `apps/serva-hub/src/app/`                                                                                           |
 | Auth app routes                             | `apps/auth/src/app/`                                                                                                |
-| Admin app routes                            | `apps/admin/src/app/`                                                                                               |
+| Admin app routes                            | `apps/serva-admin/src/app/`                                                                                         |
 | Database (Prisma, DAL)                      | `libs/database/` — `@serva/database` (client + types), `@serva/database/dal` (DAL in `src/dal/`)                    |
 | Shared types, constants, utils, validations | `libs/shared/` — `@serva/shared`                                                                                    |
 | Auth & session                              | `libs/auth/` — `@serva/auth` (session, authorize, permissions, cookies, password, rate-limiting)                    |
@@ -78,7 +78,7 @@ Each app is a separate Vercel project; set **Root Directory** to that app’s fo
 | ------- | -------------- | ----------------- | ------------------------------------------------------------------------------------------- |
 | Hub     | `apps/serva-hub` | `app.serva.com`   | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `COOKIE_DOMAIN`                                      |
 | Auth    | `apps/auth`    | `auth.serva.com`  | `DATABASE_URL`, `AUTH_URL`, `WEB_URL`, `ADMIN_URL`, `NEXT_PUBLIC_AUTH_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET` |
-| Admin   | `apps/admin`   | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET`           |
+| Admin   | `apps/serva-admin` | `admin.serva.com` | `DATABASE_URL`, `AUTH_URL`, `ADMIN_URL`, `NEXT_PUBLIC_ADMIN_URL`, `COOKIE_DOMAIN`, `PLATFORM_COMPANY_IMPERSONATION_SECRET`           |
 
 All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by Auth works across subdomains.
 

@@ -8,7 +8,7 @@ import { authenticatedRateLimit } from "./rate-limiter";
 import { getCurrentSession, type CompanyContext, type Identity } from "./session";
 
 /**
- * Guard for platform-admin routes (apps/admin).
+ * Guard for platform-admin routes (apps/serva-admin).
  * Does NOT require companyCtx — platform admins may have zero tenant memberships.
  */
 export const platformAdminGuard = cache(async (): Promise<{ identity: Identity }> => {

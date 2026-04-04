@@ -164,7 +164,7 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
-  apps/admin:
+  apps/auth:
     dependencies:
       '@serva/auth':
         specifier: workspace:*
@@ -207,7 +207,7 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
-  apps/auth:
+  apps/serva-admin:
     dependencies:
       '@serva/auth':
         specifier: workspace:*

@@ -1,5 +1,5 @@
 {
-  "name": "@serva/admin-app",
+  "name": "serva-admin",
   "private": true,
   "type": "module",
   "scripts": {
