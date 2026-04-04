@@ -80,12 +80,12 @@ export function generateHeatmapData(year: number, reports: DaySalesData[]): Heat
     });
 
     // Find the weekIndex of the first and last cell in the month
-    if (monthCells.length > 0) {
-      const weekStart = monthCells[0].weekIndex;
-
+    const firstMonthCell = monthCells[0];
+    const monthName = monthLabels[m];
+    if (firstMonthCell !== undefined && monthName !== undefined) {
       months.push({
-        name: monthLabels[m],
-        weekStart,
+        name: monthName,
+        weekStart: firstMonthCell.weekIndex,
       });
     }
   }
@@ -174,7 +174,7 @@ export function calculateSalesAnalytics(reports: DaySalesData[]): SalesAnalytics
 
   // Best Sales Day
   const sortedByHighest = [...validReports].sort((a, b) => b.totalSales - a.totalSales);
-  const bestDay = sortedByHighest[0];
+  const bestDay = sortedByHighest[0]!;
   const bestSalesDay = {
     date: formatInUTC(bestDay.date),
     formattedDate: formatInUTC(bestDay.date, "MMM d, yyyy"),
@@ -182,7 +182,7 @@ export function calculateSalesAnalytics(reports: DaySalesData[]): SalesAnalytics
   };
 
   // Lowest Sales Day
-  const lowestDay = sortedByHighest[sortedByHighest.length - 1];
+  const lowestDay = sortedByHighest[sortedByHighest.length - 1]!;
   const lowestSalesDay = {
     date: formatInUTC(lowestDay.date),
     formattedDate: formatInUTC(lowestDay.date, "MMM d, yyyy"),

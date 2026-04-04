@@ -22,7 +22,7 @@ export async function createCompanyAction(
   await platformAdminGuardWithRateLimit();
 
   const parsed = companyFormSchema.safeParse(data);
-  if (!parsed.success) return { error: parsed.error.issues[0].message };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
 
   try {
     const company = await createCompany(parsed.data.name, parsed.data.slug);
@@ -42,7 +42,7 @@ export async function updateCompanyAction(
   await platformAdminGuardWithRateLimit();
 
   const parsed = companyFormSchema.safeParse(data);
-  if (!parsed.success) return { error: parsed.error.issues[0].message };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
 
   try {
     await updateCompany(companyId, parsed.data);

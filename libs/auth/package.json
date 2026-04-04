@@ -8,5 +8,8 @@
       "default": "./src/index.ts"
     },
     "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "next": "16.2.2"
   }
 }

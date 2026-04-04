@@ -13,7 +13,8 @@ setInterval(() => {
   const now = Date.now();
 
   for (const key in trackers) {
-    if (trackers[key].lastReset < now) {
+    const t = trackers[key];
+    if (t !== undefined && t.lastReset < now) {
       delete trackers[key];
     }
   }

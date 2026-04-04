@@ -116,8 +116,11 @@ export function ScheduleWeekGrid(props: Props) {
       const targetId = String(target.id);
       const match = targetId.match(/^drop-(\d+)-(\d+)$/);
       if (!match) return;
-      const targetDayIdx = parseInt(match[1], 10);
-      const targetRecordIdx = parseInt(match[2], 10);
+      const dayStr = match[1];
+      const recordStr = match[2];
+      if (dayStr === undefined || recordStr === undefined) return;
+      const targetDayIdx = parseInt(dayStr, 10);
+      const targetRecordIdx = parseInt(recordStr, 10);
 
       // Skip if dropping on same cell
       if (sourceData.dayIndex === targetDayIdx && sourceData.recordIndex === targetRecordIdx)

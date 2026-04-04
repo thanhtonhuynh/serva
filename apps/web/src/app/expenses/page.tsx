@@ -3,10 +3,17 @@ import { populateMonthSelectData } from "@/utils/hours-tips";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getExpensesByYear } from "@serva/database/dal";
-import { Callout, CurrentBadge, Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
+import {
+  Button,
+  Callout,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CurrentBadge,
+  ICONS,
+  Typography,
+} from "@serva/serva-ui";
 import {
   PERMISSIONS,
   formatMoney,
@@ -56,7 +63,11 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const expenses = await getExpensesByYear(companyCtx.companyId, selectedYear);
   const monthlyExpenses = reshapeExpenses(expenses);
 
-  const selectedMonthData = monthlyExpenses[selectedMonth];
+  const selectedMonthData = monthlyExpenses[selectedMonth] ?? {
+    month: selectedMonth,
+    monthExpenses: [],
+    totalExpenses: 0,
+  };
   const isCurrent = selectedYear === currentYear && selectedMonth === currentMonth;
 
   return (

@@ -126,7 +126,9 @@ export function SaleReportPortal({
   }
 
   async function nextStep() {
-    const fields = steps[currentStep].fields as FieldName[];
+    const stepDef = steps[currentStep];
+    if (stepDef === undefined) return;
+    const fields = stepDef.fields as FieldName[];
     const isValid = await saleReportForm.trigger(fields, {
       shouldFocus: true,
     });

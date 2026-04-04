@@ -2,9 +2,12 @@
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
   "tasks": {
+    "db:generate": {
+      "cache": false
+    },
     "build": {
       "description": "Compiles TypeScript and bundles the application",
-      "dependsOn": ["^build", "^db:generate"],
+      "dependsOn": ["^build", "@serva/database#db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },

@@ -6,8 +6,8 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
+      "*": ["./*"],
       "@/*": ["./src/*"],
       "@serva/database": ["../../libs/database/src/index.ts"],
       "@serva/database/dal": ["../../libs/database/src/dal.ts"],

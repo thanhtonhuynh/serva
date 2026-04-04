@@ -40,10 +40,12 @@ export const getPermissionsGrouped = cache(async () => {
 
   const grouped: Record<string, typeof permissions> = {};
   for (const permission of permissions) {
-    if (!grouped[permission.resource]) {
-      grouped[permission.resource] = [];
+    let bucket = grouped[permission.resource];
+    if (!bucket) {
+      bucket = [];
+      grouped[permission.resource] = bucket;
     }
-    grouped[permission.resource].push(permission);
+    bucket.push(permission);
   }
 
   return grouped;

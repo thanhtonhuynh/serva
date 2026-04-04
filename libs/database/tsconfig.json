@@ -1,8 +1,4 @@
 {
   "extends": "@serva/typescript-config/base.json",
-  "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler"
-  },
   "include": ["src/**/*.ts", "generated/**/*.ts", "prisma/**/*.ts"]
 }

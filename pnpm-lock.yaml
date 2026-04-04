@@ -329,7 +329,11 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
-  libs/auth: {}
+  libs/auth:
+    dependencies:
+      next:
+        specifier: 16.2.2
+        version: 16.2.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
 
   libs/database:
     devDependencies:

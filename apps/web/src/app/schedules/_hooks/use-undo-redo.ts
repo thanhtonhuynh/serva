@@ -48,7 +48,9 @@ export function useUndoRedo(form: UseFormReturn<WeekScheduleInput>) {
     if (pointerRef.current <= 0) return;
 
     pointerRef.current -= 1;
-    const values = JSON.parse(historyRef.current[pointerRef.current]) as WeekScheduleInput;
+    const entry = historyRef.current[pointerRef.current];
+    if (entry === undefined) return;
+    const values = JSON.parse(entry) as WeekScheduleInput;
     form.reset(values, { keepDirtyValues: false });
     forceRender((n) => n + 1);
   }, [form]);
@@ -58,7 +60,9 @@ export function useUndoRedo(form: UseFormReturn<WeekScheduleInput>) {
     if (pointerRef.current >= historyRef.current.length - 1) return;
 
     pointerRef.current += 1;
-    const values = JSON.parse(historyRef.current[pointerRef.current]) as WeekScheduleInput;
+    const entry = historyRef.current[pointerRef.current];
+    if (entry === undefined) return;
+    const values = JSON.parse(entry) as WeekScheduleInput;
     form.reset(values, { keepDirtyValues: false });
     forceRender((n) => n + 1);
   }, [form]);

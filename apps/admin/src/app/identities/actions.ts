@@ -20,7 +20,7 @@ export async function updateIdentityAction(
   await platformAdminGuardWithRateLimit();
 
   const parsed = UpdateIdentitySchema.safeParse(data);
-  if (!parsed.success) return { error: parsed.error.issues[0].message };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
 
   try {
     await updateIdentity(identityId, parsed.data);

@@ -1,7 +1,6 @@
 "use client";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@serva/serva-ui";
-import { cn } from "@serva/serva-ui";
+import { Tooltip, TooltipContent, TooltipTrigger, cn } from "@serva/serva-ui";
 import { HeatmapCell, HeatmapData, WEEKDAY_LABELS, formatMoney } from "@serva/shared";
 import { useRouter } from "next/navigation";
 
@@ -34,7 +33,8 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
   );
 
   for (const cell of cells) {
-    grid[cell.dayOfWeek][cell.weekIndex] = cell;
+    const row = grid[cell.dayOfWeek];
+    if (row !== undefined) row[cell.weekIndex] = cell;
   }
 
   return (
@@ -76,7 +76,7 @@ export function SalesHeatmap({ data }: SalesHeatmapProps) {
           {Array.from({ length: totalWeeks }, (_, weekIdx) => (
             <div key={weekIdx} className="flex flex-col gap-1">
               {Array.from({ length: 7 }, (_, dayIdx) => {
-                const cell = grid[dayIdx][weekIdx];
+                const cell = grid[dayIdx]?.[weekIdx];
 
                 // If no cell (date outside year), render empty
                 if (!cell) {

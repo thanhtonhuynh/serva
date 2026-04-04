@@ -5,7 +5,8 @@ export async function getIp() {
   const realIp = (await headers()).get("x-real-ip");
 
   if (forwardedFor) {
-    return forwardedFor.split(",")[0].trim();
+    const [first] = forwardedFor.split(",");
+    return first?.trim() ?? null;
   }
 
   if (realIp) {

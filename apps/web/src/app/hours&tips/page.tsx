@@ -4,9 +4,15 @@ import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getWorkDayRecordsByDateRange } from "@serva/database/dal";
-import { Callout, CurrentBadge } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
+import {
+  Callout,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CurrentBadge,
+  Typography,
+} from "@serva/serva-ui";
 import {
   PERMISSIONS,
   TotalHoursTips,
@@ -76,7 +82,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const hoursTipsBreakdowns = [
     getHoursTipsBreakdownInDateRange(periods[0], firstPeriodRecords),
     getHoursTipsBreakdownInDateRange(periods[1], secondPeriodRecords),
-  ];
+  ] as const;
 
   const totalHoursTips: TotalHoursTips[] = [];
   for (const breakdown of hoursTipsBreakdowns) {
@@ -91,7 +97,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
           totalTips: 0,
         });
       } else {
-        totalHoursTips[index].totalHours += data.total;
+        const row = totalHoursTips[index];
+        if (row !== undefined) row.totalHours += data.total;
       }
     }
     for (const data of breakdown.tipsBreakdown) {
@@ -105,7 +112,8 @@ export default async function Page(props: { searchParams: SearchParams }) {
           totalTips: data.total,
         });
       } else {
-        totalHoursTips[index].totalTips += data.total;
+        const row = totalHoursTips[index];
+        if (row !== undefined) row.totalTips += data.total;
       }
     }
   }
@@ -113,9 +121,9 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const isCurrentPeriod = year === currentYear && monthIndex === currentMonth;
   const monthYearLabel = `${FULL_MONTHS[monthIndex]}-${year}`;
 
-  function buildExportPayload(index: number): ExportPeriodPayload {
-    const period = periods[index];
-    const breakdown = hoursTipsBreakdowns[index];
+  function buildExportPayload(periodIndex: 0 | 1): ExportPeriodPayload {
+    const period = periods[periodIndex];
+    const breakdown = hoursTipsBreakdowns[periodIndex];
     const startDay = period.start.getUTCDate();
     const endDay = period.end.getUTCDate();
     const dayHeaders = Array.from(
@@ -152,13 +160,15 @@ export default async function Page(props: { searchParams: SearchParams }) {
         </CardHeader>
 
         <CardContent className="space-y-10">
-          {periods.map((period, index) => {
-            const hoursData = hoursTipsBreakdowns[index].hoursBreakdown;
-            const tipsData = hoursTipsBreakdowns[index].tipsBreakdown;
+          {([0, 1] as const).map((periodIndex) => {
+            const period = periods[periodIndex];
+            const breakdown = hoursTipsBreakdowns[periodIndex];
+            const hoursData = breakdown.hoursBreakdown;
+            const tipsData = breakdown.tipsBreakdown;
             const hasData = hoursData.length > 0 || tipsData.length > 0;
 
             return (
-              <div key={index} className="space-y-6">
+              <div key={periodIndex} className="space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Typography variant="h3" className="flex items-center gap-2">
                     <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
@@ -166,7 +176,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
                     <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
                     <span>{formatInUTC(period.end, "d")}</span>
                   </Typography>
-                  <ExportPeriodButton payload={buildExportPayload(index)} />
+                  <ExportPeriodButton payload={buildExportPayload(periodIndex)} />
                 </div>
 
                 {hasData ? (
