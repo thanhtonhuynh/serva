@@ -91,13 +91,18 @@ export function InviteEmployeeModal({ open, onOpenChange, jobs }: Props) {
                 control={form.control}
                 render={({ field }) => (
                   <Field className="space-y-1">
-                    <FieldLabel htmlFor="invite-employee-job">Default job (optional)</FieldLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <FieldLabel htmlFor="invite-employee-job">Job title (optional)</FieldLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      items={jobs.map((job) => ({ label: job.name, value: job.id }))}
+                    >
                       <SelectTrigger id="invite-employee-job" variant="input">
-                        <SelectValue placeholder="No job" />
+                        <SelectValue placeholder="Not assigned" />
                       </SelectTrigger>
+
                       <SelectContent alignItemWithTrigger={false}>
-                        <SelectItem value="__none__">No job</SelectItem>
+                        <SelectItem value="">Not assigned</SelectItem>
                         {jobs.map((job) => (
                           <SelectItem key={job.id} value={job.id}>
                             {job.name}
