@@ -10,6 +10,7 @@ export * from "./dal/expenses";
 export * from "./dal/identity";
 export * from "./dal/invite";
 export * from "./dal/job";
+export * from "./dal/oauth-account";
 export * from "./dal/operator";
 export * from "./dal/password";
 export * from "./dal/platform-admin";

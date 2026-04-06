@@ -1,11 +1,21 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
-import { Callout, PasswordInputGroupInput, SIcon } from "@serva/serva-ui";
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@serva/serva-ui";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@serva/serva-ui";
-import { SignupInputs, SignupSchema } from "@serva/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Callout,
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  LoadingButton,
+  PasswordInputGroupInput,
+  SIcon,
+} from "@serva/serva-ui";
+import { SignupInputs, SignupSchema } from "@serva/shared";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signUpAction } from "./actions";

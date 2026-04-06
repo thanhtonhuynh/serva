@@ -1,24 +1,32 @@
 import { getCurrentSession } from "@serva/auth/session";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
-import { Container, SIcon } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  SIcon,
+  Typography,
+} from "@serva/serva-ui";
 import { getWebUrl } from "@serva/shared";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { LoginForm } from "./login-form";
+import { oauthLoginErrorMessage } from "./oauth-error-message";
 
 type Props = {
-  searchParams: Promise<{ invite?: string }>;
+  searchParams: Promise<{ invite?: string; error?: string }>;
 };
 
 export default async function Page({ searchParams }: Props) {
   const { identity } = await getCurrentSession();
   if (identity) redirect(getWebUrl());
 
-  const { invite: inviteToken } = await searchParams;
+  const { invite: inviteToken, error: oauthErrorCode } = await searchParams;
+  const oauthError = oauthLoginErrorMessage(oauthErrorCode);
+  const showGoogleSignIn = Boolean(process.env.GOOGLE_CLIENT_ID?.trim());
   const inviteMode = !!inviteToken;
   let inviteEmail: string | undefined;
 
@@ -31,10 +39,9 @@ export default async function Page({ searchParams }: Props) {
 
     inviteEmail = invite.email;
 
-    // If the invite email doesn't belong to an existing identity,
-    // redirect to signup instead
+    // New invitees without an account should set a password on signup, not login
     const existing = await getIdentityByEmail(invite.email);
-    if (existing) redirect(`/signup?invite=${encodeURIComponent(inviteToken)}`);
+    if (!existing) redirect(`/signup?invite=${encodeURIComponent(inviteToken)}`);
   }
 
   return (
@@ -48,7 +55,12 @@ export default async function Page({ searchParams }: Props) {
         </CardHeader>
 
         <CardContent className="flex w-full flex-col items-center space-y-3">
-          <LoginForm inviteToken={inviteToken} inviteEmail={inviteEmail} />
+          <LoginForm
+            inviteToken={inviteToken}
+            inviteEmail={inviteEmail}
+            oauthError={oauthError}
+            showGoogleSignIn={showGoogleSignIn}
+          />
 
           {!inviteMode && (
             <Button

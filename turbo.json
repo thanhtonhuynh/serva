@@ -21,7 +21,9 @@
         "MAINTENANCE_MODE",
         "MAINTENANCE_BYPASS_TOKEN",
         "NODE_ENV",
-        "PLATFORM_COMPANY_IMPERSONATION_SECRET"
+        "PLATFORM_COMPANY_IMPERSONATION_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]

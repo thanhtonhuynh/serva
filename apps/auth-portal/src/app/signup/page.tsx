@@ -1,9 +1,14 @@
 import { getCurrentSession } from "@serva/auth/session";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
-import { Container, SIcon } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  SIcon,
+  Typography,
+} from "@serva/serva-ui";
 import { getWebUrl } from "@serva/shared";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,8 +38,7 @@ export default async function Page({ searchParams }: Props) {
     inviteEmail = invite.email;
     inviteName = invite.name;
 
-    // If the invite email belongs to an existing identity,
-    // redirect to login instead
+    // New invitees with an account should login instead of signing up
     const existing = await getIdentityByEmail(invite.email);
     if (existing) redirect(`/login?invite=${encodeURIComponent(inviteToken)}`);
   }

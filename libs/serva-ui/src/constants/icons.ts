@@ -26,6 +26,7 @@ import {
   Exchange01Icon,
   FileNotFoundIcon,
   FilePasteIcon,
+  GoogleIcon,
   Home03Icon,
   HourglassIcon,
   InformationSquareIcon,
@@ -90,6 +91,8 @@ export const ICONS = {
 
   FILE_PASTE: FilePasteIcon,
   FILE_NOT_FOUND: FileNotFoundIcon,
+
+  GOOGLE: GoogleIcon,
 
   HOME: Home03Icon,
   HOURGLASS: HourglassIcon,

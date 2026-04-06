@@ -19,6 +19,23 @@ export async function createIdentity(name: string, email: string, password: stri
 }
 
 /**
+ * Set profile image from OAuth only when the identity has no image yet (preserve user uploads).
+ */
+export async function applyOAuthProfilePictureIfEmpty(
+  identityId: string,
+  currentImage: string | null | undefined,
+  picture: string | null | undefined,
+) {
+  const trimmed = picture?.trim();
+  if (!trimmed) return;
+  if (currentImage && currentImage.trim().length > 0) return;
+  await prisma.identity.update({
+    where: { id: identityId },
+    data: { image: trimmed },
+  });
+}
+
+/**
  * Get an identity by ID.
  */
 export const getIdentityById = cache(async (identityId: string) => {
@@ -31,6 +48,20 @@ export const getIdentityById = cache(async (identityId: string) => {
 export const getIdentityByEmail = cache(async (email: string) => {
   return prisma.identity.findUnique({ where: { email } });
 });
+
+/**
+ * Resolve an identity by email for OAuth linking: try normalized lowercase, then case-insensitive match.
+ */
+export async function findIdentityByEmailForOAuth(email: string) {
+  const trimmed = email.trim();
+  const lower = trimmed.toLowerCase();
+  return (
+    (await prisma.identity.findUnique({ where: { email: lower } })) ??
+    (await prisma.identity.findFirst({
+      where: { email: { equals: trimmed, mode: "insensitive" } },
+    }))
+  );
+}
 
 /**
  * Get an identity's profile within a specific company, including role name

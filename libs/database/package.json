@@ -13,9 +13,11 @@
     "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@serva/shared": "workspace:*",
     "@prisma/client": "^6.19.2"
   },
   "devDependencies": {
+    "@types/node": "^20.19.27",
     "prisma": "^6.19.2",
     "typescript": "^6.0.2"
   }

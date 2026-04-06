@@ -14,7 +14,7 @@ const firaSans = Fira_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const metadata: Metadata = { title: "Serva — Sign In" };
+export const metadata: Metadata = { title: "Serva Authentication" };
 
 export const viewport: Viewport = { maximumScale: 1 };
 

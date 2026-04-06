@@ -1,12 +1,33 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
 import { authGuardWithRateLimit } from "@serva/auth/authorize";
+import { findGoogleOAuthAccountByIdentityId } from "@serva/database/dal";
+import { Container, Typography } from "@serva/serva-ui";
 import { Fragment } from "react";
-import { UpdateAvatar, UpdateEmailForm, UpdateNameForm, UpdatePasswordForm } from "./_components";
+import {
+  GoogleAccountSection,
+  UpdateAvatar,
+  UpdateEmailForm,
+  UpdateNameForm,
+  UpdatePasswordForm,
+} from "./_components";
 
-export default async function Page() {
+type Props = {
+  searchParams: Promise<{ google?: string; reason?: string }>;
+};
+
+export default async function Page({ searchParams }: Props) {
   const { identity } = await authGuardWithRateLimit();
+  const { google: googleParam, reason } = await searchParams;
+
+  const googleOAuth = await findGoogleOAuthAccountByIdentityId(identity.id);
+  const googleLinked = !!googleOAuth;
+
+  const googleStatus =
+    googleParam === "linked"
+      ? ("linked" as const)
+      : googleParam === "link_error"
+        ? ("link_error" as const)
+        : undefined;
 
   return (
     <Fragment>
@@ -19,6 +40,11 @@ export default async function Page() {
         <UpdateNameForm identity={identity} />
         <UpdateEmailForm identity={identity} />
         <UpdatePasswordForm />
+        <GoogleAccountSection
+          googleLinked={googleLinked}
+          googleStatus={googleStatus}
+          linkErrorReason={reason ?? null}
+        />
       </Container>
     </Fragment>
   );

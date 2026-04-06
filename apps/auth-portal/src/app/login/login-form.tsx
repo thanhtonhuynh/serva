@@ -1,5 +1,6 @@
 "use client";
 
+import { GoogleSignInButton } from "@/components/google-sign-in-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Callout,
@@ -23,9 +24,11 @@ import { loginAction } from "./actions";
 type Props = {
   inviteToken?: string;
   inviteEmail?: string;
+  oauthError?: string;
+  showGoogleSignIn?: boolean;
 };
 
-export function LoginForm({ inviteToken, inviteEmail }: Props) {
+export function LoginForm({ inviteToken, inviteEmail, oauthError, showGoogleSignIn }: Props) {
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const form = useForm<LoginInputs>({
@@ -50,14 +53,16 @@ export function LoginForm({ inviteToken, inviteEmail }: Props) {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-6">
+      {oauthError && <Callout variant="error" message={oauthError} />}
+
       {/* Temporary. Remove later. */}
       {!inviteEmail && (
         <Callout
           variant="info"
           message={
             <div className="flex flex-col gap-1">
-              <span>We have removed username as a login method.</span>
-              <span>Please use your email to login.</span>
+              <span>NEW! You can now sign in to Serva using your Google account.</span>
+              <span>You can activate it in Account settings.</span>
             </div>
           }
         />
@@ -131,6 +136,18 @@ export function LoginForm({ inviteToken, inviteEmail }: Props) {
       <LoadingButton type="submit" className="w-full" loading={isPending}>
         Login
       </LoadingButton>
+
+      {showGoogleSignIn && (
+        <>
+          <div className="flex w-full items-center gap-3">
+            <div className="bg-border h-px flex-1" />
+            <span className="text-muted-foreground text-xs">OR</span>
+            <div className="bg-border h-px flex-1" />
+          </div>
+
+          <GoogleSignInButton inviteToken={inviteToken} />
+        </>
+      )}
     </form>
   );
 }
