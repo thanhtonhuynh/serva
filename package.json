@@ -12,8 +12,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "db:push": "pnpm --filter @serva/database run db:push",
-    "postinstall": "pnpm --filter @serva/database run db:generate"
+    "db:push": "pnpm --filter @serva/database run db:push"
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",

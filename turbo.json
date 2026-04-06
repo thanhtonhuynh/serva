@@ -2,13 +2,13 @@
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
   "tasks": {
-    "db:generate": {
+    "db:push": {
       "cache": false,
       "env": ["DATABASE_URL"]
     },
     "build": {
       "description": "Compiles TypeScript and bundles the application",
-      "dependsOn": ["^build", "@serva/database#db:generate"],
+      "dependsOn": ["^build", "@serva/database#db:push"],
       "env": [
         "DATABASE_URL",
         "AUTH_URL",

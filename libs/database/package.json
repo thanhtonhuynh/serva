@@ -8,7 +8,7 @@
   },
   "scripts": {
     "db:generate": "prisma generate && cp prisma/schema.prisma generated/prisma/schema.prisma",
-    "db:push": "prisma db push",
+    "db:push": "prisma db push && cp prisma/schema.prisma generated/prisma/schema.prisma",
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts"
   },
