@@ -18,6 +18,7 @@ import {
   getCompanyIdCookie,
   getImpersonatedCompanyCookie,
   getSessionTokenCookie,
+  setSessionTokenCookie,
 } from "./cookies";
 import { buildSimplifiedRole, mergePermissions } from "./roles";
 
@@ -76,6 +77,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
       where: { id: sessionId },
       data: { expiresAt: session.expiresAt },
     });
+    await setSessionTokenCookie(token, session.expiresAt);
   }
 
   const companies = buildUniqueCompaniesFromAccounts(dbIdentity.operators, dbIdentity.employees);
