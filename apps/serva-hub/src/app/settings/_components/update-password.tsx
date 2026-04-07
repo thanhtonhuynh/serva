@@ -5,18 +5,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
   Checkbox,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
   LoadingButton,
   PasswordInput,
   Typography,
 } from "@serva/serva-ui";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { updatePasswordAction } from "../actions";
 
@@ -24,7 +23,7 @@ export function UpdatePasswordForm() {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdatePasswordSchemaInput>({
     resolver: zodResolver(UpdatePasswordSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       currentPassword: "",
       newPassword: "",
@@ -32,87 +31,125 @@ export function UpdatePasswordForm() {
       logOutOtherDevices: true,
     },
   });
+  const { formState } = form;
 
   async function onSubmit(data: UpdatePasswordSchemaInput) {
     startTransition(async () => {
       const { error } = await updatePasswordAction(data);
       if (error) toast.error(error);
-      else toast.success("Password updated.");
+      else {
+        toast.success("Password updated.");
+        form.reset();
+      }
     });
-
-    form.reset();
   }
 
   return (
     <Card className="p-6">
       <Typography variant="h2">Password</Typography>
 
-      <Form {...form}>
+      <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <FormField
-            control={form.control}
-            name="currentPassword"
-            render={({ field }) => (
-              <FormItem className="mb-2">
-                <FormLabel>Current password</FormLabel>
-                <FormControl>
-                  <PasswordInput {...field} placeholder="Current password" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <FieldGroup>
+            <Controller
+              name="currentPassword"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="change-password-current-password">
+                    Current password
+                  </FieldLabel>
+                  <PasswordInput
+                    {...field}
+                    id="change-password-current-password"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Current password"
+                  />
 
-          <FormField
-            control={form.control}
-            name="newPassword"
-            render={({ field }) => (
-              <FormItem className="mb-2">
-                <FormLabel>New password</FormLabel>
-                <FormControl>
-                  <PasswordInput {...field} placeholder="New password" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+          </FieldGroup>
 
-          <FormField
-            control={form.control}
-            name="confirmNewPassword"
-            render={({ field }) => (
-              <FormItem className="mb-3">
-                <FormLabel>Confirm new password</FormLabel>
-                <FormControl>
-                  <PasswordInput {...field} placeholder="Confirm new password" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <FieldGroup>
+            <Controller
+              name="newPassword"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="change-password-new-password">New password</FieldLabel>
+                  <PasswordInput
+                    {...field}
+                    id="change-password-new-password"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="New password"
+                  />
+                  <FieldDescription>
+                    Must be at least 8 characters long, contain at least one uppercase letter, one
+                    lowercase letter, one number, and one special character
+                  </FieldDescription>
+
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+          </FieldGroup>
+
+          <FieldGroup>
+            <Controller
+              name="confirmNewPassword"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="change-password-confirm-password">
+                    Confirm new password
+                  </FieldLabel>
+                  <PasswordInput
+                    {...field}
+                    id="change-password-confirm-password"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Re-enter new password"
+                  />
+
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+          </FieldGroup>
 
           <div className="text-muted-foreground text-sm">
             Please sign out of other devices if you think your account has been compromised.
           </div>
 
-          <FormField
-            control={form.control}
-            name="logOutOtherDevices"
-            render={({ field }) => (
-              <FormItem className="mt-2 mb-4 flex flex-row items-center space-y-0 space-x-3">
-                <FormControl>
-                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <FormLabel>Sign out of other devices</FormLabel>
-              </FormItem>
-            )}
-          />
+          <FieldGroup>
+            <Controller
+              name="logOutOtherDevices"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+                  <Checkbox
+                    id="change-password-log-out-other-devices"
+                    name={field.name}
+                    aria-invalid={fieldState.invalid}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <FieldLabel htmlFor="change-password-log-out-other-devices">
+                    Sign out of other devices
+                  </FieldLabel>
+                </Field>
+              )}
+            />
+          </FieldGroup>
 
-          <LoadingButton type="submit" size={"sm"} loading={isPending} variant={"outline"}>
-            Update password
-          </LoadingButton>
+          {formState.isDirty && (
+            <LoadingButton type="submit" size={"sm"} loading={isPending} variant={"outline"}>
+              {isPending ? "Updating..." : "Update password"}
+            </LoadingButton>
+          )}
         </form>
-      </Form>
+      </FormProvider>
     </Card>
   );
 }
