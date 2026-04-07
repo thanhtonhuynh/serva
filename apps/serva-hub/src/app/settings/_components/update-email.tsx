@@ -4,7 +4,7 @@ import { UpdateEmailSchema, UpdateEmailSchemaInput } from "@/libs/validations/au
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Identity } from "@serva/auth/session";
 import { Card, LoadingButton, Typography } from "@serva/serva-ui";
-import { InputFieldV2 } from "@serva/serva-ui/components/form/input-field-v2";
+import { InputField } from "@serva/serva-ui/components/form/input-field";
 import { useTransition } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -38,7 +38,7 @@ export function UpdateEmailForm({ identity }: Props) {
 
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <InputFieldV2
+          <InputField
             fieldName="email"
             label="Email"
             type="email"

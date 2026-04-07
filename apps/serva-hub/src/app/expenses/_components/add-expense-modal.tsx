@@ -21,7 +21,7 @@ import {
   ICONS,
   LoadingButton,
 } from "@serva/serva-ui";
-import { InputFieldV2 } from "@serva/serva-ui/components/form/input-field-v2";
+import { InputField } from "@serva/serva-ui/components/form/input-field";
 import { getTodayUTCMidnight } from "@serva/shared";
 import { ReactElement, useState, useTransition } from "react";
 import { Controller, FormProvider, useFieldArray, useForm } from "react-hook-form";
@@ -116,14 +116,14 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
                 {entries.fields.map((entry, index) => (
                   <div key={entry.id} className="flex items-start gap-2">
                     <div className="w-40">
-                      <InputFieldV2
+                      <InputField
                         fieldName={`entries.${index}.amount`}
                         label={index === 0 ? "Amount" : ""}
                         type="number"
                         htmlFor={`entries.${index} - amount input`}
                       />
                     </div>
-                    <InputFieldV2
+                    <InputField
                       fieldName={`entries.${index}.reason`}
                       label={index === 0 ? "Reason" : ""}
                       htmlFor={`entries.${index} - reason input`}

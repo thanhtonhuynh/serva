@@ -2,7 +2,7 @@
 
 import { SaleReportInputs } from "@/libs/validations/report";
 import { DatePickerInput, Typography } from "@serva/serva-ui";
-import { InputFieldV2 } from "@serva/serva-ui/components/form/input-field-v2";
+import { InputField } from "@serva/serva-ui/components/form/input-field";
 import { getPlatformById } from "@serva/shared";
 import { useFormContext } from "react-hook-form";
 
@@ -26,7 +26,7 @@ export function SalesDetailForm() {
         </Typography>
 
         <div className="grid grid-cols-2 gap-3 px-3">
-          <InputFieldV2
+          <InputField
             fieldName="totalSales"
             label="Total Sales"
             htmlFor="totalSales"
@@ -34,7 +34,7 @@ export function SalesDetailForm() {
             type="number"
           />
 
-          <InputFieldV2
+          <InputField
             fieldName="cardSales"
             label="Card Net Sales"
             htmlFor="cardSales"
@@ -51,7 +51,7 @@ export function SalesDetailForm() {
             if (!platformInfo) return null;
 
             return (
-              <InputFieldV2
+              <InputField
                 key={platform.platformId}
                 fieldName={`platformSales.${index}.amount`}
                 label={platformInfo.label}
@@ -70,7 +70,7 @@ export function SalesDetailForm() {
         </Typography>
 
         <div className="px-3">
-          <InputFieldV2
+          <InputField
             fieldName="expenses"
             label="Amount"
             htmlFor="expenses"
@@ -78,7 +78,7 @@ export function SalesDetailForm() {
             type="number"
           />
 
-          <InputFieldV2
+          <InputField
             fieldName="expensesReason"
             label="Reason"
             htmlFor="expensesReason"
@@ -93,7 +93,7 @@ export function SalesDetailForm() {
         </Typography>
 
         <div className="grid grid-cols-3 gap-3 px-3">
-          <InputFieldV2
+          <InputField
             fieldName="cardTips"
             label="Card"
             htmlFor="cardTips"
@@ -101,7 +101,7 @@ export function SalesDetailForm() {
             type="number"
           />
 
-          <InputFieldV2
+          <InputField
             fieldName="cashTips"
             label="Cash"
             htmlFor="cashTips"
@@ -109,7 +109,7 @@ export function SalesDetailForm() {
             type="number"
           />
 
-          <InputFieldV2
+          <InputField
             fieldName="extraTips"
             label="Extra"
             htmlFor="extraTips"
