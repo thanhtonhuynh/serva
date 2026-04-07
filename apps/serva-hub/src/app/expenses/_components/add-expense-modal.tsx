@@ -14,19 +14,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
   ICONS,
   LoadingButton,
 } from "@serva/serva-ui";
-import { InputField } from "@serva/serva-ui/components/form/input-field";
+import { InputFieldV2 } from "@serva/serva-ui/components/form/input-field-v2";
 import { getTodayUTCMidnight } from "@serva/shared";
 import { ReactElement, useState, useTransition } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { addExpensesAction } from "../actions";
 
@@ -74,11 +72,6 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
 
   function handleOpenChange(nextOpen: boolean) {
     setOpen(nextOpen);
-    // if (nextOpen) {
-    //   // Reset form when dialog opens
-    //   form.reset({ date: initialDate, entries: [{ amount: 0, reason: "" }] });
-    //   setMonth(new Date(initialDate.getFullYear(), initialDate.getMonth()));
-    // }
     if (!nextOpen) form.reset();
   }
 
@@ -92,48 +85,48 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
         </DialogHeader>
 
         <DialogBody>
-          <Form {...form}>
+          <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Date</FormLabel>
-                    <FormControl>
+              <FieldGroup>
+                <Controller
+                  name="date"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid} className="gap-1.5">
+                      <FieldLabel htmlFor="add-expense-date-input">Date</FieldLabel>
                       <Calendar
                         mode="single"
                         selected={field.value}
+                        id="add-expense-date-input"
                         onSelect={field.onChange}
                         onDayClick={field.onChange}
                         month={month}
                         onMonthChange={setMonth}
                         startMonth={new Date(2024, 9)}
                         captionLayout="dropdown"
-                        className="rounded-xl border"
+                        className="w-full rounded-xl border"
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+              </FieldGroup>
 
               <div className="space-y-3">
-                <FormLabel>Entries</FormLabel>
                 {entries.fields.map((entry, index) => (
                   <div key={entry.id} className="flex items-start gap-2">
-                    <InputField
-                      nameInSchema={`entries.${index}.amount`}
-                      fieldTitle={index === 0 ? "Amount" : ""}
-                      type="number"
-                      labelClassName="text-muted-foreground text-xs tracking-wide"
-                      inputClassName="w-24"
-                    />
-                    <InputField
-                      nameInSchema={`entries.${index}.reason`}
-                      fieldTitle={index === 0 ? "Reason" : ""}
-                      formItemClassName="flex-1"
-                      labelClassName="text-muted-foreground text-xs tracking-wide"
+                    <div className="w-40">
+                      <InputFieldV2
+                        fieldName={`entries.${index}.amount`}
+                        label={index === 0 ? "Amount" : ""}
+                        type="number"
+                        htmlFor={`entries.${index} - amount input`}
+                      />
+                    </div>
+                    <InputFieldV2
+                      fieldName={`entries.${index}.reason`}
+                      label={index === 0 ? "Reason" : ""}
+                      htmlFor={`entries.${index} - reason input`}
                     />
                     <Button
                       variant="ghost"
@@ -148,7 +141,7 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
                   </div>
                 ))}
 
-                <FormMessage>{form.getFieldState("entries").error?.message}</FormMessage>
+                <FieldError errors={[form.getFieldState("entries").error]} />
 
                 <Button
                   variant="outline-accent"
@@ -166,7 +159,7 @@ export function AddExpenseModal({ children, defaultDate }: Props) {
                 </LoadingButton>
               </div>
             </form>
-          </Form>
+          </FormProvider>
         </DialogBody>
       </DialogContent>
     </Dialog>

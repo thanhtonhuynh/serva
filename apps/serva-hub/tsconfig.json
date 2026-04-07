@@ -15,8 +15,6 @@
       "@serva/shared/*": ["../../libs/shared/src/*"],
       "@serva/auth": ["../../libs/auth/src/index.ts"],
       "@serva/auth/*": ["../../libs/auth/src/*"],
-      "@serva/serva-ui": ["../../libs/serva-ui/src/index.ts"],
-      "@serva/serva-ui/*": ["../../libs/serva-ui/src/*"]
     }
   },
   "include": [
