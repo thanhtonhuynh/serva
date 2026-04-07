@@ -96,7 +96,7 @@ All three projects share `COOKIE_DOMAIN=.serva.com` so the session cookie set by
 - Prefer **small, task-scoped changes**; avoid drive-by refactors unrelated to the request.
 - **Database**: import Prisma client, generated types, and `hashPassword` from `@serva/database`; import DAL functions from `@serva/database/dal` (not `PrismaClient` directly in UI).
 - **Auth**: import session, authorize, and permission helpers from `@serva/auth` — not from scattered app files. Auth UI lives in `apps/auth-portal`; consumer apps redirect to `AUTH_URL` for login/logout.
-- **UI**: import primitives, Serva components, `cn`, `ICONS`, etc. from **`@serva/serva-ui`** (see `libs/serva-ui/src/index.ts`). Use **`@serva/serva-ui/globals.css`** for global styles only. **`InputField`** / **`InputFieldV2`** (react-hook-form) use **`@serva/serva-ui/components/form/input-field`** and **`.../input-field-v2`** — excluded from the barrel on purpose.
+- **UI**: import primitives, Serva components, `cn`, `ICONS`, etc. from **`@serva/serva-ui`** (see `libs/serva-ui/src/index.ts`). Use **`@serva/serva-ui/globals.css`** for global styles only. Composed forms use **`Field`**, **`FieldGroup`**, **`FieldLabel`**, **`FieldError`**, etc. from the barrel. **`InputField`** (react-hook-form, built on `Field`) imports from **`@serva/serva-ui/components/form/input-field`** only — excluded from the barrel on purpose.
 - **Server vs client**: server components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity).
 - Match **existing naming**, imports (`@serva/*` for libs, `@/…` for app-local), and component patterns in the nearest feature folder.
 

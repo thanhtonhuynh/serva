@@ -19,7 +19,7 @@ alwaysApply: true
 - **`@serva/database/dal`** — DAL query functions (`server-only` in several modules).
 - **`@serva/shared`** — shared types, constants, helper utilities, auth validation schemas (e.g. `LoginSchema`, `SignupSchema`).
 - **`@serva/auth`** or **`@serva/auth/<module>`** — session, authorize, permissions, cookies, password helpers.
-- **`@serva/serva-ui`** — import UI from the package root ([`libs/serva-ui/src/index.ts`](libs/serva-ui/src/index.ts)): primitives, Serva components under `components/serva/`, `cn`, `ICONS`, hooks, etc. **Exceptions:** **`@serva/serva-ui/globals.css`**; **RHF form helpers** `InputField` / `InputFieldV2` from **`@serva/serva-ui/components/form/input-field`** and **`.../input-field-v2`** (not in the barrel—avoids pulling `react-hook-form` into every barrel consumer and fixes Turbopack resolution).
+- **`@serva/serva-ui`** — import UI from the package root ([`libs/serva-ui/src/index.ts`](libs/serva-ui/src/index.ts)): primitives, Serva components under `components/serva/`, `Field` primitives, `cn`, `ICONS`, hooks, etc. **Exceptions:** **`@serva/serva-ui/globals.css`**; **RHF helper** `InputField` from **`@serva/serva-ui/components/form/input-field`** only (not in the barrel—avoids pulling `react-hook-form` into every barrel consumer and fixes Turbopack resolution).
 - **`@/*`** — app-local paths inside each app's `src/`.
 
 ## Multi-app architecture
