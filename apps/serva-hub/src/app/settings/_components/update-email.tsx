@@ -3,19 +3,10 @@
 import { UpdateEmailSchema, UpdateEmailSchemaInput } from "@/libs/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Identity } from "@serva/auth/session";
-import {
-  Card,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  Input,
-  LoadingButton,
-  Typography,
-} from "@serva/serva-ui";
+import { Card, LoadingButton, Typography } from "@serva/serva-ui";
+import { InputFieldV2 } from "@serva/serva-ui/components/form/input-field-v2";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { updateEmailAction } from "../actions";
 
@@ -45,27 +36,21 @@ export function UpdateEmailForm({ identity }: Props) {
     <Card className="p-6">
       <Typography variant="h2">Email</Typography>
 
-      <Form {...form}>
+      <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <FormField
-            name="email"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input {...field} placeholder="example@gmail.com" />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
+          <InputFieldV2
+            fieldName="email"
+            label="Email"
+            type="email"
+            htmlFor="email"
+            placeholder="serva@example.com"
           />
 
           <LoadingButton variant={"outline"} size={"sm"} loading={isPending} type="submit">
             Save
           </LoadingButton>
         </form>
-      </Form>
+      </FormProvider>
     </Card>
   );
 }
