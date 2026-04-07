@@ -47,6 +47,7 @@ export function PlatformsForm({ currentActivePlatformIds }: PlatformsFormProps) 
         setError(error);
       } else {
         setSuccess(true);
+        form.reset(data);
         setTimeout(() => setSuccess(false), 5000);
       }
     });
@@ -67,7 +68,7 @@ export function PlatformsForm({ currentActivePlatformIds }: PlatformsFormProps) 
         </p>
       </div>
 
-      <form id="platforms-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
         {error && <Callout variant="error" message={error} />}
         {success && <Callout variant="success" message="Platforms updated" />}
 
@@ -113,7 +114,7 @@ export function PlatformsForm({ currentActivePlatformIds }: PlatformsFormProps) 
 
         {formState.isDirty && (
           <LoadingButton size="sm" variant="outline" loading={isPending} type="submit">
-            Update platforms
+            {isPending ? "Updating..." : "Update platforms"}
           </LoadingButton>
         )}
       </form>

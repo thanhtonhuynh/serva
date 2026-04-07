@@ -2,21 +2,10 @@
 
 import { UpdateStartCashInput, UpdateStartCashSchema } from "@/libs/validations/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Callout,
-  Card,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  LoadingButton,
-  Typography,
-} from "@serva/serva-ui";
+import { Callout, Card, LoadingButton, Typography } from "@serva/serva-ui";
+import { InputField } from "@serva/serva-ui/components/form/input-field";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { updateStartCash } from "./actions";
 
 type ShiftHoursFormProps = {
@@ -29,11 +18,12 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdateStartCashInput>({
     resolver: zodResolver(UpdateStartCashSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       startCash: currentStartCash,
     },
   });
+  const { formState } = form;
 
   async function onSubmit(data: UpdateStartCashInput) {
     startTransition(async () => {
@@ -43,6 +33,7 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
         setError(error);
       } else {
         setSuccess(true);
+        form.reset(data);
 
         setTimeout(() => {
           setSuccess(false);
@@ -56,37 +47,30 @@ export function StartCashForm({ currentStartCash }: ShiftHoursFormProps) {
       <Typography variant="h2">Start Cash</Typography>
 
       <div className="text-muted-foreground space-y-1 text-sm">
-        <p>Update the start cash amount.</p>
+        <p>
+          The start cash amount is the amount of money that the store has at the beginning of the
+          day.
+        </p>
         <p>
           <span className="font-semibold">Note:</span> Any changes to the start cash amount will be
           applied to the next sales report. The past reports will not be affected.
         </p>
       </div>
 
-      <Form {...form}>
+      <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           {error && <Callout variant="error" message={error} />}
           {success && <Callout variant="success" message="Start cash updated" />}
 
-          <FormField
-            name={"startCash"}
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="sr-only">Start cash</FormLabel>
-                <FormControl>
-                  <Input {...field} type="number" value={field.value as string} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <InputField fieldName="startCash" htmlFor="startCash" type="number" placeholder="0.00" />
 
-          <LoadingButton size={"sm"} variant={"outline"} loading={isPending} type="submit">
-            Update start cash
-          </LoadingButton>
+          {formState.isDirty && (
+            <LoadingButton size={"sm"} variant={"outline"} loading={isPending} type="submit">
+              {isPending ? "Updating..." : "Update start cash"}
+            </LoadingButton>
+          )}
         </form>
-      </Form>
+      </FormProvider>
     </Card>
   );
 }
