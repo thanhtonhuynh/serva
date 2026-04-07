@@ -18,7 +18,7 @@ export function UpdateEmailForm({ identity }: Props) {
   const [isPending, startTransition] = useTransition();
   const form = useForm<UpdateEmailSchemaInput>({
     resolver: zodResolver(UpdateEmailSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       email: identity.email,
     },
