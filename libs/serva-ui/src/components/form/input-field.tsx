@@ -9,7 +9,7 @@ type Props = {
   htmlFor: string;
 };
 
-export function InputFieldV2({
+export function InputField({
   fieldName,
   label,
   htmlFor,
