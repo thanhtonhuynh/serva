@@ -23,12 +23,16 @@ export function UpdateEmailForm({ identity }: Props) {
       email: identity.email,
     },
   });
+  const { formState } = form;
 
   async function onSubmit(data: UpdateEmailSchemaInput) {
     startTransition(async () => {
       const { error } = await updateEmailAction(data);
       if (error) toast.error(error);
-      else toast.success("Email updated.");
+      else {
+        toast.success("Email updated.");
+        form.reset(data);
+      }
     });
   }
 
@@ -40,15 +44,16 @@ export function UpdateEmailForm({ identity }: Props) {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <InputField
             fieldName="email"
-            label="Email"
             type="email"
             htmlFor="email"
             placeholder="serva@example.com"
           />
 
-          <LoadingButton variant={"outline"} size={"sm"} loading={isPending} type="submit">
-            Save
-          </LoadingButton>
+          {formState.isDirty && (
+            <LoadingButton variant={"outline"} size={"sm"} loading={isPending} type="submit">
+              {isPending ? "Saving..." : "Save"}
+            </LoadingButton>
+          )}
         </form>
       </FormProvider>
     </Card>
