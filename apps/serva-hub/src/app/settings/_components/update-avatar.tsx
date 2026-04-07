@@ -55,26 +55,6 @@ export function UpdateAvatar({ identity }: UpdateAvatarFormProps) {
 
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-            {/* <FormField
-              name="image"
-              control={form.control}
-              render={({ field: { value, onChange, ...fieldProps } }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...fieldProps}
-                      type="file"
-                      accept="image/jpeg, image/png, image/jpg, image/webp"
-                      onChange={(e) => onChange(e.target.files && e.target.files[0])}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Image size must be less than 5MB and in JPEG, PNG, JPG, or WEBP format.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
             <FieldGroup>
               <Controller
                 name="image"
