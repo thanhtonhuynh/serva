@@ -1,12 +1,12 @@
 "use server";
 
+import { authorizeAction, hasSessionPermission } from "@/libs/auth";
 import {
   CreateRoleInput,
   CreateRoleSchema,
   UpdateRoleInput,
   UpdateRoleSchema,
 } from "@/libs/validations/roles";
-import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { createRole, deleteRole, roleNameExists, updateRole } from "@serva/database/dal";
 import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";

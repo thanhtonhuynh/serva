@@ -1,16 +1,14 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { getPermissionsGrouped, getRoles } from "@serva/database/dal";
+import { Card, CardContent, CardHeader, CardTitle, Container, Typography } from "@serva/serva-ui";
 import { PERMISSIONS } from "@serva/shared";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { CreateRoleModal, RolesTable } from "./_components";
 
 export default async function RolesPage() {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.ROLES_VIEW))) return notFound();
 
   const canManageRoles = await hasSessionPermission(PERMISSIONS.ROLES_MANAGE);

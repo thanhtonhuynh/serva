@@ -1,15 +1,14 @@
 import { Header } from "@/components/layout/header";
 import { StatusFilter, ViewToggle, type ViewMode } from "@/components/shared";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import {
   getAwaitingInvitesByCompanyAndType,
   getOperatorsByCompany,
   getRoles,
 } from "@serva/database/dal";
-import { DisplayOperator, PERMISSIONS, type EmployeeStatus } from "@serva/shared";
-import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
-import { Container } from "@serva/serva-ui";
+import { Card, Container, Typography } from "@serva/serva-ui";
+import { PERMISSIONS } from "@serva/shared";
+import type { DisplayOperator, EmployeeStatus } from "@serva/shared/types";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { OperatorsList } from "./_components/operators-list";
@@ -19,7 +18,7 @@ type PageProps = {
 };
 
 export default async function OperatorsPage({ searchParams }: PageProps) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.TEAM_VIEW))) return notFound();
 
   const params = await searchParams;

@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout";
-import { authGuard } from "@serva/auth/authorize";
+import { auth } from "@/libs/auth";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { Container, Typography } from "@serva/serva-ui";
 import { Fragment } from "react";
@@ -10,7 +10,7 @@ export default async function CashflowLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { companyCtx } = await authGuard();
+  const { companyCtx } = await auth();
   const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   return (

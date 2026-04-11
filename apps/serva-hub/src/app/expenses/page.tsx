@@ -1,7 +1,7 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/constants";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getExpensesByYear } from "@serva/database/dal";
 import {
   Button,
@@ -30,7 +30,7 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.EXPENSES_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;

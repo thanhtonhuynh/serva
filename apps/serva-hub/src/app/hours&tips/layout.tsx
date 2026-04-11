@@ -1,8 +1,7 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { authGuard } from "@serva/auth/authorize";
+import { auth } from "@/libs/auth";
 import { populateMonthSelectData } from "@/utils/hours-tips";
+import { Container, Typography } from "@serva/serva-ui";
 import { Fragment } from "react";
 import { PeriodSelector } from "./_components";
 
@@ -11,7 +10,7 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { companyCtx } = await authGuard();
+  const { companyCtx } = await auth();
   const { years } = await populateMonthSelectData(companyCtx.companyId);
 
   return (

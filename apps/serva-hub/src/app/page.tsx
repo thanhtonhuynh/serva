@@ -1,11 +1,11 @@
 import { CurrentPayPeriodSummary, QuickActions } from "@/components/homepage";
 import { Header } from "@/components/layout";
-import { authGuardWithRateLimit } from "@serva/auth/authorize";
+import { authWithRateLimit } from "@/libs/auth";
 import { Card, CardContent, CardHeader, CardTitle, Container, Typography } from "@serva/serva-ui";
 import { Fragment } from "react";
 
 export default async function Home() {
-  const { identity, companyCtx } = await authGuardWithRateLimit();
+  const { identity, companyCtx } = await authWithRateLimit();
 
   return (
     <Fragment>

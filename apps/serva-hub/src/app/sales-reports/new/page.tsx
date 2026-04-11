@@ -1,15 +1,14 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { PERMISSIONS, PLATFORMS, getPlatformById } from "@serva/shared";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { getActivePlatforms, getStartCash } from "@serva/database/dal";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
+import { Container, Typography } from "@serva/serva-ui";
+import { PERMISSIONS, PLATFORMS, getPlatformById } from "@serva/shared";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { SaleReportPortal } from "./sale-report-portal";
 
 export default async function Page() {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.REPORTS_CREATE))) return notFound();
 
   const [startCashPromise, activePlatformIds] = [

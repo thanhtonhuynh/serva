@@ -1,8 +1,8 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/constants";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { getHoursTipsBreakdownInDateRange, populateMonthSelectData } from "@/utils/hours-tips";
 import { ArrowRight01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getWorkDayRecordsByDateRange } from "@serva/database/dal";
 import {
   Callout,
@@ -32,7 +32,7 @@ type SearchParams = Promise<{
 }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.HOURS_TIPS_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;

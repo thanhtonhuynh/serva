@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout";
-import { authGuardWithRateLimit } from "@serva/auth/authorize";
+import { authWithRateLimit } from "@/libs/auth";
 import { findGoogleOAuthAccountByIdentityId } from "@serva/database/dal";
 import { Container, Typography } from "@serva/serva-ui";
 import { Fragment } from "react";
@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default async function Page({ searchParams }: Props) {
-  const { identity } = await authGuardWithRateLimit();
+  const { identity } = await authWithRateLimit();
   const { google: googleParam, reason } = await searchParams;
 
   const googleOAuth = await findGoogleOAuthAccountByIdentityId(identity.id);

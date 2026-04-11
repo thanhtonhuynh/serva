@@ -1,9 +1,10 @@
 "use server";
 
+import { authorizeAction, hasSessionPermission } from "@/libs/auth";
 import { WeekScheduleSchema, type WeekScheduleInput } from "@/libs/validations";
-import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { recomputeTipsForDateRange, replaceWeekSchedule } from "@serva/database/dal";
-import { PERMISSIONS, type DateRange } from "@serva/shared";
+import { PERMISSIONS } from "@serva/shared";
+import type { DateRange } from "@serva/shared/types";
 import { revalidatePath } from "next/cache";
 
 type ActionResult = { error?: string };

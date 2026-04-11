@@ -1,6 +1,7 @@
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { populateMonthSelectData } from "@/utils/hours-tips";
 import { getExpensesByYear, getReportsByDateRange } from "@serva/database/dal";
+import { Callout, Card, CardContent, CardHeader, CardTitle, CurrentBadge } from "@serva/serva-ui";
 import {
   PERMISSIONS,
   getCurrentYear,
@@ -9,7 +10,6 @@ import {
   processYearCashFlowData,
   type Platform,
 } from "@serva/shared";
-import { Callout, Card, CardContent, CardHeader, CardTitle, CurrentBadge } from "@serva/serva-ui";
 import { notFound } from "next/navigation";
 import { YearCashFlowTable } from "../_components";
 
@@ -18,7 +18,7 @@ type SearchParams = Promise<{
 }>;
 
 export default async function YearlyPage(props: { searchParams: SearchParams }) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.CASHFLOW_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;

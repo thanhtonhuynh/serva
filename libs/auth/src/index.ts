@@ -1,4 +1,3 @@
-export * from "./authorize";
 export * from "./cookies";
 export * from "./get-ip";
 export * from "./password";

@@ -7,7 +7,8 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
-    "./config": "./src/config/index.ts"
+    "./config": "./src/config/index.ts",
+    "./types": "./src/types/index.ts"
   },
   "devDependencies": {
     "@types/node": "^20.19.27",

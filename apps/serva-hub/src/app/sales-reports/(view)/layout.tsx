@@ -1,11 +1,8 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { PERMISSIONS } from "@serva/shared";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { Button, Container, ICONS, Typography } from "@serva/serva-ui";
+import { PERMISSIONS } from "@serva/shared";
 import Link from "next/link";
 import { Fragment, ReactNode, Suspense } from "react";
 import { SalesAnalyticsDashboard } from "../_components/sales-analytics";
@@ -13,7 +10,7 @@ import { SalesAnalyticsSkeleton } from "../_components/sales-analytics/sales-ana
 import { RecentReports, ReportPicker } from "./_components";
 
 export default async function ReportViewLayout({ children }: { children: ReactNode }) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
 
   const canCreateReport = await hasSessionPermission(PERMISSIONS.REPORTS_CREATE);
 

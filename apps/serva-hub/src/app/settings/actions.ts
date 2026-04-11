@@ -1,5 +1,6 @@
 "use server";
 
+import { authorizeAction } from "@/libs/auth";
 import {
   UpdateAvatarSchema,
   UpdateAvatarSchemaInput,
@@ -11,7 +12,6 @@ import {
   UpdatePasswordSchemaInput,
 } from "@/libs/validations/auth";
 import { deleteImage, uploadImage } from "@/libs/vercel-blob/storage";
-import { authorizeAction } from "@serva/auth/authorize";
 import { verifyPassword } from "@serva/auth/password";
 import { invalidateIdentitySessionsExceptCurrent } from "@serva/auth/session";
 import {

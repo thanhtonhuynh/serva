@@ -1,16 +1,14 @@
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
-import { PERMISSIONS } from "@serva/shared";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { getJobsByCompany } from "@serva/database/dal";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
+import { Card, Container, Typography } from "@serva/serva-ui";
+import { PERMISSIONS } from "@serva/shared";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { JobsManager } from "./_components/jobs-manager";
 
 export default async function TeamJobsPage() {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.TEAM_VIEW))) return notFound();
 
   const [jobs, canManage] = await Promise.all([

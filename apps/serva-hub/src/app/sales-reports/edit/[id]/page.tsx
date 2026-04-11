@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { SaleReportInputs } from "@/libs/validations/report";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getActivePlatforms, getReportRaw, getStartCash } from "@serva/database/dal";
 import { Container, Typography } from "@serva/serva-ui";
 import { PERMISSIONS, PLATFORMS, formatInUTC, getPlatformById } from "@serva/shared";
@@ -11,7 +11,7 @@ import { SaleReportPortal } from "../../new/sale-report-portal";
 type Params = Promise<{ id: string }>;
 
 export default async function Page(props: { params: Params }) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.REPORTS_UPDATE))) return notFound();
 
   const params = await props.params;

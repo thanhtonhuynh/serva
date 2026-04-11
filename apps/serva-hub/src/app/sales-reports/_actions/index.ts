@@ -1,8 +1,8 @@
 "use server";
 
-import { PERMISSIONS } from "@serva/shared";
+import { authorizeAction, hasSessionPermission } from "@/libs/auth";
 import { deleteReportById, reportExists } from "@serva/database/dal";
-import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
+import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";
 
 export async function deleteReportAction(reportId: string): Promise<{ error?: string }> {

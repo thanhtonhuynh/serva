@@ -1,12 +1,17 @@
 import { SaleReportCard } from "@/app/sales-reports/_components/sales-report-card";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { utc } from "@date-fns/utc";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getReportRaw } from "@serva/database/dal";
-import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  ICONS,
+  Typography,
+} from "@serva/serva-ui";
 import {
   PERMISSIONS,
   formatInUTC,
@@ -22,7 +27,7 @@ import { DeleteReportModal, ReportAuditLog } from "./_components";
 type SearchParams = Promise<{ date?: string }>;
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  await authGuardWithRateLimit();
+  await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.REPORTS_VIEW))) return notFound();
 
   const canUpdateReport = await hasSessionPermission(PERMISSIONS.REPORTS_UPDATE);

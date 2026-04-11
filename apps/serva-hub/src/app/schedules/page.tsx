@@ -1,18 +1,16 @@
 import { Header } from "@/components/layout";
-import { Container, Loader } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
-import { getEmployeesByCompany, getWorkDayRecordsByDateRange } from "@serva/database/dal";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { buildWorkDayRecordsByDate } from "@/utils/work-day-record";
+import { getEmployeesByCompany, getWorkDayRecordsByDateRange } from "@serva/database/dal";
+import { Card, Container, Loader, Typography } from "@serva/serva-ui";
 import {
   PERMISSIONS,
   formatInUTC,
   getEndOfWeekUTC,
   getStartOfWeekUTC,
   getTodayUTCMidnight,
-  type DateRange,
 } from "@serva/shared";
+import type { DateRange } from "@serva/shared/types";
 import { addDays } from "date-fns";
 import { redirect } from "next/navigation";
 import { Fragment, Suspense } from "react";
@@ -23,7 +21,7 @@ type PageProps = {
 };
 
 export default async function SchedulePage({ searchParams }: PageProps) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
 
   const params = await searchParams;
   const dateParam = params.date;

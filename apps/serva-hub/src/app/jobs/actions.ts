@@ -1,12 +1,12 @@
 "use server";
 
+import { authorizeAction, hasSessionPermission } from "@/libs/auth";
 import {
   CreateJobInput,
   CreateJobSchema,
   UpdateJobInput,
   UpdateJobSchema,
 } from "@/libs/validations/job";
-import { authorizeAction, hasSessionPermission } from "@serva/auth/authorize";
 import { createJob, updateJobName } from "@serva/database/dal";
 import { PERMISSIONS } from "@serva/shared";
 import { revalidatePath } from "next/cache";

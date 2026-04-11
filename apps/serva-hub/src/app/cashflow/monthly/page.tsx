@@ -1,6 +1,6 @@
 import { FULL_MONTHS, NUM_MONTHS } from "@/constants";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
 import { populateMonthSelectData } from "@/utils/hours-tips";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { getReportsByDateRange } from "@serva/database/dal";
 import { Callout, Card, CardContent, CardHeader, CardTitle, CurrentBadge } from "@serva/serva-ui";
 import {
@@ -21,7 +21,7 @@ type SearchParams = Promise<{
 }>;
 
 export default async function MonthlyPage(props: { searchParams: SearchParams }) {
-  const { companyCtx } = await authGuardWithRateLimit();
+  const { companyCtx } = await authWithRateLimit();
   if (!(await hasSessionPermission(PERMISSIONS.CASHFLOW_VIEW))) return notFound();
 
   const searchParams = await props.searchParams;

@@ -1,12 +1,12 @@
+import { hasPermission } from "@serva/auth/permission";
+import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
+import { getCurrentSession } from "@serva/auth/session";
 import type { Session } from "@serva/database";
-import { type PermissionCode } from "@serva/shared";
 import { getAppBaseUrl } from "@serva/shared/config";
+import type { CompanyContext, Identity, PermissionCode } from "@serva/shared/types";
 import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import "server-only";
-import { hasPermission } from "./permission";
-import { authenticatedRateLimit } from "./rate-limiter";
-import { getCurrentSession, type CompanyContext, type Identity } from "./session";
 
 type AuthorizeActionResult =
   | { identity: Identity; companyCtx: CompanyContext; session: Session }
@@ -15,28 +15,26 @@ type AuthorizeActionResult =
 /**
  * Auth guard for the current session.
  * Redirects to the auth app if not authenticated, not found if account status is not active,
- * and redirects to select company (on the auth app) if no company context is found.
+ * and redirects to select-company (on the auth app) if no company context is found.
  */
-export const authGuard = cache(
-  async (): Promise<{ identity: Identity; companyCtx: CompanyContext }> => {
-    const { identity, companyCtx } = await getCurrentSession();
+export const auth = cache(async (): Promise<{ identity: Identity; companyCtx: CompanyContext }> => {
+  const { identity, companyCtx } = await getCurrentSession();
 
-    if (!identity) redirect(`${getAppBaseUrl("auth-portal")}/login`);
-    if (identity.accountStatus !== "active") notFound();
-    if (!companyCtx) redirect(`${getAppBaseUrl("auth-portal")}/select-company`);
+  if (!identity) redirect(`${getAppBaseUrl("auth-portal")}/login`);
+  if (identity.accountStatus !== "active") notFound();
+  if (!companyCtx) redirect(`${getAppBaseUrl("auth-portal")}/select-company`);
 
-    return { identity, companyCtx };
-  },
-);
+  return { identity, companyCtx };
+});
 
 /**
  * Auth guard with rate limiting for the current session.
  */
-export async function authGuardWithRateLimit(): Promise<{
+export async function authWithRateLimit(): Promise<{
   identity: Identity;
   companyCtx: CompanyContext;
 }> {
-  const { identity, companyCtx } = await authGuard();
+  const { identity, companyCtx } = await auth();
 
   if (await authenticatedRateLimit(identity.id)) redirect("/rate-limit");
 

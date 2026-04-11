@@ -1,13 +1,15 @@
 // @ts-nocheck
 
 import { Header } from "@/components/layout";
-import { Container } from "@serva/serva-ui";
-import { Callout } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { Card } from "@serva/serva-ui";
+import { authWithRateLimit, hasSessionPermission } from "@/libs/auth";
+import {
+  getEmployeeByIdentityAndCompany,
+  getIdentityProfileInCompanyByEmail,
+  getRecentReportsByIdentity,
+  getRecentWorkDayRecordsByEmployee,
+} from "@serva/database/dal";
+import { Callout, Card, Container, Typography } from "@serva/serva-ui";
 import { PERMISSIONS } from "@serva/shared";
-import { getEmployeeByIdentityAndCompany, getIdentityProfileInCompanyByEmail, getRecentReportsByIdentity, getRecentWorkDayRecordsByEmployee } from "@serva/database/dal";
-import { authGuardWithRateLimit, hasSessionPermission } from "@serva/auth/authorize";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { ProfileInfo } from "./_components/profile-info";
@@ -19,7 +21,7 @@ type ProfilePageProps = {
 };
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
-  const { identity, companyCtx } = await authGuardWithRateLimit();
+  const { identity, companyCtx } = await authWithRateLimit();
 
   // Maintainence
   return (
