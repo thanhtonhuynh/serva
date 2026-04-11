@@ -1,6 +1,6 @@
 import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getCurrentSession, type Identity } from "@serva/auth/session";
-import { getAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import "server-only";
@@ -16,7 +16,7 @@ export const auth = cache(async (redirectPath?: string): Promise<{ identity: Ide
 
   if (!identity) {
     const callbackUrl = buildCallbackUrl(redirectPath);
-    redirect(`${getAuthUrl()}/login?${new URLSearchParams({ callbackUrl })}`);
+    redirect(`${getAppBaseUrl("auth-portal")}/login?${new URLSearchParams({ callbackUrl })}`);
   }
   if (identity.accountStatus !== "active" || !identity.isPlatformAdmin) notFound();
 

@@ -6,6 +6,11 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
-    }
+    },
+    "./config": "./src/config/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.27",
+    "typescript": "^6.0.2"
   }
 }

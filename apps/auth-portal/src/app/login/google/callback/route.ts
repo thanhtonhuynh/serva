@@ -34,17 +34,19 @@ import {
   findOAuthAccountByProviderAndAccountId,
   updateOAuthAccountTokens,
 } from "@serva/database/dal";
-import { getAuthUrl, getWebUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { decodeIdToken } from "arctic";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 function redirectToLogin(error: string) {
-  return NextResponse.redirect(new URL(`/login?error=${encodeURIComponent(error)}`, getAuthUrl()));
+  return NextResponse.redirect(
+    new URL(`/login?error=${encodeURIComponent(error)}`, getAppBaseUrl("auth-portal")),
+  );
 }
 
 function redirectToWebSettings(query: string) {
-  return NextResponse.redirect(new URL(`/settings?${query}`, getWebUrl()));
+  return NextResponse.redirect(new URL(`/settings?${query}`, getAppBaseUrl("serva-hub")));
 }
 
 function normalizeEmail(email: string) {
@@ -198,8 +200,8 @@ export async function GET(request: Request) {
       return redirectToLogin("invite");
     }
     await setCompanyIdCookie(consume.invite.companyId);
-    return NextResponse.redirect(getWebUrl());
+    return NextResponse.redirect(getAppBaseUrl("serva-hub"));
   }
 
-  return NextResponse.redirect(parseCallbackUrl(callbackUrlCookie) ?? getWebUrl());
+  return NextResponse.redirect(parseCallbackUrl(callbackUrlCookie) ?? getAppBaseUrl("serva-hub"));
 }

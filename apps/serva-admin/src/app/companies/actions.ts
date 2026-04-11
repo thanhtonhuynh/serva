@@ -3,7 +3,7 @@
 import { authWithRateLimit } from "@/lib/auth";
 import { createPlatformCompanyEntryToken } from "@serva/auth";
 import { createCompany, updateCompany } from "@serva/database/dal";
-import { getAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { companyFormSchema, type CompanyFormValues } from "./company-schema";
@@ -14,7 +14,9 @@ export type { CompanyFormValues as CompanyInput } from "./company-schema";
 export async function openCompanyInWebAction(companyId: string) {
   await authWithRateLimit();
   const token = createPlatformCompanyEntryToken(companyId);
-  redirect(`${getAuthUrl()}/platform/impersonate?token=${encodeURIComponent(token)}`);
+  redirect(
+    `${getAppBaseUrl("auth-portal")}/platform/impersonate?token=${encodeURIComponent(token)}`,
+  );
 }
 
 export async function createCompanyAction(

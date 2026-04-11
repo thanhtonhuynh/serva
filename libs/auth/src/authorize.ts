@@ -1,5 +1,6 @@
 import type { Session } from "@serva/database";
-import { getAuthUrl, type PermissionCode } from "@serva/shared";
+import { type PermissionCode } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import "server-only";
@@ -20,9 +21,9 @@ export const authGuard = cache(
   async (): Promise<{ identity: Identity; companyCtx: CompanyContext }> => {
     const { identity, companyCtx } = await getCurrentSession();
 
-    if (!identity) redirect(`${getAuthUrl()}/login`);
+    if (!identity) redirect(`${getAppBaseUrl("auth-portal")}/login`);
     if (identity.accountStatus !== "active") notFound();
-    if (!companyCtx) redirect(`${getAuthUrl()}/select-company`);
+    if (!companyCtx) redirect(`${getAppBaseUrl("auth-portal")}/select-company`);
 
     return { identity, companyCtx };
   },

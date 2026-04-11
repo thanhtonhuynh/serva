@@ -9,7 +9,7 @@ import {
 } from "@/lib/google-oauth";
 import { authenticatedRateLimit } from "@serva/auth";
 import { getCurrentSession } from "@serva/auth/session";
-import { getAuthUrl, getWebUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { generateCodeVerifier, generateState } from "arctic";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -19,12 +19,12 @@ const SETTINGS_PATH = `/settings`;
 export async function GET() {
   const { session, identity } = await getCurrentSession();
   if (!session || !identity) {
-    return NextResponse.redirect(new URL("/login", getAuthUrl()));
+    return NextResponse.redirect(new URL("/login", getAppBaseUrl("auth-portal")));
   }
 
   if (await authenticatedRateLimit(identity.id)) {
     return NextResponse.redirect(
-      new URL(`${SETTINGS_PATH}?google=link_error&reason=rate_limited`, getWebUrl()),
+      new URL(`${SETTINGS_PATH}?google=link_error&reason=rate_limited`, getAppBaseUrl("serva-hub")),
     );
   }
 
@@ -33,7 +33,7 @@ export async function GET() {
     google = createGoogleOAuthClient();
   } catch {
     return NextResponse.redirect(
-      new URL(`${SETTINGS_PATH}?google=link_error&reason=config`, getWebUrl()),
+      new URL(`${SETTINGS_PATH}?google=link_error&reason=config`, getAppBaseUrl("serva-hub")),
     );
   }
 

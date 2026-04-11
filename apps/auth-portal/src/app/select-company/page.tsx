@@ -1,12 +1,16 @@
 import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getCurrentSession } from "@serva/auth/session";
 import { getCompaniesByIdentityId } from "@serva/database/dal";
-import { SIcon } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { Card, CardContent, CardHeader } from "@serva/serva-ui";
-import { Container } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { getAdminUrl, getWebUrl } from "@serva/shared";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  SIcon,
+  Typography,
+} from "@serva/serva-ui";
+import { getAppBaseUrl } from "@serva/shared/config";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { CompanyList } from "./company-list";
@@ -20,7 +24,7 @@ export default async function SelectCompanyPage() {
   const companies = await getCompaniesByIdentityId(identity.id);
 
   if (companies.length === 1) {
-    redirect(getWebUrl());
+    redirect(getAppBaseUrl("serva-hub"));
   }
 
   return (
@@ -45,7 +49,7 @@ export default async function SelectCompanyPage() {
               {identity.isPlatformAdmin ? (
                 <div className="flex flex-col items-center gap-3">
                   <Typography>You have no company memberships.</Typography>
-                  <Button nativeButton={false} render={<a href={getAdminUrl()} />}>
+                  <Button nativeButton={false} render={<a href={getAppBaseUrl("serva-admin")} />}>
                     <SIcon icon="ADMIN" strokeWidth={1.5} />
                     Open Admin Dashboard
                   </Button>

@@ -1,5 +1,5 @@
 import type { OAuthAccountTokens } from "@serva/database/dal";
-import { getAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { Google, type OAuth2Tokens } from "arctic";
 
 export const GOOGLE_OAUTH_STATE_COOKIE = "google_oauth_state";
@@ -17,7 +17,7 @@ export type GoogleOAuthIntentValue =
 const OAUTH_COOKIE_MAX_AGE_SEC = 60 * 10;
 
 export function getGoogleOAuthRedirectUri(): string {
-  return `${getAuthUrl()}/login/google/callback`;
+  return `${getAppBaseUrl("auth-portal")}/login/google/callback`;
 }
 
 export function createGoogleOAuthClient(): Google {

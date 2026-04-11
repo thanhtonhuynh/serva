@@ -16,7 +16,7 @@ import {
   Typography,
   useSidebar,
 } from "@serva/serva-ui";
-import { getPublicAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";
@@ -87,7 +87,7 @@ export function AppSidebar() {
             </div>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton render={<a href={`${getPublicAuthUrl()}/logout`} />}>
+            <SidebarMenuButton render={<a href={`${getAppBaseUrl("auth-portal")}/logout`} />}>
               <SIcon icon="LOGOUT" strokeWidth={1.5} />
               <span>Logout</span>
             </SidebarMenuButton>

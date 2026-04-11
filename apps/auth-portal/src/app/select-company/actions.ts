@@ -3,7 +3,7 @@
 import { setCompanyIdCookie } from "@serva/auth/cookies";
 import { getCurrentSession } from "@serva/auth/session";
 import { getCompaniesByIdentityId } from "@serva/database/dal";
-import { getWebUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { redirect } from "next/navigation";
 
 export async function selectCompanyAction(companyId: string) {
@@ -17,5 +17,5 @@ export async function selectCompanyAction(companyId: string) {
 
   await setCompanyIdCookie(companyId);
 
-  redirect(getWebUrl());
+  redirect(getAppBaseUrl("serva-hub"));
 }

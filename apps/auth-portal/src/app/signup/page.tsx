@@ -9,7 +9,7 @@ import {
   SIcon,
   Typography,
 } from "@serva/serva-ui";
-import { getWebUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -21,7 +21,7 @@ type Props = {
 
 export default async function Page({ searchParams }: Props) {
   const { session } = await getCurrentSession();
-  if (session) redirect(getWebUrl());
+  if (session) redirect(getAppBaseUrl("serva-hub"));
 
   const { invite: inviteToken } = await searchParams;
   const inviteMode = !!inviteToken;

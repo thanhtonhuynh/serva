@@ -4,27 +4,27 @@ import {
   verifyPlatformCompanyEntryToken,
 } from "@serva/auth";
 import { prisma } from "@serva/database";
-import { getAdminUrl, getAuthUrl, getWebUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { redirect } from "next/navigation";
 import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { identity } = await getCurrentSession();
   if (!identity) {
-    redirect(`${getAuthUrl()}/login`);
+    redirect(`${getAppBaseUrl("auth-portal")}/login`);
   }
   if (!identity.isPlatformAdmin) {
-    redirect(`${getAdminUrl()}/companies`);
+    redirect(`${getAppBaseUrl("serva-admin")}/companies`);
   }
 
   const token = request.nextUrl.searchParams.get("token");
   if (!token) {
-    redirect(`${getAdminUrl()}/companies`);
+    redirect(`${getAppBaseUrl("serva-admin")}/companies`);
   }
 
   const companyId = verifyPlatformCompanyEntryToken(token);
   if (!companyId) {
-    redirect(`${getAdminUrl()}/companies`);
+    redirect(`${getAppBaseUrl("serva-admin")}/companies`);
   }
 
   const company = await prisma.company.findUnique({
@@ -32,9 +32,9 @@ export async function GET(request: NextRequest) {
     select: { id: true },
   });
   if (!company) {
-    redirect(`${getAdminUrl()}/companies`);
+    redirect(`${getAppBaseUrl("serva-admin")}/companies`);
   }
 
   await setImpersonatedCompanyCookie(companyId);
-  redirect(getWebUrl());
+  redirect(getAppBaseUrl("serva-hub"));
 }

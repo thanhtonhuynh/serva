@@ -10,7 +10,7 @@ import {
   SIcon,
   Typography,
 } from "@serva/serva-ui";
-import { getWebUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -27,7 +27,7 @@ export default async function Page({ searchParams }: Props) {
 
   if (identity) {
     const parsedCallbackUrl = parseCallbackUrl(callbackUrl);
-    redirect(parsedCallbackUrl ?? getWebUrl());
+    redirect(parsedCallbackUrl ?? getAppBaseUrl("serva-hub"));
   }
 
   const oauthError = oauthLoginErrorMessage(oauthErrorCode);

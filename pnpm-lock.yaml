@@ -469,7 +469,14 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
-  libs/shared: {}
+  libs/shared:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.19.27
+        version: 20.19.37
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
 
   libs/typescript-config: {}
 

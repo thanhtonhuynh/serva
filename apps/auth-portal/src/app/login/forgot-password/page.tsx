@@ -9,7 +9,7 @@ import {
   SIcon,
   Typography,
 } from "@serva/serva-ui";
-import { getWebUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -23,7 +23,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const { resetLinkExpired } = searchParams;
 
   const { session } = await getCurrentSession();
-  if (session) redirect(getWebUrl());
+  if (session) redirect(getAppBaseUrl("serva-hub"));
 
   return (
     <Container position="center">

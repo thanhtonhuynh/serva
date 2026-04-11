@@ -1,5 +1,5 @@
 import { Column, Heading, Row, Text } from "@react-email/components";
-import { getAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { SERVA_EMAIL_PRIMARY, ServaEmailPrimaryButton, ServaEmailShell } from "./serva-email-shell";
 
 InviteEmail.PreviewProps = {
@@ -27,7 +27,7 @@ export default function InviteEmail({
   token: string;
   expiresInDays?: number;
 }) {
-  const inviteUrl = `${getAuthUrl().replace(/\/$/, "")}/invite/${token}`;
+  const inviteUrl = `${getAppBaseUrl("auth-portal").replace(/\/$/, "")}/invite/${token}`;
   const roleLabel = profileType === "employee" ? "Employee" : "Operator";
   const welcome = inviteeName?.trim() ? inviteeName.trim() : "there";
   const initial = inviterName.trim().charAt(0).toUpperCase() || "?";

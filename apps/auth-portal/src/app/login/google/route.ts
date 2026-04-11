@@ -11,7 +11,7 @@ import {
 } from "@/lib/google-oauth";
 import { rateLimitByIp, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getInviteByToken } from "@serva/database/dal";
-import { getAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { generateCodeVerifier, generateState } from "arctic";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -21,14 +21,18 @@ export async function GET(request: Request) {
     (await unauthenticatedRateLimit()) ||
     (await rateLimitByIp({ key: "google-oauth-start", limit: 20, interval: 60_000 }))
   ) {
-    return NextResponse.redirect(new URL("/login?error=rate_limited", getAuthUrl()));
+    return NextResponse.redirect(
+      new URL("/login?error=rate_limited", getAppBaseUrl("auth-portal")),
+    );
   }
 
   let google;
   try {
     google = createGoogleOAuthClient();
   } catch {
-    return NextResponse.redirect(new URL("/login?error=oauth_config", getAuthUrl()));
+    return NextResponse.redirect(
+      new URL("/login?error=oauth_config", getAppBaseUrl("auth-portal")),
+    );
   }
 
   const reqUrl = new URL(request.url);

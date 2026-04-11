@@ -1,40 +1,13 @@
-/** Local dev defaults when env vars are unset */
-const DEFAULT_WEB_URL = "http://localhost:4100";
-const DEFAULT_AUTH_URL = "http://localhost:3100";
-const DEFAULT_ADMIN_URL = "http://localhost:5100";
+/** App keys */
+export type AppName = "serva-hub" | "auth-portal" | "serva-admin";
 
-/**
- * Main app (consumer) base URL — used after login, signup, company selection.
- */
-export function getWebUrl(): string {
-  return process.env.WEB_URL ?? DEFAULT_WEB_URL;
-}
+const APP_BASE_URLS: Record<AppName, string> = {
+  "auth-portal": process.env.NEXT_PUBLIC_AUTH_PORTAL_URL ?? "http://localhost:3100",
+  "serva-hub": process.env.NEXT_PUBLIC_HUB_URL ?? "http://localhost:4100",
+  "serva-admin": process.env.NEXT_PUBLIC_ADMIN_URL ?? "http://localhost:5100",
+};
 
-/**
- * Auth portal base URL — server-side redirects to login / select-company.
- */
-export function getAuthUrl(): string {
-  return process.env.AUTH_URL ?? DEFAULT_AUTH_URL;
-}
-
-/**
- * Auth portal base URL for client components and links (logout, switch company).
- * Uses `NEXT_PUBLIC_AUTH_URL` in the browser; falls back to `AUTH_URL` on the server.
- */
-export function getPublicAuthUrl(): string {
-  return process.env.NEXT_PUBLIC_AUTH_URL ?? process.env.AUTH_URL ?? DEFAULT_AUTH_URL;
-}
-
-/**
- * Platform admin app base URL — server-side redirects from auth.
- */
-export function getAdminUrl(): string {
-  return process.env.ADMIN_URL ?? DEFAULT_ADMIN_URL;
-}
-
-/**
- * Platform admin app base URL for client components.
- */
-export function getPublicAdminUrl(): string {
-  return process.env.NEXT_PUBLIC_ADMIN_URL ?? process.env.ADMIN_URL ?? DEFAULT_ADMIN_URL;
+/** Get the base URL for a given app */
+export function getAppBaseUrl(app: AppName): string {
+  return APP_BASE_URLS[app];
 }

@@ -15,7 +15,8 @@ import { redirect } from "next/navigation";
 // } from '@/lib/email-verification';
 import { parseCallbackUrl } from "@/lib/callback-url-parser";
 import { rateLimitByKey, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
-import { getWebUrl, LoginInputs, LoginSchema } from "@serva/shared";
+import { LoginInputs, LoginSchema } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export async function loginAction(data: LoginInputs) {
@@ -89,7 +90,7 @@ export async function loginAction(data: LoginInputs) {
   }
 
   if (inviteToken) {
-    redirect(getWebUrl());
+    redirect(getAppBaseUrl("serva-hub"));
   }
-  redirect(parseCallbackUrl(callbackUrl) ?? getWebUrl());
+  redirect(parseCallbackUrl(callbackUrl) ?? getAppBaseUrl("serva-hub"));
 }

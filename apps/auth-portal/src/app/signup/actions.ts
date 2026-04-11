@@ -1,16 +1,22 @@
 "use server";
 
-import { consumeInviteForIdentity, createIdentity, getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
+import {
+  consumeInviteForIdentity,
+  createIdentity,
+  getIdentityByEmail,
+  getInviteByToken,
+} from "@serva/database/dal";
 import { redirect } from "next/navigation";
 // import {
 //   sendVerificationEmail,
 //   setEmailVerificationRequestCookie,
 //   upsertEmailVerificationRequest,
 // } from '@/lib/email-verification';
-import { createSession, generateSessionToken } from "@serva/auth/session";
 import { setCompanyIdCookie, setSessionTokenCookie } from "@serva/auth/cookies";
-import { getWebUrl, SignupInputs, SignupSchema } from "@serva/shared";
 import { rateLimitByIp, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
+import { createSession, generateSessionToken } from "@serva/auth/session";
+import { SignupInputs, SignupSchema } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 
 export async function signUpAction(data: SignupInputs) {
   try {
@@ -65,5 +71,5 @@ export async function signUpAction(data: SignupInputs) {
   }
 
   // redirect(`/verify-email`);
-  redirect(getWebUrl());
+  redirect(getAppBaseUrl("serva-hub"));
 }

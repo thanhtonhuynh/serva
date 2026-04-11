@@ -1,5 +1,5 @@
 import { Heading, Text } from "@react-email/components";
-import { getAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import { ServaEmailPrimaryButton, ServaEmailShell } from "./serva-email-shell";
 
 ResetPasswordEmail.PreviewProps = {
@@ -16,7 +16,7 @@ export default function ResetPasswordEmail({
   identity: { name: string };
   token: string;
 }) {
-  const resetUrl = `${getAuthUrl().replace(/\/$/, "")}/reset-password/${token}`;
+  const resetUrl = `${getAppBaseUrl("auth-portal").replace(/\/$/, "")}/reset-password/${token}`;
 
   return (
     <ServaEmailShell

@@ -15,7 +15,7 @@ import {
   SidebarMenuItem,
 } from "@serva/serva-ui/components/sidebar";
 import { cn } from "@serva/serva-ui/lib/utils";
-import { getPublicAdminUrl, getPublicAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 import Link from "next/link";
 import { useTransition } from "react";
 import { exitImpersonatedCompany } from "./actions";
@@ -29,7 +29,7 @@ const userMenuItems = [
   {
     label: "Switch company",
     icon: "EXCHANGE",
-    href: `${getPublicAuthUrl()}/select-company`,
+    href: `${getAppBaseUrl("auth-portal")}/select-company`,
     hidden: (identity: Identity, companyCtx: CompanyContext) =>
       identity.companyCount <= 1 || !!companyCtx.isImpersonatingCompany,
   },
@@ -114,7 +114,7 @@ export function UserMenu({ identity, companyCtx }: Props) {
                   nativeButton={false}
                   variant={`accent`}
                   className="w-full justify-start rounded-xl"
-                  render={<Link href={getPublicAdminUrl()} />}
+                  render={<Link href={getAppBaseUrl("serva-admin")} />}
                 >
                   <SIcon icon="ADMIN" strokeWidth={1.5} />
                   <span className="ml-2">Platform admin portal</span>
@@ -127,7 +127,7 @@ export function UserMenu({ identity, companyCtx }: Props) {
                 nativeButton={false}
                 variant={`accent`}
                 className="w-full justify-start rounded-xl"
-                render={<a href={`${getPublicAuthUrl()}/logout`} />}
+                render={<a href={`${getAppBaseUrl("auth-portal")}/logout`} />}
               >
                 <SIcon icon="LOGOUT" strokeWidth={1.5} />
                 <span className="ml-2">Logout</span>

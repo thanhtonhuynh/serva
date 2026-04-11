@@ -1,4 +1,3 @@
-export * from "./config/app-urls";
 export * from "./constants";
 export * from "./helpers";
 export * from "./types";

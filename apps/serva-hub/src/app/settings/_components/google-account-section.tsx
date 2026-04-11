@@ -1,5 +1,5 @@
 import { Button, Callout, Card, SIcon, Typography } from "@serva/serva-ui";
-import { getPublicAuthUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 
 const LINK_ERROR_REASONS: Record<string, string> = {
   invalid: "The Google link flow expired or was invalid. Please try again.",
@@ -22,7 +22,7 @@ type Props = {
 };
 
 export function GoogleAccountSection({ googleLinked, googleStatus, linkErrorReason }: Props) {
-  const linkHref = `${getPublicAuthUrl()}/account/link-google`;
+  const linkHref = `${getAppBaseUrl("auth-portal")}/account/link-google`;
   const errorMessage =
     googleStatus === "link_error" && linkErrorReason
       ? (LINK_ERROR_REASONS[linkErrorReason] ?? "Could not link Google. Please try again.")

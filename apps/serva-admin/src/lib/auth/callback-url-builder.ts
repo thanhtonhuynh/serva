@@ -1,7 +1,7 @@
 import { ROUTES } from "@/lib/routes";
-import { getAdminUrl } from "@serva/shared";
+import { getAppBaseUrl } from "@serva/shared/config";
 
-const ADMIN_BASE_URL = getAdminUrl();
+const ADMIN_BASE_URL = getAppBaseUrl("serva-admin");
 const ADMIN_BASE_ORIGIN = new URL(ADMIN_BASE_URL).origin;
 const FALLBACK_URL = new URL(ROUTES.home, ADMIN_BASE_URL).href;
 
