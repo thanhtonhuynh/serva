@@ -1,6 +1,6 @@
 "use server";
 
-import { sendEmail } from "@/libs/email";
+import { sendEmail } from "@/lib/email";
 import { render } from "@react-email/components";
 import {
   createPasswordResetToken,
