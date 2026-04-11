@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/header";
+import { SetPageTitle } from "@/components/layout";
 import { auth } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 import { getIdentityAdminDetail } from "@serva/database/dal";
@@ -17,9 +17,7 @@ export default async function EditIdentityPage({ params }: Props) {
 
   return (
     <Fragment>
-      <Header>
-        <Typography variant="h1">Edit {identity.name}</Typography>
-      </Header>
+      <SetPageTitle title={<Typography variant="h1">Edit {identity.name}</Typography>} />
 
       <Container>
         <IdentityForm

@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/header";
+import { SetPageTitle } from "@/components/layout";
 import { auth } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 import { listAllCompanies } from "@serva/database/dal";
@@ -15,9 +15,12 @@ import {
   Typography,
 } from "@serva/serva-ui";
 import { format } from "date-fns";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
 import { NewCompanyDialog } from "./company-form-dialog";
+
+export const metadata: Metadata = { title: "Companies — Serva Admin" };
 
 export default async function CompaniesPage() {
   await auth(ROUTES.companies);
@@ -25,14 +28,11 @@ export default async function CompaniesPage() {
 
   return (
     <Fragment>
-      <Header>
-        <Typography variant="h1">Companies</Typography>
-        <div className="ml-auto">
-          <NewCompanyDialog />
-        </div>
-      </Header>
+      <SetPageTitle title={<Typography variant="h1">Companies</Typography>} />
 
       <Container>
+        <NewCompanyDialog />
+
         <Card>
           <CardContent>
             <Table>

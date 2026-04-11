@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/header";
+import { SetPageTitle } from "@/components/layout";
 import { auth } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 import { getCompanyAdminDetail } from "@serva/database/dal";
@@ -32,19 +32,18 @@ export default async function CompanyDetailPage({ params }: Props) {
 
   return (
     <Fragment>
-      <Header>
-        <Typography variant="h1">Company Details</Typography>
-        <div className="ml-auto flex items-center gap-2">
+      <SetPageTitle title={<Typography variant="h1">Company Details</Typography>} />
+
+      <Container className="flex flex-col gap-6">
+        <div className="flex items-center justify-end gap-2">
           <form action={openCompanyInWebAction.bind(null, id)} className="contents">
-            <Button type="submit" size="sm" variant="outline">
+            <Button type="submit" size="sm">
               Open in web app
             </Button>
           </form>
           <EditCompanyDialog companyId={id} name={company.name} slug={company.slug} />
         </div>
-      </Header>
 
-      <Container className="flex flex-col gap-6">
         {/* Overview */}
         <Card>
           <CardHeader>

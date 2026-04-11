@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/header";
+import { SetPageTitle } from "@/components/layout";
 import { auth } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 import { getIdentityAdminDetail } from "@serva/database/dal";
@@ -36,26 +36,22 @@ export default async function IdentityDetailPage({ params }: Props) {
 
   return (
     <Fragment>
-      <Header>
-        <div>
-          <Typography variant="h1">{identity.name}</Typography>
-          <Typography variant="p-xs" className="text-muted-foreground">
-            {identity.email}
-          </Typography>
-        </div>
-        <div className="ml-auto flex items-center gap-2">
-          <Button
-            nativeButton={false}
-            size="sm"
-            variant="outline"
-            render={<Link href={ROUTES.identityEdit(id)} />}
-          >
-            Edit
-          </Button>
-        </div>
-      </Header>
+      <SetPageTitle
+        title={
+          <div>
+            <Typography variant="h1">{identity.name}</Typography>
+            <Typography variant="p-xs" className="text-muted-foreground">
+              {identity.email}
+            </Typography>
+          </div>
+        }
+      />
 
       <Container className="flex flex-col gap-6">
+        <Button nativeButton={false} size="sm" render={<Link href={ROUTES.identityEdit(id)} />}>
+          Edit
+        </Button>
+
         {/* Overview */}
         <Card>
           <CardHeader>

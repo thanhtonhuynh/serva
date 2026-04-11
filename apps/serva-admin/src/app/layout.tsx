@@ -1,4 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import { Header } from "@/components/layout";
+import { PageTitleProvider } from "@/contexts/page-title-provider";
 import { SessionProvider } from "@/contexts/SessionProvider";
 import { getCurrentSession } from "@serva/auth";
 import { SidebarInset, SidebarProvider, TailwindScreenSizeIndicator } from "@serva/serva-ui";
@@ -18,7 +20,7 @@ const firaSans = Fira_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const metadata: Metadata = { title: "Serva — Admin" };
+export const metadata: Metadata = { title: "Serva Admin" };
 
 export const viewport: Viewport = { maximumScale: 1 };
 
@@ -33,13 +35,17 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     >
       <body className="font-fira-sans antialiased">
         <SessionProvider session={session} identity={identity}>
-          <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset className="overflow-x-auto md:peer-data-[variant=floating]:m-2 md:peer-data-[variant=floating]:ml-0 md:peer-data-[variant=floating]:peer-data-[state=collapsed]:ml-1">
-              <div className="relative mb-10 flex flex-1 flex-col">{children}</div>
-              <Toaster richColors />
-            </SidebarInset>
-          </SidebarProvider>
+          <PageTitleProvider>
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset className="overflow-x-auto md:peer-data-[variant=floating]:m-2 md:peer-data-[variant=floating]:ml-0 md:peer-data-[variant=floating]:peer-data-[state=collapsed]:ml-1">
+                <Header />
+
+                <div className="relative mb-10 flex flex-1 flex-col">{children}</div>
+                <Toaster richColors />
+              </SidebarInset>
+            </SidebarProvider>
+          </PageTitleProvider>
         </SessionProvider>
         <TailwindScreenSizeIndicator />
       </body>

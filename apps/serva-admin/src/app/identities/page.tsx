@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/header";
+import { SetPageTitle } from "@/components/layout";
 import { auth } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 import { listAllIdentities } from "@serva/database/dal";
@@ -17,8 +17,11 @@ import {
   Typography,
 } from "@serva/serva-ui";
 import { format } from "date-fns";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
+
+export const metadata: Metadata = { title: "Identities — Serva Admin" };
 
 export default async function IdentitiesPage() {
   await auth(ROUTES.identities);
@@ -26,9 +29,7 @@ export default async function IdentitiesPage() {
 
   return (
     <Fragment>
-      <Header>
-        <Typography variant="h1">Identities</Typography>
-      </Header>
+      <SetPageTitle title={<Typography variant="h1">Identities</Typography>} />
 
       <Container>
         <Card>

@@ -4,19 +4,14 @@ import { useSession } from "@/contexts/SessionProvider";
 import { ROUTES } from "@/lib/routes";
 import {
   cn,
-  ProfilePicture,
-  SIcon,
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  Typography,
   useSidebar,
 } from "@serva/serva-ui";
-import { getAppBaseUrl } from "@serva/shared/config";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarMenuGroups } from "./sidebar-menu-groups";
@@ -28,7 +23,7 @@ export function AppSidebar() {
   if (!identity || !identity.isPlatformAdmin) return null;
 
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -67,33 +62,6 @@ export function AppSidebar() {
       <SidebarContent className="mt-3 gap-0">
         <SidebarMenuGroups />
       </SidebarContent>
-
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <div
-              className={cn(
-                "flex items-center gap-2 px-2 py-1.5",
-                "group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0",
-              )}
-            >
-              <ProfilePicture image={identity.image} size={32} name={identity.name} />
-              <div className="flex-1 group-data-[collapsible=icon]:hidden">
-                <Typography variant="p-sm" className="truncate font-medium">
-                  {identity.name}
-                </Typography>
-                <Typography variant="p-xs">Platform Admin</Typography>
-              </div>
-            </div>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton render={<a href={`${getAppBaseUrl("auth-portal")}/logout`} />}>
-              <SIcon icon="LOGOUT" strokeWidth={1.5} />
-              <span>Logout</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
     </Sidebar>
   );
 }

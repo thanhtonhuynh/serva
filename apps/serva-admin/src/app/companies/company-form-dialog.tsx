@@ -44,7 +44,7 @@ export function EditCompanyDialog({ companyId, name, slug }: EditCompanyDialogPr
 
   return (
     <>
-      <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
+      <Button size="sm" onClick={() => setOpen(true)}>
         Edit
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
