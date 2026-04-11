@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
-import { platformAdminGuard } from "@serva/auth";
+import { auth } from "@/lib/auth";
+import { ROUTES } from "@/lib/routes";
 import { listAllCompanies } from "@serva/database/dal";
 import {
   Card,
@@ -19,7 +20,7 @@ import { Fragment } from "react";
 import { NewCompanyDialog } from "./company-form-dialog";
 
 export default async function CompaniesPage() {
-  await platformAdminGuard();
+  await auth(ROUTES.companies);
   const companies = await listAllCompanies();
 
   return (
@@ -55,7 +56,7 @@ export default async function CompaniesPage() {
                   companies.map((c) => (
                     <TableRow key={c.id}>
                       <TableCell>
-                        <Link href={`/companies/${c.id}`} className="font-medium hover:underline">
+                        <Link href={ROUTES.company(c.id)} className="font-medium hover:underline">
                           {c.name}
                         </Link>
                       </TableCell>

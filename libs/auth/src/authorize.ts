@@ -7,28 +7,6 @@ import { hasPermission } from "./permission";
 import { authenticatedRateLimit } from "./rate-limiter";
 import { getCurrentSession, type CompanyContext, type Identity } from "./session";
 
-/**
- * Guard for platform-admin routes (apps/serva-admin).
- * Does NOT require companyCtx — platform admins may have zero tenant memberships.
- */
-export const platformAdminGuard = cache(async (): Promise<{ identity: Identity }> => {
-  const { identity } = await getCurrentSession();
-
-  if (!identity) redirect(`${getAuthUrl()}/login`);
-  if (identity.accountStatus !== "active") notFound();
-  if (!identity.isPlatformAdmin) notFound();
-
-  return { identity };
-});
-
-export async function platformAdminGuardWithRateLimit(): Promise<{ identity: Identity }> {
-  const { identity } = await platformAdminGuard();
-
-  if (await authenticatedRateLimit(identity.id)) redirect("/rate-limit");
-
-  return { identity };
-}
-
 type AuthorizeActionResult =
   | { identity: Identity; companyCtx: CompanyContext; session: Session }
   | { error: string };

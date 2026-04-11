@@ -1,3 +1,4 @@
+import { ROUTES } from "@/lib/routes";
 import {
   Button,
   Card,
@@ -31,7 +32,7 @@ export default async function NotFound() {
             </Typography>
           </div>
 
-          <Button nativeButton={false} render={<Link href="/">Return to Home</Link>} />
+          <Button nativeButton={false} render={<Link href={ROUTES.home}>Return to Home</Link>} />
         </CardContent>
       </Card>
     </Container>

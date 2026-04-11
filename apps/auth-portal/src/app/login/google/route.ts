@@ -1,4 +1,6 @@
+import { parseCallbackUrl } from "@/lib/callback-url-parser";
 import {
+  GOOGLE_OAUTH_CALLBACK_URL_COOKIE,
   GOOGLE_OAUTH_CODE_VERIFIER_COOKIE,
   GOOGLE_OAUTH_INTENT_COOKIE,
   GOOGLE_OAUTH_INTENT_SIGNIN,
@@ -31,6 +33,8 @@ export async function GET(request: Request) {
 
   const reqUrl = new URL(request.url);
   const invite = reqUrl.searchParams.get("invite");
+  const callbackUrlParam = reqUrl.searchParams.get("callbackUrl");
+  const callbackUrl = parseCallbackUrl(callbackUrlParam);
 
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
@@ -56,6 +60,15 @@ export async function GET(request: Request) {
     cookieStore.set(GOOGLE_OAUTH_INVITE_COOKIE, invite.trim(), opts);
   } else {
     cookieStore.set(GOOGLE_OAUTH_INVITE_COOKIE, "", { ...oauthPkceCookieOptions(), maxAge: 0 });
+  }
+
+  if (callbackUrl) {
+    cookieStore.set(GOOGLE_OAUTH_CALLBACK_URL_COOKIE, callbackUrl, opts);
+  } else {
+    cookieStore.set(GOOGLE_OAUTH_CALLBACK_URL_COOKIE, "", {
+      ...oauthPkceCookieOptions(),
+      maxAge: 0,
+    });
   }
 
   return NextResponse.redirect(authorizationUrl);

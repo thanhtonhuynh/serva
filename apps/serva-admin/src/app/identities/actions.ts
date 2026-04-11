@@ -1,6 +1,6 @@
 "use server";
 
-import { platformAdminGuardWithRateLimit } from "@serva/auth";
+import { authWithRateLimit } from "@/lib/auth";
 import { createAdminUser, removeAdminUser, updateIdentity } from "@serva/database/dal";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -17,7 +17,7 @@ export async function updateIdentityAction(
   identityId: string,
   data: UpdateIdentityInput,
 ): Promise<{ error?: string }> {
-  await platformAdminGuardWithRateLimit();
+  await authWithRateLimit();
 
   const parsed = UpdateIdentitySchema.safeParse(data);
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
@@ -38,7 +38,7 @@ export async function updateIdentityAction(
 export async function promoteToPlatformAdminAction(
   identityId: string,
 ): Promise<{ error?: string }> {
-  await platformAdminGuardWithRateLimit();
+  await authWithRateLimit();
 
   await createAdminUser(identityId);
 
@@ -50,7 +50,7 @@ export async function promoteToPlatformAdminAction(
 export async function demoteFromPlatformAdminAction(
   identityId: string,
 ): Promise<{ error?: string }> {
-  await platformAdminGuardWithRateLimit();
+  await authWithRateLimit();
 
   try {
     await removeAdminUser(identityId);

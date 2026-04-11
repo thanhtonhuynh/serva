@@ -1,3 +1,4 @@
+import { ROUTES } from "@/lib/routes";
 import type { IconSvgElement } from "@hugeicons/react";
 import { ICONS } from "@serva/serva-ui";
 
@@ -8,6 +9,6 @@ export type MenuItem = {
 };
 
 export const MENU_ITEMS: MenuItem[] = [
-  { title: "Companies", url: "/companies", icon: ICONS.BUILDING },
-  { title: "Identities", url: "/identities", icon: ICONS.USER_GROUP },
+  { title: "Companies", url: ROUTES.companies, icon: ICONS.BUILDING },
+  { title: "Identities", url: ROUTES.identities, icon: ICONS.USER_GROUP },
 ];

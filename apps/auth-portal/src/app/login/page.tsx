@@ -1,3 +1,4 @@
+import { parseCallbackUrl } from "@/lib/callback-url-parser";
 import { getCurrentSession } from "@serva/auth/session";
 import { getIdentityByEmail, getInviteByToken } from "@serva/database/dal";
 import {
@@ -17,14 +18,18 @@ import { LoginForm } from "./login-form";
 import { oauthLoginErrorMessage } from "./oauth-error-message";
 
 type Props = {
-  searchParams: Promise<{ invite?: string; error?: string }>;
+  searchParams: Promise<{ invite?: string; error?: string; callbackUrl?: string }>;
 };
 
 export default async function Page({ searchParams }: Props) {
+  const { callbackUrl, invite: inviteToken, error: oauthErrorCode } = await searchParams;
   const { identity } = await getCurrentSession();
-  if (identity) redirect(getWebUrl());
 
-  const { invite: inviteToken, error: oauthErrorCode } = await searchParams;
+  if (identity) {
+    const parsedCallbackUrl = parseCallbackUrl(callbackUrl);
+    redirect(parsedCallbackUrl ?? getWebUrl());
+  }
+
   const oauthError = oauthLoginErrorMessage(oauthErrorCode);
   const showGoogleSignIn = Boolean(process.env.GOOGLE_CLIENT_ID?.trim());
   const inviteMode = !!inviteToken;
@@ -60,6 +65,7 @@ export default async function Page({ searchParams }: Props) {
             inviteEmail={inviteEmail}
             oauthError={oauthError}
             showGoogleSignIn={showGoogleSignIn}
+            callbackUrl={inviteMode ? undefined : callbackUrl}
           />
 
           {!inviteMode && (

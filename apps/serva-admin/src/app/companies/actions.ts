@@ -1,6 +1,7 @@
 "use server";
 
-import { createPlatformCompanyEntryToken, platformAdminGuardWithRateLimit } from "@serva/auth";
+import { authWithRateLimit } from "@/lib/auth";
+import { createPlatformCompanyEntryToken } from "@serva/auth";
 import { createCompany, updateCompany } from "@serva/database/dal";
 import { getAuthUrl } from "@serva/shared";
 import { revalidatePath } from "next/cache";
@@ -11,7 +12,7 @@ export type { CompanyFormValues as CompanyInput } from "./company-schema";
 
 /** Full navigation to auth → web (avoids client Link/RSC fetch + cross-origin redirect CORS). */
 export async function openCompanyInWebAction(companyId: string) {
-  await platformAdminGuardWithRateLimit();
+  await authWithRateLimit();
   const token = createPlatformCompanyEntryToken(companyId);
   redirect(`${getAuthUrl()}/platform/impersonate?token=${encodeURIComponent(token)}`);
 }
@@ -19,7 +20,7 @@ export async function openCompanyInWebAction(companyId: string) {
 export async function createCompanyAction(
   data: CompanyFormValues,
 ): Promise<{ error: string } | { companyId: string }> {
-  await platformAdminGuardWithRateLimit();
+  await authWithRateLimit();
 
   const parsed = companyFormSchema.safeParse(data);
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
@@ -39,7 +40,7 @@ export async function updateCompanyAction(
   companyId: string,
   data: CompanyFormValues,
 ): Promise<{ error: string } | { ok: true }> {
-  await platformAdminGuardWithRateLimit();
+  await authWithRateLimit();
 
   const parsed = companyFormSchema.safeParse(data);
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };

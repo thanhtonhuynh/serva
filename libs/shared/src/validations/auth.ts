@@ -38,6 +38,7 @@ export const LoginSchema = z.object({
   email: z.email("Invalid email address").toLowerCase(),
   password: z.string(),
   inviteToken: z.string().optional(),
+  callbackUrl: z.url().optional(),
 });
 export type LoginInputs = z.infer<typeof LoginSchema>;
 

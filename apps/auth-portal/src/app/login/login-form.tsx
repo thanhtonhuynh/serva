@@ -26,9 +26,16 @@ type Props = {
   inviteEmail?: string;
   oauthError?: string;
   showGoogleSignIn?: boolean;
+  callbackUrl?: string;
 };
 
-export function LoginForm({ inviteToken, inviteEmail, oauthError, showGoogleSignIn }: Props) {
+export function LoginForm({
+  inviteToken,
+  inviteEmail,
+  oauthError,
+  showGoogleSignIn,
+  callbackUrl,
+}: Props) {
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const form = useForm<LoginInputs>({
@@ -37,6 +44,7 @@ export function LoginForm({ inviteToken, inviteEmail, oauthError, showGoogleSign
       email: inviteEmail ?? "",
       password: "",
       inviteToken,
+      callbackUrl,
     },
   });
 
@@ -145,7 +153,7 @@ export function LoginForm({ inviteToken, inviteEmail, oauthError, showGoogleSign
             <div className="bg-border h-px flex-1" />
           </div>
 
-          <GoogleSignInButton inviteToken={inviteToken} />
+          <GoogleSignInButton inviteToken={inviteToken} callbackUrl={callbackUrl} />
         </>
       )}
     </form>

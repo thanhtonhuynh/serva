@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
-import { platformAdminGuard } from "@serva/auth";
+import { auth } from "@/lib/auth";
+import { ROUTES } from "@/lib/routes";
 import { getCompanyAdminDetail } from "@serva/database/dal";
 import { Badge, Typography } from "@serva/serva-ui";
 import { Button } from "@serva/serva-ui/components/button";
@@ -24,8 +25,8 @@ import { EditCompanyDialog } from "../company-form-dialog";
 type Props = { params: Promise<{ id: string }> };
 
 export default async function CompanyDetailPage({ params }: Props) {
-  await platformAdminGuard();
   const { id } = await params;
+  await auth(ROUTES.company(id));
   const company = await getCompanyAdminDetail(id);
   if (!company) notFound();
 
@@ -126,7 +127,7 @@ export default async function CompanyDetailPage({ params }: Props) {
                   company.operators.map((op) => (
                     <TableRow key={op.id}>
                       <TableCell>
-                        <Link href={`/identities/${op.identity.id}`} className="hover:underline">
+                        <Link href={ROUTES.identity(op.identity.id)} className="hover:underline">
                           {op.identity.name}
                         </Link>
                       </TableCell>
@@ -171,7 +172,7 @@ export default async function CompanyDetailPage({ params }: Props) {
                   company.employees.map((emp) => (
                     <TableRow key={emp.id}>
                       <TableCell>
-                        <Link href={`/identities/${emp.identity.id}`} className="hover:underline">
+                        <Link href={ROUTES.identity(emp.identity.id)} className="hover:underline">
                           {emp.identity.name}
                         </Link>
                       </TableCell>

@@ -1,4 +1,6 @@
+import { parseCallbackUrl } from "@/lib/callback-url-parser";
 import {
+  GOOGLE_OAUTH_CALLBACK_URL_COOKIE,
   GOOGLE_OAUTH_CODE_VERIFIER_COOKIE,
   GOOGLE_OAUTH_INTENT_COOKIE,
   GOOGLE_OAUTH_INTENT_LINK,
@@ -180,6 +182,8 @@ export async function GET(request: Request) {
   const identityId = existingOauth.identity.id;
   const identityEmail = existingOauth.identity.email;
 
+  const callbackUrlCookie = cookieStore.get(GOOGLE_OAUTH_CALLBACK_URL_COOKIE)?.value ?? null;
+
   clearOAuthPkceCookies(cookieStore.set.bind(cookieStore));
 
   const sessionToken = generateSessionToken();
@@ -194,7 +198,8 @@ export async function GET(request: Request) {
       return redirectToLogin("invite");
     }
     await setCompanyIdCookie(consume.invite.companyId);
+    return NextResponse.redirect(getWebUrl());
   }
 
-  return NextResponse.redirect(getWebUrl());
+  return NextResponse.redirect(parseCallbackUrl(callbackUrlCookie) ?? getWebUrl());
 }

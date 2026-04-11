@@ -6,6 +6,7 @@ export const GOOGLE_OAUTH_STATE_COOKIE = "google_oauth_state";
 export const GOOGLE_OAUTH_CODE_VERIFIER_COOKIE = "google_oauth_code_verifier";
 export const GOOGLE_OAUTH_INVITE_COOKIE = "google_oauth_invite";
 export const GOOGLE_OAUTH_INTENT_COOKIE = "google_oauth_intent";
+export const GOOGLE_OAUTH_CALLBACK_URL_COOKIE = "google_oauth_callback_url";
 
 export const GOOGLE_OAUTH_INTENT_SIGNIN = "signin" as const;
 export const GOOGLE_OAUTH_INTENT_LINK = "link" as const;
@@ -57,6 +58,7 @@ export function clearOAuthPkceCookies(
   setCookie(GOOGLE_OAUTH_CODE_VERIFIER_COOKIE, "", cleared);
   setCookie(GOOGLE_OAUTH_INVITE_COOKIE, "", cleared);
   setCookie(GOOGLE_OAUTH_INTENT_COOKIE, "", cleared);
+  setCookie(GOOGLE_OAUTH_CALLBACK_URL_COOKIE, "", cleared);
 }
 
 export function oauthTokensFromArctic(tokens: OAuth2Tokens): OAuthAccountTokens {

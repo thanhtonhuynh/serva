@@ -13,17 +13,24 @@ import { redirect } from "next/navigation";
 //   getUserEmailVerificationRequestByUserId,
 //   setEmailVerificationRequestCookie,
 // } from '@/lib/email-verification';
+import { parseCallbackUrl } from "@/lib/callback-url-parser";
 import { rateLimitByKey, unauthenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getWebUrl, LoginInputs, LoginSchema } from "@serva/shared";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export async function loginAction(data: LoginInputs) {
+  let inviteToken: string | undefined;
+  let callbackUrl: string | undefined;
+
   try {
     if (await unauthenticatedRateLimit()) {
       return { error: "Too many requests. Please try again later." };
     }
 
-    const { email, password, inviteToken } = LoginSchema.parse(data);
+    const parsed = LoginSchema.parse(data);
+    const { email, password, inviteToken: inv, callbackUrl: cb } = parsed;
+    inviteToken = inv;
+    callbackUrl = cb;
 
     if (await rateLimitByKey({ key: email, limit: 3, interval: 10000 })) {
       return { error: "Too many requests. Please try again later." };
@@ -81,5 +88,8 @@ export async function loginAction(data: LoginInputs) {
     return { error: "Login failed. Please try again." };
   }
 
-  redirect(getWebUrl());
+  if (inviteToken) {
+    redirect(getWebUrl());
+  }
+  redirect(parseCallbackUrl(callbackUrl) ?? getWebUrl());
 }

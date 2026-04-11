@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
-import { platformAdminGuard } from "@serva/auth";
+import { auth } from "@/lib/auth";
+import { ROUTES } from "@/lib/routes";
 import { listAllIdentities } from "@serva/database/dal";
 import {
   Badge,
@@ -20,7 +21,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 
 export default async function IdentitiesPage() {
-  await platformAdminGuard();
+  await auth(ROUTES.identities);
   const identities = await listAllIdentities();
 
   return (
@@ -55,7 +56,7 @@ export default async function IdentitiesPage() {
                     <TableRow key={identity.id}>
                       <TableCell>
                         <Link
-                          href={`/identities/${identity.id}`}
+                          href={ROUTES.identity(identity.id)}
                           className="flex items-center gap-2 font-medium hover:underline"
                         >
                           <ProfilePicture image={identity.image} size={32} name={identity.name} />

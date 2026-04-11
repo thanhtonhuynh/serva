@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "@/contexts/SessionProvider";
+import { ROUTES } from "@/lib/routes";
 import {
   cn,
   ProfilePicture,
@@ -36,7 +37,7 @@ export function AppSidebar() {
               render={
                 <Link
                   className="hover:bg-transparent"
-                  href={"/"}
+                  href={ROUTES.home}
                   onClick={() => isMobile && toggleSidebar()}
                 />
               }
