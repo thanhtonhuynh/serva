@@ -1,16 +1,14 @@
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { prisma, Session } from "@serva/database";
-import {
-  buildUniqueCompaniesFromAccounts,
-  type BasicCompany,
-  type CompanyContext,
-  type Employee,
-  type Identity,
-  type Operator,
-  type SessionFlags,
-  type SessionValidationResult,
-} from "@serva/shared";
+import { buildUniqueCompaniesFromAccounts } from "@serva/shared";
+import type {
+  BasicCompany,
+  CompanyContext,
+  Employee,
+  Identity,
+  Operator,
+} from "@serva/shared/types";
 import { cache } from "react";
 import "server-only";
 import {
@@ -22,10 +20,18 @@ import {
 } from "./cookies";
 import { buildSimplifiedRole, mergePermissions } from "./roles";
 
-export type { CompanyContext, Employee, Identity, Operator, SessionFlags, SessionValidationResult };
+export type { CompanyContext, Employee, Identity, Operator };
 
 const SESSION_TTL = 1000 * 60 * 60 * 24 * 30; // 30 days
 const SESSION_TTL_SHORT = 1000 * 60 * 60 * 24 * 15; // 15 days
+
+type SessionFlags = {
+  twoFactorVerified: boolean;
+};
+
+type SessionValidationResult =
+  | { session: Session; identity: Identity; companyCtx: CompanyContext | null }
+  | { session: null; identity: null; companyCtx: null };
 
 // ---------------------------------------------------------------------------
 // Validate a session token

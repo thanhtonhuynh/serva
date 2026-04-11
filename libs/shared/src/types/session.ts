@@ -1,4 +1,3 @@
-import type { Session } from "@serva/database";
 import type { PermissionCode, Role } from "./rbac";
 
 export type Identity = {
@@ -40,11 +39,3 @@ export type CompanyContext = {
    */
   isImpersonatingCompany?: boolean;
 };
-
-export type SessionFlags = {
-  twoFactorVerified: boolean;
-};
-
-export type SessionValidationResult =
-  | { session: Session; identity: Identity; companyCtx: CompanyContext | null }
-  | { session: null; identity: null; companyCtx: null };
