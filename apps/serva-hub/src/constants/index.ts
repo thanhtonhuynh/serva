@@ -1,4 +1,4 @@
-import { CashType } from "@serva/shared";
+import { type CashType } from "@serva/shared/types";
 
 export const NUM_MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 

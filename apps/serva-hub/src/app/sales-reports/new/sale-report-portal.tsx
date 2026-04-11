@@ -7,13 +7,8 @@ import { Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { hasPermission } from "@serva/auth/permission";
 import { Button, LoadingButton, Typography } from "@serva/serva-ui";
-import {
-  PERMISSIONS,
-  formatInUTC,
-  getTodayUTCMidnight,
-  type CashType,
-  type Platform,
-} from "@serva/shared";
+import { PERMISSIONS, formatInUTC, getTodayUTCMidnight, type Platform } from "@serva/shared";
+import type { CashType } from "@serva/shared/types";
 import { motion } from "framer-motion";
 import { TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";

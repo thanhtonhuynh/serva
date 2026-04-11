@@ -3,7 +3,7 @@
 import { BILL_FIELDS, COIN_FIELDS, MONEY_FIELDS, MONEY_VALUES, ROLL_FIELDS } from "@/constants";
 import { SaleReportInputs } from "@/libs/validations/report";
 import { Field, FieldError, FieldGroup, FieldLabel, Input, Typography } from "@serva/serva-ui";
-import { CashType } from "@serva/shared";
+import { type CashType } from "@serva/shared/types";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 type Props = {
