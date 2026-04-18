@@ -15,12 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui";
-import {
-  formatInUTC,
-  getTodayUTCMidnight,
-  type DateRange,
-  type DisplayEmployee,
-} from "@serva/shared";
+import { formatInUTC, getTodayUTCMidnight } from "@serva/shared";
+import type { DateRange, DisplayEmployee } from "@serva/shared/types";
 import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

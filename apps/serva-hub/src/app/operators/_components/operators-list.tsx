@@ -1,9 +1,8 @@
 "use client";
 
 import { type ViewMode } from "@/components/shared";
-import { Button } from "@serva/serva-ui";
-import { Input } from "@serva/serva-ui";
-import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
+import { Button, Input } from "@serva/serva-ui";
+import type { DisplayOperator, RoleWithDetails } from "@serva/shared/types";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { InviteOperatorModal } from "./invite-operator-modal";

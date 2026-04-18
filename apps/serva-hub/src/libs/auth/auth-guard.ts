@@ -1,4 +1,4 @@
-import { hasPermission } from "@serva/auth/permission";
+import { hasPermission } from "@/utils/permission";
 import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getCurrentSession } from "@serva/auth/session";
 import type { Session } from "@serva/database";

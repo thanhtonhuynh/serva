@@ -1,4 +1,7 @@
 {
   "extends": "@serva/typescript-config/base.json",
-  "include": ["src/**/*.ts", "generated/**/*.ts", "prisma/**/*.ts"]
+  "include": ["src/**/*.ts", "generated/**/*.ts", "prisma/**/*.ts"],
+  "compilerOptions": {
+    "types": ["node"]
+  }
 }

@@ -2,9 +2,10 @@
 
 import { useSession } from "@/contexts/SessionProvider";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { hasPermission } from "@/utils/permission";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { hasPermission } from "@serva/auth/permission";
 import {
+  cn,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -13,7 +14,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@serva/serva-ui";
-import { cn } from "@serva/serva-ui";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";

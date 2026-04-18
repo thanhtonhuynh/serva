@@ -1,7 +1,11 @@
 "use client";
 
-import { Badge } from "@serva/serva-ui";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Permission } from "@serva/database";
 import {
+  Badge,
+  cn,
+  ICONS,
   Table,
   TableBody,
   TableCell,
@@ -9,11 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { cn } from "@serva/serva-ui";
-import type { RoleWithDetails } from "@serva/shared";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Permission } from "@serva/database";
+import type { RoleWithDetails } from "@serva/shared/types";
 import { format } from "date-fns";
 import { RoleActions } from "./role-actions";
 

@@ -20,7 +20,7 @@ import {
   SelectValue,
   Typography,
 } from "@serva/serva-ui";
-import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
+import type { DisplayOperator, RoleWithDetails } from "@serva/shared/types";
 import { use, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

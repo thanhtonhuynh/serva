@@ -4,7 +4,7 @@ import { authorizeAction, hasSessionPermission } from "@/libs/auth";
 import { generateInviteToken, getInviteExpiryDate, sendInviteEmail } from "@/libs/invite";
 import { UpdateOperatorRoleInput, UpdateOperatorRoleSchema } from "@/libs/validations/employee";
 import { CreateOperatorInviteInput, CreateOperatorInviteSchema } from "@/libs/validations/invite";
-import { hasAssignRolePermission } from "@serva/auth/permission";
+import { hasAssignRolePermission } from "@/utils/permission";
 import { prisma } from "@serva/database";
 import {
   createInvite,

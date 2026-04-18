@@ -1,13 +1,7 @@
 import { SHORT_MONTHS } from "@/constants";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@serva/serva-ui";
-import { MonthlyExpense, formatMoney } from "@serva/shared";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@serva/serva-ui";
+import { formatMoney } from "@serva/shared";
+import type { MonthlyExpense } from "@serva/shared/types";
 
 type Props = {
   monthlyExpenses: MonthlyExpense[];

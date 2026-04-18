@@ -1,12 +1,6 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@serva/serva-ui";
-import { DateRange, UserShift, formatInUTC, formatMoney } from "@serva/shared";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@serva/serva-ui";
+import { formatInUTC, formatMoney } from "@serva/shared";
+import type { DateRange, UserShift } from "@serva/shared/types";
 import { addDays } from "date-fns";
 
 export function UserShiftTable({

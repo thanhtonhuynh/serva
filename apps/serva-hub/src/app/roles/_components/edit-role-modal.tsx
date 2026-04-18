@@ -24,7 +24,7 @@ import {
   Textarea,
   Typography,
 } from "@serva/serva-ui";
-import type { RoleWithDetails } from "@serva/shared";
+import type { RoleWithDetails } from "@serva/shared/types";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

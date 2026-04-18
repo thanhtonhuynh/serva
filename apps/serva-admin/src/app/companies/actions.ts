@@ -1,7 +1,7 @@
 "use server";
 
 import { authWithRateLimit } from "@/lib/auth";
-import { createPlatformCompanyEntryToken } from "@serva/auth";
+import { createPlatformCompanyEntryToken } from "@serva/auth/platform-company-entry-token";
 import { createCompany, updateCompany } from "@serva/database/dal";
 import { getAppBaseUrl } from "@serva/shared/config";
 import { revalidatePath } from "next/cache";

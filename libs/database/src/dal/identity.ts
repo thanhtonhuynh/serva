@@ -1,5 +1,6 @@
 import { prisma, type Identity as PrismaIdentity } from "@serva/database";
-import { buildUniqueCompaniesFromAccounts, type Identity } from "@serva/shared";
+import { buildUniqueCompaniesFromAccounts } from "@serva/shared";
+import type { Identity } from "@serva/shared/types";
 import { cache } from "react";
 import "server-only";
 import { hashPassword } from "./password";

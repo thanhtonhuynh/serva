@@ -1,14 +1,19 @@
 "use client";
 
-import { buttonVariants } from "@serva/serva-ui";
-import { Calendar } from "@serva/serva-ui";
-import { Popover, PopoverContent, PopoverTrigger } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { cn } from "@serva/serva-ui";
 import { getLocalDateFromUTC } from "@/utils/datetime-client";
 import { ChevronRight, Left, Right } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { formatInUTC, type DateRange } from "@serva/shared";
+import {
+  buttonVariants,
+  Calendar,
+  cn,
+  ICONS,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@serva/serva-ui";
+import { formatInUTC } from "@serva/shared";
+import type { DateRange } from "@serva/shared/types";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";

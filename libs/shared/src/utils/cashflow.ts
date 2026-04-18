@@ -1,5 +1,5 @@
 import { Expense } from "@serva/database";
-import { CashFlowRawData, YearCashFlowData } from "@serva/shared";
+import type { CashFlowRawData, YearCashFlowData } from "../types";
 import { sumPlatformSales } from "./report";
 
 export function processCashFlowData(rawReports: CashFlowRawData[]) {

@@ -1,11 +1,9 @@
-import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { PERMISSIONS } from "@serva/shared";
-import { hasPermission } from "@serva/auth/permission";
-import type { CompanyContext, Identity } from "@serva/auth/session";
+import { hasPermission } from "@/utils/permission";
 import { Calculator01Icon, Calendar02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import type { CompanyContext, Identity } from "@serva/auth/session";
+import { Button, ICONS, Typography } from "@serva/serva-ui";
+import { PERMISSIONS } from "@serva/shared";
 import Link from "next/link";
 
 type Props = {

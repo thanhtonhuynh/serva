@@ -1,5 +1,5 @@
 import { prisma } from "@serva/database";
-import type { BasicCompany } from "@serva/shared";
+import type { BasicCompany } from "@serva/shared/types";
 import { cache } from "react";
 import "server-only";
 

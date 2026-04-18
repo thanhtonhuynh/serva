@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@serva/serva-ui";
-import type { RoleWithDetails } from "@serva/shared";
+import type { RoleWithDetails } from "@serva/shared/types";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createOperatorInviteAction } from "../actions";

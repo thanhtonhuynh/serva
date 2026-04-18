@@ -1,12 +1,6 @@
 import { prisma } from "@serva/database";
-import {
-  computeTotalHours,
-  distributeTips,
-  getStartOfDayUTC,
-  type DateRange,
-  type DayScheduleInput,
-  type WorkDayRecordInput,
-} from "@serva/shared";
+import { computeTotalHours, distributeTips, getStartOfDayUTC } from "@serva/shared";
+import type { DateRange, DayScheduleInput, WorkDayRecordInput } from "@serva/shared/types";
 import { cache } from "react";
 import "server-only";
 import { workDayRecordSelectWithEmployee } from "./types";

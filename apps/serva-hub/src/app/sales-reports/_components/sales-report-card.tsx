@@ -1,18 +1,14 @@
 "use client";
 
-import { DecoIcon, Typography } from "@serva/serva-ui";
-import { ProfilePicture } from "@serva/serva-ui";
-import { Separator } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { cn } from "@serva/serva-ui";
+import { cn, DecoIcon, ICONS, ProfilePicture, Separator, Typography } from "@serva/serva-ui";
 import {
   formatInUTC,
+  formatMoney,
   getPlatformAmount,
   getPlatformById,
-  SaleReportCardProcessedData,
-  formatMoney,
   type Platform,
 } from "@serva/shared";
+import type { SaleReportCardProcessedData } from "@serva/shared/types";
 
 type Props = {
   data: SaleReportCardProcessedData | undefined;

@@ -27,5 +27,5 @@ export const WeekScheduleSchema = z
     })),
   }));
 
-export type { DayScheduleInput, WorkDayRecordInput, WorkShiftInput } from "@serva/shared";
+export type { DayScheduleInput, WorkDayRecordInput, WorkShiftInput } from "@serva/shared/types";
 export type WeekScheduleInput = z.infer<typeof WeekScheduleSchema>;

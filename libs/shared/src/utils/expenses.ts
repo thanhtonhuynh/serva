@@ -1,5 +1,5 @@
 import { Expense } from "@serva/database";
-import { MonthlyExpense } from "@serva/shared";
+import type { MonthlyExpense } from "../types";
 
 export function reshapeExpenses(expenses: Expense[]): MonthlyExpense[] {
   const data = Array(12)

@@ -49,8 +49,11 @@ export const getCompanyAdminDetail = cache(async (companyId: string) => {
   });
 });
 
+/** Create a new company with a company settings */
 export async function createCompany(name: string, slug: string) {
-  return prisma.company.create({ data: { name, slug } });
+  return prisma.company.create({
+    data: { name, slug, settings: { create: { startCash: 0, activePlatforms: [] } } },
+  });
 }
 
 export async function updateCompany(companyId: string, data: { name: string; slug: string }) {

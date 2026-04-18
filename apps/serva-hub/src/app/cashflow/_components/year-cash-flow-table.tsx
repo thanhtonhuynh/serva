@@ -1,12 +1,7 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@serva/serva-ui";
-import { type Platform, type YearCashFlowData, formatMoney } from "@serva/shared";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@serva/serva-ui";
+import type { Platform } from "@serva/shared";
+import { formatMoney } from "@serva/shared";
+import type { YearCashFlowData } from "@serva/shared/types";
 
 type Props = {
   data: YearCashFlowData[];

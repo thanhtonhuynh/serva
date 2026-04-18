@@ -1,25 +1,24 @@
 "use client";
 
-import { Button } from "@serva/serva-ui";
+import { useSession } from "@/contexts/SessionProvider";
+import { hasPermission } from "@/utils/permission";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
+  Button,
   Dialog,
   DialogBody,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/serva-ui";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  ICONS,
 } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { PERMISSIONS, DisplayEmployee } from "@serva/shared";
-import { useSession } from "@/contexts/SessionProvider";
-import { hasPermission } from "@serva/auth/permission";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { PERMISSIONS } from "@serva/shared";
+import type { DisplayEmployee } from "@serva/shared/types";
 import { Briefcase, ShieldCheck, ShieldOff } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";

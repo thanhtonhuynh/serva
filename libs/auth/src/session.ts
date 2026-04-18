@@ -8,6 +8,8 @@ import type {
   Employee,
   Identity,
   Operator,
+  PermissionCode,
+  Role,
 } from "@serva/shared/types";
 import { cache } from "react";
 import "server-only";
@@ -18,12 +20,11 @@ import {
   getSessionTokenCookie,
   setSessionTokenCookie,
 } from "./cookies";
-import { buildSimplifiedRole, mergePermissions } from "./roles";
 
 export type { CompanyContext, Employee, Identity, Operator };
 
 const SESSION_TTL = 1000 * 60 * 60 * 24 * 30; // 30 days
-const SESSION_TTL_SHORT = 1000 * 60 * 60 * 24 * 15; // 15 days
+const SESSION_TTL_SHORT = 1000 * 60 * 60 * 24 * 7; // 7 days
 
 type SessionFlags = {
   twoFactorVerified: boolean;
@@ -32,6 +33,18 @@ type SessionFlags = {
 type SessionValidationResult =
   | { session: Session; identity: Identity; companyCtx: CompanyContext | null }
   | { session: null; identity: null; companyCtx: null };
+
+/**
+ * Build a simplified role object with flattened permissions.
+ */
+export function buildSimplifiedRole(
+  role: { name: string; permissions: { code: string }[] } | null,
+): Role {
+  return {
+    name: role?.name ?? null,
+    permissions: role?.permissions.map((p) => p.code as PermissionCode) ?? [],
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Validate a session token
@@ -115,12 +128,12 @@ export async function validateSessionToken(token: string): Promise<SessionValida
             companyName: impersonatedCompany.name,
             operator: null,
             employee: null,
-            permissions: mergePermissions(null, null),
+            permissions: [],
             isImpersonatingCompany: true,
           },
         };
       }
-      await deleteImpersonatedCompanyCookie();
+      await deleteImpersonatedCompanyCookie(); // bug
     }
   }
 
@@ -167,7 +180,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
       companyName: activeCompany.name,
       operator,
       employee,
-      permissions: mergePermissions(operator, employee),
+      permissions: operator?.role.permissions ?? [],
     },
   };
 }

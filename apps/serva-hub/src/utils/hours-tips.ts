@@ -1,6 +1,7 @@
 import { utc } from "@date-fns/utc";
 import { getFirstReportDate } from "@serva/database/dal";
-import { BreakdownData, getCurrentYear, type DateRange } from "@serva/shared";
+import { getCurrentYear } from "@serva/shared";
+import type { BreakdownData, DateRange } from "@serva/shared/types";
 import { differenceInDays } from "date-fns";
 import { cache } from "react";
 

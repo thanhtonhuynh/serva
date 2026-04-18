@@ -4,7 +4,8 @@ import { SaleReportCard } from "@/app/sales-reports/_components/sales-report-car
 import { useSession } from "@/contexts/SessionProvider";
 import { SaleReportInputs } from "@/libs/validations/report";
 import { Card } from "@serva/serva-ui";
-import { SaleReportCardRawData, parseInUTC, processReportDataForView } from "@serva/shared";
+import { parseInUTC, processReportDataForView } from "@serva/shared";
+import type { SaleReportCardRawData } from "@serva/shared/types";
 import { use } from "react";
 import { UseFormReturn } from "react-hook-form";
 

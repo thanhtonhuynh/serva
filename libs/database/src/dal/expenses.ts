@@ -1,5 +1,5 @@
 import { prisma } from "@serva/database";
-import { type ExpensesFormOutput } from "@serva/shared";
+import { type ExpensesFormOutput } from "@serva/shared/types";
 import "server-only";
 
 export async function createExpenses(data: ExpensesFormOutput, companyId: string) {

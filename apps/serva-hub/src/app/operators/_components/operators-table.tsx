@@ -1,9 +1,8 @@
 "use client";
 
 import { AccountStatusBadge } from "@/components/shared";
-import { DisplayOperator, type RoleWithDetails } from "@serva/shared";
-import { ProfilePicture } from "@serva/serva-ui";
 import {
+  ProfilePicture,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui";
+import type { DisplayOperator, RoleWithDetails } from "@serva/shared/types";
 import { useState } from "react";
 import { ChangeRoleModal } from "./change-role-modal";
 import { OperatorActions } from "./operator-actions";

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePageTitleContext } from "@/contexts/page-title-provider";
-import { useSession } from "@/contexts/SessionProvider";
+import { useSession } from "@/contexts/session-provider";
 import { cn, Separator, SidebarTrigger } from "@serva/serva-ui";
 import type { ComponentProps } from "react";
 import { memo } from "react";

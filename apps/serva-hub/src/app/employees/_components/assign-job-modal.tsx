@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingButton } from "@serva/serva-ui";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogBody,
@@ -8,17 +8,17 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/serva-ui";
-import { Field, FieldGroup, FieldLabel } from "@serva/serva-ui";
-import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  LoadingButton,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@serva/serva-ui";
-import { DisplayEmployee } from "@serva/shared";
-import { zodResolver } from "@hookform/resolvers/zod";
+import type { DisplayEmployee } from "@serva/shared/types";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, SIcon } from "@serva/serva-ui";
-import type { BasicCompany } from "@serva/shared";
+import type { BasicCompany } from "@serva/shared/types";
 import { useTransition } from "react";
 import { selectCompanyAction } from "./actions";
 

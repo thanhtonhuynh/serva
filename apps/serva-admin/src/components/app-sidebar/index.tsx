@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "@/contexts/SessionProvider";
+import { useSession } from "@/contexts/session-provider";
 import { ROUTES } from "@/lib/routes";
 import {
   cn,

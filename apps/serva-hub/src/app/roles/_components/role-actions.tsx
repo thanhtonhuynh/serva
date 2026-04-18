@@ -1,25 +1,23 @@
 "use client";
 
-import { Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Permission } from "@serva/database";
 import {
+  Button,
   Dialog,
   DialogBody,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@serva/serva-ui";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  ICONS,
+  Typography,
 } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import type { RoleWithDetails } from "@serva/shared";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Permission } from "@serva/database";
+import type { RoleWithDetails } from "@serva/shared/types";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { deleteRoleAction } from "../actions";
@@ -97,8 +95,8 @@ export function RoleActions({ role, permissionsGrouped }: RoleActionsProps) {
               className="text-warning flex items-center gap-2 font-semibold"
             >
               <HugeiconsIcon icon={ICONS.ALERT} className="size-4" strokeWidth={2} />
-              This role is currently assigned to {role._count.operators} operator(s). Employees
-              use jobs (Chef/Server), not this role.
+              This role is currently assigned to {role._count.operators} operator(s). Employees use
+              jobs (Chef/Server), not this role.
             </Typography>
 
             <Typography variant="p-sm">

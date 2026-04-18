@@ -1,8 +1,6 @@
-import {
-  getCurrentSession,
-  setImpersonatedCompanyCookie,
-  verifyPlatformCompanyEntryToken,
-} from "@serva/auth";
+import { setImpersonatedCompanyCookie } from "@serva/auth/cookies";
+import { verifyPlatformCompanyEntryToken } from "@serva/auth/platform-company-entry-token";
+import { getCurrentSession } from "@serva/auth/session";
 import { prisma } from "@serva/database";
 import { getAppBaseUrl } from "@serva/shared/config";
 import { redirect } from "next/navigation";

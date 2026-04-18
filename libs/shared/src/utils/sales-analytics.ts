@@ -1,6 +1,6 @@
 import { utc } from "@date-fns/utc";
-import { monthLabels } from "@serva/shared";
 import { addDays, getMonth, getWeek } from "date-fns";
+import { monthLabels } from "../types";
 import { formatInUTC, getCurrentYear, getEndOfYearUTC, getStartOfYearUTC } from "./datetime";
 
 // CHANGE ALL MOMENT USAGE TO DATE-FNS

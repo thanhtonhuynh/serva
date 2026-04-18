@@ -1,5 +1,11 @@
-import { parseInUTC, toCents, type SaleReportOutput, type DateRange, type ReportAuditLog, type SaleReportCardRawData } from "@serva/shared";
 import { prisma, Prisma } from "@serva/database";
+import { parseInUTC, toCents } from "@serva/shared";
+import type {
+  DateRange,
+  ReportAuditLog,
+  SaleReportCardRawData,
+  SaleReportOutput,
+} from "@serva/shared/types";
 import { cache } from "react";
 import "server-only";
 import { getStartCash } from "./company-settings";

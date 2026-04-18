@@ -7,7 +7,7 @@ import {
   createGoogleOAuthClient,
   oauthPkceCookieOptions,
 } from "@/lib/google-oauth";
-import { authenticatedRateLimit } from "@serva/auth";
+import { authenticatedRateLimit } from "@serva/auth/rate-limiter";
 import { getCurrentSession } from "@serva/auth/session";
 import { getAppBaseUrl } from "@serva/shared/config";
 import { generateCodeVerifier, generateState } from "arctic";

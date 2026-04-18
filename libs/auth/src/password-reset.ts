@@ -2,6 +2,7 @@ import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { prisma } from "@serva/database";
 import { cookies } from "next/headers";
+import "server-only";
 
 const PASSWORD_RESET_TOKEN_TTL = 1000 * 60 * 30; // 30 minutes
 const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN;

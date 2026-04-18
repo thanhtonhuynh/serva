@@ -1,10 +1,7 @@
 "use client";
 
-import { DecoIcon } from "@serva/serva-ui";
-import { ProfilePicture } from "@serva/serva-ui";
-import { Typography } from "@serva/serva-ui";
-import { ICONS } from "@serva/serva-ui";
-import { type ReportAuditLog } from "@serva/shared";
+import { DecoIcon, ICONS, ProfilePicture, Typography } from "@serva/serva-ui";
+import type { ReportAuditLog } from "@serva/shared/types";
 import { format } from "date-fns";
 
 type Props = {

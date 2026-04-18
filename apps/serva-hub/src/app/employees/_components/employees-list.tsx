@@ -1,9 +1,8 @@
 "use client";
 
 import { type ViewMode } from "@/components/shared";
-import { Button } from "@serva/serva-ui";
-import { Input } from "@serva/serva-ui";
-import { DisplayEmployee } from "@serva/shared";
+import { Button, Input } from "@serva/serva-ui";
+import type { DisplayEmployee } from "@serva/shared/types";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { EmployeeInviteActions } from "./employee-invite-actions";

@@ -1,5 +1,5 @@
-import { ProfilePicture } from "@serva/serva-ui";
 import {
+  ProfilePicture,
   Table,
   TableBody,
   TableCell,
@@ -7,7 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@serva/serva-ui";
-import { BreakdownData, formatInUTC, formatMoney, type DateRange } from "@serva/shared";
+import { formatInUTC, formatMoney } from "@serva/shared";
+import type { BreakdownData, DateRange } from "@serva/shared/types";
 import { addDays } from "date-fns";
 
 type HoursTipsPeriodTableProps = {

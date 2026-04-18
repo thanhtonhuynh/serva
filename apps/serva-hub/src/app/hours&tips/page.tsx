@@ -15,12 +15,12 @@ import {
 } from "@serva/serva-ui";
 import {
   PERMISSIONS,
-  TotalHoursTips,
   formatInUTC,
   getCurrentMonth,
   getCurrentYear,
   getPeriodsForMonthAndYearInUTC,
 } from "@serva/shared";
+import type { TotalHoursTips } from "@serva/shared/types";
 import { addDays } from "date-fns";
 import { notFound, redirect } from "next/navigation";
 import type { ExportPeriodPayload } from "./_components";

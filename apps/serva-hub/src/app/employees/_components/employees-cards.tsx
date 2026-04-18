@@ -1,4 +1,4 @@
-import { DisplayEmployee } from "@serva/shared";
+import type { DisplayEmployee } from "@serva/shared/types";
 import { EmployeeActions } from "./employee-actions";
 import { EmployeeCard } from "./employee-card";
 

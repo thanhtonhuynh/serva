@@ -1,6 +1,5 @@
 import { TZDate } from "@date-fns/tz";
 import { utc } from "@date-fns/utc";
-import type { DateRange } from "@serva/shared";
 import {
   addDays,
   endOfDay,
@@ -12,6 +11,7 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
+import type { DateRange } from "../types";
 
 const timeZone = "America/Vancouver";
 
