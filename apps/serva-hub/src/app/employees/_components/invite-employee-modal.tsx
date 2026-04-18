@@ -1,5 +1,3 @@
-"use client";
-
 import { CreateEmployeeInviteInput, CreateEmployeeInviteSchema } from "@/libs/validations/invite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -26,11 +24,11 @@ import { createEmployeeInviteAction } from "../actions";
 
 type Props = {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  setOpen: (open: boolean) => void;
   jobs: { id: string; name: string }[];
 };
 
-export function InviteEmployeeModal({ open, onOpenChange, jobs }: Props) {
+export function InviteEmployeeModal({ open, setOpen, jobs }: Props) {
   const form = useForm<CreateEmployeeInviteInput>({
     resolver: zodResolver(CreateEmployeeInviteSchema),
     defaultValues: { name: "", email: "", jobId: "" },
@@ -45,7 +43,7 @@ export function InviteEmployeeModal({ open, onOpenChange, jobs }: Props) {
       return;
     }
     toast.success("Invite sent.");
-    onOpenChange(false);
+    setOpen(false);
     form.reset({ name: "", email: "", jobId: "" });
   }
 
@@ -53,7 +51,7 @@ export function InviteEmployeeModal({ open, onOpenChange, jobs }: Props) {
     <Dialog
       open={open}
       onOpenChange={(next) => {
-        onOpenChange(next);
+        setOpen(next);
         if (!next) form.reset({ name: "", email: "", jobId: "" });
       }}
     >

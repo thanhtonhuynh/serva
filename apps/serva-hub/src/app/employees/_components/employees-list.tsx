@@ -109,7 +109,7 @@ export function EmployeesList({
         </>
       )}
 
-      <InviteEmployeeModal open={inviteOpen} onOpenChange={setInviteOpen} jobs={jobs} />
+      <InviteEmployeeModal open={inviteOpen} setOpen={setInviteOpen} jobs={jobs} />
     </div>
   );
 }

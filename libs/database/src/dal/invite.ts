@@ -22,8 +22,8 @@ export async function createInvite(data: {
   profileType: "employee" | "operator";
   token: string;
   expiresAt: Date;
-  roleId?: string | null;
-  jobId?: string | null;
+  roleId?: string;
+  jobId?: string;
 }) {
   return prisma.invite.create({
     data: {
@@ -33,8 +33,8 @@ export async function createInvite(data: {
       profileType: data.profileType,
       token: data.token,
       expiresAt: data.expiresAt,
-      roleId: data.roleId ?? null,
-      jobId: data.jobId ?? null,
+      roleId: data.roleId,
+      jobId: data.jobId,
       status: "awaiting",
     },
   });

@@ -90,10 +90,12 @@ export async function createEmployeeInviteAction(
       return { error: "Unauthorized" };
 
     const { companyCtx, identity } = authResult;
+    console.log("companyCtx", companyCtx);
+    console.log("identity", identity);
     const parsed = CreateEmployeeInviteSchema.parse(data);
     const token = generateInviteToken();
     const expiresAt = getInviteExpiryDate();
-    const jobId = parsed.jobId === "__none__" ? null : parsed.jobId;
+    const jobId = parsed.jobId;
 
     if (jobId) {
       const job = await prisma.job.findFirst({
