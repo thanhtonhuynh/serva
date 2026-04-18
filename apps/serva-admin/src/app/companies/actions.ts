@@ -5,18 +5,15 @@ import { createPlatformCompanyEntryToken } from "@serva/auth/platform-company-en
 import { createCompany, updateCompany } from "@serva/database/dal";
 import { getAppBaseUrl } from "@serva/shared/config";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { companyFormSchema, type CompanyFormValues } from "./company-schema";
 
 export type { CompanyFormValues as CompanyInput } from "./company-schema";
 
-/** Full navigation to auth → web (avoids client Link/RSC fetch + cross-origin redirect CORS). */
-export async function openCompanyInWebAction(companyId: string) {
+/** Generate signed impersonation URL (client opens in new tab). */
+export async function getCompanyImpersonationUrl(companyId: string): Promise<string> {
   await authWithRateLimit();
   const token = createPlatformCompanyEntryToken(companyId);
-  redirect(
-    `${getAppBaseUrl("auth-portal")}/platform/impersonate?token=${encodeURIComponent(token)}`,
-  );
+  return `${getAppBaseUrl("auth-portal")}/platform/impersonate?token=${encodeURIComponent(token)}`;
 }
 
 export async function createCompanyAction(

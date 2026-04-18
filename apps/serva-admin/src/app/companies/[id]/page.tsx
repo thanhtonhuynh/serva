@@ -3,7 +3,6 @@ import { auth } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 import { getCompanyAdminDetail } from "@serva/database/dal";
 import { Badge, Typography } from "@serva/serva-ui";
-import { Button } from "@serva/serva-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@serva/serva-ui/components/card";
 import { Container } from "@serva/serva-ui/components/serva/container";
 import {
@@ -19,8 +18,8 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
-import { openCompanyInWebAction } from "../actions";
 import { EditCompanyDialog } from "../company-form-dialog";
+import { OpenCompanyHubButton } from "./_components/open-company-hub-button";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -36,11 +35,7 @@ export default async function CompanyDetailPage({ params }: Props) {
 
       <Container className="flex flex-col gap-6">
         <div className="flex items-center justify-end gap-2">
-          <form action={openCompanyInWebAction.bind(null, id)} className="contents">
-            <Button type="submit" size="sm">
-              Open in web app
-            </Button>
-          </form>
+          <OpenCompanyHubButton companyId={id} />
           <EditCompanyDialog companyId={id} name={company.name} slug={company.slug} />
         </div>
 
